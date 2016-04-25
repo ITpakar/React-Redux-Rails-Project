@@ -1,0 +1,6 @@
+<% if current_user %>
+  hi....,<%= current_user.first_name %>!!!
+  <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+<% else %>
+  <%= link_to 'Sign In', new_user_session_path %>
+<% end %>
