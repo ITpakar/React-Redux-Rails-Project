@@ -1,6 +1,6 @@
-class CreateStartedDeals < ActiveRecord::Migration
+class CreateStarredDeals < ActiveRecord::Migration[5.0]
   def change
-    create_table :started_deals do |t|
+    create_table :starred_deals do |t|
       t.integer  :user_id
       t.integer  :deal_id
 

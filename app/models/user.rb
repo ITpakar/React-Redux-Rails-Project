@@ -38,6 +38,6 @@ class User < ActiveRecord::Base
   has_many :deal_collaborators
   has_many :deals, through: :deal_collaborators
   has_many :notifications
-  has_many :started_deals
+  has_many :starred_deals
   has_many :tasks
 end

@@ -1,10 +1,10 @@
-<%= form_for(@category) do |f| %>
-  <% if @category.errors.any? %>
+<%= form_for(category) do |f| %>
+  <% if category.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
 
       <ul>
-      <% @category.errors.full_messages.each do |message| %>
+      <% category.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,17 +12,20 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
+
   <div class="field">
-    <%= f.label :activated %><br>
+    <%= f.label :activated %>
     <%= f.check_box :activated %>
   </div>
+
   <div class="field">
-    <%= f.label :parent_id %><br>
+    <%= f.label :parent_id %>
     <%= f.number_field :parent_id %>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

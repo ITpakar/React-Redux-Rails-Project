@@ -1,8 +1,8 @@
-class CreateOrganizations < ActiveRecord::Migration
+class CreateOrganizations < ActiveRecord::Migration[5.0]
   def change
     create_table :organizations do |t|
       t.string   :name, limit: 250
-      t.string   :email
+      t.string   :email_domain
       t.string   :phone
       t.string   :address
       t.integer  :created_by

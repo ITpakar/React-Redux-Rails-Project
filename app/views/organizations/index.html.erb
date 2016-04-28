@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Email</th>
+      <th>Email Domain</th>
       <th>Phone</th>
       <th>Address</th>
       <th>Created by</th>
@@ -19,7 +19,7 @@
     <% @organizations.each do |organization| %>
       <tr>
         <td><%= organization.name %></td>
-        <td><%= organization.email %></td>
+        <td><%= organization.email_domain %></td>
         <td><%= organization.phone %></td>
         <td><%= organization.address %></td>
         <td><%= organization.created_by %></td>

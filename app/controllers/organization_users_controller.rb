@@ -69,6 +69,6 @@ class OrganizationUsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_user_params
-      params.require(:organization_user).permit(:organization_id, :user_id, :is_admin)
+      params.require(:organization_user).permit(:organization_id, :user_id, :user_type)
     end
 end

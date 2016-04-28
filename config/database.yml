@@ -8,11 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: deals
+  database: doxly
 
 test:
   <<: *default
-  database: deals_test
+  database: doxly_test
 
 production:
   <<: *default

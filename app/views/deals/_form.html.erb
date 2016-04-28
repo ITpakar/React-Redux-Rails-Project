@@ -1,10 +1,10 @@
-<%= form_for(@deal) do |f| %>
-  <% if @deal.errors.any? %>
+<%= form_for(deal) do |f| %>
+  <% if deal.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@deal.errors.count, "error") %> prohibited this deal from being saved:</h2>
+      <h2><%= pluralize(deal.errors.count, "error") %> prohibited this deal from being saved:</h2>
 
       <ul>
-      <% @deal.errors.full_messages.each do |message| %>
+      <% deal.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,45 +12,55 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :organization_id %><br>
+    <%= f.label :organization_id %>
     <%= f.number_field :organization_id %>
   </div>
+
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
+
   <div class="field">
-    <%= f.label :client_name %><br>
+    <%= f.label :client_name %>
     <%= f.text_field :client_name %>
   </div>
+
   <div class="field">
-    <%= f.label :transaction_type %><br>
+    <%= f.label :transaction_type %>
     <%= f.text_field :transaction_type %>
   </div>
+
   <div class="field">
-    <%= f.label :deal_size %><br>
+    <%= f.label :deal_size %>
     <%= f.text_field :deal_size %>
   </div>
+
   <div class="field">
-    <%= f.label :projected_closing_date %><br>
+    <%= f.label :projected_closing_date %>
     <%= f.date_select :projected_closing_date %>
   </div>
+
   <div class="field">
-    <%= f.label :completion_percent %><br>
+    <%= f.label :completion_percent %>
     <%= f.text_field :completion_percent %>
   </div>
+
   <div class="field">
-    <%= f.label :status %><br>
+    <%= f.label :status %>
     <%= f.text_field :status %>
   </div>
+
   <div class="field">
-    <%= f.label :admin_user_id %><br>
+    <%= f.label :admin_user_id %>
     <%= f.number_field :admin_user_id %>
   </div>
+
   <div class="field">
-    <%= f.label :activated %><br>
+    <%= f.label :activated %>
     <%= f.check_box :activated %>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

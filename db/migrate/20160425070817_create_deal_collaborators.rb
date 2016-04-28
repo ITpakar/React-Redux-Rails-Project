@@ -1,4 +1,4 @@
-class CreateDealCollaborators < ActiveRecord::Migration
+class CreateDealCollaborators < ActiveRecord::Migration[5.0]
   def change
     create_table :deal_collaborators do |t|
       t.integer  :deal_id

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  file_name: MyString
+  file_size: 1
+  file_type: MyString
+  file_uploaded_at: 2016-04-27 12:52:43
+  parent_type: MyString
+  parent_id: 1
+  created_by: 1
+  activated: false
+
+two:
+  file_name: MyString
+  file_size: 1
+  file_type: MyString
+  file_uploaded_at: 2016-04-27 12:52:43
+  parent_type: MyString
+  parent_id: 1
+  created_by: 1
+  activated: false

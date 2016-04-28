@@ -1,47 +1,46 @@
 require 'test_helper'
 
-class CategoriesControllerTest < ActionController::TestCase
+class CategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @category = categories(:one)
   end
 
   test "should get index" do
-    get :index
+    get categories_url
     assert_response :success
-    assert_not_nil assigns(:categories)
   end
 
   test "should get new" do
-    get :new
+    get new_category_url
     assert_response :success
   end
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, category: { activated: @category.activated, name: @category.name, parent_id: @category.parent_id }
+      post categories_url, params: { category: { activated: @category.activated, name: @category.name, parent_id: @category.parent_id } }
     end
 
-    assert_redirected_to category_path(assigns(:category))
+    assert_redirected_to category_path(Category.last)
   end
 
   test "should show category" do
-    get :show, id: @category
+    get category_url(@category)
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @category
+    get edit_category_url(@category)
     assert_response :success
   end
 
   test "should update category" do
-    patch :update, id: @category, category: { activated: @category.activated, name: @category.name, parent_id: @category.parent_id }
-    assert_redirected_to category_path(assigns(:category))
+    patch category_url(@category), params: { category: { activated: @category.activated, name: @category.name, parent_id: @category.parent_id } }
+    assert_redirected_to category_path(@category)
   end
 
   test "should destroy category" do
     assert_difference('Category.count', -1) do
-      delete :destroy, id: @category
+      delete category_url(@category)
     end
 
     assert_redirected_to categories_path

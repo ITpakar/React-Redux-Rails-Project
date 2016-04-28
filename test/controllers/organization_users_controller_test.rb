@@ -18,7 +18,7 @@ class OrganizationUsersControllerTest < ActionController::TestCase
 
   test "should create organization_user" do
     assert_difference('OrganizationUser.count') do
-      post :create, organization_user: { is_admin: @organization_user.is_admin, organization_id: @organization_user.organization_id, user_id: @organization_user.user_id }
+      post :create, organization_user: { user_type: @organization_user.user_type, organization_id: @organization_user.organization_id, user_id: @organization_user.user_id }
     end
 
     assert_redirected_to organization_user_path(assigns(:organization_user))
@@ -35,7 +35,7 @@ class OrganizationUsersControllerTest < ActionController::TestCase
   end
 
   test "should update organization_user" do
-    patch :update, id: @organization_user, organization_user: { is_admin: @organization_user.is_admin, organization_id: @organization_user.organization_id, user_id: @organization_user.user_id }
+    patch :update, id: @organization_user, organization_user: { user_type: @organization_user.user_type, organization_id: @organization_user.organization_id, user_id: @organization_user.user_id }
     assert_redirected_to organization_user_path(assigns(:organization_user))
   end
 

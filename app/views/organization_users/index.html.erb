@@ -17,7 +17,7 @@
       <tr>
         <td><%= organization_user.organization_id %></td>
         <td><%= organization_user.user_id %></td>
-        <td><%= organization_user.is_admin %></td>
+        <td><%= organization_user.user_type %></td>
         <td><%= link_to 'Show', organization_user %></td>
         <td><%= link_to 'Edit', edit_organization_user_path(organization_user) %></td>
         <td><%= link_to 'Destroy', organization_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>

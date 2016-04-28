@@ -1,4 +1,4 @@
-class CreateDeals < ActiveRecord::Migration
+class CreateDeals < ActiveRecord::Migration[5.0]
   def change
     create_table :deals do |t|
       t.integer  :organization_id
