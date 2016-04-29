@@ -1,0 +1,159 @@
+.navbar-default{
+    background: transparent;
+}
+
+.navbar-side-top{
+    height: 60px;
+    border-bottom: 1px solid $col-border;
+    @include vertical-align(".center-logo");
+
+    .center-logo{
+        margin-bottom: 0;
+        width: 100%;
+    }
+}
+
+.navbar-static-top{
+    #page-wrapper &{
+        height: 60px;
+        border-bottom: 1px solid $col-border;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        .navbar-brand{
+            height: 60px;
+            color: $col-dark-blue;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 30px;
+            padding: 15px 0;
+        }
+        .navbar-top-links{
+            color: $col-link-dark;
+            padding: 15px 0;
+            &.nav{
+                > li{
+                    > a{
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        line-height: 30px;
+                    }
+                }
+            }
+            a{
+                color: $col-link-dark;
+                &:hover{
+                    color: $col-link-dark-hover;
+                }
+            }
+            > li{
+                display: inline-block;
+            }
+        }
+    }
+    .dropdown-user{
+        > a{
+            span{
+                padding: 0 10px;
+            }
+            i{
+                font-size: 7px;
+            }
+        }
+    }
+    .dropdown-alerts{
+        .dropdown-menu{
+            width: 310px;
+        }
+    }
+}
+
+.notifications-enabled{
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    top: 3px;
+    right: 13px;
+    display: block;
+    background: $col-red;
+}
+
+.navbar-avatar{
+    height: 30px;
+    width: 30px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    border: medium none;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    display: none;
+    float: left;
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+    border-radius: 2px;
+
+    >li{
+        >a{
+            border-radius: 3px;
+            color: inherit;
+            line-height: 25px;
+            margin: 4px;
+            text-align: left;
+            font-weight: normal;
+
+
+        }
+    }
+    li{
+        .navbar-top-links &{
+            display: block;
+
+            &:last-child{
+                margin-right: 0;
+            }
+
+            a{
+                padding: 3px 20px;
+                min-height: 0;
+
+                div{
+                    white-space: normal;
+                }
+            }
+        }
+    }
+}
+
+#side-menu{
+    padding: 10px;
+
+    li{
+
+        a{
+            font-size: 12px;
+            padding: 7px 7px 7px 15px;
+            display: block;
+            border-radius: 2px;
+            color: $col-dark-gray;
+            font-weight: 500;
+            i{
+                margin-right: 11px;
+            }
+        }
+        &.active{
+            a{
+                color: $white;
+                background: $col-blue;
+            }
+        }
+    }
+}
