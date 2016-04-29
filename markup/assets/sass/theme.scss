@@ -1,0 +1,28 @@
+@import 'base/vars';
+@import 'base/animations';
+@import 'base/mixins';
+@import "vendors/bootstrap-custom";
+@import "vendors/bootstrap";
+@import "vendors/bootstrap-select";
+
+@import "vendors/font-awesome/font-awesome";
+@import "vendors/icheck";
+//@import "vendors/slick";
+//@import "vendors/customScrollbar";
+@import 'base/fonts';
+@import 'base/reset';
+@import 'base/toc';
+@import 'base/helpers';
+@import 'base/buttons';
+
+@import "components/card-activity";
+@import "components/card-summary";
+@import "components/common";
+@import "components/deals";
+@import "components/deals-full";
+@import "components/layout";
+@import "components/navbar";
+@import "components/statistic";
+@import "components/ui";
+
+@import "wp";
