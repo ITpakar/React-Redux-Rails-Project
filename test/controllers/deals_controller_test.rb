@@ -17,7 +17,7 @@ class DealsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create deal" do
     assert_difference('Deal.count') do
-      post deals_url, params: { deal: { activated: @deal.activated, admin_user_id: @deal.admin_user_id, client_name: @deal.client_name, completion_percent: @deal.completion_percent, deal_size: @deal.deal_size, organization_id: @deal.organization_id, projected_closing_date: @deal.projected_closing_date, status: @deal.status, title: @deal.title, transaction_type: @deal.transaction_type } }
+      post deals_url, params: { deal: { activated: @deal.activated, admin_user_id: @deal.admin_user_id, client_name: @deal.client_name, completion_percent: @deal.completion_percent, deal_size: @deal.deal_size, organization_id: @deal.organization_id, projected_close_date: @deal.projected_close_date, status: @deal.status, title: @deal.title, transaction_type: @deal.transaction_type } }
     end
 
     assert_redirected_to deal_path(Deal.last)
@@ -34,7 +34,7 @@ class DealsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update deal" do
-    patch deal_url(@deal), params: { deal: { activated: @deal.activated, admin_user_id: @deal.admin_user_id, client_name: @deal.client_name, completion_percent: @deal.completion_percent, deal_size: @deal.deal_size, organization_id: @deal.organization_id, projected_closing_date: @deal.projected_closing_date, status: @deal.status, title: @deal.title, transaction_type: @deal.transaction_type } }
+    patch deal_url(@deal), params: { deal: { activated: @deal.activated, admin_user_id: @deal.admin_user_id, client_name: @deal.client_name, completion_percent: @deal.completion_percent, deal_size: @deal.deal_size, organization_id: @deal.organization_id, projected_close_date: @deal.projected_close_date, status: @deal.status, title: @deal.title, transaction_type: @deal.transaction_type } }
     assert_redirected_to deal_path(@deal)
   end
 

@@ -6,7 +6,7 @@ class CreateDeals < ActiveRecord::Migration[5.0]
       t.string   :client_name
       t.string   :transaction_type
       t.string   :deal_size
-      t.date     :projected_closing_date
+      t.date     :projected_close_date
       t.float    :completion_percent
       t.string   :status
       t.integer  :admin_user_id

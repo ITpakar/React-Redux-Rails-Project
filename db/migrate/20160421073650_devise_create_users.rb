@@ -6,10 +6,10 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string   :phone,    limit: 15
       t.string   :address
       t.string   :company,  limit: 100
-      t.string   :avtar_name
-      t.integer  :avtar_size
-      t.string   :avtar_type
-      t.datetime :avtar_uploaded_at
+      t.string   :avatar_name
+      t.integer  :avatar_size
+      t.string   :avatar_type
+      t.datetime :avatar_uploaded_at
       ## Database authenticatable
       t.string   :email,              null: false, default: ""
       t.string   :encrypted_password, null: false, default: ""

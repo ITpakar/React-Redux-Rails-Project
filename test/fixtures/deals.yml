@@ -6,7 +6,7 @@ one:
   client_name: MyString
   transaction_type: MyString
   deal_size: MyString
-  projected_closing_date: 2016-04-27
+  projected_close_date: 2016-04-27
   completion_percent: 1.5
   status: MyString
   admin_user_id: 1
@@ -18,7 +18,7 @@ two:
   client_name: MyString
   transaction_type: MyString
   deal_size: MyString
-  projected_closing_date: 2016-04-27
+  projected_close_date: 2016-04-27
   completion_percent: 1.5
   status: MyString
   admin_user_id: 1
