@@ -1,0 +1,35 @@
+#wrapper{
+    background: $col-blue-light;
+    min-height: 100vh;
+}
+
+#page-wrapper{
+    min-height: 100vh;
+    background: $white;
+    border-left: 1px solid $col-border;
+    margin: 0 0 0 180px;
+
+}
+
+
+.navbar-static-side {
+    position: absolute;
+    width: 180px;
+    z-index: 101;
+
+}
+
+
+.content-left{
+    @extend .col-md-8;
+    @extend .col-xs-12;
+}
+
+.content-right{
+    @extend .col-md-4;
+    @extend .col-xs-12;
+}
+
+.content-single{
+    @extend .col-xs-12;
+}

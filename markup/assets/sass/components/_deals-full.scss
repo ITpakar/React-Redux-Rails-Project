@@ -1,0 +1,40 @@
+.panel-deals-full{
+    padding: 0;
+    border: 1px solid $col-border;
+
+    .deals-full-group{
+
+    }
+    .deals-full-group__header{
+        font-weight: 500;
+        font-size: 10px;
+        color: $col-gray;
+        letter-spacing: 2.5px;
+        height: 30px;
+        border-bottom: 1px solid $col-border;
+        padding: 10px;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+    .deals-full-group__projects{
+        padding: 10px;
+
+        .project-item{
+            .item-body__project{
+                width: 42%;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .item-body__collaborators{
+                width: 35%;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .item-body__timestamp{
+                width: 23%;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+}

@@ -1,0 +1,224 @@
+.progress-pie-chart {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: $white;
+    position: relative;
+    &.gt-50 {
+        background: rgb(11,173,255);
+        background: -moz-linear-gradient(left,  rgba(11,173,255,1) 0%, rgba(74,144,226,1) 100%);
+        background: -webkit-linear-gradient(left,  rgba(11,173,255,1) 0%,rgba(74,144,226,1) 100%);
+        background: linear-gradient(to right,  rgba(11,173,255,1) 0%,rgba(74,144,226,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0badff', endColorstr='#4a90e2',GradientType=1 );
+    }
+}
+
+.ppc-progress {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - 16px);
+    top: calc(50% - 16px);
+    width: 32px;
+    height: 32px;
+    clip: rect(0, 32px, 32px, 16px);
+
+    .ppc-progress-fill {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        left: calc(50% - 16px);
+        top: calc(50% - 16px);
+        width: 32px;
+        height: 32px;
+        clip: rect(0, 16px, 32px, 0);
+        background: rgb(74,144,226);
+        background: -moz-linear-gradient(left,  rgba(74,144,226,1) 0%, rgba(11,173,255,1) 100%);
+        background: -webkit-linear-gradient(left,  rgba(74,144,226,1) 0%,rgba(11,173,255,1) 100%);
+        background: linear-gradient(to right,  rgba(74,144,226,1) 0%,rgba(11,173,255,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4a90e2', endColorstr='#0badff',GradientType=1 );
+        transform: rotate(60deg);
+    }
+}
+.gt-50 .ppc-progress {
+    clip: rect(0, 16px, 32px, 0);
+
+    .ppc-progress-fill {
+        clip: rect(0, 32px, 32px, 16px);
+        background: $white;
+    }
+}
+
+.ppc-percents {
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - 8px);
+    top: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    background: $white;
+    text-align: center;
+    display: block;
+    span {
+        display: none;
+        @extend %icomoon;
+        @extend .icon-icon-check;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 8px;
+        color: rgb(11,173,255);
+
+        &.full{
+            display: block;
+        }
+    }
+}
+
+.form-control{
+    &:focus{
+        border-color: $col-blue-focus;
+    }
+}
+
+.toolbar-box {
+    @extend .col-xs-12;
+    position: relative;
+    form{
+        @extend %clearfix;
+    }
+
+    .search-input-box{
+        float: left;
+        position: relative;
+        width: calc(100% - 240px);
+
+        input.input-search{
+            padding-left: 45px;
+        }
+        > a{
+            position: absolute;
+            height: 40px;
+            left: 0;
+            top: 0;
+            width: 40px;
+            text-align: center;
+            display: block;
+            vertical-align: middle;
+            color: $col-gray;
+            @include vertical-align('i');
+
+            i{
+                vertical-align: middle;
+                font-size: 14px;
+            }
+        }
+    }
+    .dropdown-filter{
+        float: left;
+        margin-left: 20px;
+
+        a{
+            width: 160px;
+        }
+    }
+    .btn-add-deal{
+        float: right;
+    }
+}
+
+.dropdown-filter{
+    a{
+        @include singleLine;
+        height: 40px;
+        display: inline-block;
+        line-height: 38px;
+        padding: 0 25px 0 10px;
+        position: relative;
+        background: $white;
+        border: 1px solid $col-gray-light;
+        box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10);
+        border-radius: 2px;
+
+        font-weight: 500;
+        font-size: 14px;
+        color: $col-dark-blue;
+        &:after{
+            @extend %icomoon;
+            @extend %icon-navigate-down;
+            font-size: 6px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 25px;
+            text-align: center;
+            line-height: 38px;
+        }
+
+        &:hover{
+            border: 1px solid $col-blue-focus;
+        }
+
+    }
+    &.open{
+        a{
+            border: 1px solid $col-blue-focus;
+        }
+    }
+
+    .dropdown-menu{
+
+        .title{
+            font-size: 10px;
+        }
+
+        li{
+            padding: 5px;
+
+            .checkbox{
+                margin: 0 5px;
+                label{
+                    width: 100%;
+                    font-weight: 500;
+                    color: $col-dark-blue;
+                }
+
+            }
+
+            &:hover{
+                background: $col-blue;
+                label{
+                    color: $white;
+                }
+            }
+        }
+
+    }
+}
+
+.btn-add-circle{
+    @extend %btn;
+    border: 0px none;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: $col-blue;
+    color: $white;
+    min-width: auto;
+    line-height: 40px;
+    font-size: 14px;
+    &:after{
+        line-height: 40px;
+        @extend %icomoon;
+        @extend %icon-plus;
+    }
+
+    &:hover{
+        background: $col-blue-hover;
+        color: $white;
+    }
+    &:focus{
+        background: $col-blue;
+        color: $white;
+    }
+}
