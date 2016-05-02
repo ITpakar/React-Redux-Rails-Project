@@ -33,3 +33,47 @@
 .content-single{
     @extend .col-xs-12;
 }
+
+.content-deal{
+    @extend .col-xs-12;
+    margin-bottom: 20px;
+}
+.content-deal-wrapper{
+    @extend %clearfix;
+    border: 1px solid $col-border;
+    position: relative;
+    display: table-row;
+}
+
+.content-deal-left{
+
+    @include breakpoint($bp-tablet-landscape){
+        display: table-cell;
+        vertical-align: top;
+        //position: absolute;
+        //left: 0;
+        //top: 0;
+        //bottom: 0;
+        //float: left;
+        width: 63%;
+        border: 1px solid $col-border;
+    }
+}
+
+.content-deal-right{
+    border-top: 1px solid $col-border;
+
+    @include breakpoint($bp-tablet-landscape){
+        display: table-cell;
+        vertical-align: top;
+        //float: left;
+        //position: absolute;
+        //right: 0;
+        //top: 0;
+        //bottom: 0;
+        width: 37%;
+        //border: 0px none;
+        border: 1px solid $col-border;
+        border-left: 0px none;
+    }
+}
