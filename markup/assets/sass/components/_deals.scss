@@ -35,6 +35,20 @@
     }
 }
 
+.deal-edit{
+    background: transparent !important;
+    &:focus{
+        background: transparent !important;
+    }
+
+    a{
+        background: transparent !important;
+        &:focus{
+            background: transparent !important;
+        }
+    }
+}
+
 .project-item{
     @extend %clearfix;
     font-size: 0;
