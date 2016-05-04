@@ -1,6 +1,7 @@
 @import 'base/vars';
 @import 'base/animations';
 @import 'base/mixins';
+@import "vendors/morris";
 @import "vendors/bootstrap-custom";
 @import "vendors/bootstrap";
 @import "vendors/bootstrap-select";
@@ -22,10 +23,14 @@
 @import "components/deal";
 @import "components/deals";
 @import "components/deals-full";
+@import "components/file-viewer";
 @import "components/layout";
 @import "components/modals";
 @import "components/navbar";
+@import "components/reports";
 @import "components/statistic";
+@import "components/settings";
+@import "components/team";
 @import "components/ui";
 
 @import "wp";

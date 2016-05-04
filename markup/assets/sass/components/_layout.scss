@@ -1,6 +1,10 @@
 #wrapper{
     background: $col-blue-light;
     min-height: 100vh;
+
+    &.no-sidebar{
+        background: $white;
+    }
 }
 
 #page-wrapper{
@@ -9,6 +13,13 @@
     border-left: 1px solid $col-border;
     margin: 0 0 0 180px;
 
+    .no-sidebar &{
+        margin: 0;
+    }
+
+    .file-viewer &{
+        margin: 0;
+    }
 }
 
 
@@ -37,12 +48,14 @@
 .content-deal{
     @extend .col-xs-12;
     margin-bottom: 20px;
+    display: table;
 }
 .content-deal-wrapper{
     @extend %clearfix;
     border: 1px solid $col-border;
     position: relative;
     display: table-row;
+    width: 100%;
 }
 
 .content-deal-left{
@@ -76,4 +89,52 @@
         border: 1px solid $col-border;
         border-left: 0px none;
     }
+}
+.content-file-viewer{
+    @extend %clearfix;
+    width: 100%;
+    margin-bottom: 20px;
+    display: table;
+}
+.content-file-viewer-wrapper{
+    @extend %clearfix;
+    position: relative;
+    display: table-row;
+    width: 100%;
+}
+
+.content-file-viewer-left{
+
+    @include breakpoint($bp-tablet-landscape){
+        display: table-cell;
+        vertical-align: top;
+        //position: absolute;
+        //left: 0;
+        //top: 0;
+        //bottom: 0;
+        //float: left;
+        width: calc(100% - 320%);
+        border-right: 1px solid $col-border;
+        border-bottom: 1px solid $col-border;
+    }
+}
+
+.content-file-viewer-right{
+
+    @include breakpoint($bp-tablet-landscape){
+        display: table-cell;
+        vertical-align: top;
+        //float: left;
+        //position: absolute;
+        //right: 0;
+        //top: 0;
+        //bottom: 0;
+        width: 320px;
+        //border: 0px none;
+        border-bottom: 1px solid $col-border;
+    }
+}
+
+.content-document{
+    padding: 10px;
 }

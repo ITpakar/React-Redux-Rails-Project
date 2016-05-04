@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doxly</title>
+    <link href="assets/compiled/css/theme.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <div class="navbar-side-top">
+                    <div class="center-logo"><a href="#"><img src="assets/images/logo.svg"/></a></div>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="#"><i class="icon-icon-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="icon-icon-document"></i> Deals</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="icon-icon-barchart"></i> Report</a>
+                    </li>
+                    <li class="active">
+                        <a href="#"><i class="icon-icon-users"></i> Team</a>
+                    </li>
+                </ul>
+                <div class="deals-side-panel">
+                    <h2>STARRED DEALS</h2>
+                    <ul class="nav">
+                        <li>
+                            <a href="#"><i class="icon-icon-star"></i> Project Panda</a>
+                            <a href="#"><i class="icon-icon-star"></i> Project Dark Knight</a>
+                            <a href="#"><i class="icon-icon-star"></i> Project Alpha Dog</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+            <nav class="navbar navbar-static-top" role="navigation">
+                <div class="navbar-brand">Team</div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown dropdown-alerts">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="icon-icon-notifications"></i> <span class="notifications-enabled"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">
+                                    <div>
+                                        <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">
+                                    <div>
+                                        <i class="fa fa-upload fa-fw"></i> New files uploaded
+                                        <span class="pull-right text-muted small">4 minutes ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="notifications.html">
+                                        <strong>See All Alerts</strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-user">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img class="img-circle navbar-avatar" src="assets/images/img-avatar.jpg"/> <span>Harvey Specter</span> <i class="icon-icon-navigate-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Settings</a>
+                            </li>
+                            <li>
+                                <a href="#">Sign Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="toolbar-box">
+                        <form>
+                            <div class="search-input-box">
+                                <div class="form-group">
+                                    <input name="search_str" class="input-search form-control" placeholder="Search Team"/>
+                                </div>
+                                <a href="#"><i class="icon-icon-search"></i></a>
+                            </div>
+                            <div class="dropdown dropdown-filter">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Active Deals</a>
+                                <ul class="dropdown-menu">
+                                    <li class="title">Show:</li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio" checked="checked"><i></i> All Deals </label></div></li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Open Deals </label></div></li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Closed Deals </label></div></li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Archived Deals </label></div></li>
+                                    <li class="title">Sorted By:</li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio" checked="checked"><i></i> Project Close Date </label></div></li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Deal Title </label></div></li>
+                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Client Name </label></div></li>
+                                </ul>
+                            </div>
+                            <a href="#" class="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-edit-user"></a>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="content-single">
+                        <div class="panel panel-teams-list">
+                            <div class="inner">
+                                <div class="team-list-item">
+                                    <div class="team">
+                                        <div class="team-member-item">
+                                            <a href="#">
+                                                <div class="avatar"><div class="no-photo">AV</div></div>
+                                                <h4>Alex Vaughn</h4>
+                                                <span>viola.wintheiser@yahoo.com</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="team-stat-item">
+                                            <b>7</b> Active Deals
+                                        </div>
+                                        <div class="team-stat-item">
+                                            <b>7</b> Complete Deals
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="fa fa-gear" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="team-list-item">
+                                    <div class="team">
+                                        <div class="team-member-item">
+                                            <a href="#">
+                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                <h4>Harvey Specter</h4>
+                                                <span>harvey@spl.com</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="team-stat-item">
+                                            <b>5</b> Active Deals
+                                        </div>
+                                        <div class="team-stat-item">
+                                            <b>3</b> Complete Deals
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="fa fa-gear" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="team-list-item">
+                                    <div class="team">
+                                        <div class="team-member-item">
+                                            <a href="#">
+                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                <h4>Harvey Specter</h4>
+                                                <span>harvey@spl.com</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="team-stat-item">
+                                            <b>5</b> Active Deals
+                                        </div>
+                                        <div class="team-stat-item">
+                                            <b>3</b> Complete Deals
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="fa fa-gear" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="team-list-item">
+                                    <div class="team">
+                                        <div class="team-member-item">
+                                            <a href="#">
+                                                <div class="avatar"><div class="no-photo">DM</div></div>
+                                                <h4>Harvey Specter</h4>
+                                                <span>harvey@spl.com</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="team-stat-item">
+                                            <b>5</b> Active Deals
+                                        </div>
+                                        <div class="team-stat-item">
+                                            <b>3</b> Complete Deals
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="fa fa-gear" href="#"></a>
+                                    </div>
+                                </div>
+                                <div class="team-list-item">
+                                    <div class="team">
+                                        <div class="team-member-item">
+                                            <a href="#">
+                                                <div class="avatar"><div class="no-photo">VT</div></div>
+                                                <h4>Harvey Specter</h4>
+                                                <span>harvey@spl.com</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="team-stat-item">
+                                            <b>5</b> Active Deals
+                                        </div>
+                                        <div class="team-stat-item">
+                                            <b>3</b> Complete Deals
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="fa fa-gear" href="#"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-edit-user-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-edit-user-label">New User</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="input-user-fname">First Name</label>
+                            <input type="text" name="user_fname" id="input-user-fname" class="form-control" placeholder="John" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-user-lname">Last Name</label>
+                            <input type="text" name="user_lname" id="input-user-lname" class="form-control" placeholder="Doe" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-user-email">Email Address</label>
+                            <input type="text" name="user_email" id="input-user-email" class="form-control" placeholder="example@doxly.com" required="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="assets/compiled/js/theme.js"></script>
+</body>
+</html>

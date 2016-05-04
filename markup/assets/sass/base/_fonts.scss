@@ -113,8 +113,13 @@
 .icon-icon-plus:before {
     content: "\e910";
 }
-
+.icon-icon-minus:before {
+    content: "\e915";
+}
 /**************/
+%icon-minus{
+    content: "\e915";
+}
 %icon-barchart{
     content: "\e900";
 }
