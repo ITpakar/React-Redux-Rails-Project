@@ -254,10 +254,63 @@
     }
 }
 
+.flat-button-tabs{
+    padding: 10px;
+    font-size: 0;
+        li {
+            display: inline-block;
+
+            a {
+                font-size: 14px;
+                text-align: center;
+                width: 130px;
+                border: 1px solid $col-border;
+                &:focus {
+                    background: transparent;
+                }
+                &:hover {
+                    background: $col-blue-light;
+                }
+            }
+            &.active {
+                a{
+                    background: $col-blue;
+                    color: $white;
+                    border-color: $col-blue-hover;
+                    &:focus{
+                        background: $col-blue;
+                        color: $white;
+                        border-color: $col-blue-hover;
+                    }
+                    &:hover{
+                        background: $col-blue-hover;
+                    }
+                }
+            }
+            &:first-child{
+                a{
+                    border-radius: 2px 0 0 2px;
+                }
+            }
+            &:last-child{
+                a{
+                    border-radius: 0 2px 2px 0;
+                }
+            }
+        }
+}
+
 .progress-bar{
     background-image: linear-gradient(-90deg, #0BADFF 0%, #4A90E2 100%);
 }
 
+.project-title{
+    font-weight: 300;
+    font-size: 24px;
+    color: $col-dark-blue;
+    line-height: 40px;
+    padding: 10px;
+}
 .collapse-trigger{
     font-size: 12px;
     color: $col-gray;
@@ -337,6 +390,7 @@
     width: 80px;
     background: #D4DDDC;
     color: #376B64;
+    display: inline-block;
     text-transform: uppercase;
 
     &.signed{
@@ -365,6 +419,119 @@
 
         &:hover{
             color: $col-blue;
+        }
+    }
+}
+
+.team-member-item{
+    a{
+        @extend %clearfix;
+        display: block;
+
+        &:hover{
+            opacity: 0.8;
+        }
+
+        .avatar{
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-right: 10px;
+            float: left;
+
+            .no-photo{
+                background: $col-dark-gray;
+                height: 40px;
+                width: 40px;
+                font-size: 16px;
+                color: $white;
+                letter-spacing: -0.21px;
+                text-align: center;
+                line-height: 40px;
+            }
+        }
+
+        h4{
+            padding-top: 3px;
+            font-weight: 300;
+            font-size: 16px;
+            color: $col-dark-gray;
+        }
+
+        span{
+            font-size: 12px;
+            color: $col-gray;
+            line-height: 1;
+        }
+    }
+
+    &.mini{
+        a{
+            width: 100%;
+        }
+        .avatar{
+            width: 30px;
+            height: 30px;
+            .no-photo{
+                height: 30px;
+                width: 30px;
+                line-height: 30px;
+                font-size: 14px;
+            }
+        }
+        h4{
+            line-height: 30px;
+        }
+    }
+}
+
+a.btn-edit{
+    width: 30px;
+    height: 30px;
+    border: 1px solid $col-border;
+    line-height: 28px;
+    text-align: center;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    &:hover{
+        border-color: $col-blue-focus;
+
+        color: $col-blue-hover;
+    }
+
+    i{
+        color: $col-blue;
+        font-size: 14px;
+    }
+}
+
+.upload-avatar{
+    @extend %clearfix;
+
+    .avatar-photo{
+        float: left;
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        border-radius: 999px;
+        margin-right: 10px;
+    }
+
+    .avatar-button{
+        float: left;
+        width: auto;
+
+        .btn-fileinput{
+            border-width: 1px;
+            color: $col-blue;
+
+            &:hover{
+                color: $col-blue-hover;
+            }
         }
     }
 }

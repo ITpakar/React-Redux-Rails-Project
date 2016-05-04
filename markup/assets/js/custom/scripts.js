@@ -43,39 +43,6 @@ jQuery(document).ready(function($) {
         }
     });
 
-    initModal = function () {
-
-        var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
-
-        $('a[data-modal-id]').click(function(e) {
-            e.preventDefault();
-            $("body").append(appendthis);
-            $("body").addClass('popuped');
-            $(".modal-overlay").fadeTo(500, 0.7);
-            //$(".js-modalbox").fadeIn(500);
-            var modalBox = $(this).attr('data-modal-id');
-            $('#'+modalBox).fadeIn($(this).data());
-            $('#'+modalBox).find('.modal-body').mCustomScrollbar();
-        });
-
-
-        $("body").on("click", ".js-modal-close, .modal-overlay", function(e) {
-            e.preventDefault();
-            $(".modal-box, .modal-overlay").fadeOut(500, function() {
-                $(".modal-overlay").remove();
-                $("body").removeClass('popuped');
-            });
-        });
-
-        $(window).resize(function() {
-            $(".modal-box").css({
-                top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
-                left: ($(window).width() - $(".modal-box").outerWidth()) / 2
-            });
-        });
-        $(window).resize();
-    }
-
     //////////////////
     $('.with-bg').each(function(e) {
         var bg_ = 'url(' + $(this).find('> img').attr('src') + ')';
@@ -105,7 +72,6 @@ jQuery(document).ready(function($) {
 
 
     setEqHeight();
-    initModal();
 
     $(window).on('resize', function(){
         setEqHeight();
@@ -136,13 +102,19 @@ jQuery(document).ready(function($) {
     $('body').on('click', '.chat-box .chat-box-toggle .btn', function (e) {
         e.preventDefault();
         var $this = $(this),
-            parent = $this.closest('.chat-box');
+            parent = $this.closest('.chat-box'),
+            dataTarget = parent.data('target');
         if(!$this.hasClass('toggle-active')){
-            var target = $this.attr('href'),
-                targetObj = parent.find(target);
+            var target = $this.attr('href');
+            if(typeof dataTarget !== 'undefined'){
+                var parentTarget = $(dataTarget);
+            } else {
+                var parentTarget = parent;
+            }
 
+            var targetObj = parentTarget.find(target);
             parent.find('.chat-box-toggle .btn').removeClass('toggle-active');
-            parent.find('.chat-box-details__instance').removeClass('toggle-active');
+            parentTarget.find('.chat-box-details__instance').removeClass('toggle-active');
             $this.addClass('toggle-active');
             targetObj.addClass('toggle-active');
         }
