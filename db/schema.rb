@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(version: 20160425083416) do
     t.integer  "user_id"
     t.integer  "task_id"
     t.integer  "document_id"
+    t.string   "comment_type"
     t.text     "comment"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
@@ -47,17 +48,17 @@ ActiveRecord::Schema.define(version: 20160425083416) do
 
   create_table "deals", force: :cascade do |t|
     t.integer  "organization_id"
-    t.string   "title",                  limit: 250
+    t.string   "title",                limit: 250
     t.string   "client_name"
     t.string   "transaction_type"
     t.string   "deal_size"
-    t.date     "projected_closing_date"
+    t.date     "projected_close_date"
     t.float    "completion_percent"
     t.string   "status"
     t.integer  "admin_user_id"
     t.boolean  "activated"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.index ["activated"], name: "index_deals_on_activated", using: :btree
     t.index ["admin_user_id"], name: "index_deals_on_admin_user_id", using: :btree
     t.index ["status"], name: "index_deals_on_status", using: :btree
@@ -176,10 +177,10 @@ ActiveRecord::Schema.define(version: 20160425083416) do
     t.string   "phone",                  limit: 15
     t.string   "address"
     t.string   "company",                limit: 100
-    t.string   "avtar_name"
-    t.integer  "avtar_size"
-    t.string   "avtar_type"
-    t.datetime "avtar_uploaded_at"
+    t.string   "avatar_name"
+    t.integer  "avatar_size"
+    t.string   "avatar_type"
+    t.datetime "avatar_uploaded_at"
     t.string   "email",                              default: "", null: false
     t.string   "encrypted_password",                 default: "", null: false
     t.string   "reset_password_token"

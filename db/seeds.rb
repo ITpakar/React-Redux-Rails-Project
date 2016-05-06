@@ -148,63 +148,63 @@ OrganizationUser.create(
   #id: 5,
   organization_id: 1,
   user_id: 5,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 6,
   organization_id: 1,
   user_id: 6,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 7,
   organization_id: 1,
   user_id: 7,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 8,
   organization_id: 1,
   user_id: 8,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 9,
   organization_id: 1,
   user_id: 9,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 10,
   organization_id: 1,
   user_id: 10,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 11,
   organization_id: 1,
   user_id: 11,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 12,
   organization_id: 1,
   user_id: 12,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 OrganizationUser.create(
   #id: 13,
   organization_id: 1,
   user_id: 13,
-  user_type: 'External'
+  user_type: 'Outside'
 )
 
 puts "Started creating Deals"
@@ -926,5 +926,6 @@ puts "Started creating Notifications"
 Notification.create(
   #id: 1,
   user_id: 1,
-  message: 'Welcome back to Doxly!'
+  message: 'Welcome back to Doxly!',
+  status: 'unread'
 )
