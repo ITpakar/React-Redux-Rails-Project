@@ -2,6 +2,8 @@ class Organization < ActiveRecord::Base
   # Validations
   validates(
     :name,
+    presence: true,
+    uniqueness: true,
     length:{
       maximum: 250
     }
@@ -18,7 +20,8 @@ class Organization < ActiveRecord::Base
       name: self.name,
       email_domain: self.email_domain,
       phone: self.phone,
-      address: self.address
+      address: self.address,
+      activated: self.activated
     }
     if self.creator
       data[:admin] = self.creator.to_hash(false)

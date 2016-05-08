@@ -9,7 +9,7 @@ class RegistrationsController < Devise::SessionsController
     if user.save
       success_response(
         {
-          user: resource.to_hash
+          user: user.to_hash
         }
       )
     else
@@ -27,7 +27,9 @@ class RegistrationsController < Devise::SessionsController
       :last_name,
       :phone,
       :address,
-      :company
+      :company,
+      :activated,
+      :role
     )
   end
 end

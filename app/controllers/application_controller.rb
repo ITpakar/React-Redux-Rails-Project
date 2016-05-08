@@ -4,15 +4,38 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # user role validate
-  def authenticate_super_admin
-    return true
-    if current_user.blank? or !current_user.has_role?(SUPER_ADMIN)
+  def authenticate_user!
+    if current_user.blank?
       unauthorized_response
     end
   end
 
-  def authenticate_organization_admin
-    if current_user.blank? or !current_user.is_organzation_admin?(params[:organization_id])
+  def authenticate_super_admin!
+    if current_user.blank? or !current_user.is_super?
+      unauthorized_response
+    end
+  end
+
+  def authenticate_organization_admin!
+    if current_user.blank? or !current_user.is_organzation_admin?(params[:id])
+      unauthorized_response
+    end
+  end
+
+  def authenticate_organization_member!
+    if current_user.blank? or !current_user.is_organzation_member?(params[:id])
+      unauthorized_response
+    end
+  end
+
+  def authentication_org_deal_admin!
+    if current_user.blank? or !current_user.is_org_deal_admin?(params[:id])
+      unauthorized_response
+    end
+  end
+
+  def authentication_deal_collaborator!
+    if current_user.blank? or !current_user.is_deal_collaborator?(params[:id])
       unauthorized_response
     end
   end
@@ -53,5 +76,11 @@ class ApplicationController < ActionController::Base
       },
       status: 401
     )
+  end
+
+  # Other support
+  def set_peginate
+    @per_page = (params[:per_page].to_i <= 0 ? PER_PAGE : params[:per_page].to_i)
+    @page = (params[:page].to_i <= 0 ? 1 : params[:page].to_i)
   end
 end

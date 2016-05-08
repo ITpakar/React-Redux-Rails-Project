@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
   scope '/api' do
-    resources :sections
+    resources :users, only: [:index]
+    get '/users', to: 'users#index'
+    resources :organizations do
+      resources :organization_users
+    end
+    resources :deals do
+      resources :deal_collaborators, only: [:create, :index, :destroy]
+      resources :starred_deals, only: [:index, :create, :update, :destroy]
+      resources :sections
+    end
     resources :notifications
     resources :comments
     resources :document_signers
@@ -8,17 +17,12 @@ Rails.application.routes.draw do
     resources :folders
     resources :tasks
     resources :categories
-    resources :deal_collaborators
-    resources :starred_deals, only: [:create, :update, :destroy]
-    resources :deals, only: [:create, :update, :destroy]
-    resources :organization_users
-    resources :organizations, only: [:index, :update, :destroy]
-
     devise_for :users,
                 controllers:{
                   sessions: "sessions",
                   registrations: "registrations"
                 }
+
   end
 
   root to: "home#index", as: :home

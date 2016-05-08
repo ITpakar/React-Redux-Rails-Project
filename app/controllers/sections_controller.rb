@@ -1,74 +1,90 @@
 class SectionsController < ApplicationController
-  before_action :set_section, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /sections
-  # GET /sections.json
+  before_action :authentication_deal_collaborator!
+  before_action :set_deal
+  before_action :set_section, only: [:show, :update, :destroy]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @sections = Section.all
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    @category_id = params[:category_id]
+    conditions = []
+    conditions[0] = ["category_id = ?", "#{@category_id}"] if @category_id
+    @sections = @deal.sections
+                     .where(conditions[0])
+                     .order("#{sortby} #{sortdir}")
+                     .page(@page)
+                     .per(@per_page) rescue []
+    success_response(
+      {
+        sections: @sections.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /sections/1
-  # GET /sections/1.json
-  def show
-  end
-
-  # GET /sections/new
-  def new
-    @section = Section.new
-  end
-
-  # GET /sections/1/edit
-  def edit
-  end
-
-  # POST /sections
-  # POST /sections.json
   def create
-    @section = Section.new(section_params)
-
-    respond_to do |format|
-      if @section.save
-        format.html { redirect_to @section, notice: 'Section was successfully created.' }
-        format.json { render :show, status: :created, location: @section }
-      else
-        format.html { render :new }
-        format.json { render json: @section.errors, status: :unprocessable_entity }
-      end
+    @section = @deal.sections.new(section_params)
+    if @section.save
+      success_response(
+        {
+          section: @section.to_hash
+        }
+      )
+    else
+      error_response(@section.errors)
     end
   end
 
-  # PATCH/PUT /sections/1
-  # PATCH/PUT /sections/1.json
   def update
-    respond_to do |format|
-      if @section.update(section_params)
-        format.html { redirect_to @section, notice: 'Section was successfully updated.' }
-        format.json { render :show, status: :ok, location: @section }
-      else
-        format.html { render :edit }
-        format.json { render json: @section.errors, status: :unprocessable_entity }
-      end
+    if @section.update(section_params)
+      success_response(
+        {
+          section: @section.to_hash
+        }
+      )
+    else
+      error_response(@section.errors)
     end
   end
 
-  # DELETE /sections/1
-  # DELETE /sections/1.json
+  def show
+    if @section
+      success_response(
+        {
+          section: @section.to_hash
+        }
+      )
+    end
+  end
+
   def destroy
-    @section.destroy
-    respond_to do |format|
-      format.html { redirect_to sections_url, notice: 'Section was successfully destroyed.' }
-      format.json { head :no_content }
+    if @section.destroy
+      success_response(["Section destroyed successfully"])
+    else
+      error_response(@section.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_section
-      @section = Section.find(params[:id])
-    end
+  def set_deal
+    @deal = Deal.find_by_id(params[:deal_id])
+    error_response(["Deal Not Found."]) if @deal.blank?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def section_params
-      params.require(:section).permit(:name, :deal_id, :category_id, :created_id, :activated)
-    end
+  def set_section
+    @section = @deal.sections.find_by_id(params[:id])
+    error_response(["Section Not Found."]) if @section.blank?
+  end
+
+  def section_params
+    params.require(:section).permit(
+      :name,
+      :deal_id,
+      :category_id,
+      :created_by,
+      :activated
+    )
+  end
 end

@@ -1,74 +1,53 @@
 class DealCollaboratorsController < ApplicationController
-  before_action :set_deal_collaborator, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /deal_collaborators
-  # GET /deal_collaborators.json
+  before_action :authentication_deal_collaborator!, only: [:index]
+  before_action :authentication_org_deal_admin!, only: [:create, :destroy]
+  before_action :set_deal
+  before_action :set_deal_collaborator, only: [:destroy]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @deal_collaborators = DealCollaborator.all
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    @deal_collaborators = DealCollaborator.order("#{sortby} #{sortdir}")
+                                          .page(@page)
+                                          .per(@per_page) rescue []
+    success_response(
+      {
+        deal_collaborators: @deal_collaborators.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /deal_collaborators/1
-  # GET /deal_collaborators/1.json
-  def show
-  end
-
-  # GET /deal_collaborators/new
-  def new
-    @deal_collaborator = DealCollaborator.new
-  end
-
-  # GET /deal_collaborators/1/edit
-  def edit
-  end
-
-  # POST /deal_collaborators
-  # POST /deal_collaborators.json
   def create
-    @deal_collaborator = DealCollaborator.new(deal_collaborator_params)
-
-    respond_to do |format|
-      if @deal_collaborator.save
-        format.html { redirect_to @deal_collaborator, notice: 'Deal collaborator was successfully created.' }
-        format.json { render :show, status: :created, location: @deal_collaborator }
-      else
-        format.html { render :new }
-        format.json { render json: @deal_collaborator.errors, status: :unprocessable_entity }
-      end
+    @deal_collaborator = @deal.deal_collaborators.new(
+      user_id: params[:user_id],
+      added_by: current_user.id
+    )
+    if @deal_collaborator.save
+      success_response(["Deal Collaborator created successfully."])
+    else
+      error_response(@deal_collaborator.errors)
     end
   end
 
-  # PATCH/PUT /deal_collaborators/1
-  # PATCH/PUT /deal_collaborators/1.json
-  def update
-    respond_to do |format|
-      if @deal_collaborator.update(deal_collaborator_params)
-        format.html { redirect_to @deal_collaborator, notice: 'Deal collaborator was successfully updated.' }
-        format.json { render :show, status: :ok, location: @deal_collaborator }
-      else
-        format.html { render :edit }
-        format.json { render json: @deal_collaborator.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /deal_collaborators/1
-  # DELETE /deal_collaborators/1.json
   def destroy
-    @deal_collaborator.destroy
-    respond_to do |format|
-      format.html { redirect_to deal_collaborators_url, notice: 'Deal collaborator was successfully destroyed.' }
-      format.json { head :no_content }
+    if @deal_collaborator.destroy
+      success_response(["Deal Collaborator destroyed successfully"])
+    else
+      error_response(@deal_collaborator.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_deal_collaborator
-      @deal_collaborator = DealCollaborator.find(params[:id])
-    end
+  def set_deal
+    @deal = Deal.find_by_id(params[:deal_id])
+    error_response(["Deal Not Found."]) if @deal.blank?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def deal_collaborator_params
-      params.require(:deal_collaborator).permit(:deal_id, :user_id, :added_by)
-    end
+  def set_deal_collaborator
+    @deal_collaborator = @deal.deal_collaborators.find_by_id(params[:id])
+    error_response(["Deal Collaborator Not Found."]) if @deal_collaborator.blank?
+  end
 end

@@ -1,74 +1,54 @@
 class StarredDealsController < ApplicationController
-  before_action :set_starred_deal, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /starred_deals
-  # GET /starred_deals.json
+  before_action :authentication_deal_collaborator!, only: [:create, :destroy]
+  before_action :set_deal
+  before_action :set_starred_deal, only: [:destroy]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @starred_deals = StarredDeal.all
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    @starred_deals = current_user.starred_deals
+                                 .order("#{sortby} #{sortdir}")
+                                 .page(@page).per(@per_page) rescue []
+    success_response(
+      {
+        starred_deals: @starred_deals.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /starred_deals/1
-  # GET /starred_deals/1.json
-  def show
-  end
-
-  # GET /starred_deals/new
-  def new
-    @starred_deal = StarredDeal.new
-  end
-
-  # GET /starred_deals/1/edit
-  def edit
-  end
-
-  # POST /starred_deals
-  # POST /starred_deals.json
   def create
-    @starred_deal = StarredDeal.new(starred_deal_params)
-
-    respond_to do |format|
-      if @starred_deal.save
-        format.html { redirect_to @starred_deal, notice: 'Starred deal was successfully created.' }
-        format.json { render :show, status: :created, location: @starred_deal }
-      else
-        format.html { render :new }
-        format.json { render json: @starred_deal.errors, status: :unprocessable_entity }
-      end
+    @starred_deal = @deal.starred_deals.new(starred_deal_params)
+    if @deal.save
+      success_response(["Starred Deal created successfully."])
+    else
+      error_response(@starred_deal.errors)
     end
   end
 
-  # PATCH/PUT /starred_deals/1
-  # PATCH/PUT /starred_deals/1.json
-  def update
-    respond_to do |format|
-      if @starred_deal.update(starred_deal_params)
-        format.html { redirect_to @starred_deal, notice: 'Starred deal was successfully updated.' }
-        format.json { render :show, status: :ok, location: @starred_deal }
-      else
-        format.html { render :edit }
-        format.json { render json: @starred_deal.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /starred_deals/1
-  # DELETE /starred_deals/1.json
   def destroy
-    @starred_deal.destroy
-    respond_to do |format|
-      format.html { redirect_to starred_deals_url, notice: 'Starred deal was successfully destroyed.' }
-      format.json { head :no_content }
+    if @starred_deal.destroy
+      success_response(["Starred Deal destroyed successfully"])
+    else
+      error_response(@starred_deal.errors)
     end
+    return
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_starred_deal
-      @starred_deal = StarredDeal.find(params[:id])
-    end
+  def set_deal
+    @deal = Deal.find_by_id(params[:deal_id])
+    error_response(["Deal Not Found."]) if @deal.blank?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def starred_deal_params
-      params.require(:starred_deal).permit(:user_id, :deal_id)
-    end
+  def set_starred_deal
+    @starred_deal = @deal.starred_deals.find_by_id(params[:id])
+    error_response("Starred Deal Not Found") if @starred_deal.blank?
+  end
+
+  def starred_deal_params
+    params.require(:starred_deal).permit(:user_id, :deal_id)
+  end
 end
