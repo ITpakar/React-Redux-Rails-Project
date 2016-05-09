@@ -27,18 +27,6 @@
         background: rgba($white, 0.55);
     }
 
-    i{
-        @extend %icomoon;
-        display: inline-block;
-        font-size: 18px;
-        margin-left: 0px;
-        &:after{
-            @extend %icon-circle-right-bold;
-        }
-        @include breakpoint($bp-tablet){
-            font-size: 15px;
-        }
-    }
     &.color {
         border-color: $col-yellow;
         color: $col-blue;
@@ -154,27 +142,6 @@
     }
 }
 
-@mixin slider-btn-right{
-    right: 0;
-    &:after{
-        @extend %icon-arrow-right;
-    }
-}
-@mixin slider-btn-left{
-    left: 0;
-    &:after{
-        @extend %icon-arrow-left;
-    }
-}
-@mixin slider-btn-blue{
-    background: rgba($col-blue, 0.62);
-    &:after{
-        background: $col-blue;
-    }
-    &:hover{
-        background: rgba($col-blue, 0.45);
-    }
-}
 // Button
 %btn {
     @include btn;
@@ -182,16 +149,6 @@
 
 %slider-btn{
     @include slider-btn;
-}
-
-%slider-btn-left{
-    @include slider-btn-left;
-}
-%slider-btn-right{
-    @include slider-btn-right;
-}
-%slider-btn-blue{
-    @include slider-btn-blue;
 }
 
 .link-icon{
