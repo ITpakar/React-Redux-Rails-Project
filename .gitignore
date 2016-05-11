@@ -26,6 +26,7 @@
 */*/*/.DS_Store
 
 # SASS
+<<<<<<< HEAD
 .sass-cache
 
 # config confidential
@@ -33,3 +34,6 @@
 
 # assets compiled for production testing
 /public/assets/
+=======
+.sass-cache
+>>>>>>> 2bc2a0194b028ef991636e629aa7f07e0c1f1d32

@@ -13,4 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require plugins/bootstrap
+//= require plugins/bootstrap.file-input
+//= require plugins/bootstrap-select
+//= require plugins/equal-height
+//= require plugins/fastclick
+//= require plugins/icheck.min
+//= require plugins/jquery.peity
+//= require plugins/jquery.sparkline.min
+//= require plugins/modernizr
+//= require plugins/morris
+//= require plugins/placeholders
+//= require custom/scripts

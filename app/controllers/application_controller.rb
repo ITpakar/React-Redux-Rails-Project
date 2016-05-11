@@ -40,6 +40,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authenticate_document_owner!
+    if current_user.blank? or !current_user.is_document_owner?(params[:document_id])
+      unauthorized_response
+    end
+  end
+
   # API responses
   def success_response(data, status = 200)
     render(
@@ -76,6 +82,12 @@ class ApplicationController < ActionController::Base
       },
       status: 401
     )
+  end
+
+  def ensure_params_exist(object)
+    if params[object].blank?
+      error_response(["object related parameters not found."])
+    end
   end
 
   # Other support
