@@ -24,3 +24,12 @@
 */.DS_Store
 */*/.DS_Store
 */*/*/.DS_Store
+
+# SASS
+.sass-cache
+
+# config confidential
+/config/secrets.yml
+
+# assets compiled for production testing
+/public/assets/

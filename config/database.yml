@@ -2,20 +2,16 @@ default: &default
   adapter: postgresql
   encoding: utf8
   pool: 5
-  username: postgres
-  password: root
-  host: localhost
+  username: <%= Rails.application.secrets[:database][:username] %>
+  password: <%= Rails.application.secrets[:database][:password] %>
+  host: <%= Rails.application.secrets[:database][:host] %>
+  database: <%= Rails.application.secrets[:database][:name] %>
 
 development:
   <<: *default
-  database: doxly
 
 test:
   <<: *default
-  database: doxly_test
 
 production:
   <<: *default
-  database: <%= ENV['DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
