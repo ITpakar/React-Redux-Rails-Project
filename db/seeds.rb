@@ -437,7 +437,7 @@ Task.create(
   title: 'Partnerships, JVS and Subsidiaries',
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 1,
-  assingnee_id: 2,
+  assignee_id: 2,
   created_by: 1
 )
 Task.create(
@@ -446,7 +446,7 @@ Task.create(
   description: 'To the extend not previously provided, all minutes of meeting'+
                'and written consents of the board of directors and stockholders',
   section_id: 1,
-  assingnee_id: 2,
+  assignee_id: 2,
   created_by: 1
 )
 Task.create(
@@ -454,7 +454,7 @@ Task.create(
   title: 'Meeting Materials Provided to BOD',
   description: 'Meeting Materials Provided to BOD',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -462,7 +462,7 @@ Task.create(
   title: 'Annual and Quaterly Reports',
   description: 'Annual and Quaterly Reports',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -470,7 +470,7 @@ Task.create(
   title: 'Correspndance Related to Blue Sky Laws',
   description: 'Correspndance Related to Blue Sky Laws',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -478,7 +478,7 @@ Task.create(
   title: 'Equity Intrest Claims',
   description: 'Equity Intrest Claims',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -486,7 +486,7 @@ Task.create(
   title: 'Conflict of Interest, Code of Ethics and Cor..',
   description: 'Conflict of Interest, Code of Ethics and Cor..',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -494,7 +494,7 @@ Task.create(
   title: 'Options, Warrents and Other Commitments',
   description: 'Options, Warrents and Other Commitments',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -502,7 +502,7 @@ Task.create(
   title: '409 Valuations',
   description: '409 Valuations',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -510,7 +510,7 @@ Task.create(
   title: 'Offering Circulars, PPMs, Etc.',
   description: 'Offering Circulars, PPMs, Etc.',
   section_id: 1,
-  assingnee_id: 3,
+  assignee_id: 3,
   created_by: 1
 )
 Task.create(
@@ -518,7 +518,7 @@ Task.create(
   title: 'Options, Warrents and Other Commitments',
   description: 'Options, Warrents and Other Commitments',
   section_id: 2,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -526,7 +526,7 @@ Task.create(
   title: 'Term Sheet',
   description: 'Term Sheet',
   section_id: 3,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -534,7 +534,7 @@ Task.create(
   title: 'Diligence',
   description: 'Diligence',
   section_id: 3,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -542,7 +542,7 @@ Task.create(
   title: 'Partnerships, JVS and Subsidiaries',
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 4,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -550,7 +550,7 @@ Task.create(
   title: 'Employeement Agreements',
   description: 'Employeement Agreements',
   section_id: 4,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -558,7 +558,7 @@ Task.create(
   title: 'Board Consent',
   description: 'Board Consent',
   section_id: 4,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -566,7 +566,7 @@ Task.create(
   title: 'Stockholder Consent',
   description: 'Stockholder Consent',
   section_id: 4,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 Task.create(
@@ -574,7 +574,7 @@ Task.create(
   title: 'Escrow Agreements',
   description: 'Escrow Agreements',
   section_id: 4,
-  assingnee_id: 4,
+  assignee_id: 4,
   created_by: 1
 )
 

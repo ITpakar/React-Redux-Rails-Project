@@ -17,7 +17,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create task" do
     assert_difference('Task.count') do
-      post tasks_url, params: { task: { assingnee_id: @task.assingnee_id, created_by: @task.created_by, description: @task.description, due_date: @task.due_date, section_id: @task.section_id, status: @task.status, title: @task.title } }
+      post tasks_url, params: { task: { assignee_id: @task.assignee_id, created_by: @task.created_by, description: @task.description, due_date: @task.due_date, section_id: @task.section_id, status: @task.status, title: @task.title } }
     end
 
     assert_redirected_to task_path(Task.last)
@@ -34,7 +34,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update task" do
-    patch task_url(@task), params: { task: { assingnee_id: @task.assingnee_id, created_by: @task.created_by, description: @task.description, due_date: @task.due_date, section_id: @task.section_id, status: @task.status, title: @task.title } }
+    patch task_url(@task), params: { task: { assignee_id: @task.assignee_id, created_by: @task.created_by, description: @task.description, due_date: @task.due_date, section_id: @task.section_id, status: @task.status, title: @task.title } }
     assert_redirected_to task_path(@task)
   end
 

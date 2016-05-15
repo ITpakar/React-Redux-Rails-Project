@@ -4,9 +4,9 @@ class Folder < ApplicationRecord
 
   def to_hash
     data = {
-      name:  self.name,
-      parent_type:        self.parent_type,
-      parent_id: self.parent_id,
+      name:        self.name,
+      parent_type: self.parent_type,
+      parent_id:   self.parent_id,
       activated:   self.activated
     }
 

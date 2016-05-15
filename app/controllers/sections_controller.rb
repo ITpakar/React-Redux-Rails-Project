@@ -2,6 +2,7 @@ class SectionsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!
+  before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_section, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
@@ -50,13 +51,11 @@ class SectionsController < ApplicationController
   end
 
   def show
-    if @section
-      success_response(
-        {
-          section: @section.to_hash
-        }
-      )
-    end
+    success_response(
+      {
+        section: @section.to_hash
+      }
+    )
   end
 
   def destroy
@@ -86,5 +85,12 @@ class SectionsController < ApplicationController
       :created_by,
       :activated
     )
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:section].blank?
+      error_response(["Section related parameters not found."])
+    end
   end
 end

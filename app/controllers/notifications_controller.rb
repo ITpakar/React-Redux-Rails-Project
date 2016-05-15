@@ -1,74 +1,74 @@
 class NotificationsController < ApplicationController
-  before_action :set_notification, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /notifications
-  # GET /notifications.json
+  before_action :authenticate_user!
+  before_action :authenticate_super_admin!, only: [:create, :destroy]
+  before_action :authenticate_notification_reciever!, only: [:show, :update]
+  before_action :set_notification, only: [:show, :update, :destroy]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @notifications = Notification.all
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    user_id = params[:user_id] || current_user.id
+    status  = params[:status]
+    conditions  = []
+    conditions << ["status = ?", "#{status.downcase}"] if status and status.to_s != 'all'
+    conditions << ["user_id = ?", "#{user_id}"] if user_id
+    @notifications = Notification.where(conditions[0])
+                       .order("#{sortby} #{sortdir}")
+                       .page(@page)
+                       .per(@per_page) rescue []
+    success_response(
+      {
+        notifications: @notifications.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /notifications/1
-  # GET /notifications/1.json
   def show
+    success_response(
+      {
+        notification: @notification.to_hash
+      }
+    )
   end
 
-  # GET /notifications/new
-  def new
-    @notification = Notification.new
-  end
-
-  # GET /notifications/1/edit
-  def edit
-  end
-
-  # POST /notifications
-  # POST /notifications.json
   def create
-    @notification = Notification.new(notification_params)
-
-    respond_to do |format|
-      if @notification.save
-        format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
-        format.json { render :show, status: :created, location: @notification }
-      else
-        format.html { render :new }
-        format.json { render json: @notification.errors, status: :unprocessable_entity }
+    if params[:user_ids] and params[:message]
+      params[:user_ids].each do |user_id|
+        @notification = Notification.new(
+                          message: params[:message],
+                          user_id: user_id,
+                          status: 'unread'
+                        )
+        @notification.save
       end
+      success_response(["Notification created successfully."])
+    else
+      error_response(["Notification related parameters not found."])
     end
   end
 
-  # PATCH/PUT /notifications/1
-  # PATCH/PUT /notifications/1.json
   def update
-    respond_to do |format|
-      if @notification.update(notification_params)
-        format.html { redirect_to @notification, notice: 'Notification was successfully updated.' }
-        format.json { render :show, status: :ok, location: @notification }
-      else
-        format.html { render :edit }
-        format.json { render json: @notification.errors, status: :unprocessable_entity }
-      end
+    if params[:status] and @notification.update(status: params[:status])
+      success_response(["Notification updated successfully"])
+    else
+      error_response(["Notification status related parameters not found."])
     end
   end
 
-  # DELETE /notifications/1
-  # DELETE /notifications/1.json
   def destroy
-    @notification.destroy
-    respond_to do |format|
-      format.html { redirect_to notifications_url, notice: 'Notification was successfully destroyed.' }
-      format.json { head :no_content }
+    if @notification.destroy
+      success_response(["Notification destroyed successfully"])
+    else
+      error_response(@notification.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_notification
-      @notification = Notification.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def notification_params
-      params.require(:notification).permit(:user_id, :message, :status)
-    end
+  def set_notification
+    @notification = Notification.find_by_id(params[:id])
+    error_response(["Notification Not Found"]) if @notification.blank?
+  end
 end

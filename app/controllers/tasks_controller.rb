@@ -1,74 +1,107 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /tasks
-  # GET /tasks.json
+  before_action :authenticate_user!
+  before_action :ensure_params_exist, only: [:create, :update]
+  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
+
   def index
-    @tasks = Task.all
+    sortby      = params[:sortby] || ''
+    sortdir     = params[:sortdir] || ''
+    @org_id     = params[:org_id]
+    @deal_id    = params[:deal_id]
+    @section_id = params[:section_id]
+    @assignee_id = params[:assignee_id]
+
+    conditions  = []
+    conditions[0] = ["section_id = ?", "#{@section_id}"] if @section_id
+    conditions[0] = ["assignee_id = ?", "#{@assignee_id}"] if @assignee_id
+    conditions[0] = ["organization_id = ?", "#{@org_id}"] if @org_id
+    conditions[0] = ["deal_id = ?", "#{@deal_id}"] if @deal_id
+
+    @tasks = current_user.tasks
+                         .where(conditions[0])
+                         .order("#{sortby} #{sortdir}")
+                         .page(@page)
+                         .per(@per_page) rescue []
+    success_response(
+      {
+        tasks: @tasks.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /tasks/1
-  # GET /tasks/1.json
-  def show
-  end
-
-  # GET /tasks/new
-  def new
-    @task = Task.new
-  end
-
-  # GET /tasks/1/edit
-  def edit
-  end
-
-  # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(task_params)
-
-    respond_to do |format|
-      if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: @task }
-      else
-        format.html { render :new }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+    if @task.save
+      success_response(["Task created successfully."])
+    else
+      error_response(@task.errors)
     end
   end
 
-  # PATCH/PUT /tasks/1
-  # PATCH/PUT /tasks/1.json
   def update
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { render :show, status: :ok, location: @task }
-      else
-        format.html { render :edit }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+    if @task.update(task_params)
+      success_response(["Task updated successfully"])
+    else
+      error_response(@task.errors)
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
+  def show
+    success_response(
+      {
+        task: @task.to_hash
+      }
+    )
+  end
+
   def destroy
-    @task.destroy
-    respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
-      format.json { head :no_content }
+    if @task.destroy
+      success_response(["Task destroyed successfully"])
+    else
+      error_response(@task.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])
+  def set_task
+    @task = Task.find_by_id(params[:id])
+    error_response(["Task Not Found."]) if @task.blank?
+  end
+
+  def is_deal_collaborator?
+    if @task.blank?
+      @section = Section.find_by_id(params[:task][:section_id])
+      @deal = @section.deal if @section
+    else
+      @deal = @task.section.deal
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def task_params
-      params.require(:task).permit(:title, :description, :status, :section_id, :assingnee_id, :created_by, :due_date)
+    if !@deal.blank?
+      return current_user.is_deal_collaborator?(@deal.id)
+    else
+      error_response(["Deal Not Found for this task."])
     end
+  end
+
+  def task_params
+    params.require(:task).permit(
+      :title,
+      :description,
+      :status,
+      :section_id,
+      :assignee_id,
+      :created_by,
+      :due_date
+    )
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:task].blank?
+      error_response(["Task related parameters not found."])
+    end
+  end
 end

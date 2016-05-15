@@ -1,15 +1,15 @@
-class UsersController < ApplicationController
+class AccountsController < ApplicationController
   respond_to :json
-  before_action :authenticate_super_admin!
-  before_action :set_user, only: [:destroy, :update, :show]
-  before_action :ensure_params_exist, only: [:update, :create]
+
+  before_action :authenticate_user!, except: [:create]
+  before_action :ensure_params_exist, only: [:create, :update]
+  before_action :set_user, only: [:destroy, :update]
   skip_before_action :verify_authenticity_token
 
   def index
-    @users = User.page(@page).per(@per_page) rescue []
     success_response(
       {
-        users: @users.map(&:to_hash)
+        user: current_user.to_hash(false)
       }
     )
   end
@@ -32,14 +32,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-    success_response(
-      {
-        user: @user.to_hash
-      }
-    )
-  end
-
   def destroy
     if @user.destroy
       success_response(["User destroyed successfully"])
@@ -50,24 +42,19 @@ class UsersController < ApplicationController
 
   private
   def set_user
-    @user = User.find_by_id(params[:id])
+    @user = current_user
     error_response(["User Not Found"]) if @user.blank?
   end
 
   def user_params
     params.require(:user).permit(
+      :email,
+      :password,
       :first_name,
       :last_name,
       :phone,
       :address,
       :company
     )
-  end
-
-  protected
-  def ensure_params_exist
-    if params[:user].blank?
-      error_response(["User related parameters not found."])
-    end
   end
 end

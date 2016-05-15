@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506054503) do
+ActiveRecord::Schema.define(version: 20160425083416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,8 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.text     "comment"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
-
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "deal_collaborators", force: :cascade do |t|
     t.integer  "deal_id"
@@ -42,11 +41,10 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.integer  "added_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["added_by"], name: "index_deal_collaborators_on_added_by", using: :btree
+    t.index ["deal_id"], name: "index_deal_collaborators_on_deal_id", using: :btree
+    t.index ["user_id"], name: "index_deal_collaborators_on_user_id", using: :btree
   end
-
-  add_index "deal_collaborators", ["added_by"], name: "index_deal_collaborators_on_added_by", using: :btree
-  add_index "deal_collaborators", ["deal_id"], name: "index_deal_collaborators_on_deal_id", using: :btree
-  add_index "deal_collaborators", ["user_id"], name: "index_deal_collaborators_on_user_id", using: :btree
 
   create_table "deals", force: :cascade do |t|
     t.integer  "organization_id"
@@ -61,20 +59,19 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.boolean  "activated"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["activated"], name: "index_deals_on_activated", using: :btree
+    t.index ["admin_user_id"], name: "index_deals_on_admin_user_id", using: :btree
+    t.index ["status"], name: "index_deals_on_status", using: :btree
+    t.index ["title"], name: "index_deals_on_title", using: :btree
   end
-
-  add_index "deals", ["activated"], name: "index_deals_on_activated", using: :btree
-  add_index "deals", ["admin_user_id"], name: "index_deals_on_admin_user_id", using: :btree
-  add_index "deals", ["status"], name: "index_deals_on_status", using: :btree
-  add_index "deals", ["title"], name: "index_deals_on_title", using: :btree
 
   create_table "document_signers", force: :cascade do |t|
     t.integer  "document_id"
     t.integer  "user_id"
-    t.boolean  "signed"
+    t.boolean  "signed",      default: false
     t.datetime "signed_at"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -88,11 +85,10 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.boolean  "activated"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
+    t.index ["parent_id"], name: "index_documents_on_parent_id", using: :btree
+    t.index ["parent_type"], name: "index_documents_on_parent_type", using: :btree
   end
-
-  add_index "documents", ["created_by"], name: "index_documents_on_created_by", using: :btree
-  add_index "documents", ["parent_id"], name: "index_documents_on_parent_id", using: :btree
-  add_index "documents", ["parent_type"], name: "index_documents_on_parent_type", using: :btree
 
   create_table "folders", force: :cascade do |t|
     t.string   "name",        limit: 250
@@ -102,11 +98,10 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.boolean  "activated"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
+    t.index ["parent_id"], name: "index_folders_on_parent_id", using: :btree
+    t.index ["parent_type"], name: "index_folders_on_parent_type", using: :btree
   end
-
-  add_index "folders", ["created_by"], name: "index_folders_on_created_by", using: :btree
-  add_index "folders", ["parent_id"], name: "index_folders_on_parent_id", using: :btree
-  add_index "folders", ["parent_type"], name: "index_folders_on_parent_type", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "user_id"
@@ -120,16 +115,15 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.integer  "organization_id"
     t.integer  "user_id"
     t.string   "user_type",           limit: 30
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.boolean  "invitation_accepted"
     t.string   "invitation_token"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
+    t.index ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
+    t.index ["user_id"], name: "index_organization_users_on_user_id", using: :btree
+    t.index ["user_type"], name: "index_organization_users_on_user_type", using: :btree
   end
-
-  add_index "organization_users", ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
-  add_index "organization_users", ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
-  add_index "organization_users", ["user_id"], name: "index_organization_users_on_user_id", using: :btree
-  add_index "organization_users", ["user_type"], name: "index_organization_users_on_user_type", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name",         limit: 250
@@ -140,11 +134,10 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.boolean  "activated"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["activated"], name: "index_organizations_on_activated", using: :btree
+    t.index ["created_by"], name: "index_organizations_on_created_by", using: :btree
+    t.index ["name"], name: "index_organizations_on_name", unique: true, using: :btree
   end
-
-  add_index "organizations", ["activated"], name: "index_organizations_on_activated", using: :btree
-  add_index "organizations", ["created_by"], name: "index_organizations_on_created_by", using: :btree
-  add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.string   "name",        limit: 100
@@ -154,10 +147,9 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.boolean  "activated"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.index ["activated"], name: "index_sections_on_activated", using: :btree
+    t.index ["created_by"], name: "index_sections_on_created_by", using: :btree
   end
-
-  add_index "sections", ["activated"], name: "index_sections_on_activated", using: :btree
-  add_index "sections", ["created_by"], name: "index_sections_on_created_by", using: :btree
 
   create_table "starred_deals", force: :cascade do |t|
     t.integer  "user_id"
@@ -167,21 +159,22 @@ ActiveRecord::Schema.define(version: 20160506054503) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "title",        limit: 250
-    t.string   "description",  limit: 1000
-    t.string   "status",       limit: 30
+    t.string   "title",           limit: 250
+    t.string   "description",     limit: 1000
+    t.string   "status",          limit: 30
     t.integer  "section_id"
-    t.integer  "assingnee_id"
+    t.integer  "assignee_id"
+    t.integer  "organization_id"
+    t.integer  "deal_id"
     t.integer  "created_by"
     t.datetime "due_date"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
+    t.index ["created_by"], name: "index_tasks_on_created_by", using: :btree
+    t.index ["section_id"], name: "index_tasks_on_section_id", using: :btree
+    t.index ["status"], name: "index_tasks_on_status", using: :btree
   end
-
-  add_index "tasks", ["assingnee_id"], name: "index_tasks_on_assingnee_id", using: :btree
-  add_index "tasks", ["created_by"], name: "index_tasks_on_created_by", using: :btree
-  add_index "tasks", ["section_id"], name: "index_tasks_on_section_id", using: :btree
-  add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -207,15 +200,14 @@ ActiveRecord::Schema.define(version: 20160506054503) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
     t.boolean  "activated"
     t.string   "role"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.index ["activated"], name: "index_users_on_activated", using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["role"], name: "index_users_on_role", using: :btree
   end
-
-  add_index "users", ["activated"], name: "index_users_on_activated", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
 end

@@ -1,7 +1,7 @@
 class SessionsController < Devise::SessionsController
   respond_to :json
 
-  before_action :ensure_params_exist
+  before_action :ensure_params_exist, only: [:create]
   skip_before_action :verify_authenticity_token
 
   def create
@@ -19,6 +19,10 @@ class SessionsController < Devise::SessionsController
     else
       error_response(["Error with your login or password"])
     end
+  end
+
+  def destroy
+    sign_out(current_user)
   end
 
   protected

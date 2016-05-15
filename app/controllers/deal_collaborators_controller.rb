@@ -3,6 +3,7 @@ class DealCollaboratorsController < ApplicationController
 
   before_action :authentication_deal_collaborator!, only: [:index]
   before_action :authentication_org_deal_admin!, only: [:create, :destroy]
+  before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_deal_collaborator, only: [:destroy]
   skip_before_action :verify_authenticity_token
@@ -49,5 +50,12 @@ class DealCollaboratorsController < ApplicationController
   def set_deal_collaborator
     @deal_collaborator = @deal.deal_collaborators.find_by_id(params[:id])
     error_response(["Deal Collaborator Not Found."]) if @deal_collaborator.blank?
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:deal_collaborator].blank?
+      error_response(["Deal Collaborator related parameters not found."])
+    end
   end
 end

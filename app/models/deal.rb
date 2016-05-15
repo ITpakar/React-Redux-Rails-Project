@@ -9,10 +9,11 @@ class Deal < ActiveRecord::Base
 
   # Associations
   belongs_to :organization
-  has_many   :starred_deals
+  has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
   has_many   :users, through: :deal_collaborators
-  has_many   :sections
+  has_many   :sections, dependent: :delete_all
+  has_many   :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   def to_hash

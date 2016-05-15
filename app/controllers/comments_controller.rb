@@ -1,74 +1,109 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /comments
-  # GET /comments.json
+  before_action :authenticate_user!
+  before_action :ensure_params_exist, only: [:create, :update]
+  before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @comments = Comment.all
+    sortby       = params[:sortby] || ''
+    sortdir      = params[:sortdir] || ''
+    # deal_id      = params[:deal_id]
+    task_id      = params[:task_id]
+    document_id  = params[:document_id]
+    user_id      = params[:user_id] || current_user.id
+    comment_type = params[:comment_type]
+    conditions  = []
+    conditions << ["task_id = ?", "#{task_id}"] if task_id
+    conditions << ["user_id = ?", "#{user_id}"] if user_id
+    conditions << ["document_id = ?", "#{document_id}"] if document_id
+    conditions << ["comment_type = ?", "#{comment_type}"] if comment_type
+
+    @comments = Comment.where(conditions[0])
+                       .order("#{sortby} #{sortdir}")
+                       .page(@page)
+                       .per(@per_page) rescue []
+    success_response(
+      {
+        comments: @comments.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /comments/1
-  # GET /comments/1.json
-  def show
-  end
-
-  # GET /comments/new
-  def new
-    @comment = Comment.new
-  end
-
-  # GET /comments/1/edit
-  def edit
-  end
-
-  # POST /comments
-  # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.save
+      success_response(["Comment created successfully."])
+    else
+      error_response(@comment.errors)
     end
   end
 
-  # PATCH/PUT /comments/1
-  # PATCH/PUT /comments/1.json
+  def show
+    success_response(
+      {
+        comment: @comment.to_hash
+      }
+    )
+  end
+
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.update(comment_params)
+      success_response(["Comment updated successfully"])
+    else
+      error_response(@comment.errors)
     end
   end
 
-  # DELETE /comments/1
-  # DELETE /comments/1.json
   def destroy
-    @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
+    if @comment.destroy
+      success_response(["Comment destroyed successfully"])
+    else
+      error_response(@comment.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
+  def set_comment
+    @comment = Comment.find_by_id(params[:id])
+    error_response(["Comment Not Found"]) if @comment.blank?
+  end
+
+  def comment_params
+    params.require(:comment).permit(
+      :user_id,
+      :deal_id,
+      :task_id,
+      :document_id,
+      :comment_type,
+      :comment
+    )
+  end
+
+  def is_deal_collaborator?
+    if @comment.blank?
+      @task = Task.find_by_id(params[:comment][:task_id])
+      @section = @task.section.first if @task
+      @deal = @section.deal if @section
+    else
+      @deal = @comment.task.section.deal
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def comment_params
-      params.require(:comment).permit(:user_id, :deal_id, :task_id, :document_id, :comment)
+    if !@deal.blank?
+      return if current_user.is_deal_collaborator?(@deal.id) or
+                current_user.is_org_deal_admin?(@deal.id) or
+                current_user.is_comment_owner?(@comment.id)
+    else
+      error_response(["Deal Not Found for this Comment."])
     end
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:comment].blank?
+      error_response(["Comment related parameters not found."])
+    end
+  end
 end

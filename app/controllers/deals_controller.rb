@@ -1,12 +1,45 @@
 class DealsController < ApplicationController
   respond_to :json
 
+  before_action :authenticate_user!
   before_action :authenticate_organization_member!, only: [:create]
   before_action :authentication_org_deal_admin!, only: [:update, :destroy]
   before_action :authentication_deal_collaborator!, only: [:show]
+  before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, only: [:update, :destroy, :show]
   skip_before_action :verify_authenticity_token
 
+  def index
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    org_id  = params[:org_id]
+    conditions  = []
+    conditions << ["organization_id = ?", "#{org_id}"] if org_id
+    if current_user.is_super?
+      @deals = Deal.where(conditions[0])
+                   .order("#{sortby} #{sortdir}")
+                   .page(@page)
+                   .per(@per_page) rescue []
+    elsif current_user.is_organzation_admin?(current_user.organization.id)
+      @deals = current_user.organization
+                           .deals
+                           .where(conditions[0])
+                           .order("#{sortby} #{sortdir}")
+                           .page(@page)
+                           .per(@per_page) rescue []
+    else
+      @deals = current_user.deals
+                           .where(conditions[0])
+                           .order("#{sortby} #{sortdir}")
+                           .page(@page)
+                           .per(@per_page) rescue []
+    end
+    success_response(
+      {
+        deals: @deals.map(&:to_hash)
+      }
+    )
+  end
 
   def create
     @deal = Deal.new(deal_params)
@@ -27,13 +60,11 @@ class DealsController < ApplicationController
   end
 
   def show
-    if @deal
-      success_response(
-        {
-          deal: @deal.to_hash
-        }
-      )
-    end
+    success_response(
+      {
+        deal: @deal.to_hash
+      }
+    )
   end
 
   def destroy
@@ -62,5 +93,12 @@ class DealsController < ApplicationController
       :status,
       :activated
     )
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:deal].blank?
+      error_response(["Deal related parameters not found."])
+    end
   end
 end

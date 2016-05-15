@@ -4,6 +4,7 @@ class OrganizationsController < ApplicationController
   before_action :authenticate_super_admin!, only: [:index, :create]
   before_action :authenticate_organization_admin!, only: [:update, :destroy]
   before_action :authenticate_organization_member!, only: [:show]
+  before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_organization, only: [:update, :destroy, :show]
   before_action :set_peginate, only: [:index]
 
@@ -38,13 +39,11 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    if @organization
-      success_response(
-        {
-          organization: @organization.to_hash
-        }
-      )
-    end
+    success_response(
+      {
+        organization: @organization.to_hash
+      }
+    )
   end
 
   def update
@@ -86,5 +85,12 @@ class OrganizationsController < ApplicationController
       :created_by,
       :activated
     )
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:organization].blank?
+      error_response(["Organization related parameters not found."])
+    end
   end
 end

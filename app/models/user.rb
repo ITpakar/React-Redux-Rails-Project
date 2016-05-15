@@ -39,8 +39,9 @@ class User < ActiveRecord::Base
   has_many :deals, through: :deal_collaborators
   has_many :notifications
   has_many :starred_deals
-  has_many :tasks
+  has_many :tasks, foreign_key: :created_by
   has_many :folders, foreign_key: :created_by
+  has_many :sections, foreign_key: :created_by
 
   def create_organization
     Organization.create(
@@ -89,13 +90,37 @@ class User < ActiveRecord::Base
   end
 
   def is_deal_collaborator?(deal_id)
-    return true if self.is_super?
+    return true if self.is_super? or self.is_org_deal_admin?(deal_id)
+
+    deal = Deal.find_by_id(deal_id)
+    return true if self.is_organzation_member?(deal.organization_id)
 
     deal_collaborator = DealCollaborator.where(
       user_id: id,
       deal_id: deal_id
     ).first
     return !deal_collaborator.blank?
+  end
+
+  def is_document_owner?(document_id)
+    return true if self.is_super?
+    document = Document.find_by_id(document_id)
+
+    return if document and document.created_by == self.id
+  end
+
+  def is_comment_owner?(comment_id)
+    return true if self.is_super?
+    comment = Comment.find_by_id(comment_id)
+
+    return if comment and comment.user_id == self.id
+  end
+
+  def is_notification_reciever?(notification_id)
+    return true if self.is_super?
+    notification = Notification.find_by_id(notification_id)
+
+    return if notification and notification.user_id == self.id
   end
 
   def is_super?

@@ -2,6 +2,7 @@ class StarredDealsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!, only: [:create, :destroy]
+  before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_starred_deal, only: [:destroy]
   skip_before_action :verify_authenticity_token
@@ -9,7 +10,13 @@ class StarredDealsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
+    org_id  = params[:org_id]
+    conditions  = []
+    conditions << ["organization_id = ?", "#{org_id}"] if org_id
+    deal_ids = current_user.deals.where(conditions[0]).pluck(:id)
+
     @starred_deals = current_user.starred_deals
+                                 .where("id in (?)", deal_ids)
                                  .order("#{sortby} #{sortdir}")
                                  .page(@page).per(@per_page) rescue []
     success_response(
@@ -50,5 +57,12 @@ class StarredDealsController < ApplicationController
 
   def starred_deal_params
     params.require(:starred_deal).permit(:user_id, :deal_id)
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:starred_deal].blank?
+      error_response(["Starred Deal related parameters not found."])
+    end
   end
 end

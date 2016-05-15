@@ -1,74 +1,84 @@
 class DocumentSignersController < ApplicationController
-  before_action :set_document_signer, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
-  # GET /document_signers
-  # GET /document_signers.json
+  before_action :authenticate_user!
+  before_action :authenticate_document_owner!, only: [:create, :update, :destroy]
+  before_action :ensure_params_exist, only: [:create, :update]
+  before_action :set_document
+  before_action :set_document_signer, only: [:show, :update, :destroy]
+  skip_before_action :verify_authenticity_token
+
   def index
-    @document_signers = DocumentSigner.all
+    sortby  = params[:sortby] || ''
+    sortdir = params[:sortdir] || ''
+    @document_signers = @document.document_signers
+                                 .order("#{sortby} #{sortdir}")
+                                 .page(@page)
+                                 .per(@per_page) rescue []
+    success_response(
+      {
+        document_signers: @document_signers.map(&:to_hash)
+      }
+    )
   end
 
-  # GET /document_signers/1
-  # GET /document_signers/1.json
   def show
+    success_response(
+      {
+        document_signer: @document_signer.to_hash
+      }
+    )
   end
 
-  # GET /document_signers/new
-  def new
-    @document_signer = DocumentSigner.new
-  end
-
-  # GET /document_signers/1/edit
-  def edit
-  end
-
-  # POST /document_signers
-  # POST /document_signers.json
   def create
-    @document_signer = DocumentSigner.new(document_signer_params)
-
-    respond_to do |format|
-      if @document_signer.save
-        format.html { redirect_to @document_signer, notice: 'Document signer was successfully created.' }
-        format.json { render :show, status: :created, location: @document_signer }
-      else
-        format.html { render :new }
-        format.json { render json: @document_signer.errors, status: :unprocessable_entity }
-      end
+    @document_signer = @document.document_signers.new(document_signer_params)
+    if @document_signer.save
+      success_response(["Document Signer created successfully."])
+    else
+      error_response(@document_signer.errors)
     end
   end
 
-  # PATCH/PUT /document_signers/1
-  # PATCH/PUT /document_signers/1.json
   def update
-    respond_to do |format|
-      if @document_signer.update(document_signer_params)
-        format.html { redirect_to @document_signer, notice: 'Document signer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @document_signer }
-      else
-        format.html { render :edit }
-        format.json { render json: @document_signer.errors, status: :unprocessable_entity }
-      end
+    if @document_signer.update(document_signer_params)
+      success_response(["Document Signer updated successfully"])
+    else
+      error_response(@document_signer.errors)
     end
   end
 
-  # DELETE /document_signers/1
-  # DELETE /document_signers/1.json
   def destroy
-    @document_signer.destroy
-    respond_to do |format|
-      format.html { redirect_to document_signers_url, notice: 'Document signer was successfully destroyed.' }
-      format.json { head :no_content }
+    if @document_signer.destroy
+      success_response(["Document Signer destroyed successfully"])
+    else
+      error_response(@document_signer.errors)
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_document_signer
-      @document_signer = DocumentSigner.find(params[:id])
-    end
+  def set_document
+    @document = Document.find_by_id(params[:document_id])
+    error_response(["Document Not Found"]) if @document.blank?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def document_signer_params
-      params.require(:document_signer).permit(:document_id, :user_id, :signed, :signed_at)
+  def set_document_signer
+    @document_signer = @document.document_signers.find_by_id(params[:id])
+    error_response(["Document Signer Not Found"]) if @document_signer.blank?
+  end
+
+  def document_signer_params
+    params.require(:document_signer).permit(
+      :document_id,
+      :user_id,
+      :signed,
+      :signed_at
+    )
+  end
+
+  protected
+  def ensure_params_exist
+    if params[:document_signer].blank?
+      error_response(["Document Signer related parameters not found."])
     end
+  end
 end

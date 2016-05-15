@@ -96,14 +96,14 @@
             &.item-file{
                 .details{
                     &:before{
-                        background: url("../../images/icon-file.svg") no-repeat 50% 0 / 24px 32px;
+                        background: asset-data-url("icon-file.svg") no-repeat 50% 0 / 24px 32px;
                     }
                 }
             }
             &.item-folder{
                 .details{
                     &:before{
-                        background: url("../../images/icon-folder.svg") no-repeat 50% 0 / 32px 24px;
+                        background: asset-data-url("icon-folder.svg") no-repeat 50% 0 / 32px 24px;
                     }
                 }
             }

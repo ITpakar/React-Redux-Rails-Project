@@ -46,6 +46,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authenticate_notification_reciever!
+    if current_user.blank? or !current_user.is_notification_reciever?(params[:id])
+      unauthorized_response
+    end
+  end
+
   # API responses
   def success_response(data, status = 200)
     render(

@@ -12,7 +12,8 @@ class Organization < ActiveRecord::Base
   # Associations
   has_many :organization_users
   has_many :users, through: :organization_users
-  has_many :deals
+  has_many :deals, dependent: :delete_all
+  has_many :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
 
   def to_hash

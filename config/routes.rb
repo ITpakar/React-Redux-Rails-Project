@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
+  devise_for :users, skip: :all
+  devise_scope :user do
+    match '/api/account/sign_in',  to: 'sessions#create',      via: :post
+    match '/api/account/sign_out', to: 'sessions#destroy',     via: :delete
+    match '/api/users',            to: 'registrations#create', via: :post
+  end
   scope '/api' do
-    resources :users, only: [:index]
-    get '/users', to: 'users#index'
+    resources :users, except: [:new, :edit]
+    get    '/account', to: 'accounts#index'
+    post   '/account', to: 'accounts#create'
+    put    '/account', to: 'accounts#update'
+    delete '/account', to: 'accounts#destroy'
     resources :organizations do
-      resources :organization_users
+      resources :organization_users, except: [:new, :edit]
     end
     resources :deals do
       resources :deal_collaborators, only: [:create, :index, :destroy]
@@ -18,12 +27,8 @@ Rails.application.routes.draw do
     resources :folders
     resources :tasks
     resources :categories
-    devise_for :users,
-                controllers:{
-                  sessions: "sessions",
-                  registrations: "registrations"
-                }
   end
+
   get 'signin',      to: 'home#signin'
   get 'signup',      to: 'home#signup'
   get 'deals',       to: 'home#deals'
