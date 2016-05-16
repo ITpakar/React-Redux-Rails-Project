@@ -1,6 +1,7 @@
 .panel-deals-full{
     padding: 0;
     border: 1px solid $col-border;
+    border-radius: 0;
 
     .deals-full-group{
 
@@ -15,11 +16,15 @@
         padding: 10px;
         line-height: 1;
         text-transform: uppercase;
+        background: $col-green-light-2;
     }
     .deals-full-group__projects{
-        padding: 10px;
+        //padding: 10px;
+        padding: 0;
 
         .project-item{
+            border-bottom: 1px solid #EFEFEF;
+
             .item-body__project{
                 width: 42%;
                 display: inline-block;

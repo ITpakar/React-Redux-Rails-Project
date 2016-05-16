@@ -3,8 +3,9 @@
 }
 
 .navbar-side-top{
-    height: 60px;
+    height: 61px;
     border-bottom: 1px solid $col-border;
+    //box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.10), 0px 1px 0px 0px rgba(0,0,0,0.10);
     @include vertical-align(".center-logo");
 
     .center-logo{
@@ -15,10 +16,21 @@
 
 .navbar-static-top{
     #page-wrapper &{
+        position: fixed;
+        left: 181px;
+        top: 0;
+        right: 0;
         height: 60px;
-        border-bottom: 1px solid $col-border;
+        //border-bottom: 1px solid $col-border;
         padding-left: 20px;
         padding-right: 20px;
+        background: $white;
+        box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.10), 0px 1px 0px 0px rgba(0,0,0,0.10);
+
+        .no-sidebar &{
+            left: 0;
+        }
+
 
         .navbar-brand{
             height: 60px;
@@ -50,6 +62,9 @@
                 display: inline-block;
             }
         }
+    }
+    #page-wrapper.navbar-double &{
+        height: 100px;
     }
     .dropdown-user{
         > a{
@@ -88,7 +103,7 @@
 
 .dropdown-menu {
     border: medium none;
-    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.15), 0px 0px 0px 1px rgba(0,0,0,0.20);
     display: none;
     float: left;
     font-size: 12px;

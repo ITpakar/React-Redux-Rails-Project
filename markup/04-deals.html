@@ -98,295 +98,297 @@
                     </li>
                 </ul>
             </nav>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="toolbar-box">
-                        <form>
-                            <div class="search-input-box">
-                                <div class="form-group">
-                                    <input name="search_str" class="input-search form-control" placeholder="Search Deals"/>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="toolbar-box">
+                            <form>
+                                <div class="search-input-box">
+                                    <div class="form-group">
+                                        <input name="search_str" class="input-search form-control" placeholder="Search Deals"/>
+                                    </div>
+                                    <a href="#"><i class="icon-icon-search"></i></a>
                                 </div>
-                                <a href="#"><i class="icon-icon-search"></i></a>
-                            </div>
-                            <div class="dropdown dropdown-filter">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">All Deals by Date</a>
-                                <ul class="dropdown-menu">
-                                    <li class="title">Show:</li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio" checked="checked"><i></i> All Deals </label></div></li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Open Deals </label></div></li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Closed Deals </label></div></li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Archived Deals </label></div></li>
-                                    <li class="title">Sorted By:</li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio" checked="checked"><i></i> Project Close Date </label></div></li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Deal Title </label></div></li>
-                                    <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Client Name </label></div></li>
-                                </ul>
-                            </div>
-                            <a href="#" class="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
-                        </form>
+                                <div class="dropdown dropdown-filter">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">All Deals by Date</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="title">Show:</li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio" checked="checked"><i></i> All Deals </label></div></li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Open Deals </label></div></li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Closed Deals </label></div></li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_show" type="radio"><i></i> Archived Deals </label></div></li>
+                                        <li class="title">Sorted By:</li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio" checked="checked"><i></i> Project Close Date </label></div></li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Deal Title </label></div></li>
+                                        <li><div class="checkbox i-checks-box"><label> <input name="filter_order" type="radio"><i></i> Client Name </label></div></li>
+                                    </ul>
+                                </div>
+                                <a href="#" class="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
+                            </form>
+                        </div>
+
                     </div>
-
-                </div>
-                <div class="row">
-                    <div class="content-single">
-                        <div class="panel panel-deals-full">
-                            <div class="deals-full-group">
-                                <div class="deals-full-group__header">
-                                    MARCH 2016
-                                </div>
-                                <div class="deals-full-group__projects">
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="75"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-3.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-4.png"/></a>
+                    <div class="row">
+                        <div class="content-single">
+                            <div class="panel panel-deals-full">
+                                <div class="deals-full-group">
+                                    <div class="deals-full-group__header">
+                                        MARCH 2016
+                                    </div>
+                                    <div class="deals-full-group__projects">
+                                        <a href="#" class="project-item">
+                                            <div class="item-percent">
+                                                <div class="progress-pie-chart" data-percent="75"></div>
+                                            </div>
+                                            <div class="item-body">
+                                                <div class="item-body__project">
+                                                    <div class="title">Cordellia Webb</div>
+                                                    <div class="copy">Project Narwhal</div>
+                                                </div>
+                                                <div class="item-body__collaborators">
+                                                    <div class="title">Collaborators</div>
+                                                    <div class="item-collaborators-wraper">
+                                                        <div class="avatar"><img src="assets/images/img-avatar-3.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-4.png"/></div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-body__timestamp">
+                                                    <div class="title"><span class="timestamp">March 18th</span></div>
                                                 </div>
                                             </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">March 18th</span></div>
+                                        </a>
+
+                                        <a href="#" class="project-item">
+                                            <div class="item-percent">
+                                                <div class="progress-pie-chart" data-percent="50"></div>
                                             </div>
+                                            <div class="item-body">
+                                                <div class="item-body__project">
+                                                    <div class="title">Cordellia Webb</div>
+                                                    <div class="copy">Project Narwhal <span class="star"></span></div>
+                                                </div>
+                                                <div class="item-body__collaborators">
+                                                    <div class="title">Collaborators</div>
+                                                    <div class="item-collaborators-wraper">
+                                                        <div class="avatar"><img src="assets/images/img-avatar-3.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-4.png"/></div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-body__timestamp">
+                                                    <div class="title"><span class="timestamp">March 18th</span></div>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" class="project-item">
+                                            <div class="item-percent">
+                                                <div class="progress-pie-chart" data-percent="25"></div>
+                                            </div>
+                                            <div class="item-body">
+                                                <div class="item-body__project">
+                                                    <div class="title">Cordellia Webb</div>
+                                                    <div class="copy">Project Narwhal</div>
+                                                </div>
+                                                <div class="item-body__collaborators">
+                                                    <div class="title">Collaborators</div>
+                                                    <div class="item-collaborators-wraper">
+                                                        <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-2.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        <div class="avatar"><img src="assets/images/img-avatar-4.png"/></div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-body__timestamp">
+                                                    <div class="title"><span class="timestamp">March 18th</span></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </a>
+                                    </div>
+
+                                    <div class="deals-full-group">
+                                        <div class="deals-full-group__header">
+                                            JANUARY 2016
+                                        </div>
+                                        <div class="deals-full-group__projects">
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="75"></div>
+                                                </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal <span class="star"></span></div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-3.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-4.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">January 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="100"></div>
+                                                </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal <span class="star"></span></div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">January 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
 
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="50"></div>
+                                    <div class="deals-full-group">
+                                        <div class="deals-full-group__header">
+                                            DECEMBER 2015
                                         </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal <span class="star"></span></div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-3.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-4.png"/></a>
+                                        <div class="deals-full-group__projects">
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="75"></div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">March 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal</div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-3.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-4.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">December 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
 
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="25"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-2.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-4.png"/></a>
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="100"></div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">March 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal</div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">December 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
 
-                            <div class="deals-full-group">
-                                <div class="deals-full-group__header">
-                                    JANUARY 2016
-                                </div>
-                                <div class="deals-full-group__projects">
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="75"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal <span class="star"></span></div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-3.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-4.png"/></a>
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="100"></div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">January 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal</div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">December 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
 
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="100"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal <span class="star"></span></div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="100"></div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">January 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal</div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">December 18th</span></div>
+                                                    </div>
+                                                </div>
+                                            </a>
 
-                            <div class="deals-full-group">
-                                <div class="deals-full-group__header">
-                                    DECEMBER 2015
-                                </div>
-                                <div class="deals-full-group__projects">
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="75"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-3.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-4.png"/></a>
+                                            <a href="#" class="project-item">
+                                                <div class="item-percent">
+                                                    <div class="progress-pie-chart" data-percent="100"></div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">December 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="100"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
+                                                <div class="item-body">
+                                                    <div class="item-body__project">
+                                                        <div class="title">Cordellia Webb</div>
+                                                        <div class="copy">Project Narwhal</div>
+                                                    </div>
+                                                    <div class="item-body__collaborators">
+                                                        <div class="title">Collaborators</div>
+                                                        <div class="item-collaborators-wraper">
+                                                            <div class="avatar"><img src="assets/images/img-avatar-1.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                            <div class="avatar"><img src="assets/images/img-no-avatar.png"/></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-body__timestamp">
+                                                        <div class="title"><span class="timestamp">December 18th</span></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">December 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="100"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
                                             </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">December 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="100"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">December 18th</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-item">
-                                        <div class="item-percent">
-                                            <div class="progress-pie-chart" data-percent="100"></div>
-                                        </div>
-                                        <div class="item-body">
-                                            <a href="#" class="item-body__project">
-                                                <div class="title">Cordellia Webb</div>
-                                                <div class="copy">Project Narwhal</div>
-                                            </a>
-                                            <div class="item-body__collaborators">
-                                                <div class="title">Collaborators</div>
-                                                <div class="item-collaborators-wraper">
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-1.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-avatar-5.png"/></a>
-                                                    <a href="#" class="avatar"><img src="assets/images/img-no-avatar.png"/></a>
-                                                </div>
-                                            </div>
-                                            <div class="item-body__timestamp">
-                                                <div class="title"><span class="timestamp">December 18th</span></div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

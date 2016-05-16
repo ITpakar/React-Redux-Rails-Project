@@ -116,7 +116,19 @@
 .icon-icon-minus:before {
     content: "\e915";
 }
+.icon-icon-star-empty:before {
+    content: "\e916";
+}
+.icon-icon-box:before {
+    content: "\e917";
+}
 /**************/
+%icon-star-empty {
+    content: "\e916";
+}
+%icon-box {
+    content: "\e917";
+}
 %icon-minus{
     content: "\e915";
 }

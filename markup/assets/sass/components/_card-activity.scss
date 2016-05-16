@@ -3,14 +3,15 @@
     background: $white;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.05), 0px 0px 0px 1px rgba(0,0,0,0.10);
     border-radius: 4px;
-    padding: 7px 10px;
     margin-bottom: 10px;
 
     .panel-heading{
+        @extend %clearfix;
         position: relative;
         min-height: 16px;
-        margin-bottom: 10px;
-        padding: 0;
+        //padding: 0;
+        padding: 7px 10px;
+        border-bottom: 1px solid $col-blue-light;
 
         .category{
             font-size: 14px;
@@ -19,19 +20,22 @@
             padding-right: 75px;
             font-weight: 400;
         }
+        h3{
+            float: left;
+            line-height: 16px;
+        }
 
         .timestamp{
             font-size: 14px;
+            line-height: 16px;
             color: $col-gray;
             letter-spacing: 0px;
-            position: absolute;
-            right: 0;
-            top: 0;
             font-style: normal;
+            float: right;
         }
     }
     .panel-body{
-        padding: 0;
+        padding: 10px 10px;
         .section-info{
             @include singleLine;
             font-size: 12px;
@@ -140,6 +144,7 @@
                     bottom: 0px;
                     left: -7px;
                     height: 18px;
+                    border-color: $col-dark-blue;
                     border-left: 50px solid $col-dark-blue;
                     border-bottom-right-radius: 16px 14px;
                 }
@@ -176,6 +181,7 @@
                     bottom: 0px;
                     right: -7px;
                     height: 18px;
+                    border-color: $col-gray-light;
                     border-right: 50px solid $col-gray-light;
                     border-bottom-left-radius: 16px 14px;
                 }
@@ -195,8 +201,9 @@
         }
     }
     .section-details__collaborator{
-        border: 1px solid $col-gray-light;
-        border-radius: 8px;
+        border: 1px solid #D1DAE3;
+        background: #FBFDFF;
+        border-radius: 3px;
         padding: 10px;
         a{
             @extend %clearfix;
@@ -231,8 +238,8 @@
     }
 
     .section-details__attachment{
-        border: 1px solid $col-gray-light;
-        border-radius: 8px;
+        border: 1px solid #D1DAE3;
+        border-radius: 3px;
 
         .attachment-item{
             @extend %clearfix;
@@ -240,6 +247,7 @@
             font-size: 12px;
             color: $col-gray;
             padding: 7px 14px;
+            background: #FBFDFF;
 
             i{
                 display: inline-block;

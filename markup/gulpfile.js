@@ -37,7 +37,7 @@ elixir(function(mix)
         'plugins/bootstrap.js',
         'plugins/equal-height.js',
         //'plugins/ScrollMagic.min.js',
-        //'plugins/slick.js',
+        'plugins/moment.js',
         'plugins/placeholders.js',
         'plugins',
         'custom'

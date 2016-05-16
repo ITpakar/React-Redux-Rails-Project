@@ -79,6 +79,15 @@ jQuery(document).ready(function($) {
 });
 
 (function ($) {
+    $('.datepicker').datetimepicker({
+        format: "MM/DD/YYYY"
+    });
+
+    $('.deal-star').on('click', function (e) {
+        e.preventDefault();
+        $(this).toggleClass('favorite');
+    })
+
     $('body').on('click', 'a.deal-task-item__header-item', function (e) {
         e.preventDefault();
         var parent = $(this).closest('.deal-task-item'),
