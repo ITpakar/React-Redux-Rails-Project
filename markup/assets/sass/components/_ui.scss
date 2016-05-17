@@ -204,7 +204,7 @@
     border-radius: 999px;
     background: $col-blue;
     color: $white;
-    min-width: auto;
+    min-width: 0;
     line-height: 40px;
     font-size: 14px;
     &:after{
@@ -265,6 +265,8 @@
                 text-align: center;
                 width: 130px;
                 border: 1px solid $col-border;
+                box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10);
+
                 &:focus {
                     background: transparent;
                 }

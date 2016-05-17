@@ -98,162 +98,164 @@
                     </li>
                 </ul>
             </nav>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="panel panel-report">
-                            <div class="title">
-                                <h4>Deals by Type</h4>
-                                <div class="period">
-                                    <select name="report_1_period" class="selectpicker form-control show-tick">
-                                        <option>Last 6 Months</option>
-                                        <option>Last 3 Months</option>
-                                        <option>Last Month</option>
-                                    </select>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-report">
+                                <div class="title">
+                                    <h4>Deals by Type</h4>
+                                    <div class="period">
+                                        <select name="report_1_period" class="selectpicker form-control show-tick">
+                                            <option>Last 6 Months</option>
+                                            <option>Last 3 Months</option>
+                                            <option>Last Month</option>
+                                        </select>
+                                    </div>
                                 </div>
+                                <div class="report" id="report_1">
+                                </div>
+                                <div class="report-legend" id="report_legend_1"></div>
                             </div>
-                            <div class="report" id="report_1">
-                            </div>
-                            <div class="report-legend" id="report_legend_1"></div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="panel panel-report">
-                            <div class="title">
-                                <h4>Deals Size</h4>
-                                <div class="period">
-                                    <select name="report_2_period" class="selectpicker form-control show-tick">
-                                        <option>Last 6 Months</option>
-                                        <option>Last 3 Months</option>
-                                        <option>Last Month</option>
-                                    </select>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="panel panel-report">
+                                <div class="title">
+                                    <h4>Deals Size</h4>
+                                    <div class="period">
+                                        <select name="report_2_period" class="selectpicker form-control show-tick">
+                                            <option>Last 6 Months</option>
+                                            <option>Last 3 Months</option>
+                                            <option>Last Month</option>
+                                        </select>
+                                    </div>
                                 </div>
+                                <div class="report" id="report_2">
+                                </div>
+                                <div class="report-legend" id="report_legend_2"></div>
                             </div>
-                            <div class="report" id="report_2">
-                            </div>
-                            <div class="report-legend" id="report_legend_2"></div>
                         </div>
-                    </div>
 
-                    <div class="col-xs-12 col-md-6">
-                        <div class="panel panel-report">
-                            <div class="title">
-                                <h4>Deals by Team Members</h4>
-                            </div>
-                            <div class="team-report">
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
-                                                <h4>Harvey Specter</h4>
-                                            </a>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="panel panel-report">
+                                <div class="title">
+                                    <h4>Deals by Team Members</h4>
+                                </div>
+                                <div class="team-report">
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                    <h4>Harvey Specter</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">1,2,4,16,8,2,9,12,16,10</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">1,2,4,16,8,2,9,12,16,10</div>
-                                    </div>
-                                </div>
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><div class="no-photo">AV</div></div>
-                                                <h4>Alex Vaughn</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><div class="no-photo">AV</div></div>
+                                                    <h4>Alex Vaughn</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">4,2,4,6,8,2,6,2,6,8</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">4,2,4,6,8,2,6,2,6,8</div>
-                                    </div>
-                                </div>
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
-                                                <h4>Harvey Specter</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                    <h4>Harvey Specter</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">1,2,3,6,8,12,19,22,26,30</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">1,2,3,6,8,12,19,22,26,30</div>
-                                    </div>
-                                </div>
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><div class="no-photo">AV</div></div>
-                                                <h4>Alex Vaughn</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><div class="no-photo">AV</div></div>
+                                                    <h4>Alex Vaughn</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">5,5,4,6,8,2,9,12,10,13</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">5,5,4,6,8,2,9,12,10,13</div>
-                                    </div>
-                                </div>
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
-                                                <h4>Harvey Specter</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                    <h4>Harvey Specter</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">1,2,14,16,18,12,9,2,6,10</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">1,2,14,16,18,12,9,2,6,10</div>
-                                    </div>
-                                </div>
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><div class="no-photo">AV</div></div>
-                                                <h4>Alex Vaughn</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><div class="no-photo">AV</div></div>
+                                                    <h4>Alex Vaughn</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">1,2,4,6,8,10,9,8,6,1</div>
                                         </div>
                                     </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">1,2,4,6,8,10,9,8,6,1</div>
-                                    </div>
-                                </div>
 
-                                <div class="team-list-item">
-                                    <div class="team">
-                                        <div class="team-member-item mini">
-                                            <a href="#">
-                                                <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
-                                                <h4>Harvey Specter</h4>
-                                            </a>
+                                    <div class="team-list-item">
+                                        <div class="team">
+                                            <div class="team-member-item mini">
+                                                <a href="#">
+                                                    <div class="avatar"><img src="assets/images/img-avatar-5.png"/></div>
+                                                    <h4>Harvey Specter</h4>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="stat">
-                                        32
-                                    </div>
-                                    <div class="graph">
-                                        <div class="report-user-bars">1,2,4,1,2,2,4,3,6,3</div>
+                                        <div class="stat">
+                                            32
+                                        </div>
+                                        <div class="graph">
+                                            <div class="report-user-bars">1,2,4,1,2,2,4,3,6,3</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -261,6 +263,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
