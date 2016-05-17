@@ -6,6 +6,63 @@ class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :document, "Document"
+
+  def self.add_document_params(document)
+    document.param :form, "document[file_name]", :string, :optional, "File Name"
+    document.param :form, "document[file_size]", :integer, :optional, "File Size"
+    document.param :form, "document[file_type]", :string, :optional, "File Type"
+    document.param :form, "document[file_uploaded_at]", :datetime, :optional, "File Uploaded At"
+    document.param :form, "document[created_by]", :integer, :optional, "Created By"
+    document.param :form, "document[activated]", :boolean, :optional, "Activated"
+  end
+
+  swagger_api :index do
+    notes "List of documents records"
+    param :query, :org_id, :integer, :optional, "Organization Id"
+    param :query, :deal_id, :integer, :optional, "Deal Id"
+    param :query, :section_id, :integer, :optional, "Section Id"
+    param :query, :task_id, :integer, :optional, "Task Id"
+    param :query, :folder_id, :integer, :optional, "Folder Id"
+    param :query, :deep, :boolean, :optional, "Deep"
+    response :success, "List of documents records", :document
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Document record"
+    param :path, :id, :integer, :required, "Document Id"
+    response :success, "Document record", :document
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |document|
+    notes "Create Document record"
+    DocumentsController::add_document_params(document)
+    param :form, "document[parent_type]", :string, :optional, "Parent Type"
+    param :form, "document[parent_id]", :integer, :optional, "Parent Id"
+    response :success, "Document created successfully.", :document
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |document|
+    notes "Update an existing Document"
+    DocumentsController::add_document_params(document)
+    param :path, :id, :integer, :required, "Document Id"
+    response :success, "Document updated successfully", :document
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deletes an existing Document"
+    param :path, :id, :integer, :required, "Document Id"
+    response :success, "Document destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby      = params[:sortby] || ''
     sortdir     = params[:sortdir] || ''

@@ -4,6 +4,22 @@ class SessionsController < Devise::SessionsController
   before_action :ensure_params_exist, only: [:create]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :sessions, "Sessions"
+
+  swagger_api :create do
+    summary "Logged in"
+    param :form, "user[email]", :string, :required, "Email"
+    param :form, "user[password]", :string, :required, "Password"
+    response :success, "Logged in user record", :user
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    summary "Log out"
+    response :no_content
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def create
     resource = User.find_for_database_authentication(
       email: params[:user][:email]

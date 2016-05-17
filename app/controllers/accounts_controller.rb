@@ -6,6 +6,47 @@ class AccountsController < ApplicationController
   before_action :set_user, only: [:destroy, :update]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :account, "Account"
+
+  def self.add_account_params(user)
+    user.param :form, "user[email]",      :string, :required,  "Email"
+    user.param :form, "user[password]",   :string, :required,  "password"
+    user.param :form, "user[first_name]", :string, :optional, "First Name"
+    user.param :form, "user[last_name]",  :string, :optional, "Last Name"
+    user.param :form, "user[phone]",      :string, :optional, "Phone"
+    user.param :form, "user[address]",    :string, :optional, "Address"
+    user.param :form, "user[company]",    :string, :optional, "Company"
+  end
+
+  swagger_api :index do
+    notes "Get self user Details"
+    response :success, "user record", :user
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |user|
+    notes "Create user"
+    AccountsController::add_account_params(user)
+    response :success, "User created successfully.", :user
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |user|
+    notes "Update an self user"
+    AccountsController::add_account_params(user)
+    response :success, "User updated successfully", :user
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Delete self user"
+    response :success,"User destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     success_response(
       {
@@ -57,4 +98,12 @@ class AccountsController < ApplicationController
       :company
     )
   end
+
+  protected
+  def ensure_params_exist
+    if params[:user].blank?
+      error_response(["User related parameters not found."])
+    end
+  end
+
 end

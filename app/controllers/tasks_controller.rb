@@ -6,6 +6,61 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
   before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
 
+  swagger_controller :task, "Task"
+
+  def self.add_task_params(task)
+    task.param :form, "task[title]", :string, :optional, "Title"
+    task.param :form, "task[description]", :string, :optional, "Description"
+    task.param :form, "task[status]", :string, :optional, "Status"
+    task.param :form, "task[assignee_id]", :integer, :optional, "Assignee Id"
+    task.param :form, "task[created_by]", :integer, :optional, "Created By"
+    task.param :form, "task[due_date]", :datetime, :optional, "Due Date"
+  end
+
+  swagger_api :index do
+    notes "List of task record"
+    param :query, :org_id, :integer, :optional, "Organization Id"
+    param :query, :deal_id, :integer, :optional, "Deal Id"
+    param :query, :section_id, :integer, :optional, "Section Id"
+    param :query, :assignee_id, :integer, :optional, "Assignee Id"
+    response :success, "List of task record", :task
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Task record"
+    param :path, :id, :integer, :required, "Task Id"
+    response :success, "Task record", :task
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |task|
+    notes "Create a new Task"
+    TasksController::add_task_params(task)
+    param :form, "task[section_id]", :integer, :required, "Section Id"
+    response :success, "Task created successfully.", :task
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |task|
+    notes "Update an existing Task"
+    TasksController::add_task_params(task)
+    param :path, :id, :integer, :required, "Task Id"
+    response :success, "Task updated successfully", :task
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deletes an existing Task"
+    param :path, :id, :integer, :required, "Task Id"
+    response :success, "Task destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby      = params[:sortby] || ''
     sortdir     = params[:sortdir] || ''

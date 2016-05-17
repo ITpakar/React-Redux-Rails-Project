@@ -1,0 +1,305 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "documents",
+  "apis": [
+    {
+      "path": "/api/documents.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "org_id",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "section_id",
+              "type": "integer",
+              "description": "Section Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "task_id",
+              "type": "integer",
+              "description": "Task Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "folder_id",
+              "type": "integer",
+              "description": "Folder Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "deep",
+              "type": "boolean",
+              "description": "Deep",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document",
+              "message": "List of documents records"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of documents records",
+          "nickname": "Documents#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "document[file_name]",
+              "type": "string",
+              "description": "File Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_size]",
+              "type": "integer",
+              "description": "File Size",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_type]",
+              "type": "string",
+              "description": "File Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_uploaded_at]",
+              "type": "datetime",
+              "description": "File Uploaded At",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[created_by]",
+              "type": "integer",
+              "description": "Created By",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[activated]",
+              "type": "boolean",
+              "description": "Activated",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[parent_type]",
+              "type": "string",
+              "description": "Parent Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[parent_id]",
+              "type": "integer",
+              "description": "Parent Id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document",
+              "message": "Document created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create Document record",
+          "nickname": "Documents#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document",
+              "message": "Document record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Document record",
+          "nickname": "Documents#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "document[file_name]",
+              "type": "string",
+              "description": "File Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_size]",
+              "type": "integer",
+              "description": "File Size",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_type]",
+              "type": "string",
+              "description": "File Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[file_uploaded_at]",
+              "type": "datetime",
+              "description": "File Uploaded At",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[created_by]",
+              "type": "integer",
+              "description": "Created By",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document[activated]",
+              "type": "boolean",
+              "description": "Activated",
+              "required": false
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document",
+              "message": "Document updated successfully"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Update an existing Document",
+          "nickname": "Documents#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Document destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deletes an existing Document",
+          "nickname": "Documents#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

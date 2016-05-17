@@ -8,6 +8,56 @@ class DocumentSignersController < ApplicationController
   before_action :set_document_signer, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :document_signer, "Document Signer"
+
+  def self.add_document_signer_params(document_signer)
+    document_signer.param :form, "document_signer[signed]", :boolean, :optional, "Signed"
+    document_signer.param :form, "document_signer[signed_at]", :datetime, :optional, "Signed At"
+  end
+
+  swagger_api :index do
+    notes "List of document_signers records"
+    param :path, :document_id, :integer, :required, "Document Id"
+    response :success, "List of document_signers records", :document_signer
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Document signer record"
+    param :path, :document_id, :integer, :required, "Document Id"
+    param :path, :id, :integer, :required, "Document Signer Id"
+    response :success, "Document signer record", :document_signer
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do 
+    notes "Create Document Signer"
+    param :path, :document_id, :integer, :required, "Document Id"
+    param :form, "document_signer[user_id]", :integer, :optional, "User Id"
+    response :success, "Document Signer updated successfully", :document_signer
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |document_signer|
+    notes "Update Document_signer"
+    DocumentSignersController::add_document_signer_params(document_signer)
+    param :path, :id, :integer, :required, "Document Signer Id"
+    param :path, :document_id, :integer, :required, "Document Id"
+    response :success, "Document Signer updated successfully", :document_signer
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deletes an existing Document Signer"
+    param :path, :id, :integer, :required, "Document Signer Id"
+    param :path, :document_id, :integer, :required, "Document Id"
+    response :success, "Document Signer destroyed successfully"
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

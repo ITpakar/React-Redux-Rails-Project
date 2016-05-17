@@ -8,12 +8,41 @@ class DealCollaboratorsController < ApplicationController
   before_action :set_deal_collaborator, only: [:destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :deal_collaborators, "Deal Collaborator"
+
+  def self.add_deal_collaborator_params(deal_collaborator)
+    deal_collaborator.param :form, "deal_collaborator[user_id]", :integer, :required, "User id"
+  end
+
+  swagger_api :index do
+    notes "List of deal_collaborators records"
+    param :query, :deal_id, :integer, :required, "Deal Id"
+    response :success, "List of deal_collaborators records", :deal_collaborators
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |deal_collaborator|
+    notes "Created deal_collaborator record"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    DealCollaboratorsController::add_deal_collaborator_params(deal_collaborator)
+    response :success, "Deal Collaborator created successfully.", :deal_collaborator
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deleted deal_collaborator record"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    param :path, :user_id, :integer, :optional, "User Id"
+    response :success, "Deal Collaborator destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    @deal_collaborators = DealCollaborator.order("#{sortby} #{sortdir}")
-                                          .page(@page)
-                                          .per(@per_page) rescue []
+    @deal_collaborators = DealCollaborator.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
     success_response(
       {
         deal_collaborators: @deal_collaborators.map(&:to_hash)

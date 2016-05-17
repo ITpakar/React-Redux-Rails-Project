@@ -7,6 +7,36 @@ class StarredDealsController < ApplicationController
   before_action :set_starred_deal, only: [:destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :starred_deal, "starred_deal"
+
+  def self.add_starred_deal_params(starred_deal)
+    starred_deal.param :form, "starred_deal[user_id]", :string, :required, "User Id"
+    starred_deal.param :form, "starred_deal[deal_id]", :string, :required, "Deal Id"
+  end
+
+  swagger_api :index do
+    notes "List of starred_deals records for user"
+    param :query, :org_id, :integer, :optional, "Organization Id"
+    response :success, "List of starred_deals records for user", :starred_deal
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |starred_deal|
+    notes "Create a new Starred Deal"
+    StarredDealsController::add_starred_deal_params(starred_deal)
+    response :success, "Starred Deal created successfully.", :starred_deal
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deletes an existing Starred Deal"
+    param :path, :id, :integer, :required, "Starred Deal Id"
+    response :success, "Starred Deal destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

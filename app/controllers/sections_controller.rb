@@ -7,6 +7,61 @@ class SectionsController < ApplicationController
   before_action :set_section, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :sections, "Section"
+
+  def self.add_section_params(section)
+    section.param :form, "section[name]", :string, :optional, "Name"
+    section.param :form, "section[deal_id]", :integer, :optional, "Deal Id"
+    section.param :form, "section[created_by]", :integer, :optional, "Created By"
+    section.param :form, "section[activated]", :boolean, :optional, "Activated"
+  end
+
+  swagger_api :index do
+    notes "List of sections records"
+    param :query, :category_id, :integer, :optional, "Category Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "List of sections records", :section
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Section record"
+    param :path, :id, :integer, :required, "Section Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "Section record", :section
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |section|
+    notes "Created section record"
+    SectionsController::add_section_params(section)
+    param :form, "section[category_id]", :integer, :optional, "Category Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "Section created successfully", :section
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |section|
+    notes "Updated section record"
+    SectionsController::add_section_params(section)
+    param :path, :id, :integer, :required, "Section Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "Section updated successfully", :section
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deleted section record"
+    param :path, :id, :integer, :required, "Section Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "Section destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

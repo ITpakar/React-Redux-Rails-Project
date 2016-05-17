@@ -5,6 +5,48 @@ class UsersController < ApplicationController
   before_action :ensure_params_exist, only: [:update, :create]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :user, "User"
+
+  def self.add_user_params(user)
+    user.param :form, "user[first_name]", :string, :optional, "First Name"
+    user.param :form, "user[last_name]", :string, :optional, "Last Name"
+    user.param :form, "user[phone]", :string, :optional, "Phone"
+    user.param :form, "user[address]", :string, :optional, "Address"
+    user.param :form, "user[company]", :string, :optional, "Company"
+  end
+
+  swagger_api :index do
+    notes "List of users records"
+    response :success, "user record", :user
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "User record"
+    param :path, :id, :integer, :required, "User Id"
+    response :success, "user record", :user
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |user|
+    notes "Updated user record"
+    UsersController::add_user_params(user)
+    param :path, :id, :integer, :required, "user Id"
+    response :success, "User updated successfully", :user
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deleted user record"
+    param :path, :id, :integer, :required, "user Id"
+    response :success,"User destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     @users = User.page(@page).per(@per_page) rescue []
     success_response(

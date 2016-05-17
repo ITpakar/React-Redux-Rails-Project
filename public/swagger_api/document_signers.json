@@ -1,0 +1,221 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "document_signers",
+  "apis": [
+    {
+      "path": "/api/documents/{document_id}/document_signers.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document_signer",
+              "message": "List of document_signers records"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of document_signers records",
+          "nickname": "DocumentSigners#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{document_id}/document_signers.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "document_signer[user_id]",
+              "type": "integer",
+              "description": "User Id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document_signer",
+              "message": "Document Signer updated successfully"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create Document Signer",
+          "nickname": "DocumentSigners#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Signer Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document_signer",
+              "message": "Document signer record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Document signer record",
+          "nickname": "DocumentSigners#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "document_signer[signed]",
+              "type": "boolean",
+              "description": "Signed",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "document_signer[signed_at]",
+              "type": "datetime",
+              "description": "Signed At",
+              "required": false
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Signer Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "document_signer",
+              "message": "Document Signer updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Update Document_signer",
+          "nickname": "DocumentSigners#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Document Signer Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Document Signer destroyed successfully"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deletes an existing Document Signer",
+          "nickname": "DocumentSigners#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -9,6 +9,60 @@ class DealsController < ApplicationController
   before_action :set_deal, only: [:update, :destroy, :show]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :deal, "deal"
+
+  def self.add_deal_params(deal)
+    deal.param :form, "deal[title]", :string, :optional, "Title"
+    deal.param :form, "deal[client_name]", :string, :optional, "Client Name"
+    deal.param :form, "deal[transaction_type]", :string, :optional, "Transaction Type"
+    deal.param :form, "deal[deal_size]", :string, :optional, "Deal Size"
+    deal.param :form, "deal[projected_close_date]", :date, :optional, "Projected Close Date"
+    deal.param :form, "deal[completion_percent]", :float, :optional, "Completion Percent"
+    deal.param :form, "deal[status]", :string, :optional, "Status"
+    deal.param :form, "deal[activated]", :boolean, :optional, "Activated"
+  end
+
+  swagger_api :index do
+    notes "List of accessible deal records"
+    param :query, :org_id, :integer, :optional, "Organization Id"
+    response :success, "List of accessible deal records", :deal
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Deal record"
+    param :path, :id, :integer, :required, "deal Id"
+    response :success, "Deal record", :deal
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |deal|
+    notes "Created deal record"
+    DealsController::add_deal_params(deal)
+    param :form, "deal[organization_id]", :integer, :optional, "Organization Id"
+    response :success, "Deal created successfully.", :deal
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |deal|
+    notes "Updated deal record"
+    DealsController::add_deal_params(deal)
+    param :path, :id, :integer, :required, "deal Id"
+    response :success, "Deal updated successfully", :deal
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deleted deal record"
+    param :path, :id, :integer, :required, "deal Id"
+    response :success, "Deal destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

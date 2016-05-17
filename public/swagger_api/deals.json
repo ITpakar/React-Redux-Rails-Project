@@ -1,0 +1,296 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "deals",
+  "apis": [
+    {
+      "path": "/api/deals.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "org_id",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "deal",
+              "message": "List of accessible deal records"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of accessible deal records",
+          "nickname": "Deals#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/deals.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "deal[title]",
+              "type": "string",
+              "description": "Title",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[client_name]",
+              "type": "string",
+              "description": "Client Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[transaction_type]",
+              "type": "string",
+              "description": "Transaction Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[deal_size]",
+              "type": "string",
+              "description": "Deal Size",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[projected_close_date]",
+              "type": "date",
+              "description": "Projected Close Date",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[completion_percent]",
+              "type": "float",
+              "description": "Completion Percent",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[status]",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[activated]",
+              "type": "boolean",
+              "description": "Activated",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[organization_id]",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "deal",
+              "message": "Deal created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Created deal record",
+          "nickname": "Deals#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/deals/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "deal Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "deal",
+              "message": "Deal record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deal record",
+          "nickname": "Deals#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/deals/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "deal[title]",
+              "type": "string",
+              "description": "Title",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[client_name]",
+              "type": "string",
+              "description": "Client Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[transaction_type]",
+              "type": "string",
+              "description": "Transaction Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[deal_size]",
+              "type": "string",
+              "description": "Deal Size",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[projected_close_date]",
+              "type": "date",
+              "description": "Projected Close Date",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[completion_percent]",
+              "type": "float",
+              "description": "Completion Percent",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[status]",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "deal[activated]",
+              "type": "boolean",
+              "description": "Activated",
+              "required": false
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "deal Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "deal",
+              "message": "Deal updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Updated deal record",
+          "nickname": "Deals#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/deals/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "deal Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Deal destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deleted deal record",
+          "nickname": "Deals#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

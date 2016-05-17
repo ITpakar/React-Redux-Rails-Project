@@ -15,6 +15,7 @@ gem 'listen'
 gem 'kaminari'
 gem "paperclip"
 gem 'dotenv-rails'
+gem 'swagger-docs'
 
 # For Authentication
 gem 'devise'

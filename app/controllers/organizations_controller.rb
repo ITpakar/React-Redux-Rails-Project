@@ -10,6 +10,56 @@ class OrganizationsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :organization, "Organization"
+
+  def self.add_oraganization_params(organization)
+    organization.param :form, "organization[name]", :string, :required, "Name"
+    organization.param :form, "organization[email_domain]", :string, :optional, "Email Domain"
+    organization.param :form, "organization[phone]", :string, :optional, "Phone"
+    organization.param :form, "organization[address]", :string, :optional, "Address"
+    organization.param :form, "organization[created_by]", :integer, :optional, "Created By"
+    organization.param :form, "organization[activated]", :boolean, :optional, "Activated"
+  end
+
+  swagger_api :index do
+    notes "Get list of organizations"
+    response :success, "List of organization records", :organization
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Get organization details"
+    param :path, :id, :integer, :required, "Organization Id"
+    response :success, "organization record", :organization
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |organization|
+    notes "Create a new organization"
+    OrganizationsController::add_oraganization_params(organization)
+    response :success, "Created organization record", :organization
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |organization|
+    notes "Update organization"
+    OrganizationsController::add_oraganization_params(organization)
+    param :path, :id, :integer, :required, "Organization Id"
+    response :success, "Updated organization record", :organization
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Delete organization"
+    param :path, :id, :integer, :required, "Organization Id"
+    response :success, "Organization destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

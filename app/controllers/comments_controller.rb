@@ -7,6 +7,61 @@ class CommentsController < ApplicationController
   before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :comment, "Comment"
+
+  def self.add_comment_params(comment)
+    comment.param :form, "comment[user_id]", :integer, :optional, "User Id"
+    comment.param :form, "comment[deal_id]", :integer, :optional, "Deal Id"
+    comment.param :form, "comment[task_id]", :integer, :optional, "Task Id"
+    comment.param :form, "comment[document_id]", :integer, :optional, "Document Id"
+    comment.param :form, "comment[comment_type]", :string, :optional, "Comment Type"
+    comment.param :form, "comment[comment]", :text, :optional, "Comment"
+  end
+
+  swagger_api :index do
+    notes "List of comments records"
+    param :query, :document_id, :integer, :optional, "Document Id"
+    param :query, :deal_id, :integer, :optional, "Deal Id"
+    param :query, :user_id, :integer, :optional, "User Id"
+    param :query, :task_id, :integer, :optional, "Task Id"
+    param :query, :comment_type, :string, :optional, "Comment Type"
+    response :success, "List of comments records", :comment
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Comment record"
+    param :path, :id, :integer, :required, "Comment Id"
+    response :success, "Document record", :comment
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |comment|
+    notes "Create Comment record"
+    CommentsController::add_comment_params(comment)
+    response :success, "Comment created successfully.", :comment
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do
+    notes "Update Comment record"
+    param :path, :id, :integer, :required, "Comment Id"
+    param :form, "comment[comment]", :text, :optional, "Comment"
+    response :success, "Comment updated successfully", :comment
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Delete Comment record"
+    param :path, :id, :integer, :required, "Comment Id"
+    response :success, "Comment destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby       = params[:sortby] || ''
     sortdir      = params[:sortdir] || ''

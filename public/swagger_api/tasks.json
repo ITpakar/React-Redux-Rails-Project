@@ -1,0 +1,289 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "tasks",
+  "apis": [
+    {
+      "path": "/api/tasks.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "org_id",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "section_id",
+              "type": "integer",
+              "description": "Section Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "assignee_id",
+              "type": "integer",
+              "description": "Assignee Id",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "task",
+              "message": "List of task record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of task record",
+          "nickname": "Tasks#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/tasks.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "task[title]",
+              "type": "string",
+              "description": "Title",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[description]",
+              "type": "string",
+              "description": "Description",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[status]",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[assignee_id]",
+              "type": "integer",
+              "description": "Assignee Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[created_by]",
+              "type": "integer",
+              "description": "Created By",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[due_date]",
+              "type": "datetime",
+              "description": "Due Date",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[section_id]",
+              "type": "integer",
+              "description": "Section Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "task",
+              "message": "Task created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create a new Task",
+          "nickname": "Tasks#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/tasks/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Task Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "task",
+              "message": "Task record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Task record",
+          "nickname": "Tasks#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/tasks/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "task[title]",
+              "type": "string",
+              "description": "Title",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[description]",
+              "type": "string",
+              "description": "Description",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[status]",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[assignee_id]",
+              "type": "integer",
+              "description": "Assignee Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[created_by]",
+              "type": "integer",
+              "description": "Created By",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[due_date]",
+              "type": "datetime",
+              "description": "Due Date",
+              "required": false
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Task Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "task",
+              "message": "Task updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Update an existing Task",
+          "nickname": "Tasks#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/tasks/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Task Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Task destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deletes an existing Task",
+          "nickname": "Tasks#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

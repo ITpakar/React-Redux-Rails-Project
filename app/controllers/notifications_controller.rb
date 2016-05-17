@@ -7,6 +7,55 @@ class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
+  swagger_controller :notification, "Notification"
+
+  def self.add_notification_params(notification)
+    notification.param :form, :user_id, :array, :required, "User"
+    notification.param :form, :message, :string, :optional, "Message"
+  end
+
+  swagger_api :index do
+    notes "List of notifications records"
+    param :query, :user_id, :integer, :optional, "User Id"
+    param :query, :status,  :string,  :optional, "Status"
+    response :success, "List of notifications records", :notification
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Notification record"
+    param :path, :id, :integer, :required, "Notification Id"
+    response :success, "Notification record", :notification
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |notification|
+    notes "Create Notification record"
+    NotificationsController::add_notification_params(notification)
+    response :success, "Notification created successfully.", :notification
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |notification|
+    notes "Update Notification record"
+    notes "Mark notification read/unread."
+    param :path, :id, :integer, :required, "Notification Id"
+    param :form, :status, :string, :optional, "Status"
+    response :success, "Notification updated successfully", :notification
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Deletes Notification record"
+    param :path, :id, :integer, :required, "Notification Id"
+    response :success, "Notification destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''

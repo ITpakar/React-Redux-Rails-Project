@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def error_response(messages, status = 422)
+  def error_response(messages, status = 406)
     render(
       json: {
         status: 'error',

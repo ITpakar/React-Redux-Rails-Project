@@ -1,0 +1,214 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "accounts",
+  "apis": [
+    {
+      "path": "/api/account.json",
+      "operations": [
+        {
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "user",
+              "message": "user record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Get self user Details",
+          "nickname": "Accounts#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/account.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "user[email]",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user[password]",
+              "type": "string",
+              "description": "password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user[first_name]",
+              "type": "string",
+              "description": "First Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[last_name]",
+              "type": "string",
+              "description": "Last Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[phone]",
+              "type": "string",
+              "description": "Phone",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[address]",
+              "type": "string",
+              "description": "Address",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[company]",
+              "type": "string",
+              "description": "Company",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "user",
+              "message": "User created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create user",
+          "nickname": "Accounts#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/account.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "user[email]",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user[password]",
+              "type": "string",
+              "description": "password",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user[first_name]",
+              "type": "string",
+              "description": "First Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[last_name]",
+              "type": "string",
+              "description": "Last Name",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[phone]",
+              "type": "string",
+              "description": "Phone",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[address]",
+              "type": "string",
+              "description": "Address",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[company]",
+              "type": "string",
+              "description": "Company",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "user",
+              "message": "User updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Update an self user",
+          "nickname": "Accounts#update",
+          "method": "put"
+        }
+      ]
+    },
+    {
+      "path": "/api/account.json",
+      "operations": [
+        {
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "User destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Delete self user",
+          "nickname": "Accounts#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,254 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "comments",
+  "apis": [
+    {
+      "path": "/api/comments.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "task_id",
+              "type": "integer",
+              "description": "Task Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "comment_type",
+              "type": "string",
+              "description": "Comment Type",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "comment",
+              "message": "List of comments records"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of comments records",
+          "nickname": "Comments#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/comments.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "comment[user_id]",
+              "type": "integer",
+              "description": "User Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[deal_id]",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[task_id]",
+              "type": "integer",
+              "description": "Task Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[document_id]",
+              "type": "integer",
+              "description": "Document Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment_type]",
+              "type": "string",
+              "description": "Comment Type",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment]",
+              "type": "text",
+              "description": "Comment",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "comment",
+              "message": "Comment created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create Comment record",
+          "nickname": "Comments#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/comments/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Comment Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "comment",
+              "message": "Document record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Comment record",
+          "nickname": "Comments#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/comments/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Comment Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment]",
+              "type": "text",
+              "description": "Comment",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "comment",
+              "message": "Comment updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Update Comment record",
+          "nickname": "Comments#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/comments/{id}.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Comment Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Comment destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Delete Comment record",
+          "nickname": "Comments#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

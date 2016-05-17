@@ -5,6 +5,60 @@ class FoldersController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_folder, only: [:show, :update, :destroy]
 
+  swagger_controller :folder, "folder"
+
+  def self.add_folder_params(folder)
+    folder.param :form, "folder[name]", :string, :optional, "Name"
+    folder.param :form, "folder[created_by]", :integer, :optional, "Created By"
+    folder.param :form, "folder[activated]", :boolean, :optional, "Activated"
+  end
+
+  swagger_api :index do
+    notes "List of folders records"
+    param :query, :org_id, :integer, :optional, "Organization Id"
+    param :query, :deal_id, :integer, :optional, "Deal Id"
+    param :query, :section_id, :integer, :optional, "Section Id"
+    param :query, :task_id, :integer, :optional, "Task Id"
+    param :query, :deep, :boolean, :optional, "Deep"
+    response :success, "List of folders records", :folder
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :show do
+    notes "Folder record"
+    param :path, :id, :integer, :required, "Folder Id"
+    response :success, "Folder record", :folder
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :create do |folder|
+    notes "Create folder record"
+    FoldersController::add_folder_params(folder)
+    param :form, "folder[parent_type]", :string, :optional, "Parent Type"
+    param :form, "folder[parent_id]", :integer, :optional, "Parent Id"
+    response :success, "Folder created successfully.", :folder
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :update do |folder|
+    notes "Update folder record"
+    FoldersController::add_folder_params(folder)
+    param :path, :id, :integer, :required, "Folder Id"
+    response :success, "Folder updated successfully", :folder
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
+  swagger_api :destroy do
+    notes "Delete folder record"
+    param :path, :id, :integer, :required, "Folder Id"
+    response :success, "Folder destroyed successfully"
+    response :unauthorized, "You are unauthorized to access this page."
+    response :not_acceptable, "Error with your login or password"
+  end
+
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
