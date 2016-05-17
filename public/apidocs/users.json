@@ -5,7 +5,7 @@
   "resourcePath": "users",
   "apis": [
     {
-      "path": "/api/users.json",
+      "path": "/api/users",
       "operations": [
         {
           "responseMessages": [
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "path": "/api/users/{id}.json",
+      "path": "/api/users/{id}",
       "operations": [
         {
           "parameters": [
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "path": "/api/users/{id}.json",
+      "path": "/api/users/{id}",
       "operations": [
         {
           "parameters": [
@@ -139,7 +139,7 @@
       ]
     },
     {
-      "path": "/api/users/{id}.json",
+      "path": "/api/users/{id}",
       "operations": [
         {
           "parameters": [

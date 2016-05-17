@@ -5,7 +5,7 @@
   "resourcePath": "organization_users",
   "apis": [
     {
-      "path": "/api/organizations/{organization_id}/organization_users.json",
+      "path": "/api/organizations/{organization_id}/organization_users",
       "operations": [
         {
           "parameters": [
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "path": "/api/organizations/{organization_id}/organization_users.json",
+      "path": "/api/organizations/{organization_id}/organization_users",
       "operations": [
         {
           "parameters": [
@@ -86,7 +86,7 @@
       ]
     },
     {
-      "path": "/api/organizations/{organization_id}/organization_users/{id}.json",
+      "path": "/api/organizations/{organization_id}/organization_users/{id}",
       "operations": [
         {
           "parameters": [
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "path": "/api/organizations/{organization_id}/organization_users/{id}.json",
+      "path": "/api/organizations/{organization_id}/organization_users/{id}",
       "operations": [
         {
           "parameters": [

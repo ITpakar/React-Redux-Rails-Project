@@ -5,7 +5,7 @@
   "resourcePath": "accounts",
   "apis": [
     {
-      "path": "/api/account.json",
+      "path": "/api/account",
       "operations": [
         {
           "responseMessages": [
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "path": "/api/account.json",
+      "path": "/api/account",
       "operations": [
         {
           "parameters": [
@@ -105,7 +105,7 @@
       ]
     },
     {
-      "path": "/api/account.json",
+      "path": "/api/account",
       "operations": [
         {
           "parameters": [
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "path": "/api/account.json",
+      "path": "/api/account",
       "operations": [
         {
           "responseMessages": [

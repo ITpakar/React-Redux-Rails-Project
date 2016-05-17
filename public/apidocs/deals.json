@@ -5,7 +5,7 @@
   "resourcePath": "deals",
   "apis": [
     {
-      "path": "/api/deals.json",
+      "path": "/api/deals",
       "operations": [
         {
           "parameters": [
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "path": "/api/deals.json",
+      "path": "/api/deals",
       "operations": [
         {
           "parameters": [
@@ -50,21 +50,21 @@
               "name": "deal[title]",
               "type": "string",
               "description": "Title",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "deal[client_name]",
               "type": "string",
               "description": "Client Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "deal[transaction_type]",
               "type": "string",
               "description": "Transaction Type",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
@@ -92,7 +92,7 @@
               "name": "deal[status]",
               "type": "string",
               "description": "Status",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
@@ -103,10 +103,10 @@
             },
             {
               "paramType": "form",
-              "name": "deal[organization_id]",
+              "name": "id",
               "type": "integer",
               "description": "Organization Id",
-              "required": false
+              "required": true
             }
           ],
           "responseMessages": [
@@ -128,7 +128,7 @@
       ]
     },
     {
-      "path": "/api/deals/{id}.json",
+      "path": "/api/deals/{id}",
       "operations": [
         {
           "parameters": [
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "path": "/api/deals/{id}.json",
+      "path": "/api/deals/{id}",
       "operations": [
         {
           "parameters": [
@@ -173,21 +173,21 @@
               "name": "deal[title]",
               "type": "string",
               "description": "Title",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "deal[client_name]",
               "type": "string",
               "description": "Client Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "deal[transaction_type]",
               "type": "string",
               "description": "Transaction Type",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
@@ -215,7 +215,7 @@
               "name": "deal[status]",
               "type": "string",
               "description": "Status",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
@@ -256,7 +256,7 @@
       ]
     },
     {
-      "path": "/api/deals/{id}.json",
+      "path": "/api/deals/{id}",
       "operations": [
         {
           "parameters": [

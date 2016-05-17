@@ -5,7 +5,7 @@
   "resourcePath": "documents",
   "apis": [
     {
-      "path": "/api/documents.json",
+      "path": "/api/documents",
       "operations": [
         {
           "parameters": [
@@ -76,10 +76,17 @@
       ]
     },
     {
-      "path": "/api/documents.json",
+      "path": "/api/documents",
       "operations": [
         {
           "parameters": [
+            {
+              "paramType": "form",
+              "name": "document[title]",
+              "type": "string",
+              "description": "Title",
+              "required": true
+            },
             {
               "paramType": "form",
               "name": "document[file_name]",
@@ -110,13 +117,6 @@
             },
             {
               "paramType": "form",
-              "name": "document[created_by]",
-              "type": "integer",
-              "description": "Created By",
-              "required": false
-            },
-            {
-              "paramType": "form",
               "name": "document[activated]",
               "type": "boolean",
               "description": "Activated",
@@ -127,14 +127,14 @@
               "name": "document[parent_type]",
               "type": "string",
               "description": "Parent Type",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "document[parent_id]",
               "type": "integer",
               "description": "Parent Id",
-              "required": false
+              "required": true
             }
           ],
           "responseMessages": [
@@ -156,7 +156,7 @@
       ]
     },
     {
-      "path": "/api/documents/{id}.json",
+      "path": "/api/documents/{id}",
       "operations": [
         {
           "parameters": [
@@ -192,10 +192,17 @@
       ]
     },
     {
-      "path": "/api/documents/{id}.json",
+      "path": "/api/documents/{id}",
       "operations": [
         {
           "parameters": [
+            {
+              "paramType": "form",
+              "name": "document[title]",
+              "type": "string",
+              "description": "Title",
+              "required": true
+            },
             {
               "paramType": "form",
               "name": "document[file_name]",
@@ -222,13 +229,6 @@
               "name": "document[file_uploaded_at]",
               "type": "datetime",
               "description": "File Uploaded At",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "document[created_by]",
-              "type": "integer",
-              "description": "Created By",
               "required": false
             },
             {
@@ -265,7 +265,7 @@
       ]
     },
     {
-      "path": "/api/documents/{id}.json",
+      "path": "/api/documents/{id}",
       "operations": [
         {
           "parameters": [

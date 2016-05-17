@@ -4,67 +4,67 @@
   "basePath": "http://localhost:3000",
   "apis": [
     {
-      "path": "/swagger_api/sessions.{format}",
+      "path": "/apidocs/sessions.{format}",
       "description": "Sessions"
     },
     {
-      "path": "/swagger_api/registrations.{format}",
+      "path": "/apidocs/registrations.{format}",
       "description": "User"
     },
     {
-      "path": "/swagger_api/users.{format}",
+      "path": "/apidocs/users.{format}",
       "description": "User"
     },
     {
-      "path": "/swagger_api/accounts.{format}",
+      "path": "/apidocs/accounts.{format}",
       "description": "Account"
     },
     {
-      "path": "/swagger_api/organization_users.{format}",
+      "path": "/apidocs/organization_users.{format}",
       "description": "Organization User"
     },
     {
-      "path": "/swagger_api/organizations.{format}",
+      "path": "/apidocs/organizations.{format}",
       "description": "Organization"
     },
     {
-      "path": "/swagger_api/deal_collaborators.{format}",
+      "path": "/apidocs/deal_collaborators.{format}",
       "description": "Deal Collaborator"
     },
     {
-      "path": "/swagger_api/starred_deals.{format}",
+      "path": "/apidocs/starred_deals.{format}",
       "description": "starred_deal"
     },
     {
-      "path": "/swagger_api/sections.{format}",
+      "path": "/apidocs/sections.{format}",
       "description": "Section"
     },
     {
-      "path": "/swagger_api/deals.{format}",
+      "path": "/apidocs/deals.{format}",
       "description": "deal"
     },
     {
-      "path": "/swagger_api/notifications.{format}",
+      "path": "/apidocs/notifications.{format}",
       "description": "Notification"
     },
     {
-      "path": "/swagger_api/comments.{format}",
+      "path": "/apidocs/comments.{format}",
       "description": "Comment"
     },
     {
-      "path": "/swagger_api/document_signers.{format}",
+      "path": "/apidocs/document_signers.{format}",
       "description": "Document Signer"
     },
     {
-      "path": "/swagger_api/documents.{format}",
+      "path": "/apidocs/documents.{format}",
       "description": "Document"
     },
     {
-      "path": "/swagger_api/folders.{format}",
+      "path": "/apidocs/folders.{format}",
       "description": "folder"
     },
     {
-      "path": "/swagger_api/tasks.{format}",
+      "path": "/apidocs/tasks.{format}",
       "description": "Task"
     }
   ],

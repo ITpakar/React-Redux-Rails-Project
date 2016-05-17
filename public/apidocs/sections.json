@@ -2,26 +2,33 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://localhost:3000",
-  "resourcePath": "document_signers",
+  "resourcePath": "sections",
   "apis": [
     {
-      "path": "/api/documents/{document_id}/document_signers.json",
+      "path": "/api/deals/{deal_id}/sections",
       "operations": [
         {
           "parameters": [
             {
-              "paramType": "path",
-              "name": "document_id",
+              "paramType": "query",
+              "name": "category_id",
               "type": "integer",
-              "description": "Document Id",
+              "description": "Category Id",
+              "required": false
+            },
+            {
+              "paramType": "path",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "document_signer",
-              "message": "List of document_signers records"
+              "responseModel": "section",
+              "message": "List of sections records"
             },
             {
               "code": 401,
@@ -34,37 +41,51 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "List of document_signers records",
-          "nickname": "DocumentSigners#index",
+          "notes": "List of sections records",
+          "nickname": "Sections#index",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/documents/{document_id}/document_signers.json",
+      "path": "/api/deals/{deal_id}/sections",
       "operations": [
         {
           "parameters": [
             {
-              "paramType": "path",
-              "name": "document_id",
-              "type": "integer",
-              "description": "Document Id",
+              "paramType": "form",
+              "name": "section[name]",
+              "type": "string",
+              "description": "Name",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "document_signer[user_id]",
-              "type": "integer",
-              "description": "User Id",
+              "name": "section[activated]",
+              "type": "boolean",
+              "description": "Activated",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "section[category_id]",
+              "type": "integer",
+              "description": "Category Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "document_signer",
-              "message": "Document Signer updated successfully"
+              "responseModel": "section",
+              "message": "Section created successfully"
             },
             {
               "code": 406,
@@ -72,37 +93,37 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Create Document Signer",
-          "nickname": "DocumentSigners#create",
+          "notes": "Created section record",
+          "nickname": "Sections#create",
           "method": "post"
         }
       ]
     },
     {
-      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "path": "/api/deals/{deal_id}/sections/{id}",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "path",
-              "name": "document_id",
+              "name": "id",
               "type": "integer",
-              "description": "Document Id",
+              "description": "Section Id",
               "required": true
             },
             {
               "paramType": "path",
-              "name": "id",
+              "name": "deal_id",
               "type": "integer",
-              "description": "Document Signer Id",
+              "description": "Deal Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "document_signer",
-              "message": "Document signer record"
+              "responseModel": "section",
+              "message": "Section record"
             },
             {
               "code": 401,
@@ -115,51 +136,51 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Document signer record",
-          "nickname": "DocumentSigners#show",
+          "notes": "Section record",
+          "nickname": "Sections#show",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "path": "/api/deals/{deal_id}/sections/{id}",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "form",
-              "name": "document_signer[signed]",
-              "type": "boolean",
-              "description": "Signed",
-              "required": false
+              "name": "section[name]",
+              "type": "string",
+              "description": "Name",
+              "required": true
             },
             {
               "paramType": "form",
-              "name": "document_signer[signed_at]",
-              "type": "datetime",
-              "description": "Signed At",
+              "name": "section[activated]",
+              "type": "boolean",
+              "description": "Activated",
               "required": false
             },
             {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Document Signer Id",
+              "description": "Section Id",
               "required": true
             },
             {
               "paramType": "path",
-              "name": "document_id",
+              "name": "deal_id",
               "type": "integer",
-              "description": "Document Id",
+              "description": "Deal Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "document_signer",
-              "message": "Document Signer updated successfully"
+              "responseModel": "section",
+              "message": "Section updated successfully"
             },
             {
               "code": 401,
@@ -172,14 +193,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Update Document_signer",
-          "nickname": "DocumentSigners#update",
+          "notes": "Updated section record",
+          "nickname": "Sections#update",
           "method": "patch"
         }
       ]
     },
     {
-      "path": "/api/documents/{document_id}/document_signers/{id}.json",
+      "path": "/api/deals/{deal_id}/sections/{id}",
       "operations": [
         {
           "parameters": [
@@ -187,14 +208,14 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Document Signer Id",
+              "description": "Section Id",
               "required": true
             },
             {
               "paramType": "path",
-              "name": "document_id",
+              "name": "deal_id",
               "type": "integer",
-              "description": "Document Id",
+              "description": "Deal Id",
               "required": true
             }
           ],
@@ -202,7 +223,12 @@
             {
               "code": 200,
               "responseModel": null,
-              "message": "Document Signer destroyed successfully"
+              "message": "Section destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
             },
             {
               "code": 406,
@@ -210,8 +236,8 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Deletes an existing Document Signer",
-          "nickname": "DocumentSigners#destroy",
+          "notes": "Deleted section record",
+          "nickname": "Sections#destroy",
           "method": "delete"
         }
       ]

@@ -2,18 +2,18 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://localhost:3000",
-  "resourcePath": "tasks",
+  "resourcePath": "comments",
   "apis": [
     {
-      "path": "/api/tasks.json",
+      "path": "/api/comments",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "query",
-              "name": "org_id",
+              "name": "document_id",
               "type": "integer",
-              "description": "Organization Id",
+              "description": "Document Id",
               "required": false
             },
             {
@@ -25,24 +25,31 @@
             },
             {
               "paramType": "query",
-              "name": "section_id",
+              "name": "user_id",
               "type": "integer",
-              "description": "Section Id",
+              "description": "User Id",
               "required": false
             },
             {
               "paramType": "query",
-              "name": "assignee_id",
+              "name": "task_id",
               "type": "integer",
-              "description": "Assignee Id",
+              "description": "Task Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "comment_type",
+              "type": "string",
+              "description": "Comment Type",
               "required": false
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "task",
-              "message": "List of task record"
+              "responseModel": "comment",
+              "message": "List of comments records"
             },
             {
               "code": 401,
@@ -55,72 +62,58 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "List of task record",
-          "nickname": "Tasks#index",
+          "notes": "List of comments records",
+          "nickname": "Comments#index",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/tasks.json",
+      "path": "/api/comments",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "form",
-              "name": "task[title]",
-              "type": "string",
-              "description": "Title",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[description]",
-              "type": "string",
-              "description": "Description",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[status]",
-              "type": "string",
-              "description": "Status",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[assignee_id]",
+              "name": "comment[user_id]",
               "type": "integer",
-              "description": "Assignee Id",
-              "required": false
+              "description": "User Id",
+              "required": true
             },
             {
               "paramType": "form",
-              "name": "task[created_by]",
+              "name": "comment[task_id]",
               "type": "integer",
-              "description": "Created By",
+              "description": "Task Id",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "task[due_date]",
-              "type": "datetime",
-              "description": "Due Date",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[section_id]",
+              "name": "comment[document_id]",
               "type": "integer",
-              "description": "Section Id",
+              "description": "Document Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment_type]",
+              "type": "string",
+              "description": "Comment Type",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment]",
+              "type": "text",
+              "description": "Comment",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "task",
-              "message": "Task created successfully."
+              "responseModel": "comment",
+              "message": "Comment created successfully."
             },
             {
               "code": 406,
@@ -128,14 +121,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Create a new Task",
-          "nickname": "Tasks#create",
+          "notes": "Create Comment record",
+          "nickname": "Comments#create",
           "method": "post"
         }
       ]
     },
     {
-      "path": "/api/tasks/{id}.json",
+      "path": "/api/comments/{id}",
       "operations": [
         {
           "parameters": [
@@ -143,15 +136,15 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Task Id",
+              "description": "Comment Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "task",
-              "message": "Task record"
+              "responseModel": "comment",
+              "message": "Document record"
             },
             {
               "code": 401,
@@ -164,72 +157,37 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Task record",
-          "nickname": "Tasks#show",
+          "notes": "Comment record",
+          "nickname": "Comments#show",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/tasks/{id}.json",
+      "path": "/api/comments/{id}",
       "operations": [
         {
           "parameters": [
             {
-              "paramType": "form",
-              "name": "task[title]",
-              "type": "string",
-              "description": "Title",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[description]",
-              "type": "string",
-              "description": "Description",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[status]",
-              "type": "string",
-              "description": "Status",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[assignee_id]",
-              "type": "integer",
-              "description": "Assignee Id",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[created_by]",
-              "type": "integer",
-              "description": "Created By",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "task[due_date]",
-              "type": "datetime",
-              "description": "Due Date",
-              "required": false
-            },
-            {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Task Id",
+              "description": "Comment Id",
               "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "comment[comment]",
+              "type": "text",
+              "description": "Comment",
+              "required": false
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "task",
-              "message": "Task updated successfully"
+              "responseModel": "comment",
+              "message": "Comment updated successfully"
             },
             {
               "code": 401,
@@ -242,14 +200,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Update an existing Task",
-          "nickname": "Tasks#update",
+          "notes": "Update Comment record",
+          "nickname": "Comments#update",
           "method": "patch"
         }
       ]
     },
     {
-      "path": "/api/tasks/{id}.json",
+      "path": "/api/comments/{id}",
       "operations": [
         {
           "parameters": [
@@ -257,7 +215,7 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Task Id",
+              "description": "Comment Id",
               "required": true
             }
           ],
@@ -265,7 +223,7 @@
             {
               "code": 200,
               "responseModel": null,
-              "message": "Task destroyed successfully"
+              "message": "Comment destroyed successfully"
             },
             {
               "code": 401,
@@ -278,8 +236,8 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Deletes an existing Task",
-          "nickname": "Tasks#destroy",
+          "notes": "Delete Comment record",
+          "nickname": "Comments#destroy",
           "method": "delete"
         }
       ]
