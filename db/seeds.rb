@@ -6,7 +6,8 @@ User.create(
   email: 'viola.wintheiser@panda.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 2,
@@ -15,7 +16,8 @@ User.create(
   email: 'albertha_carroll@panda.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 3,
@@ -24,7 +26,8 @@ User.create(
   email: 'estefenia.larkin@panda.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 4,
@@ -33,7 +36,8 @@ User.create(
   email: 'bret.flatley@panda.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 5,
@@ -42,7 +46,8 @@ User.create(
   email: 'hahn.jabari@yahoo.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 6,
@@ -51,7 +56,8 @@ User.create(
   email: 'craig_rice@gmail.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 7,
@@ -60,7 +66,8 @@ User.create(
   email: 'bernhard_thiel@art.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 8,
@@ -69,7 +76,8 @@ User.create(
   email: 'glover.destin@io.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 9,
@@ -78,7 +86,8 @@ User.create(
   email: 'alysa.collier@yahoo.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 10,
@@ -87,7 +96,8 @@ User.create(
   email: 'tom_gerhold@redhat.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 11,
@@ -96,7 +106,8 @@ User.create(
   email: 'jarrod_sauer@gmail.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 12,
@@ -105,7 +116,8 @@ User.create(
   email: 'roma.buckridge@yahoo.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: true
 )
 User.create(
   #id: 13,
@@ -114,7 +126,18 @@ User.create(
   email: 'martine.hayes@gmail.com',
   password: '12345678',
   confirmed_at: Time.now,
-  role: 'Normal'
+  role: 'Normal',
+  activated: false
+)
+User.create(
+  #id: 14,
+  first_name: 'Super',
+  last_name: 'User',
+  email: 'knightang11@gmail.com',
+  password: 'p@ssw0rd',
+  confirmed_at: Time.now,
+  role: 'Super',
+  activated: true
 )
 
 puts "Started creating Organizations"
