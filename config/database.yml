@@ -2,6 +2,10 @@ default: &default
   adapter: postgresql
   encoding: utf8
   pool: 5
+  username: <%= Rails.application.secrets[:database][:username] %>
+  password: <%= Rails.application.secrets[:database][:password] %>
+  host: <%= Rails.application.secrets[:database][:host] %>
+  database: <%= Rails.application.secrets[:database][:name] %>
 
 development:
   <<: *default
