@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.3.0'
 gem 'rails', '~> 5.0.0.beta4'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -28,3 +28,4 @@ group :development do
   gem 'spring'
 end
 
+gem 'rails_12factor', group: :production
