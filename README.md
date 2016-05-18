@@ -2,7 +2,7 @@
 
 ## Requirement
 * Ruby 2.3.0+
-* Rails 5.0.0.beta3
+* Rails 5.0.0.rc1
 * PostgreSQL Database
 
 ## Deployment Steps
