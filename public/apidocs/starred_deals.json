@@ -5,7 +5,7 @@
   "resourcePath": "starred_deals",
   "apis": [
     {
-      "path": "/api/deals/{deal_id}/starred_deals.json",
+      "path": "/api/deals/{deal_id}/starred_deals",
       "operations": [
         {
           "parameters": [
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "path": "/api/deals/{deal_id}/starred_deals.json",
+      "path": "/api/deals/{deal_id}/starred_deals",
       "operations": [
         {
           "parameters": [
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "path": "/api/deals/{deal_id}/starred_deals/{id}.json",
+      "path": "/api/deals/{deal_id}/starred_deals/{id}",
       "operations": [
         {
           "parameters": [

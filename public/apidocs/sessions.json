@@ -5,7 +5,7 @@
   "resourcePath": "sessions",
   "apis": [
     {
-      "path": "/api/account/sign_in.json",
+      "path": "/api/account/sign_in",
       "operations": [
         {
           "summary": "Logged in",
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "path": "/api/account/sign_out.json",
+      "path": "/api/account/sign_out",
       "operations": [
         {
           "summary": "Log out",

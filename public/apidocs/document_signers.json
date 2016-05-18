@@ -2,33 +2,26 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://localhost:3000",
-  "resourcePath": "notifications",
+  "resourcePath": "document_signers",
   "apis": [
     {
-      "path": "/api/notifications.json",
+      "path": "/api/documents/{document_id}/document_signers",
       "operations": [
         {
           "parameters": [
             {
-              "paramType": "query",
-              "name": "user_id",
+              "paramType": "path",
+              "name": "document_id",
               "type": "integer",
-              "description": "User Id",
-              "required": false
-            },
-            {
-              "paramType": "query",
-              "name": "status",
-              "type": "string",
-              "description": "Status",
-              "required": false
+              "description": "Document Id",
+              "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "notification",
-              "message": "List of notifications records"
+              "responseModel": "document_signer",
+              "message": "List of document_signers records"
             },
             {
               "code": 401,
@@ -41,37 +34,37 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "List of notifications records",
-          "nickname": "Notifications#index",
+          "notes": "List of document_signers records",
+          "nickname": "DocumentSigners#index",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/notifications.json",
+      "path": "/api/documents/{document_id}/document_signers",
       "operations": [
         {
           "parameters": [
             {
-              "paramType": "form",
-              "name": "user_id",
-              "type": "array",
-              "description": "User",
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "message",
-              "type": "string",
-              "description": "Message",
-              "required": false
+              "name": "document_signer[user_id]",
+              "type": "integer",
+              "description": "User Id",
+              "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "notification",
-              "message": "Notification created successfully."
+              "responseModel": "document_signer",
+              "message": "Document Signer updated successfully"
             },
             {
               "code": 406,
@@ -79,30 +72,37 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Create Notification record",
-          "nickname": "Notifications#create",
+          "notes": "Create Document Signer",
+          "nickname": "DocumentSigners#create",
           "method": "post"
         }
       ]
     },
     {
-      "path": "/api/notifications/{id}.json",
+      "path": "/api/documents/{document_id}/document_signers/{id}",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Notification Id",
+              "description": "Document Signer Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "notification",
-              "message": "Notification record"
+              "responseModel": "document_signer",
+              "message": "Document signer record"
             },
             {
               "code": 401,
@@ -115,37 +115,44 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Notification record",
-          "nickname": "Notifications#show",
+          "notes": "Document signer record",
+          "nickname": "DocumentSigners#show",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/notifications/{id}.json",
+      "path": "/api/documents/{document_id}/document_signers/{id}",
       "operations": [
         {
           "parameters": [
             {
+              "paramType": "form",
+              "name": "document_signer[signed]",
+              "type": "boolean",
+              "description": "Signed",
+              "required": false
+            },
+            {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Notification Id",
+              "description": "Document Signer Id",
               "required": true
             },
             {
-              "paramType": "form",
-              "name": "status",
-              "type": "string",
-              "description": "Status",
-              "required": false
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
+              "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "notification",
-              "message": "Notification updated successfully"
+              "responseModel": "document_signer",
+              "message": "Document Signer updated successfully"
             },
             {
               "code": 401,
@@ -158,14 +165,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Mark notification read/unread.",
-          "nickname": "Notifications#update",
+          "notes": "Update Document_signer",
+          "nickname": "DocumentSigners#update",
           "method": "patch"
         }
       ]
     },
     {
-      "path": "/api/notifications/{id}.json",
+      "path": "/api/documents/{document_id}/document_signers/{id}",
       "operations": [
         {
           "parameters": [
@@ -173,7 +180,14 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Notification Id",
+              "description": "Document Signer Id",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "document_id",
+              "type": "integer",
+              "description": "Document Id",
               "required": true
             }
           ],
@@ -181,12 +195,7 @@
             {
               "code": 200,
               "responseModel": null,
-              "message": "Notification destroyed successfully"
-            },
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "You are unauthorized to access this page."
+              "message": "Document Signer destroyed successfully"
             },
             {
               "code": 406,
@@ -194,8 +203,8 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Deletes Notification record",
-          "nickname": "Notifications#destroy",
+          "notes": "Deletes an existing Document Signer",
+          "nickname": "DocumentSigners#destroy",
           "method": "delete"
         }
       ]

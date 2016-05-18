@@ -5,7 +5,7 @@
   "resourcePath": "registrations",
   "apis": [
     {
-      "path": "/api/users.json",
+      "path": "/api/users",
       "operations": [
         {
           "parameters": [
@@ -28,14 +28,14 @@
               "name": "user[first_name]",
               "type": "string",
               "description": "First Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "user[last_name]",
               "type": "string",
               "description": "Last Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
@@ -57,6 +57,13 @@
               "type": "string",
               "description": "Company",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user[role]",
+              "type": "string",
+              "description": "Role",
+              "required": true
             }
           ],
           "responseMessages": [

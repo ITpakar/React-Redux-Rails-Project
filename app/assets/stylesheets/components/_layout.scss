@@ -3,15 +3,19 @@
     min-height: 100vh;
 
     &.no-sidebar{
-        background: $white;
+        background: $col-milk-2;
     }
 }
-
 #page-wrapper{
+    padding-top: 80px;
     min-height: 100vh;
-    background: $white;
+    background: $col-milk-2;
     border-left: 1px solid $col-border;
     margin: 0 0 0 180px;
+
+    &.navbar-double{
+        padding-top: 120px;
+    }
 
     .no-sidebar &{
         margin: 0;
@@ -20,11 +24,15 @@
     .file-viewer &{
         margin: 0;
     }
+
+    .content{
+        padding: 0 10px;
+    }
 }
 
 
 .navbar-static-side {
-    position: absolute;
+    position: fixed;
     width: 180px;
     z-index: 101;
 

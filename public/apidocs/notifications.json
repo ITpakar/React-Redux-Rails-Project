@@ -1,0 +1,205 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "notifications",
+  "apis": [
+    {
+      "path": "/api/notifications",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User Id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "status",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "notification",
+              "message": "List of notifications records"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "List of notifications records",
+          "nickname": "Notifications#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/notifications",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "user_id",
+              "type": "array",
+              "description": "User",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "message",
+              "type": "string",
+              "description": "Message",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "notification",
+              "message": "Notification created successfully."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Create Notification record",
+          "nickname": "Notifications#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/notifications/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Notification Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "notification",
+              "message": "Notification record"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Notification record",
+          "nickname": "Notifications#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/notifications/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Notification Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "status",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "notification",
+              "message": "Notification updated successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Mark notification read/unread.",
+          "nickname": "Notifications#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/notifications/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Notification Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Notification destroyed successfully"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Error with your login or password"
+            }
+          ],
+          "notes": "Deletes Notification record",
+          "nickname": "Notifications#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

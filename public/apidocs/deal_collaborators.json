@@ -5,7 +5,7 @@
   "resourcePath": "deal_collaborators",
   "apis": [
     {
-      "path": "/api/deals/{deal_id}/deal_collaborators.json",
+      "path": "/api/deals/{deal_id}/deal_collaborators",
       "operations": [
         {
           "parameters": [
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "path": "/api/deals/{deal_id}/deal_collaborators.json",
+      "path": "/api/deals/{deal_id}/deal_collaborators",
       "operations": [
         {
           "parameters": [
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "path": "/api/deals/{deal_id}/deal_collaborators/{id}.json",
+      "path": "/api/deals/{deal_id}/deal_collaborators/{id}",
       "operations": [
         {
           "parameters": [

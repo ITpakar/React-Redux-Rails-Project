@@ -51,7 +51,10 @@
 
 .project-item{
     @extend %clearfix;
+    display: block;
     font-size: 0;
+    padding: 10px 10px;
+
     .item-percent{
         display: inline-block;
         vertical-align: top;
@@ -125,7 +128,7 @@
         float: right;
     }
 
-    & + .project-item{
+    /*& + .project-item{
         margin-top: 15px;
-    }
+    }*/
 }

@@ -24,4 +24,6 @@
 //= require plugins/modernizr
 //= require plugins/morris
 //= require plugins/placeholders
+//= require plugins/moment
+//= require plugins/bootstrap-datetimepicker.min
 //= require custom/scripts

@@ -2,10 +2,10 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://localhost:3000",
-  "resourcePath": "folders",
+  "resourcePath": "tasks",
   "apis": [
     {
-      "path": "/api/folders.json",
+      "path": "/api/tasks",
       "operations": [
         {
           "parameters": [
@@ -32,24 +32,17 @@
             },
             {
               "paramType": "query",
-              "name": "task_id",
+              "name": "assignee_id",
               "type": "integer",
-              "description": "Task Id",
-              "required": false
-            },
-            {
-              "paramType": "query",
-              "name": "deep",
-              "type": "boolean",
-              "description": "Deep",
+              "description": "Assignee Id",
               "required": false
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "folder",
-              "message": "List of folders records"
+              "responseModel": "task",
+              "message": "List of task record"
             },
             {
               "code": 401,
@@ -62,58 +55,79 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "List of folders records",
-          "nickname": "Folders#index",
+          "notes": "List of task record",
+          "nickname": "Tasks#index",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/folders.json",
+      "path": "/api/tasks",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "form",
-              "name": "folder[name]",
+              "name": "task[title]",
               "type": "string",
-              "description": "Name",
-              "required": false
+              "description": "Title",
+              "required": true
             },
             {
               "paramType": "form",
-              "name": "folder[created_by]",
-              "type": "integer",
-              "description": "Created By",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "folder[activated]",
-              "type": "boolean",
-              "description": "Activated",
-              "required": false
-            },
-            {
-              "paramType": "form",
-              "name": "folder[parent_type]",
+              "name": "task[description]",
               "type": "string",
-              "description": "Parent Type",
+              "description": "Description",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "folder[parent_id]",
-              "type": "integer",
-              "description": "Parent Id",
+              "name": "task[status]",
+              "type": "string",
+              "description": "Status",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[assignee_id]",
+              "type": "integer",
+              "description": "Assignee Id",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[organization_id]",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "task[deal_id]",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "task[due_date]",
+              "type": "datetime",
+              "description": "Due Date",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[section_id]",
+              "type": "integer",
+              "description": "Section Id",
+              "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "folder",
-              "message": "Folder created successfully."
+              "responseModel": "task",
+              "message": "Task created successfully."
             },
             {
               "code": 406,
@@ -121,14 +135,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Create folder record",
-          "nickname": "Folders#create",
+          "notes": "Create a new Task",
+          "nickname": "Tasks#create",
           "method": "post"
         }
       ]
     },
     {
-      "path": "/api/folders/{id}.json",
+      "path": "/api/tasks/{id}",
       "operations": [
         {
           "parameters": [
@@ -136,15 +150,15 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Folder Id",
+              "description": "Task Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "folder",
-              "message": "Folder record"
+              "responseModel": "task",
+              "message": "Task record"
             },
             {
               "code": 401,
@@ -157,51 +171,79 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Folder record",
-          "nickname": "Folders#show",
+          "notes": "Task record",
+          "nickname": "Tasks#show",
           "method": "get"
         }
       ]
     },
     {
-      "path": "/api/folders/{id}.json",
+      "path": "/api/tasks/{id}",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "form",
-              "name": "folder[name]",
+              "name": "task[title]",
               "type": "string",
-              "description": "Name",
+              "description": "Title",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "task[description]",
+              "type": "string",
+              "description": "Description",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "folder[created_by]",
+              "name": "task[status]",
+              "type": "string",
+              "description": "Status",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "task[assignee_id]",
               "type": "integer",
-              "description": "Created By",
+              "description": "Assignee Id",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "folder[activated]",
-              "type": "boolean",
-              "description": "Activated",
+              "name": "task[organization_id]",
+              "type": "integer",
+              "description": "Organization Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "task[deal_id]",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "task[due_date]",
+              "type": "datetime",
+              "description": "Due Date",
               "required": false
             },
             {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Folder Id",
+              "description": "Task Id",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "responseModel": "folder",
-              "message": "Folder updated successfully"
+              "responseModel": "task",
+              "message": "Task updated successfully"
             },
             {
               "code": 401,
@@ -214,14 +256,14 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Update folder record",
-          "nickname": "Folders#update",
+          "notes": "Update an existing Task",
+          "nickname": "Tasks#update",
           "method": "patch"
         }
       ]
     },
     {
-      "path": "/api/folders/{id}.json",
+      "path": "/api/tasks/{id}",
       "operations": [
         {
           "parameters": [
@@ -229,7 +271,7 @@
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Folder Id",
+              "description": "Task Id",
               "required": true
             }
           ],
@@ -237,7 +279,7 @@
             {
               "code": 200,
               "responseModel": null,
-              "message": "Folder destroyed successfully"
+              "message": "Task destroyed successfully"
             },
             {
               "code": 401,
@@ -250,8 +292,8 @@
               "message": "Error with your login or password"
             }
           ],
-          "notes": "Delete folder record",
-          "nickname": "Folders#destroy",
+          "notes": "Deletes an existing Task",
+          "nickname": "Tasks#destroy",
           "method": "delete"
         }
       ]
