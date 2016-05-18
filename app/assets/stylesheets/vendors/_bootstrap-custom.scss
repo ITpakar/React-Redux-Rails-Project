@@ -42,9 +42,9 @@ $navbar-default-link-active-bg: transparent;
 $btn-font-weight: 500;
 $btn-success-border: $light-green;
 $btn-border-radius-base: 2px;
-$btn-default-border: #c3ced8;
+$btn-default-border: #D1DAE3;
 $btn-default-color: $col-blue;
-$btn-default-bg: transparent;
+$btn-default-bg: $white;
 $btn-primary-border: $col-blue;
 $btn-primary-color: $white;
 $btn-primary-bg: $col-blue;
@@ -95,7 +95,7 @@ $input-border-size: 2px;
 $input-border-radius: 2px;
 $input-color-placeholder: #9B9B9B;
 $input-height-base: 40px;
-$input-line-height-base: 40px;
+$input-line-height-base: 1;
 
 // Nav
 $nav-link-hover-bg:  $col-gray-light;

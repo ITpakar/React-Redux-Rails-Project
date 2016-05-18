@@ -3,8 +3,11 @@
 
     .chat-box-toggle{
         padding: 10px;
-
         border-bottom: 1px solid $col-border;
+
+        .content-deal-right &{
+            background: $col-green-light-3;
+        }
 
         .btn-group{
             width: 100%;
@@ -12,8 +15,12 @@
             .btn{
                 width: 50%;
                 border: 1px solid $col-border;
+                background: $white;
+                color: $col-dark-blue;
+                box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10);
+
                 &:focus{
-                    background: transparent;
+                    background: $white;
                 }
                 &:hover{
                     background: $col-blue-light;
@@ -40,6 +47,7 @@
         border-bottom: 1px solid $col-border;
     }
     .chat-box-details__instance{
+        background: $white;
         visibility: hidden;
         opacity: 0;
         display: none;
@@ -152,6 +160,7 @@
                         bottom: 0px;
                         left: -7px;
                         height: 18px;
+                        border-color: $col-dark-blue;
                         border-left: 50px solid $col-dark-blue;
                         border-bottom-right-radius: 16px 14px;
                     }
@@ -191,6 +200,7 @@
                         bottom: 0px;
                         right: -7px;
                         height: 18px;
+                        border-color:  $col-gray-light;
                         border-right: 50px solid $col-gray-light;
                         border-bottom-left-radius: 16px 14px;
                     }
