@@ -12,50 +12,50 @@ class DocumentSignersController < ApplicationController
 
   def self.add_document_signer_params(document_signer)
     document_signer.param :form, "document_signer[signed]", :boolean, :optional, "Signed"
-    document_signer.param :form, "document_signer[signed_at]", :datetime, :optional, "Signed At"
+    # document_signer.param :form, "document_signer[signed_at]", :datetime, :optional, "Signed At"
   end
 
   swagger_api :index do
-    notes "List of document_signers records"
+    notes "Permissions: Deal Collaborators"
     param :path, :document_id, :integer, :required, "Document Id"
     response :success, "List of document_signers records", :document_signer
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "Document signer record"
+    notes "Permissions: Deal Collaborators"
     param :path, :document_id, :integer, :required, "Document Id"
     param :path, :id, :integer, :required, "Document Signer Id"
     response :success, "Document signer record", :document_signer
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do 
-    notes "Create Document Signer"
+    notes "Permissions: Deal Admin and Document Owner"
     param :path, :document_id, :integer, :required, "Document Id"
-    param :form, "document_signer[user_id]", :integer, :optional, "User Id"
+    param :form, "document_signer[user_id]", :integer, :required, "User Id"
     response :success, "Document Signer updated successfully", :document_signer
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |document_signer|
-    notes "Update Document_signer"
+    notes "Permissions: Deal Admin, Document Owner, the Signer User"
     DocumentSignersController::add_document_signer_params(document_signer)
     param :path, :id, :integer, :required, "Document Signer Id"
     param :path, :document_id, :integer, :required, "Document Id"
     response :success, "Document Signer updated successfully", :document_signer
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deletes an existing Document Signer"
+    notes "Permissions: Deal Admin and Document Owner who created the document"
     param :path, :id, :integer, :required, "Document Signer Id"
     param :path, :document_id, :integer, :required, "Document Id"
     response :success, "Document Signer destroyed successfully"
-    response :not_acceptable, "Error with your login or password"
   end
 
   def index
@@ -85,15 +85,16 @@ class DocumentSignersController < ApplicationController
     if @document_signer.save
       success_response(["Document Signer created successfully."])
     else
-      error_response(@document_signer.errors)
+      error_validation_response(@document_signer.errors)
     end
   end
 
   def update
+      @document_signer.signed_at = Time.now
     if @document_signer.update(document_signer_params)
       success_response(["Document Signer updated successfully"])
     else
-      error_response(@document_signer.errors)
+      error_validation_response(@document_signer.errors)
     end
   end
 
@@ -101,7 +102,7 @@ class DocumentSignersController < ApplicationController
     if @document_signer.destroy
       success_response(["Document Signer destroyed successfully"])
     else
-      error_response(@document_signer.errors)
+      error_validation_response(@document_signer.errors)
     end
   end
 
@@ -128,7 +129,7 @@ class DocumentSignersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:document_signer].blank?
-      error_response(["Document Signer related parameters not found."])
+      error_validation_response(["Document Signer related parameters not found."])
     end
   end
 end

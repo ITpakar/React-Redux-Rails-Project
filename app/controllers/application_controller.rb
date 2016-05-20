@@ -6,49 +6,55 @@ class ApplicationController < ActionController::Base
   # user role validate
   def authenticate_user!
     if current_user.blank?
-      unauthorized_response
+      unauthorized_response(401)
     end
   end
 
   def authenticate_super_admin!
     if current_user.blank? or !current_user.is_super?
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
   def authenticate_organization_admin!
     if current_user.blank? or !current_user.is_organzation_admin?(params[:id])
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
   def authenticate_organization_member!
     if current_user.blank? or !current_user.is_organzation_member?(params[:id])
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
   def authentication_org_deal_admin!
-    if current_user.blank? or !current_user.is_org_deal_admin?(params[:id])
-      unauthorized_response
+    if current_user.blank? or !current_user.is_org_deal_admin?(params[:deal_id])
+      unauthorized_response(403)
     end
   end
 
   def authentication_deal_collaborator!
+    if current_user.blank? or !current_user.is_deal_collaborator?(params[:deal_id])
+      unauthorized_response(403)
+    end
+  end
+
+  def authentication_deal_collaborators!
     if current_user.blank? or !current_user.is_deal_collaborator?(params[:id])
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
   def authenticate_document_owner!
     if current_user.blank? or !current_user.is_document_owner?(params[:document_id])
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
   def authenticate_notification_reciever!
     if current_user.blank? or !current_user.is_notification_reciever?(params[:id])
-      unauthorized_response
+      unauthorized_response(403)
     end
   end
 
@@ -77,7 +83,20 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def unauthorized_response
+  def error_validation_response(messages, status = 400)
+    render(
+      json: {
+        status: 'error',
+        data: nil,
+        error: {
+          messages: messages
+        }
+      },
+      status: status
+    )
+  end
+
+  def unauthorized_response(status)
     render(
       json: {
         status: 'unauthorized',
@@ -86,7 +105,7 @@ class ApplicationController < ActionController::Base
           messages: ['You are unauthorized to access this page.']
         }
       },
-      status: 401
+      status: status
     )
   end
 

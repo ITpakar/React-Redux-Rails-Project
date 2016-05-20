@@ -29,12 +29,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of accessible deal records",
+          "notes": "Permissions: Organization Member",
           "nickname": "Deals#index",
           "method": "get"
         }
@@ -103,7 +103,7 @@
             },
             {
               "paramType": "form",
-              "name": "id",
+              "name": "deal[organization_id]",
               "type": "integer",
               "description": "Organization Id",
               "required": true
@@ -116,12 +116,12 @@
               "message": "Deal created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Created deal record",
+          "notes": "Permissions: Organization Member",
           "nickname": "Deals#create",
           "method": "post"
         }
@@ -152,12 +152,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deal record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Deals#show",
           "method": "get"
         }
@@ -239,19 +239,24 @@
               "message": "Deal updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Updated deal record",
+          "notes": "Permissions: Deal Admin, Organization Admin",
           "nickname": "Deals#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -280,12 +285,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deleted deal record",
+          "notes": "Permissions: Deal Admin, Organization Admin",
           "nickname": "Deals#destroy",
           "method": "delete"
         }

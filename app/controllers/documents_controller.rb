@@ -9,16 +9,16 @@ class DocumentsController < ApplicationController
   swagger_controller :document, "Document"
 
   def self.add_document_params(document)
+    document.param :form, "document[title]", :string, :required, "Title"
     document.param :form, "document[file_name]", :string, :optional, "File Name"
     document.param :form, "document[file_size]", :integer, :optional, "File Size"
     document.param :form, "document[file_type]", :string, :optional, "File Type"
     document.param :form, "document[file_uploaded_at]", :datetime, :optional, "File Uploaded At"
-    document.param :form, "document[created_by]", :integer, :optional, "Created By"
     document.param :form, "document[activated]", :boolean, :optional, "Activated"
   end
 
   swagger_api :index do
-    notes "List of documents records"
+    notes "Permissions: Deal Collaborators"
     param :query, :org_id, :integer, :optional, "Organization Id"
     param :query, :deal_id, :integer, :optional, "Deal Id"
     param :query, :section_id, :integer, :optional, "Section Id"
@@ -27,40 +27,42 @@ class DocumentsController < ApplicationController
     param :query, :deep, :boolean, :optional, "Deep"
     response :success, "List of documents records", :document
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "Document record"
+    notes "Permissions: Deal Collaborators"
     param :path, :id, :integer, :required, "Document Id"
     response :success, "Document record", :document
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |document|
-    notes "Create Document record"
+    notes "Permissions: Deal Collaborators"
     DocumentsController::add_document_params(document)
-    param :form, "document[parent_type]", :string, :optional, "Parent Type"
-    param :form, "document[parent_id]", :integer, :optional, "Parent Id"
+    param :form, "document[parent_type]", :string, :required, "Parent Type"
+    param :form, "document[parent_id]", :integer, :required, "Parent Id"
     response :success, "Document created successfully.", :document
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |document|
-    notes "Update an existing Document"
+    notes "Permissions: Deal Collaborators"
     DocumentsController::add_document_params(document)
     param :path, :id, :integer, :required, "Document Id"
     response :success, "Document updated successfully", :document
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
+    response :unauthorized, "You are unauthorized to access this page."
   end
 
   swagger_api :destroy do
-    notes "Deletes an existing Document"
+    notes "Permissions: Deal Admin and Document Owner"
     param :path, :id, :integer, :required, "Document Id"
     response :success, "Document destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -150,10 +152,11 @@ class DocumentsController < ApplicationController
 
   def create
     @document = Document.new(document_params)
+    @document.created_by = current_user.id
     if @document.save
       success_response(["Document created successfully."])
     else
-      error_response(@document.errors)
+      error_validation_response(@document.errors)
     end
   end
 
@@ -161,7 +164,7 @@ class DocumentsController < ApplicationController
     if @document.update(document_params)
       success_response(["Document updated successfully"])
     else
-      error_response(@document.errors)
+      error_validation_response(@document.errors)
     end
   end
 
@@ -177,7 +180,7 @@ class DocumentsController < ApplicationController
     if @document.destroy
       success_response(["Document destroyed successfully"])
     else
-      error_response(@document.errors)
+      error_validation_response(@document.errors)
     end
   end
 
@@ -189,6 +192,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
+      :title,
       :file_name,
       :file_size,
       :file_type,
@@ -203,7 +207,7 @@ class DocumentsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:document].blank?
-      error_response(["Document related parameters not found."])
+      error_validation_response(["Document related parameters not found."])
     end
   end
 end

@@ -20,12 +20,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Get self user Details",
+          "notes": "Permissions: Self User (logged in)",
           "nickname": "Accounts#index",
           "method": "get"
         }
@@ -93,12 +93,12 @@
               "message": "User created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create user",
+          "notes": "Permissions: Guest",
           "nickname": "Accounts#create",
           "method": "post"
         }
@@ -166,17 +166,22 @@
               "message": "User updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update an self user",
+          "notes": "Permissions: Self User (logged in)",
           "nickname": "Accounts#update",
           "method": "put"
         }
@@ -198,12 +203,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Delete self user",
+          "notes": "Permissions: Self User (logged in)",
           "nickname": "Accounts#destroy",
           "method": "delete"
         }

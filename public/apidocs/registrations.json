@@ -73,12 +73,17 @@
               "message": "User created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
             }
           ],
-          "notes": "Created user record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Registrations#create",
           "method": "post"
         }

@@ -28,12 +28,12 @@
       "description": "Organization"
     },
     {
-      "path": "/apidocs/deal_collaborators.{format}",
-      "description": "Deal Collaborator"
-    },
-    {
       "path": "/apidocs/starred_deals.{format}",
       "description": "starred_deal"
+    },
+    {
+      "path": "/apidocs/deal_collaborators.{format}",
+      "description": "Deal Collaborator"
     },
     {
       "path": "/apidocs/sections.{format}",

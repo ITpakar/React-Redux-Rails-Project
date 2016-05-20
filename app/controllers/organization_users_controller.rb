@@ -16,39 +16,40 @@ class OrganizationUsersController < ApplicationController
   end
 
   swagger_api :index do
-    notes "List of organization_users records"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     response :success, "List of organization_users records", :organization_user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do
-    notes "Created organization_user record"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     param :form, "organization_user[email]", :string, :required, "Email"
     param :form, "organization_user[name]", :string, :required, "Name"
     response :success, "User invited successfully in the organization.", :organization_user
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do
-    notes "Updated organization_user record"
+    notes "Permissions: Organization Admin"
     param :form, "organization_user[user_type]", :string, :required, "User Type"
     param :path, :id, :integer, :required, "Organization User Id"
     param :path, :organization_id, :integer, :required, "Organization Id"
     response :success, "User data updated successfully for the organization.", :organization_user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deleted organization_user record"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     param :path, :id, :integer, :required, "Organization User Id"
     response :success, "User destroyed from organization successfully."
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -82,7 +83,7 @@ class OrganizationUsersController < ApplicationController
       InvitationMailer.invitation_email(@user, @organization_user).deliver_later
       success_response(["User invited successfully in the organization."])
     else
-      error_response(@organization_user.errors)
+      error_validation_response(@organization_user.errors)
     end
   end
 
@@ -90,7 +91,7 @@ class OrganizationUsersController < ApplicationController
     if @organization_user.update(organization_user_params)
       success_response(["User data updated successfully for the organization."])
     else
-      error_response(@organization_user.errors)
+      error_validation_response(@organization_user.errors)
     end
   end
 
@@ -102,7 +103,7 @@ class OrganizationUsersController < ApplicationController
         }
       )
     else
-      error_response(@organization.errors)
+      error_validation_response(@organization.errors)
     end
   end
 
@@ -131,7 +132,7 @@ class OrganizationUsersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:organization_user].blank?
-      error_response(["Organization User related parameters not found."])
+      error_validation_response(["Organization User related parameters not found."])
     end
   end
 end

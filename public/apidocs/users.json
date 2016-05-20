@@ -20,12 +20,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of users records",
+          "notes": "Permissions: Super Admin",
           "nickname": "Users#index",
           "method": "get"
         }
@@ -56,12 +56,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "User record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Users#show",
           "method": "get"
         }
@@ -122,19 +122,24 @@
               "message": "User updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Updated user record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Users#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -163,12 +168,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deleted user record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Users#destroy",
           "method": "delete"
         }

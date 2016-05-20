@@ -8,7 +8,7 @@
       "path": "/api/account/sign_in",
       "operations": [
         {
-          "summary": "Logged in",
+          "summary": "Permissions: Guest",
           "parameters": [
             {
               "paramType": "form",
@@ -34,7 +34,7 @@
             {
               "code": 406,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect login or password"
             }
           ],
           "nickname": "Sessions#create",
@@ -46,17 +46,12 @@
       "path": "/api/account/sign_out",
       "operations": [
         {
-          "summary": "Log out",
+          "summary": "Permissions: Logged in user",
           "responseMessages": [
             {
               "code": 204,
               "responseModel": null,
               "message": "No Content"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Error with your login or password"
             }
           ],
           "nickname": "Sessions#destroy",

@@ -55,14 +55,9 @@
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Error with your login or password"
             }
           ],
-          "notes": "List of comments records",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Comments#index",
           "method": "get"
         }
@@ -116,12 +111,12 @@
               "message": "Comment created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create Comment record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Comments#create",
           "method": "post"
         }
@@ -152,12 +147,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Comment record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Comments#show",
           "method": "get"
         }
@@ -190,19 +185,24 @@
               "message": "Comment updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update Comment record",
+          "notes": "Permissions: Deal Admin and Comment Owner who wrote the comment",
           "nickname": "Comments#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -231,12 +231,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Delete Comment record",
+          "notes": "Permissions: Deal Admin and Comment Owner who wrote the comment",
           "nickname": "Comments#destroy",
           "method": "delete"
         }

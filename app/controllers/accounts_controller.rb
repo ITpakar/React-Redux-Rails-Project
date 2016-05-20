@@ -9,8 +9,8 @@ class AccountsController < ApplicationController
   swagger_controller :account, "Account"
 
   def self.add_account_params(user)
-    user.param :form, "user[email]",      :string, :required,  "Email"
-    user.param :form, "user[password]",   :string, :required,  "password"
+    user.param :form, "user[email]",      :string, :required, "Email"
+    user.param :form, "user[password]",   :string, :required, "password"
     user.param :form, "user[first_name]", :string, :optional, "First Name"
     user.param :form, "user[last_name]",  :string, :optional, "Last Name"
     user.param :form, "user[phone]",      :string, :optional, "Phone"
@@ -19,32 +19,33 @@ class AccountsController < ApplicationController
   end
 
   swagger_api :index do
-    notes "Get self user Details"
+    notes "Permissions: Self User (logged in)"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |user|
-    notes "Create user"
+    notes "Permissions: Guest"
     AccountsController::add_account_params(user)
     response :success, "User created successfully.", :user
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |user|
-    notes "Update an self user"
+    notes "Permissions: Self User (logged in)"
     AccountsController::add_account_params(user)
     response :success, "User updated successfully", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Delete self user"
+    notes "Permissions: Self User (logged in)"
     response :success,"User destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -61,23 +62,25 @@ class AccountsController < ApplicationController
     if @user.save
       success_response(["User created successfully."])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
   end
 
   def update
+    Devise.reconfirmable = false
     if @user.update(user_params)
       success_response(["User updated successfully"])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
+    Devise.reconfirmable = true
   end
 
   def destroy
     if @user.destroy
       success_response(["User destroyed successfully"])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
   end
 
@@ -102,7 +105,7 @@ class AccountsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:user].blank?
-      error_response(["User related parameters not found."])
+      error_validation_response(["User related parameters not found."])
     end
   end
 

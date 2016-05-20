@@ -15,28 +15,29 @@ class DealCollaboratorsController < ApplicationController
   end
 
   swagger_api :index do
-    notes "List of deal_collaborators records"
-    param :query, :deal_id, :integer, :required, "Deal Id"
+    notes "Permissions: Deal Collaborators"
+    param :path, :deal_id, :integer, :required, "Deal Id"
     response :success, "List of deal_collaborators records", :deal_collaborators
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |deal_collaborator|
-    notes "Created deal_collaborator record"
+    notes "Permissions: Deal Admin, Organization Admin"
     param :path, :deal_id, :integer, :required, "Deal Id"
     DealCollaboratorsController::add_deal_collaborator_params(deal_collaborator)
     response :success, "Deal Collaborator created successfully.", :deal_collaborator
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :destroy do
-    notes "Deleted deal_collaborator record"
+    notes "Permissions: Deal Admin, Organization Admin"
     param :path, :deal_id, :integer, :required, "Deal Id"
     param :path, :user_id, :integer, :optional, "User Id"
+    param :path, :id, :integer, :required, "Id"
     response :success, "Deal Collaborator destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -58,7 +59,7 @@ class DealCollaboratorsController < ApplicationController
     if @deal_collaborator.save
       success_response(["Deal Collaborator created successfully."])
     else
-      error_response(@deal_collaborator.errors)
+      error_validation_response(@deal_collaborator.errors)
     end
   end
 
@@ -66,7 +67,7 @@ class DealCollaboratorsController < ApplicationController
     if @deal_collaborator.destroy
       success_response(["Deal Collaborator destroyed successfully"])
     else
-      error_response(@deal_collaborator.errors)
+      error_validation_response(@deal_collaborator.errors)
     end
   end
 
@@ -84,7 +85,7 @@ class DealCollaboratorsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:deal_collaborator].blank?
-      error_response(["Deal Collaborator related parameters not found."])
+      error_validation_response(["Deal Collaborator related parameters not found."])
     end
   end
 end

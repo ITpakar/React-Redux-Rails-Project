@@ -9,56 +9,58 @@ class TasksController < ApplicationController
   swagger_controller :task, "Task"
 
   def self.add_task_params(task)
-    task.param :form, "task[title]", :string, :optional, "Title"
+    task.param :form, "task[title]", :string, :required, "Title"
     task.param :form, "task[description]", :string, :optional, "Description"
     task.param :form, "task[status]", :string, :optional, "Status"
     task.param :form, "task[assignee_id]", :integer, :optional, "Assignee Id"
-    task.param :form, "task[created_by]", :integer, :optional, "Created By"
+    task.param :form, "task[organization_id]", :integer, :required, "Organization Id"
+    task.param :form, "task[deal_id]", :integer, :required, "Deal Id"
     task.param :form, "task[due_date]", :datetime, :optional, "Due Date"
   end
 
   swagger_api :index do
-    notes "List of task record"
+    notes "Permissions: Deal Collaborators"
     param :query, :org_id, :integer, :optional, "Organization Id"
     param :query, :deal_id, :integer, :optional, "Deal Id"
     param :query, :section_id, :integer, :optional, "Section Id"
     param :query, :assignee_id, :integer, :optional, "Assignee Id"
     response :success, "List of task record", :task
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "Task record"
+    notes "Permissions: Deal Collaborators"
     param :path, :id, :integer, :required, "Task Id"
     response :success, "Task record", :task
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |task|
-    notes "Create a new Task"
+    notes "Permissions: Deal Collaborators"
     TasksController::add_task_params(task)
     param :form, "task[section_id]", :integer, :required, "Section Id"
     response :success, "Task created successfully.", :task
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |task|
-    notes "Update an existing Task"
+    notes "Permissions: Deal Collaborators"
     TasksController::add_task_params(task)
     param :path, :id, :integer, :required, "Task Id"
     response :success, "Task updated successfully", :task
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deletes an existing Task"
+    notes "Permissions: Deal Admin and Task Owner"
     param :path, :id, :integer, :required, "Task Id"
     response :success, "Task destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -89,10 +91,11 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.created_by = current_user.id
     if @task.save
       success_response(["Task created successfully."])
     else
-      error_response(@task.errors)
+      error_validation_response(@task.errors)
     end
   end
 
@@ -100,7 +103,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       success_response(["Task updated successfully"])
     else
-      error_response(@task.errors)
+      error_validation_response(@task.errors)
     end
   end
 
@@ -116,7 +119,7 @@ class TasksController < ApplicationController
     if @task.destroy
       success_response(["Task destroyed successfully"])
     else
-      error_response(@task.errors)
+      error_validation_response(@task.errors)
     end
   end
 
@@ -156,7 +159,7 @@ class TasksController < ApplicationController
   protected
   def ensure_params_exist
     if params[:task].blank?
-      error_response(["Task related parameters not found."])
+      error_validation_response(["Task related parameters not found."])
     end
   end
 end

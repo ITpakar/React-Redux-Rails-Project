@@ -50,12 +50,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of task record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Tasks#index",
           "method": "get"
         }
@@ -130,12 +130,12 @@
               "message": "Task created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create a new Task",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Tasks#create",
           "method": "post"
         }
@@ -166,12 +166,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Task record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Tasks#show",
           "method": "get"
         }
@@ -246,19 +246,24 @@
               "message": "Task updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update an existing Task",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Tasks#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -287,12 +292,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deletes an existing Task",
+          "notes": "Permissions: Deal Admin and Task Owner",
           "nickname": "Tasks#destroy",
           "method": "delete"
         }

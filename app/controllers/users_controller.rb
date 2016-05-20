@@ -16,35 +16,36 @@ class UsersController < ApplicationController
   end
 
   swagger_api :index do
-    notes "List of users records"
+    notes "Permissions: Super Admin"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "User record"
+    notes "Permissions: Super Admin"
     param :path, :id, :integer, :required, "User Id"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :update do |user|
-    notes "Updated user record"
+    notes "Permissions: Super Admin"
     UsersController::add_user_params(user)
     param :path, :id, :integer, :required, "user Id"
     response :success, "User updated successfully", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deleted user record"
+    notes "Permissions: Super Admin"
     param :path, :id, :integer, :required, "user Id"
     response :success,"User destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -62,7 +63,7 @@ class UsersController < ApplicationController
     if @user.save
       success_response(["User created successfully."])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
   end
 
@@ -70,7 +71,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       success_response(["User updated successfully"])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
   end
 
@@ -86,7 +87,7 @@ class UsersController < ApplicationController
     if @user.destroy
       success_response(["User destroyed successfully"])
     else
-      error_response(@user.errors)
+      error_validation_response(@user.errors)
     end
   end
 
@@ -109,7 +110,7 @@ class UsersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:user].blank?
-      error_response(["User related parameters not found."])
+      error_validation_response(["User related parameters not found."])
     end
   end
 end

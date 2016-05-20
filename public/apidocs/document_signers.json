@@ -29,12 +29,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of document_signers records",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "DocumentSigners#index",
           "method": "get"
         }
@@ -67,12 +67,12 @@
               "message": "Document Signer updated successfully"
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create Document Signer",
+          "notes": "Permissions: Deal Admin and Document Owner",
           "nickname": "DocumentSigners#create",
           "method": "post"
         }
@@ -110,12 +110,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Document signer record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "DocumentSigners#show",
           "method": "get"
         }
@@ -155,19 +155,24 @@
               "message": "Document Signer updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update Document_signer",
+          "notes": "Permissions: Deal Admin, Document Owner, the Signer User",
           "nickname": "DocumentSigners#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -196,14 +201,9 @@
               "code": 200,
               "responseModel": null,
               "message": "Document Signer destroyed successfully"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Error with your login or password"
             }
           ],
-          "notes": "Deletes an existing Document Signer",
+          "notes": "Permissions: Deal Admin and Document Owner who created the document",
           "nickname": "DocumentSigners#destroy",
           "method": "delete"
         }
