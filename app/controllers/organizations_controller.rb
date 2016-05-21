@@ -8,8 +8,6 @@ class OrganizationsController < ApplicationController
   before_action :set_organization, only: [:update, :destroy, :show]
   before_action :set_peginate, only: [:index]
 
-  skip_before_action :verify_authenticity_token
-
   swagger_controller :organization, "Organization"
 
   def self.add_oraganization_params(organization)
@@ -85,7 +83,7 @@ class OrganizationsController < ApplicationController
         }
       )
     else
-      error_validation_response(@organization.errors)
+      error_response(@organization.errors)
     end
   end
 
@@ -105,7 +103,7 @@ class OrganizationsController < ApplicationController
         }
       )
     else
-      error_validation_response(@organization.errors)
+      error_response(@organization.errors)
     end
   end
 
@@ -117,7 +115,7 @@ class OrganizationsController < ApplicationController
         }
       )
     else
-      error_validation_response(@organization.errors)
+      error_response(@organization.errors)
     end
   end
 
@@ -141,7 +139,7 @@ class OrganizationsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:organization].blank?
-      error_validation_response(["Organization related parameters not found."])
+      error_response(["Organization related parameters not found."])
     end
   end
 end

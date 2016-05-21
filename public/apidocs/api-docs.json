@@ -4,14 +4,6 @@
   "basePath": "http://localhost:3000",
   "apis": [
     {
-      "path": "/apidocs/sessions.{format}",
-      "description": "Sessions"
-    },
-    {
-      "path": "/apidocs/registrations.{format}",
-      "description": "User"
-    },
-    {
       "path": "/apidocs/users.{format}",
       "description": "User"
     },

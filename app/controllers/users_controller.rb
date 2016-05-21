@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :authenticate_super_admin!
   before_action :set_user, only: [:destroy, :update, :show]
   before_action :ensure_params_exist, only: [:update, :create]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :user, "User"
 
@@ -63,7 +62,7 @@ class UsersController < ApplicationController
     if @user.save
       success_response(["User created successfully."])
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
   end
 
@@ -71,7 +70,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       success_response(["User updated successfully"])
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
   end
 
@@ -87,7 +86,7 @@ class UsersController < ApplicationController
     if @user.destroy
       success_response(["User destroyed successfully"])
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
   end
 
@@ -110,7 +109,7 @@ class UsersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:user].blank?
-      error_validation_response(["User related parameters not found."])
+      error_response(["User related parameters not found."])
     end
   end
 end

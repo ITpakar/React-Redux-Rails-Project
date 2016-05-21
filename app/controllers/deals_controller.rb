@@ -4,10 +4,9 @@ class DealsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_organization_member!, only: [:create]
   before_action :authentication_org_deal_admin!, only: [:update, :destroy]
-  before_action :authentication_deal_collaborators!, only: [:show]
+  before_action :authentication_deal_collaborator!, only: [:show]
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, only: [:update, :destroy, :show]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :deal, "deal"
 
@@ -24,7 +23,7 @@ class DealsController < ApplicationController
 
   swagger_api :index do
     notes "Permissions: Organization Member"
-    param :query, :org_id, :integer, :optional, "Organization Id"
+    param :query, :organization_id, :integer, :optional, "Organization Id"
     response :success, "List of accessible deal records", :deal
     response :unauthorized, "You are unauthorized to access this page."
     response :forbidden, "You are unauthorized User"
@@ -67,7 +66,7 @@ class DealsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    org_id  = params[:org_id]
+    org_id  = params[:organization_id]
     conditions  = []
     conditions << ["organization_id = ?", "#{org_id}"] if org_id
     if current_user.is_super?
@@ -100,17 +99,25 @@ class DealsController < ApplicationController
     @deal = Deal.new(deal_params)
     @deal.admin_user_id = current_user.id
     if @deal.save
-      success_response(["Deal created successfully."])
+      success_response(
+        {
+          deal: @deal.to_hash
+        }
+      )
     else
-      error_validation_response(@deal.errors)
+      error_response(@deal.errors)
     end
   end
 
   def update
     if @deal.update(deal_params)
-      success_response(["Deal updated successfully"])
+      success_response(
+      {
+        deal: @deal.to_hash
+      }
+    )
     else
-      error_validation_response(@deal.errors)
+      error_response(@deal.errors)
     end
   end
 
@@ -126,7 +133,7 @@ class DealsController < ApplicationController
     if @deal.destroy
       success_response(["Deal destroyed successfully"])
     else
-      error_validation_response(@deal.errors)
+      error_response(@deal.errors)
     end
   end
 
@@ -153,7 +160,7 @@ class DealsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:deal].blank?
-      error_validation_response(["Deal related parameters not found."])
+      error_response(["Deal related parameters not found."])
     end
   end
 end

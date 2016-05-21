@@ -5,13 +5,12 @@ class CommentsController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_comment, only: [:show, :update, :destroy]
   before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :comment, "Comment"
 
   def self.add_comment_params(comment)
     comment.param :form, "comment[user_id]", :integer, :required, "User Id"
-    comment.param :form, "comment[task_id]", :integer, :optional, "Task Id"
+    comment.param :form, "comment[task_id]", :integer, :required, "Task Id"
     comment.param :form, "comment[document_id]", :integer, :optional, "Document Id"
     comment.param :form, "comment[comment_type]", :string, :required, "Comment Type"
     comment.param :form, "comment[comment]", :text, :required, "Comment"
@@ -91,7 +90,7 @@ class CommentsController < ApplicationController
     if @comment.save
       success_response(["Comment created successfully."])
     else
-      error_validation_response(@comment.errors)
+      error_response(@comment.errors)
     end
   end
 
@@ -107,7 +106,7 @@ class CommentsController < ApplicationController
     if @comment.update(comment_params)
       success_response(["Comment updated successfully"])
     else
-      error_validation_response(@comment.errors)
+      error_response(@comment.errors)
     end
   end
 
@@ -115,7 +114,7 @@ class CommentsController < ApplicationController
     if @comment.destroy
       success_response(["Comment destroyed successfully"])
     else
-      error_validation_response(@comment.errors)
+      error_response(@comment.errors)
     end
   end
 
@@ -139,7 +138,7 @@ class CommentsController < ApplicationController
   def is_deal_collaborator?
     if @comment.blank?
       @task = Task.find_by_id(params[:comment][:task_id])
-      @section = @task.section.first if @task
+      @section = @task.section if @task
       @deal = @section.deal if @section
     else
       @deal = @comment.task.section.deal

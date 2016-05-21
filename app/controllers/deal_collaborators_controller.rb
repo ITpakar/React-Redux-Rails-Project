@@ -6,7 +6,6 @@ class DealCollaboratorsController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_deal_collaborator, only: [:destroy]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :deal_collaborators, "Deal Collaborator"
 
@@ -53,13 +52,13 @@ class DealCollaboratorsController < ApplicationController
 
   def create
     @deal_collaborator = @deal.deal_collaborators.new(
-      user_id: params[:user_id],
+      user_id: params[:deals_controller][:user_id],
       added_by: current_user.id
     )
     if @deal_collaborator.save
       success_response(["Deal Collaborator created successfully."])
     else
-      error_validation_response(@deal_collaborator.errors)
+      error_response(@deal_collaborator.errors)
     end
   end
 
@@ -67,7 +66,7 @@ class DealCollaboratorsController < ApplicationController
     if @deal_collaborator.destroy
       success_response(["Deal Collaborator destroyed successfully"])
     else
-      error_validation_response(@deal_collaborator.errors)
+      error_response(@deal_collaborator.errors)
     end
   end
 
@@ -85,7 +84,7 @@ class DealCollaboratorsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:deal_collaborator].blank?
-      error_validation_response(["Deal Collaborator related parameters not found."])
+      error_response(["Deal Collaborator related parameters not found."])
     end
   end
 end

@@ -5,7 +5,6 @@ class SectionsController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_section, only: [:show, :update, :destroy]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :sections, "Section"
 
@@ -89,7 +88,7 @@ class SectionsController < ApplicationController
         }
       )
     else
-      error_validation_response(@section.errors)
+      error_response(@section.errors)
     end
   end
 
@@ -101,7 +100,7 @@ class SectionsController < ApplicationController
         }
       )
     else
-      error_validation_response(@section.errors)
+      error_response(@section.errors)
     end
   end
 
@@ -117,13 +116,13 @@ class SectionsController < ApplicationController
     if @section.destroy
       success_response(["Section destroyed successfully"])
     else
-      error_validation_response(@section.errors)
+      error_response(@section.errors)
     end
   end
 
   private
   def set_deal
-    @deal = Deal.find_by_id(params[:section][:deal_id])
+    @deal = Deal.find_by_id(params[:deal_id])
     error_response(["Deal Not Found."]) if @deal.blank?
   end
 
@@ -145,7 +144,7 @@ class SectionsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:section].blank?
-      error_validation_response(["Section related parameters not found."])
+      error_response(["Section related parameters not found."])
     end
   end
 end

@@ -80,7 +80,7 @@
               "name": "comment[task_id]",
               "type": "integer",
               "description": "Task Id",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",

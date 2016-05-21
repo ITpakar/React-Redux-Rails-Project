@@ -11,7 +11,7 @@
           "parameters": [
             {
               "paramType": "query",
-              "name": "org_id",
+              "name": "organization_id",
               "type": "integer",
               "description": "Organization Id",
               "required": false

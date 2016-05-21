@@ -4,7 +4,6 @@ class DocumentsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_document, only: [:show, :update, :destroy]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :document, "Document"
 
@@ -156,7 +155,7 @@ class DocumentsController < ApplicationController
     if @document.save
       success_response(["Document created successfully."])
     else
-      error_validation_response(@document.errors)
+      error_response(@document.errors)
     end
   end
 
@@ -164,7 +163,7 @@ class DocumentsController < ApplicationController
     if @document.update(document_params)
       success_response(["Document updated successfully"])
     else
-      error_validation_response(@document.errors)
+      error_response(@document.errors)
     end
   end
 
@@ -180,7 +179,7 @@ class DocumentsController < ApplicationController
     if @document.destroy
       success_response(["Document destroyed successfully"])
     else
-      error_validation_response(@document.errors)
+      error_response(@document.errors)
     end
   end
 
@@ -207,7 +206,7 @@ class DocumentsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:document].blank?
-      error_validation_response(["Document related parameters not found."])
+      error_response(["Document related parameters not found."])
     end
   end
 end

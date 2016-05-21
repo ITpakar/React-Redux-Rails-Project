@@ -6,7 +6,6 @@ class StarredDealsController < ApplicationController
   before_action :set_deal, except: [:starred_deals]
   before_action :set_starred_deal, only: [:destroy]
   before_action :authenticate_organization_member!, only: [:starred_deal]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :starred_deal, "starred_deal"
 
@@ -17,7 +16,7 @@ class StarredDealsController < ApplicationController
 
   swagger_api :starred_deals do
     notes "Permissions: Organization Member"
-    param :query, :org_id, :integer, :optional, "Organization Id"
+    param :query, :organization_id, :integer, :optional, "Organization Id"
     response :success, "List of starred_deals records for user", :starred_deal
     response :unauthorized, "You are unauthorized to access this page."
     response :not_acceptable, "Error with your login or password"
@@ -52,10 +51,11 @@ class StarredDealsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    org_id  = params[:org_id]
-    conditions  = []
-    conditions << ["organization_id = ?", "#{org_id}"] if org_id
-    deal_ids = current_user.deals.where(conditions[0]).pluck(:id)
+    if params[:organization_id]
+      deal_ids = current_user.deals.where(organization_id: params[:organization_id]).pluck(:id)
+    else
+      deal_ids = current_user.deals.pluck(:id)
+    end
 
     @starred_deals = current_user.starred_deals
                                  .where("id in (?)", deal_ids)
@@ -73,7 +73,7 @@ class StarredDealsController < ApplicationController
     if @deal.save
       success_response(["Starred Deal created successfully."])
     else
-      error_validation_response(@starred_deal.errors)
+      error_response(@starred_deal.errors)
     end
   end
 
@@ -81,7 +81,7 @@ class StarredDealsController < ApplicationController
     if @starred_deal.destroy
       success_response(["Starred Deal destroyed successfully"])
     else
-      error_validation_response(@starred_deal.errors)
+      error_response(@starred_deal.errors)
     end
     return
   end
@@ -89,7 +89,7 @@ class StarredDealsController < ApplicationController
   def starred_deals
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    org_id  = params[:org_id]
+    org_id  = params[:organization_id]
     conditions  = []
     conditions << ["organization_id = ?", "#{org_id}"] if org_id
     deal_ids = current_user.deals.where(conditions[0]).pluck(:id)
@@ -123,7 +123,7 @@ class StarredDealsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:starred_deal].blank?
-      error_validation_response(["Starred Deal related parameters not found."])
+      error_response(["Starred Deal related parameters not found."])
     end
   end
 end

@@ -37,7 +37,7 @@ class Task < ActiveRecord::Base
   belongs_to :organization
   belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
-  belongs_to :assingnee, foreign_key: :assignee_id, class_name: 'User'
+  belongs_to :assingnee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   def to_hash
     data = {

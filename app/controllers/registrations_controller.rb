@@ -2,8 +2,6 @@ class RegistrationsController < Devise::SessionsController
   respond_to :json
   before_action :authenticate_super_admin!
 
-  skip_before_filter :verify_authenticity_token
-
   swagger_controller :user, "User"
 
   def self.add_user_params(user)
@@ -36,7 +34,7 @@ class RegistrationsController < Devise::SessionsController
       )
     else
       warden.custom_failure!
-      error_validation_response(user.errors)
+      error_response(user.errors)
     end
   end
 

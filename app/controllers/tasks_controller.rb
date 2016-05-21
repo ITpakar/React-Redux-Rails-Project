@@ -95,7 +95,7 @@ class TasksController < ApplicationController
     if @task.save
       success_response(["Task created successfully."])
     else
-      error_validation_response(@task.errors)
+      error_response(@task.errors)
     end
   end
 
@@ -103,7 +103,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       success_response(["Task updated successfully"])
     else
-      error_validation_response(@task.errors)
+      error_response(@task.errors)
     end
   end
 
@@ -119,7 +119,7 @@ class TasksController < ApplicationController
     if @task.destroy
       success_response(["Task destroyed successfully"])
     else
-      error_validation_response(@task.errors)
+      error_response(@task.errors)
     end
   end
 
@@ -146,6 +146,8 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(
+      :organization_id,
+      :deal_id,
       :title,
       :description,
       :status,
@@ -159,7 +161,7 @@ class TasksController < ApplicationController
   protected
   def ensure_params_exist
     if params[:task].blank?
-      error_validation_response(["Task related parameters not found."])
+      error_response(["Task related parameters not found."])
     end
   end
 end

@@ -6,13 +6,11 @@ class DocumentSignersController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_document
   before_action :set_document_signer, only: [:show, :update, :destroy]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :document_signer, "Document Signer"
 
   def self.add_document_signer_params(document_signer)
     document_signer.param :form, "document_signer[signed]", :boolean, :optional, "Signed"
-    # document_signer.param :form, "document_signer[signed_at]", :datetime, :optional, "Signed At"
   end
 
   swagger_api :index do
@@ -85,7 +83,7 @@ class DocumentSignersController < ApplicationController
     if @document_signer.save
       success_response(["Document Signer created successfully."])
     else
-      error_validation_response(@document_signer.errors)
+      error_response(@document_signer.errors)
     end
   end
 
@@ -94,7 +92,7 @@ class DocumentSignersController < ApplicationController
     if @document_signer.update(document_signer_params)
       success_response(["Document Signer updated successfully"])
     else
-      error_validation_response(@document_signer.errors)
+      error_response(@document_signer.errors)
     end
   end
 
@@ -102,7 +100,7 @@ class DocumentSignersController < ApplicationController
     if @document_signer.destroy
       success_response(["Document Signer destroyed successfully"])
     else
-      error_validation_response(@document_signer.errors)
+      error_response(@document_signer.errors)
     end
   end
 
@@ -129,7 +127,14 @@ class DocumentSignersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:document_signer].blank?
-      error_validation_response(["Document Signer related parameters not found."])
+      error_response(["Document Signer related parameters not found."])
     end
   end
+
+  def authenticate_document_owner!
+    if current_user.blank? or !current_user.is_document_owner?(params[:id])
+      unauthorized_response
+    end
+  end
+
 end

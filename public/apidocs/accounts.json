@@ -213,6 +213,61 @@
           "method": "delete"
         }
       ]
+    },
+    {
+      "path": "/api/account/sign_in",
+      "operations": [
+        {
+          "summary": "Permissions: Guest",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "user[email]",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user[password]",
+              "type": "string",
+              "description": "Password",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "user",
+              "message": "Logged in user record"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Incorrect login or password"
+            }
+          ],
+          "nickname": "Sessions#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/account/sign_out",
+      "operations": [
+        {
+          "summary": "Permissions: Logged in user",
+          "responseMessages": [
+            {
+              "code": 204,
+              "responseModel": null,
+              "message": "No Content"
+            }
+          ],
+          "nickname": "Sessions#destroy",
+          "method": "delete"
+        }
+      ]
     }
   ],
   "authorizations": null

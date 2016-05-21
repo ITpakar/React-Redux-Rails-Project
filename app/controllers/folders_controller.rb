@@ -4,7 +4,6 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_folder, only: [:show, :update, :destroy]
-  skip_before_filter  :verify_authenticity_token
 
   swagger_controller :folder, "folder"
 
@@ -129,7 +128,7 @@ class FoldersController < ApplicationController
     if @folder.save
       success_response(["Folder created successfully."])
     else
-      error_validation_response(@folder.errors)
+      error_response(@folder.errors)
     end
   end
 
@@ -137,7 +136,7 @@ class FoldersController < ApplicationController
     if @folder.update(folder_params)
       success_response(["Folder updated successfully"])
     else
-      error_validation_response(@folder.errors)
+      error_response(@folder.errors)
     end
   end
 
@@ -153,7 +152,7 @@ class FoldersController < ApplicationController
     if @folder.destroy
       success_response(["Folder destroyed successfully"])
     else
-      error_validation_response(@folder.errors)
+      error_response(@folder.errors)
     end
   end
 
@@ -177,7 +176,7 @@ class FoldersController < ApplicationController
   protected
   def ensure_params_exist
     if params[:folder].blank?
-      error_validation_response(["Folder related parameters not found."])
+      error_response(["Folder related parameters not found."])
     end
   end
 end

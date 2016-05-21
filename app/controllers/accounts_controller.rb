@@ -4,7 +4,6 @@ class AccountsController < ApplicationController
   before_action :authenticate_user!, except: [:create]
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_user, only: [:destroy, :update]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :account, "Account"
 
@@ -60,18 +59,26 @@ class AccountsController < ApplicationController
     @user = User.new(user_params)
     @user.skip_confirmation!
     if @user.save
-      success_response(["User created successfully."])
+      success_response(
+        {
+          user: current_user.to_hash(false)
+        }
+      )
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
   end
 
   def update
     Devise.reconfirmable = false
     if @user.update(user_params)
-      success_response(["User updated successfully"])
+      success_response(
+        {
+          user: current_user.to_hash(false)
+        }
+      )
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
     Devise.reconfirmable = true
   end
@@ -80,7 +87,7 @@ class AccountsController < ApplicationController
     if @user.destroy
       success_response(["User destroyed successfully"])
     else
-      error_validation_response(@user.errors)
+      error_response(@user.errors)
     end
   end
 
@@ -105,7 +112,7 @@ class AccountsController < ApplicationController
   protected
   def ensure_params_exist
     if params[:user].blank?
-      error_validation_response(["User related parameters not found."])
+      error_response(["User related parameters not found."])
     end
   end
 
