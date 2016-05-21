@@ -6,7 +6,6 @@ class OrganizationUsersController < ApplicationController
   before_action :set_organization
   before_action :ensure_params_exist, only: [:update]
   before_action :set_organization_user, only: [:destroy, :update]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :organization_user, "Organization User"
 
@@ -16,39 +15,40 @@ class OrganizationUsersController < ApplicationController
   end
 
   swagger_api :index do
-    notes "List of organization_users records"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     response :success, "List of organization_users records", :organization_user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do
-    notes "Created organization_user record"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     param :form, "organization_user[email]", :string, :required, "Email"
     param :form, "organization_user[name]", :string, :required, "Name"
     response :success, "User invited successfully in the organization.", :organization_user
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do
-    notes "Updated organization_user record"
+    notes "Permissions: Organization Admin"
     param :form, "organization_user[user_type]", :string, :required, "User Type"
     param :path, :id, :integer, :required, "Organization User Id"
     param :path, :organization_id, :integer, :required, "Organization Id"
     response :success, "User data updated successfully for the organization.", :organization_user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deleted organization_user record"
+    notes "Permissions: Organization Admin"
     param :path, :organization_id, :integer, :required, "Organization Id"
     param :path, :id, :integer, :required, "Organization User Id"
     response :success, "User destroyed from organization successfully."
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -62,11 +62,11 @@ class OrganizationUsersController < ApplicationController
   end
 
   def create
-    @user = User.find_by_email(params[:email])
+    @user = User.find_by_email(params[:organization][:email])
     if @user.blank?
-      @user = User.new( email: params[:email],
+      @user = User.new( email: params[:organization][:email],
                         password: '12345678',
-                        first_name: params[:name],
+                        first_name: params[:organization][:name],
                         activated: false
                       )
       @user.skip_confirmation!

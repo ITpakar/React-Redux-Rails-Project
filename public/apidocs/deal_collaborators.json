@@ -10,7 +10,7 @@
         {
           "parameters": [
             {
-              "paramType": "query",
+              "paramType": "path",
               "name": "deal_id",
               "type": "integer",
               "description": "Deal Id",
@@ -29,12 +29,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of deal_collaborators records",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "DealCollaborators#index",
           "method": "get"
         }
@@ -67,12 +67,12 @@
               "message": "Deal Collaborator created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Created deal_collaborator record",
+          "notes": "Permissions: Deal Admin, Organization Admin",
           "nickname": "DealCollaborators#create",
           "method": "post"
         }
@@ -89,6 +89,13 @@
               "type": "integer",
               "description": "Deal Id",
               "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Id",
+              "required": true
             }
           ],
           "responseMessages": [
@@ -103,12 +110,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deleted deal_collaborator record",
+          "notes": "Permissions: Deal Admin, Organization Admin",
           "nickname": "DealCollaborators#destroy",
           "method": "delete"
         }

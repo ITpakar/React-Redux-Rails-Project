@@ -6,27 +6,44 @@
 * PostgreSQL Database
 
 ## Deployment Steps
-* #### 0. Install required gems
+#### 0. Install required gems
 ```
 bundle install
 ```
 
-* #### 1. Create Database
+#### 1. Create Database
 ```
 rake db:create
 ```
 
-* #### 2. Run Migrations
+#### 2. Run Migrations
 ```
 rake db:migrate
 ```
 
-* #### 3. Run Seed data file
+#### 3. Run Seed data file
 ```
 rake db:seed
 ```
 
-* #### 4. Start Server
+#### 4. Install npm dependencies
+```
+npm install
+```
+
+#### 5. Compile assets
+
+* Development
+```
+gulp
+```
+
+* Production
+```
+gulp live
+```
+
+#### 4. Start Server
 ```
 rails s
 ```

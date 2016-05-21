@@ -20,12 +20,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Get list of organizations",
+          "notes": "Permissions: Super Admin",
           "nickname": "Organizations#index",
           "method": "get"
         }
@@ -79,12 +79,12 @@
               "message": "Created organization record"
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create a new organization",
+          "notes": "Permissions: Super Admin",
           "nickname": "Organizations#create",
           "method": "post"
         }
@@ -115,12 +115,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Get organization details",
+          "notes": "Permissions: Organization Member",
           "nickname": "Organizations#show",
           "method": "get"
         }
@@ -181,19 +181,24 @@
               "message": "Updated organization record"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update organization",
+          "notes": "Permissions: Organization Admin",
           "nickname": "Organizations#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -222,12 +227,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Delete organization",
+          "notes": "Permissions: Organization Admin",
           "nickname": "Organizations#destroy",
           "method": "delete"
         }

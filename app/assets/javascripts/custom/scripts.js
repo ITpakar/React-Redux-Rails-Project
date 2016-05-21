@@ -27,7 +27,8 @@ jQuery(document).ready(function($) {
         //equalheight(".content-deal-left, .content-deal-right");
     }
 
-    $('a[href*=#]:not([href=#]).btn-scroller').click(function() {
+    // $('a[href*=#]:not([href=#]).btn-scroller').click(function() {
+    $('a.btn-scroller').click(function() {
         var headerHeight = $('.navbar').length? $('.navbar').outerHeight():0;
         if($(this).hasClass('not-scroller')) return false;
 

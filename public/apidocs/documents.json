@@ -64,12 +64,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of documents records",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Documents#index",
           "method": "get"
         }
@@ -144,12 +144,12 @@
               "message": "Document created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create Document record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Documents#create",
           "method": "post"
         }
@@ -180,12 +180,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Document record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Documents#show",
           "method": "get"
         }
@@ -253,14 +253,24 @@
               "message": "Document updated successfully"
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update an existing Document",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Documents#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -289,12 +299,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deletes an existing Document",
+          "notes": "Permissions: Deal Admin and Document Owner",
           "nickname": "Documents#destroy",
           "method": "delete"
         }

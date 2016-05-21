@@ -8,6 +8,7 @@ class Document < ActiveRecord::Base
   def to_hash
     data = {
       document_id:      self.id,
+      title:            self.title,
       file_name:        self.file_name,
       file_size:        self.file_size,
       file_type:        self.file_type,

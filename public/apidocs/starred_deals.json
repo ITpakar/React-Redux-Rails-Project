@@ -5,13 +5,13 @@
   "resourcePath": "starred_deals",
   "apis": [
     {
-      "path": "/api/deals/{deal_id}/starred_deals",
+      "path": "/api/deals/starred_deals",
       "operations": [
         {
           "parameters": [
             {
               "paramType": "query",
-              "name": "org_id",
+              "name": "organization_id",
               "type": "integer",
               "description": "Organization Id",
               "required": false
@@ -29,12 +29,53 @@
               "message": "You are unauthorized to access this page."
             },
             {
+              "code": 403,
+              "responseModel": null,
+              "message": "You are unauthorized User"
+            },
+            {
               "code": 406,
               "responseModel": null,
               "message": "Error with your login or password"
             }
           ],
-          "notes": "List of starred_deals records for user",
+          "notes": "Permissions: Organization Member",
+          "nickname": "StarredDeals#starred_deals",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/deals/{deal_id}/starred_deals",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "starred_deal",
+              "message": "List of starred_deals records for user"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You are unauthorized User"
+            }
+          ],
+          "notes": "Permissions: Organization Member",
           "nickname": "StarredDeals#index",
           "method": "get"
         }
@@ -58,6 +99,13 @@
               "type": "string",
               "description": "Deal Id",
               "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
             }
           ],
           "responseMessages": [
@@ -67,12 +115,12 @@
               "message": "Starred Deal created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create a new Starred Deal",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "StarredDeals#create",
           "method": "post"
         }
@@ -83,6 +131,13 @@
       "operations": [
         {
           "parameters": [
+            {
+              "paramType": "path",
+              "name": "deal_id",
+              "type": "integer",
+              "description": "Deal Id",
+              "required": true
+            },
             {
               "paramType": "path",
               "name": "id",
@@ -103,12 +158,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deletes an existing Starred Deal",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "StarredDeals#destroy",
           "method": "delete"
         }

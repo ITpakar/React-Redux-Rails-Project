@@ -5,21 +5,19 @@ class CommentsController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_comment, only: [:show, :update, :destroy]
   before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :comment, "Comment"
 
   def self.add_comment_params(comment)
-    comment.param :form, "comment[user_id]", :integer, :optional, "User Id"
-    comment.param :form, "comment[deal_id]", :integer, :optional, "Deal Id"
-    comment.param :form, "comment[task_id]", :integer, :optional, "Task Id"
+    comment.param :form, "comment[user_id]", :integer, :required, "User Id"
+    comment.param :form, "comment[task_id]", :integer, :required, "Task Id"
     comment.param :form, "comment[document_id]", :integer, :optional, "Document Id"
-    comment.param :form, "comment[comment_type]", :string, :optional, "Comment Type"
-    comment.param :form, "comment[comment]", :text, :optional, "Comment"
+    comment.param :form, "comment[comment_type]", :string, :required, "Comment Type"
+    comment.param :form, "comment[comment]", :text, :required, "Comment"
   end
 
   swagger_api :index do
-    notes "List of comments records"
+    notes "Permissions: Deal Collaborators"
     param :query, :document_id, :integer, :optional, "Document Id"
     param :query, :deal_id, :integer, :optional, "Deal Id"
     param :query, :user_id, :integer, :optional, "User Id"
@@ -27,39 +25,39 @@ class CommentsController < ApplicationController
     param :query, :comment_type, :string, :optional, "Comment Type"
     response :success, "List of comments records", :comment
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
   end
 
   swagger_api :show do
-    notes "Comment record"
+    notes "Permissions: Deal Collaborators"
     param :path, :id, :integer, :required, "Comment Id"
     response :success, "Document record", :comment
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |comment|
-    notes "Create Comment record"
+    notes "Permissions: Deal Collaborators"
     CommentsController::add_comment_params(comment)
     response :success, "Comment created successfully.", :comment
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do
-    notes "Update Comment record"
+    notes "Permissions: Deal Admin and Comment Owner who wrote the comment"
     param :path, :id, :integer, :required, "Comment Id"
     param :form, "comment[comment]", :text, :optional, "Comment"
     response :success, "Comment updated successfully", :comment
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Delete Comment record"
+    notes "Permissions: Deal Admin and Comment Owner who wrote the comment"
     param :path, :id, :integer, :required, "Comment Id"
     response :success, "Comment destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -140,7 +138,7 @@ class CommentsController < ApplicationController
   def is_deal_collaborator?
     if @comment.blank?
       @task = Task.find_by_id(params[:comment][:task_id])
-      @section = @task.section.first if @task
+      @section = @task.section if @task
       @deal = @section.deal if @section
     else
       @deal = @comment.task.section.deal

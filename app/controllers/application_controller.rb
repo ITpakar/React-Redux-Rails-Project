@@ -3,10 +3,13 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  skip_before_action :verify_authenticity_token
+  before_action      :set_authenticate_params
+
   # user role validate
   def authenticate_user!
     if current_user.blank?
-      unauthorized_response
+      unauthorized_response(401)
     end
   end
 
@@ -17,37 +20,25 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_organization_admin!
-    if current_user.blank? or !current_user.is_organzation_admin?(params[:id])
+    if current_user.blank? or !current_user.is_organzation_admin?(params[:organization_id] || params[:id])
       unauthorized_response
     end
   end
 
   def authenticate_organization_member!
-    if current_user.blank? or !current_user.is_organzation_member?(params[:id])
+    if current_user.blank? or !current_user.is_organzation_member?(params[:organization_id] || params[:id])
       unauthorized_response
     end
   end
 
   def authentication_org_deal_admin!
-    if current_user.blank? or !current_user.is_org_deal_admin?(params[:id])
+    if current_user.blank? or !current_user.is_org_deal_admin?(params[:deal_id] || params[:id])
       unauthorized_response
     end
   end
 
   def authentication_deal_collaborator!
-    if current_user.blank? or !current_user.is_deal_collaborator?(params[:id])
-      unauthorized_response
-    end
-  end
-
-  def authenticate_document_owner!
-    if current_user.blank? or !current_user.is_document_owner?(params[:document_id])
-      unauthorized_response
-    end
-  end
-
-  def authenticate_notification_reciever!
-    if current_user.blank? or !current_user.is_notification_reciever?(params[:id])
+    if current_user.blank? or !current_user.is_deal_collaborator?(params[:deal_id] || params[:id])
       unauthorized_response
     end
   end
@@ -64,7 +55,7 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def error_response(messages, status = 406)
+  def error_response(messages, status = 400)
     render(
       json: {
         status: 'error',
@@ -77,7 +68,7 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def unauthorized_response
+  def unauthorized_response(status = 403)
     render(
       json: {
         status: 'unauthorized',
@@ -86,13 +77,24 @@ class ApplicationController < ActionController::Base
           messages: ['You are unauthorized to access this page.']
         }
       },
-      status: 401
+      status: status
     )
   end
 
   def ensure_params_exist(object)
     if params[object].blank?
       error_response(["object related parameters not found."])
+    end
+  end
+
+  def set_authenticate_params
+    if params[:organization_id].blank?
+      if !params[:organization].blank? and !params[:organization][:id].blank?
+        params[:organization_id] = params[:organization][:id]
+      end
+      if !params[:deal].blank? and !params[:deal][:organization_id].blank?
+        params[:organization_id] = params[:deal][:organization_id]
+      end
     end
   end
 

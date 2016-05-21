@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :authenticate_super_admin!
   before_action :set_user, only: [:destroy, :update, :show]
   before_action :ensure_params_exist, only: [:update, :create]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :user, "User"
 
@@ -16,35 +15,36 @@ class UsersController < ApplicationController
   end
 
   swagger_api :index do
-    notes "List of users records"
+    notes "Permissions: Super Admin"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "User record"
+    notes "Permissions: Super Admin"
     param :path, :id, :integer, :required, "User Id"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :update do |user|
-    notes "Updated user record"
+    notes "Permissions: Super Admin"
     UsersController::add_user_params(user)
     param :path, :id, :integer, :required, "user Id"
     response :success, "User updated successfully", :user
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deleted user record"
+    notes "Permissions: Super Admin"
     param :path, :id, :integer, :required, "user Id"
     response :success,"User destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index

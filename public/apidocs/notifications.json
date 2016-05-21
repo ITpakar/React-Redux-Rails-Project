@@ -36,12 +36,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of notifications records",
+          "notes": "Permissions: Self User (logged in)",
           "nickname": "Notifications#index",
           "method": "get"
         }
@@ -54,14 +54,14 @@
           "parameters": [
             {
               "paramType": "form",
-              "name": "user_id",
+              "name": "notification[user_ids]",
               "type": "array",
               "description": "User",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "message",
+              "name": "notification[message]",
               "type": "string",
               "description": "Message",
               "required": true
@@ -74,12 +74,12 @@
               "message": "Notification created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create Notification record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Notifications#create",
           "method": "post"
         }
@@ -110,12 +110,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Notification record",
+          "notes": "Permissions: Super Admin, Notification Receiver",
           "nickname": "Notifications#show",
           "method": "get"
         }
@@ -135,7 +135,7 @@
             },
             {
               "paramType": "form",
-              "name": "status",
+              "name": "notification[status]",
               "type": "string",
               "description": "Status",
               "required": false
@@ -148,19 +148,24 @@
               "message": "Notification updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Mark notification read/unread.",
+          "notes": "Permissions: Notification Receiver",
           "nickname": "Notifications#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -189,12 +194,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Deletes Notification record",
+          "notes": "Permissions: Super Admin",
           "nickname": "Notifications#destroy",
           "method": "delete"
         }

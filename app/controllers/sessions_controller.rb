@@ -2,22 +2,20 @@ class SessionsController < Devise::SessionsController
   respond_to :json
 
   before_action :ensure_params_exist, only: [:create]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :sessions, "Sessions"
 
   swagger_api :create do
-    summary "Logged in"
+    summary "Permissions: Guest"
     param :form, "user[email]", :string, :required, "Email"
     param :form, "user[password]", :string, :required, "Password"
     response :success, "Logged in user record", :user
-    response :not_acceptable, "Error with your login or password"
+    response :not_acceptable, "Incorrect login or password"
   end
 
   swagger_api :destroy do
-    summary "Log out"
+    summary "Permissions: Logged in user"
     response :no_content
-    response :not_acceptable, "Error with your login or password"
   end
 
   def create
@@ -33,7 +31,7 @@ class SessionsController < Devise::SessionsController
         }
       )
     else
-      error_response(["Error with your login or password"])
+      error_response(["Incorrect login or password"],406)
     end
   end
 
@@ -44,7 +42,7 @@ class SessionsController < Devise::SessionsController
   protected
   def ensure_params_exist
     if params[:user].blank?
-      error_response(["Error with your login or password"])
+      error_response(["Incorrect login or password"],406)
     end
   end
 end

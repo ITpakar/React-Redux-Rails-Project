@@ -57,12 +57,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "List of folders records",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Folders#index",
           "method": "get"
         }
@@ -109,12 +109,12 @@
               "message": "Folder created successfully."
             },
             {
-              "code": 406,
+              "code": 400,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "Incorrect request/formdata"
             }
           ],
-          "notes": "Create folder record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Folders#create",
           "method": "post"
         }
@@ -145,12 +145,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Folder record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Folders#show",
           "method": "get"
         }
@@ -190,19 +190,24 @@
               "message": "Folder updated successfully"
             },
             {
+              "code": 400,
+              "responseModel": null,
+              "message": "Incorrect request/formdata"
+            },
+            {
               "code": 401,
               "responseModel": null,
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Update folder record",
+          "notes": "Permissions: Deal Collaborators",
           "nickname": "Folders#update",
-          "method": "patch"
+          "method": "put"
         }
       ]
     },
@@ -231,12 +236,12 @@
               "message": "You are unauthorized to access this page."
             },
             {
-              "code": 406,
+              "code": 403,
               "responseModel": null,
-              "message": "Error with your login or password"
+              "message": "You are unauthorized User"
             }
           ],
-          "notes": "Delete folder record",
+          "notes": "Permissions: Deal Admin and Folder Owner",
           "nickname": "Folders#destroy",
           "method": "delete"
         }

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :organizations do
       resources :organization_users, except: [:new, :edit]
     end
+    get    '/deals/starred_deals', to: 'starred_deals#starred_deals'
     resources :deals do
       resources :deal_collaborators, only: [:create, :index, :destroy]
       resources :starred_deals, only: [:index, :create, :update, :destroy]

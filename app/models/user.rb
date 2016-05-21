@@ -43,6 +43,14 @@ class User < ActiveRecord::Base
   has_many :folders, foreign_key: :created_by
   has_many :sections, foreign_key: :created_by
 
+  def active_for_authentication?
+    super && self.activated
+  end
+
+  def inactive_message
+    "Failed to login"
+  end
+
   def create_organization
     Organization.create(
       name: self.company,
@@ -65,7 +73,7 @@ class User < ActiveRecord::Base
     return true if self.is_super?
 
     organization_user = OrganizationUser.where(
-      user_id: id,
+      user_id: self.id,
       organization_id: organization_id,
       user_type: ORG_USER_TYPE_ADMIN
     ).first
@@ -76,7 +84,7 @@ class User < ActiveRecord::Base
     return true if self.is_super?
 
     organization_user = OrganizationUser.where(
-      user_id: id,
+      user_id: self.id,
       organization_id: organization_id
     ).first
     return !organization_user.blank?
@@ -86,14 +94,13 @@ class User < ActiveRecord::Base
     return true if self.is_super?
 
     deal = self.deals.find_by_id(deal_id)
-    return if deal.admin_user_id == self.id or deal.organization.creator.id == self.id
+    return if deal and (deal.admin_user_id == self.id or deal.organization.creator.id == self.id)
   end
 
   def is_deal_collaborator?(deal_id)
     return true if self.is_super? or self.is_org_deal_admin?(deal_id)
 
     deal = Deal.find_by_id(deal_id)
-    return true if self.is_organzation_member?(deal.organization_id)
 
     deal_collaborator = DealCollaborator.where(
       user_id: id,

@@ -8,56 +8,54 @@ class OrganizationsController < ApplicationController
   before_action :set_organization, only: [:update, :destroy, :show]
   before_action :set_peginate, only: [:index]
 
-  skip_before_action :verify_authenticity_token
-
   swagger_controller :organization, "Organization"
 
   def self.add_oraganization_params(organization)
     organization.param :form, "organization[name]", :string, :required, "Name"
-    organization.param :form, "organization[email_domain]", :string, :optional, "Email Domain"
-    organization.param :form, "organization[phone]", :string, :optional, "Phone"
-    organization.param :form, "organization[address]", :string, :optional, "Address"
-    organization.param :form, "organization[created_by]", :integer, :optional, "Created By"
+    organization.param :form, "organization[email_domain]", :string, :required, "Email Domain"
+    organization.param :form, "organization[phone]", :string, :required, "Phone"
+    organization.param :form, "organization[address]", :string, :required, "Address"
     organization.param :form, "organization[activated]", :boolean, :optional, "Activated"
   end
 
   swagger_api :index do
-    notes "Get list of organizations"
+    notes "Permissions: Super Admin"
     response :success, "List of organization records", :organization
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "Get organization details"
+    notes "Permissions: Organization Member"
     param :path, :id, :integer, :required, "Organization Id"
     response :success, "organization record", :organization
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |organization|
-    notes "Create a new organization"
+    notes "Permissions: Super Admin"
     OrganizationsController::add_oraganization_params(organization)
     response :success, "Created organization record", :organization
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |organization|
-    notes "Update organization"
+    notes "Permissions: Organization Admin"
     OrganizationsController::add_oraganization_params(organization)
     param :path, :id, :integer, :required, "Organization Id"
     response :success, "Updated organization record", :organization
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Delete organization"
+    notes "Permissions: Organization Admin"
     param :path, :id, :integer, :required, "Organization Id"
     response :success, "Organization destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -73,6 +71,7 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(organization_params)
+    @organization.created_by = current_user.id
     if @organization.save
       @organization.organization_users.create(
         user_id: current_user.id,

@@ -1,25 +1,26 @@
 class RegistrationsController < Devise::SessionsController
   respond_to :json
-
-  skip_before_filter :verify_authenticity_token
+  before_action :authenticate_super_admin!
 
   swagger_controller :user, "User"
 
   def self.add_user_params(user)
     user.param :form, "user[email]", :string, :required, "Email"
     user.param :form, "user[password]", :string, :required, "Password"
-    user.param :form, "user[first_name]", :string, :optional, "First Name"
-    user.param :form, "user[last_name]", :string, :optional, "Last Name"
+    user.param :form, "user[first_name]", :string, :required, "First Name"
+    user.param :form, "user[last_name]", :string, :required, "Last Name"
     user.param :form, "user[phone]", :string, :optional, "Phone"
     user.param :form, "user[address]", :string, :optional, "Address"
     user.param :form, "user[company]", :string, :optional, "Company"
+    user.param :form, "user[role]", :string, :required, "Role"
   end
 
   swagger_api :create do |user|
-    notes "Created user record"
+    notes "Permissions: Super Admin"
     RegistrationsController::add_user_params(user)
     response :success, "User created successfully.", :user
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :unauthorized, "You are unauthorized to access this page."
   end
 
   def create

@@ -5,55 +5,54 @@ class NotificationsController < ApplicationController
   before_action :authenticate_super_admin!, only: [:create, :destroy]
   before_action :authenticate_notification_reciever!, only: [:show, :update]
   before_action :set_notification, only: [:show, :update, :destroy]
-  skip_before_action :verify_authenticity_token
 
   swagger_controller :notification, "Notification"
 
   def self.add_notification_params(notification)
-    notification.param :form, :user_id, :array, :required, "User"
-    notification.param :form, :message, :string, :optional, "Message"
+    notification.param :form, "notification[user_ids]", :array, :required, "User"
+    notification.param :form, "notification[message]", :string, :required, "Message"
   end
 
   swagger_api :index do
-    notes "List of notifications records"
+    notes "Permissions: Self User (logged in)"
     param :query, :user_id, :integer, :optional, "User Id"
     param :query, :status,  :string,  :optional, "Status"
     response :success, "List of notifications records", :notification
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :show do
-    notes "Notification record"
+    notes "Permissions: Super Admin, Notification Receiver"
     param :path, :id, :integer, :required, "Notification Id"
     response :success, "Notification record", :notification
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :create do |notification|
-    notes "Create Notification record"
+    notes "Permissions: Super Admin"
     NotificationsController::add_notification_params(notification)
     response :success, "Notification created successfully.", :notification
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |notification|
-    notes "Update Notification record"
-    notes "Mark notification read/unread."
+    notes "Permissions: Notification Receiver"
     param :path, :id, :integer, :required, "Notification Id"
-    param :form, :status, :string, :optional, "Status"
+    param :form, "notification[status]", :string, :optional, "Status"
     response :success, "Notification updated successfully", :notification
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :bad_request, "Incorrect request/formdata"
+    response :forbidden, "You are unauthorized User"
   end
 
   swagger_api :destroy do
-    notes "Deletes Notification record"
+    notes "Permissions: Super Admin"
     param :path, :id, :integer, :required, "Notification Id"
     response :success, "Notification destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
-    response :not_acceptable, "Error with your login or password"
+    response :forbidden, "You are unauthorized User"
   end
 
   def index
@@ -84,10 +83,10 @@ class NotificationsController < ApplicationController
   end
 
   def create
-    if params[:user_ids] and params[:message]
-      params[:user_ids].each do |user_id|
+    if params[:notification] and params[:notification][:user_ids] and params[:notification][:message]
+      params[:notification][:user_ids].each do |user_id|
         @notification = Notification.new(
-                          message: params[:message],
+                          message: params[:notification][:message],
                           user_id: user_id,
                           status: 'unread'
                         )
@@ -100,7 +99,7 @@ class NotificationsController < ApplicationController
   end
 
   def update
-    if params[:status] and @notification.update(status: params[:status])
+    if params[:notification][:status] and @notification.update(status: params[:notification][:status])
       success_response(["Notification updated successfully"])
     else
       error_response(["Notification status related parameters not found."])
@@ -119,5 +118,11 @@ class NotificationsController < ApplicationController
   def set_notification
     @notification = Notification.find_by_id(params[:id])
     error_response(["Notification Not Found"]) if @notification.blank?
+  end
+
+   def authenticate_notification_reciever!
+    if current_user.blank? or !current_user.is_notification_reciever?(params[:id])
+      unauthorized_response
+    end
   end
 end
