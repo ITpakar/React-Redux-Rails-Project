@@ -57,13 +57,13 @@
             position: absolute;
             left: 0;
             top: 0;
-            background: asset-data-url("icon-document.svg") no-repeat 50% 50% / 61px 81px;
+            background: url("../images/icon-document.svg") no-repeat 50% 50% / 61px 81px;
             content: "";
         }
 
         &.signed{
             &:before{
-                background: asset-data-url("icon-document.svg") no-repeat 50% 50% / 61px 81px;
+                background: url("../images/icon-document.svg") no-repeat 50% 50% / 61px 81px;
             }
         }
 
@@ -266,7 +266,7 @@
                 }
 
                 i{
-                    background: asset-data-url('icon-file.svg') no-repeat 50% 50% / contain;
+                    background: url('../images/icon-file.svg') no-repeat 50% 50% / contain;
                     width: 16px;
                     height: 16px;
                 }

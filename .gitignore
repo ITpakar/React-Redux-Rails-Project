@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/.ruby-version
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -33,3 +34,9 @@
 
 # assets compiled for production testing
 /public/assets/
+/public/fonts/
+/public/images/
+/public/javascripts/
+/public/stylesheets/
+/public/rev-manifest.json
+/node_modules
