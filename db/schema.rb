@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160425083416) do
   end
 
   create_table "documents", force: :cascade do |t|
+    t.string   "title"
     t.string   "file_name"
     t.integer  "file_size"
     t.string   "file_type"
