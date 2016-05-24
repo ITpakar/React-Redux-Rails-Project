@@ -51,3 +51,6 @@ node_modules
 # Swagger docs and files
 /public/apidocs/
 /public/swagger/
+
+# Ignore application configuration
+/config/application.yml
