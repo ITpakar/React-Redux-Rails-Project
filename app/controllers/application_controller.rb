@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
   # user role validate
   def authenticate_user!
     if current_user.blank?
-      unauthorized_response(401)
+      respond_to do |format|
+        format.html { redirect_to app_account_sign_in_path }
+        format.json { unauthorized_response(401) }
+      end
+      
     end
   end
 
