@@ -25,11 +25,12 @@ class RegistrationsController < Devise::SessionsController
 
   def create
     user = User.new(user_params)
+    user.activated = true
     user.skip_confirmation!
     if user.save
       success_response(
         {
-          user: user.to_hash
+          user: user.to_hash(false)
         }
       )
     else

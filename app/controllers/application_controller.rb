@@ -14,31 +14,41 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_super_admin!
-    if current_user.blank? or !current_user.is_super?
+    if current_user.blank?
+      unauthorized_response(401)
+    elsif !current_user.is_super?
       unauthorized_response
     end
   end
 
   def authenticate_organization_admin!
-    if current_user.blank? or !current_user.is_organzation_admin?(params[:organization_id] || params[:id])
+    if current_user.blank?
+      unauthorized_response(401)
+    elsif !current_user.is_organzation_admin?(params[:organization_id] || params[:id])
       unauthorized_response
     end
   end
 
   def authenticate_organization_member!
-    if current_user.blank? or !current_user.is_organzation_member?(params[:organization_id] || params[:id])
+    if current_user.blank?
+      unauthorized_response(401)
+    elsif !current_user.is_organzation_member?(params[:organization_id] || params[:id] || current_user.organization.id)
       unauthorized_response
     end
   end
 
   def authentication_org_deal_admin!
-    if current_user.blank? or !current_user.is_org_deal_admin?(params[:deal_id] || params[:id])
+    if current_user.blank?
+      unauthorized_response(401)
+    elsif !current_user.is_org_deal_admin?(params[:deal_id] || params[:id])
       unauthorized_response
     end
   end
 
   def authentication_deal_collaborator!
-    if current_user.blank? or !current_user.is_deal_collaborator?(params[:deal_id] || params[:id])
+    if current_user.blank?
+      unauthorized_response(401)
+    elsif !current_user.is_deal_collaborator?(params[:deal_id] || params[:id])
       unauthorized_response
     end
   end

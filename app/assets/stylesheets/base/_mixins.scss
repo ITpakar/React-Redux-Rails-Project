@@ -313,9 +313,9 @@ $prefixes: -webkit-, -moz-, -o-, "";
 // SVG background-images with fallback - defaults to png
 @mixin svg-image($image, $width, $height, $image-type: 'png', $position: 'center center', $repeat: 'no-repeat') {
     background-color: transparent;
-    background-image: url(#{$image-dir}#{$image}.#{$image-type}); // Fallback png or jpg image
-    background-image: -webkit-linear-gradient(transparent, transparent), url(#{$image-dir}#{$image}.svg);
-    background-image: linear-gradient(transparent, transparent), url(#{$image-dir}#{$image}.svg);
+    background-image: asset-url('#{$image-dir}#{$image}.#{$image-type}'); // Fallback png or jpg image
+    background-image: -webkit-linear-gradient(transparent, transparent), asset-url('#{$image-dir}#{$image}.svg');
+    background-image: linear-gradient(transparent, transparent), asset-url('#{$image-dir}#{$image}.svg');
     background-position: #{$position};
     background-repeat: #{$repeat};
     @include background-size($width $height);

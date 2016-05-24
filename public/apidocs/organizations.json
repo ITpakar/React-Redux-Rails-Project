@@ -82,6 +82,16 @@
               "code": 400,
               "responseModel": null,
               "message": "Incorrect request/formdata"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You are unauthorized User"
             }
           ],
           "notes": "Permissions: Super Admin",

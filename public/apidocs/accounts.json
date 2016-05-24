@@ -55,14 +55,14 @@
               "name": "user[first_name]",
               "type": "string",
               "description": "First Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "user[last_name]",
               "type": "string",
               "description": "Last Name",
-              "required": false
+              "required": true
             },
             {
               "paramType": "form",

@@ -10,8 +10,8 @@ class AccountsController < ApplicationController
   def self.add_account_params(user)
     user.param :form, "user[email]",      :string, :required, "Email"
     user.param :form, "user[password]",   :string, :required, "password"
-    user.param :form, "user[first_name]", :string, :optional, "First Name"
-    user.param :form, "user[last_name]",  :string, :optional, "Last Name"
+    user.param :form, "user[first_name]", :string, :required, "First Name"
+    user.param :form, "user[last_name]",  :string, :required, "Last Name"
     user.param :form, "user[phone]",      :string, :optional, "Phone"
     user.param :form, "user[address]",    :string, :optional, "Address"
     user.param :form, "user[company]",    :string, :optional, "Company"
@@ -57,11 +57,13 @@ class AccountsController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.activated = false
+    @user.role = USER_NORMAL if @user.role.blank?
     @user.skip_confirmation!
     if @user.save
       success_response(
         {
-          user: current_user.to_hash(false)
+          user: @user.to_hash(false)
         }
       )
     else
@@ -74,7 +76,7 @@ class AccountsController < ApplicationController
     if @user.update(user_params)
       success_response(
         {
-          user: current_user.to_hash(false)
+          user: @user.to_hash(false)
         }
       )
     else

@@ -2,10 +2,10 @@ class StarredDealsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!, only: [:index, :create, :destroy]
+  before_action :authenticate_organization_member!, only: [:starred_deals]
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, except: [:starred_deals]
   before_action :set_starred_deal, only: [:destroy]
-  before_action :authenticate_organization_member!, only: [:starred_deal]
 
   swagger_controller :starred_deal, "starred_deal"
 
@@ -51,14 +51,11 @@ class StarredDealsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    if params[:organization_id]
-      deal_ids = current_user.deals.where(organization_id: params[:organization_id]).pluck(:id)
-    else
-      deal_ids = current_user.deals.pluck(:id)
-    end
+
+    deal_ids = current_user.deals.pluck(:id)
 
     @starred_deals = current_user.starred_deals
-                                 .where("id in (?)", deal_ids)
+                                 .where("deal_id in (?)", deal_ids)
                                  .order("#{sortby} #{sortdir}")
                                  .page(@page).per(@per_page) rescue []
     success_response(
@@ -95,7 +92,7 @@ class StarredDealsController < ApplicationController
     deal_ids = current_user.deals.where(conditions[0]).pluck(:id)
 
     @starred_deals = current_user.starred_deals
-                                 .where("id in (?)", deal_ids)
+                                 .where("deal_id in (?)", deal_ids)
                                  .order("#{sortby} #{sortdir}")
                                  .page(@page).per(@per_page) rescue []
     success_response(
