@@ -1,16 +1,22 @@
 Rails.application.routes.draw do
   get 'hello_world', to: 'hello_world#index'
+
   devise_for :users, skip: :all
+
   devise_scope :user do
-    get   '/app/account/sign_in',  to: "sessions#new"
     match '/api/account/sign_in',  to: 'sessions#create',      via: :post
-    post '/app/account/sign_in',  to: 'sessions#create'
     match '/api/account/sign_out', to: 'sessions#destroy',     via: :delete
     match '/api/users',            to: 'registrations#create', via: :post
   end
 
-  scope "/app" do
-    get '/dashboard', to: 'home#index'  
+  scope "/app", module: 'app', as: :app do
+    get '/dashboard', to: 'home#index'
+
+    devise_scope :user do
+      get '/account/sign_in', to: "sessions#new"
+      post '/account/sign_in',  to: 'sessions#create'
+    end
+
   end
 
   scope '/api' do
@@ -38,16 +44,16 @@ Rails.application.routes.draw do
     resources :categories
   end
 
-  get 'signin',      to: 'home#signin'
-  get 'signup',      to: 'home#signup'
-  get 'deals',       to: 'home#deals'
-  get 'deals/:id',   to: 'home#deal'
-  get 'team',        to: 'home#team'
-  get 'team-item',   to: 'home#team_item'
-  get 'deal-client', to: "home#deal_client"
-  get 'deal-file',   to: "home#deal_file"
-  get 'report',      to: "home#report"
-  get 'setting',     to: "home#setting"
+  get 'signin',      to: 'app/home#signin'
+  get 'signup',      to: 'app/home#signup'
+  get 'deals',       to: 'app/home#deals'
+  get 'deals/:id',   to: 'app/home#deal'
+  get 'team',        to: 'app/home#team'
+  get 'team-item',   to: 'app/home#team_item'
+  get 'deal-client', to: "app/home#deal_client"
+  get 'deal-file',   to: "app/home#deal_file"
+  get 'report',      to: "app/home#report"
+  get 'setting',     to: "app/home#setting"
 
   get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
 
