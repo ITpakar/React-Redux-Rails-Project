@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  respond_to :html, :json
+  respond_to :json
 
   before_action :ensure_params_exist, only: [:create]
 
@@ -18,9 +18,6 @@ class SessionsController < Devise::SessionsController
     response :no_content
   end
 
-  def new
-  end
-
   def create
     resource = User.find_for_database_authentication(
       email: params[:user][:email]
@@ -28,27 +25,9 @@ class SessionsController < Devise::SessionsController
 
     if resource and resource.valid_password?(params[:user][:password])
       sign_in("user", resource)
-
-      respond_to do |format|
-        format.html do 
-          redirect_to dashboard_path
-        end
-        
-        format.json do
-          success_response({user: resource.to_hash})
-        end
-      end
+      success_response({user: resource.to_hash})
     else
-      respond_to do |format|
-          format.html do
-            flash[:error] = "Wrong login!"
-            render 'new'
-          end
-
-          format.json do 
-            error_response(["Incorrect login or password"],406)
-          end
-        end
+      error_response(["Incorrect login or password"],406)  
     end
   end
 
