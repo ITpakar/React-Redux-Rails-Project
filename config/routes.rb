@@ -2,10 +2,17 @@ Rails.application.routes.draw do
   get 'hello_world', to: 'hello_world#index'
   devise_for :users, skip: :all
   devise_scope :user do
+    get   '/app/account/sign_in',  to: "sessions#new"
     match '/api/account/sign_in',  to: 'sessions#create',      via: :post
+    post '/app/account/sign_in',  to: 'sessions#create'
     match '/api/account/sign_out', to: 'sessions#destroy',     via: :delete
     match '/api/users',            to: 'registrations#create', via: :post
   end
+
+  scope "/app" do
+    get '/dashboard', to: 'home#index'  
+  end
+
   scope '/api' do
     resources :users, except: [:new, :edit]
     get    '/account', to: 'accounts#index'
@@ -42,5 +49,10 @@ Rails.application.routes.draw do
   get 'report',      to: "home#report"
   get 'setting',     to: "home#setting"
 
+  get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
+
+
   root to: "home#index"
+
+
 end

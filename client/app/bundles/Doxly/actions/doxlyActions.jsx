@@ -1,4 +1,4 @@
-import actionTypes from '../constants/doxlyConstants';
+import actionTypes from '../constants';
 
 export default {
   login: function(data) {

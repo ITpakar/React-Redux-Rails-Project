@@ -25,6 +25,7 @@
 */.DS_Store
 */*/.DS_Store
 */*/*/.DS_Store
+.byebug-history
 
 # SASS
 .sass-cache
@@ -46,3 +47,7 @@ node_modules
 
 # Generated js bundles
 /app/assets/webpack/*
+
+# Swagger docs and files
+/public/apidocs/
+/public/swagger/

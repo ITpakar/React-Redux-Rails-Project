@@ -15,9 +15,7 @@ export default props => {
   const { userState } = initialStates;
 
   const initialState = {
-    userStore: userState.merge({
-      user_id
-    }),
+    userStore: Object.assign({}, userState, {user_id: user_id})
   };
 
   const reducer = combineReducers(reducers);

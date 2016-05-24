@@ -1,5 +1,8 @@
 import ReactOnRails from 'react-on-rails';
-import DoxlyApp from './DoxlyAppClient';
+import Provider from 'redux'
+import SignInForm from '../components/SignInForm';
+import createStore from '../store/doxlyStore';
 
-// This is how react_on_rails can see the HelloWorldApp in the browser.
-ReactOnRails.register({ HelloWorldApp });
+var store = createStore({});
+
+ReactOnRails.register({SignInForm});

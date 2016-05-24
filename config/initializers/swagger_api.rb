@@ -5,7 +5,7 @@ Swagger::Docs::Config.register_apis({
     # the output location where your .json files are written to
     :api_file_path => "public/apidocs",
     # the URL base path to your API
-    :base_path => "http://localhost:3000",
+    :base_path => "http://localhost:5000",
     :attributes => {
       :info => {
         "title" => "Doxly",

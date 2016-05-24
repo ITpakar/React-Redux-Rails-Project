@@ -5,7 +5,7 @@ import userReducer from './userReducer';
 import { initialState as userState } from './userReducer';
 
 export default {
-  usersStore: userReducer,
+  userStore: userReducer
 };
 
 export const initialStates = {
