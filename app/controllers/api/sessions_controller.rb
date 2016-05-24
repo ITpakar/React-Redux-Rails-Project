@@ -1,4 +1,4 @@
-class SessionsController < Devise::SessionsController
+class Api::SessionsController < Devise::SessionsController
   respond_to :json
 
   before_action :ensure_params_exist, only: [:create]

@@ -1,4 +1,4 @@
-class DealCollaboratorsController < ApplicationController
+class Api::DealCollaboratorsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!, only: [:index]

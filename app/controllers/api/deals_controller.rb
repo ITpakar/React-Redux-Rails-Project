@@ -1,4 +1,4 @@
-class DealsController < ApplicationController
+class Api::DealsController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

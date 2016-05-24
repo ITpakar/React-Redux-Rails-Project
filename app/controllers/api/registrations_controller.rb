@@ -1,4 +1,4 @@
-class RegistrationsController < Devise::SessionsController
+class Api::RegistrationsController < Devise::SessionsController
   respond_to :json
   before_action :authenticate_super_admin!
 

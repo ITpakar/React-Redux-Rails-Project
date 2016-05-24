@@ -1,4 +1,4 @@
-class StarredDealsController < ApplicationController
+class Api::StarredDealsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!, only: [:index, :create, :destroy]

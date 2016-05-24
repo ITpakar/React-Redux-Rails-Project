@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class Api::OrganizationsController < ApplicationController
   respond_to :json
 
   before_action :authenticate_super_admin!, only: [:index, :create]

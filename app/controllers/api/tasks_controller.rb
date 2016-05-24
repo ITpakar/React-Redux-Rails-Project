@@ -1,4 +1,4 @@
-class TasksController < ApplicationController
+class Api::TasksController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

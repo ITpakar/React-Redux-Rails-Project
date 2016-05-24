@@ -1,4 +1,4 @@
-class SectionsController < ApplicationController
+class Api::SectionsController < ApplicationController
   respond_to :json
 
   before_action :authentication_deal_collaborator!

@@ -1,4 +1,4 @@
-class DocumentSignersController < ApplicationController
+class Api::DocumentSignersController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

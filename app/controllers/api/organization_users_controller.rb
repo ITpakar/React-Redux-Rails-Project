@@ -1,4 +1,4 @@
-class OrganizationUsersController < ApplicationController
+class Api::OrganizationUsersController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

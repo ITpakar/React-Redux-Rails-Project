@@ -1,4 +1,4 @@
-class FoldersController < ApplicationController
+class Api::FoldersController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

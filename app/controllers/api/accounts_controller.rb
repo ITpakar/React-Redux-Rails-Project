@@ -1,38 +1,39 @@
-class UsersController < ApplicationController
+class Api::AccountsController < ApplicationController
   respond_to :json
-  before_action :authenticate_super_admin!
-  before_action :set_user, only: [:destroy, :update, :show]
-  before_action :ensure_params_exist, only: [:update, :create]
 
-  swagger_controller :user, "User"
+  before_action :authenticate_user!, except: [:create]
+  before_action :ensure_params_exist, only: [:create, :update]
+  before_action :set_user, only: [:destroy, :update]
 
-  def self.add_user_params(user)
-    user.param :form, "user[first_name]", :string, :optional, "First Name"
-    user.param :form, "user[last_name]", :string, :optional, "Last Name"
-    user.param :form, "user[phone]", :string, :optional, "Phone"
-    user.param :form, "user[address]", :string, :optional, "Address"
-    user.param :form, "user[company]", :string, :optional, "Company"
+  swagger_controller :account, "Account"
+
+  def self.add_account_params(user)
+    user.param :form, "user[email]",      :string, :required, "Email"
+    user.param :form, "user[password]",   :string, :required, "password"
+    user.param :form, "user[first_name]", :string, :required, "First Name"
+    user.param :form, "user[last_name]",  :string, :required, "Last Name"
+    user.param :form, "user[phone]",      :string, :optional, "Phone"
+    user.param :form, "user[address]",    :string, :optional, "Address"
+    user.param :form, "user[company]",    :string, :optional, "Company"
   end
 
   swagger_api :index do
-    notes "Permissions: Super Admin"
+    notes "Permissions: Self User (logged in)"
     response :success, "user record", :user
     response :unauthorized, "You are unauthorized to access this page."
     response :forbidden, "You are unauthorized User"
   end
 
-  swagger_api :show do
-    notes "Permissions: Super Admin"
-    param :path, :id, :integer, :required, "User Id"
-    response :success, "user record", :user
-    response :unauthorized, "You are unauthorized to access this page."
-    response :forbidden, "You are unauthorized User"
+  swagger_api :create do |user|
+    notes "Permissions: Guest"
+    AccountsController::add_account_params(user)
+    response :success, "User created successfully.", :user
+    response :bad_request, "Incorrect request/formdata"
   end
 
   swagger_api :update do |user|
-    notes "Permissions: Super Admin"
-    UsersController::add_user_params(user)
-    param :path, :id, :integer, :required, "user Id"
+    notes "Permissions: Self User (logged in)"
+    AccountsController::add_account_params(user)
     response :success, "User updated successfully", :user
     response :unauthorized, "You are unauthorized to access this page."
     response :bad_request, "Incorrect request/formdata"
@@ -40,25 +41,24 @@ class UsersController < ApplicationController
   end
 
   swagger_api :destroy do
-    notes "Permissions: Super Admin"
-    param :path, :id, :integer, :required, "user Id"
+    notes "Permissions: Self User (logged in)"
     response :success,"User destroyed successfully"
     response :unauthorized, "You are unauthorized to access this page."
     response :forbidden, "You are unauthorized User"
   end
 
   def index
-    @users = User.page(@page).per(@per_page) rescue []
     success_response(
       {
-        users: @users.map(&:to_hash)
+        user: current_user.to_hash(false)
       }
     )
   end
 
   def create
     @user = User.new(user_params)
-    @user.activated = true
+    @user.activated = false
+    @user.role = USER_NORMAL if @user.role.blank?
     @user.skip_confirmation!
     if @user.save
       success_response(
@@ -72,19 +72,17 @@ class UsersController < ApplicationController
   end
 
   def update
+    Devise.reconfirmable = false
     if @user.update(user_params)
-      success_response(["User updated successfully"])
+      success_response(
+        {
+          user: @user.to_hash(false)
+        }
+      )
     else
       error_response(@user.errors)
     end
-  end
-
-  def show
-    success_response(
-      {
-        user: @user.to_hash
-      }
-    )
+    Devise.reconfirmable = true
   end
 
   def destroy
@@ -97,7 +95,7 @@ class UsersController < ApplicationController
 
   private
   def set_user
-    @user = User.find_by_id(params[:id])
+    @user = current_user
     error_response(["User Not Found"]) if @user.blank?
   end
 
@@ -109,8 +107,7 @@ class UsersController < ApplicationController
       :last_name,
       :phone,
       :address,
-      :company,
-      :role
+      :company
     )
   end
 
@@ -120,4 +117,5 @@ class UsersController < ApplicationController
       error_response(["User related parameters not found."])
     end
   end
+
 end

@@ -15,11 +15,13 @@ Rails.application.routes.draw do
     devise_scope :user do
       get '/account/sign_in', to: "sessions#new"
       post '/account/sign_in',  to: 'sessions#create'
+      get '/account/new', to: 'registrations#new'
+      post '/account/new', to: 'registrations#create'
     end
 
   end
 
-  scope '/api' do
+  scope '/api', module: 'api', as: 'api' do
     resources :users, except: [:new, :edit]
     get    '/account', to: 'accounts#index'
     post   '/account', to: 'accounts#create'
@@ -44,6 +46,8 @@ Rails.application.routes.draw do
     resources :categories
   end
 
+  # Temporary routes
+
   get 'signin',      to: 'app/home#signin'
   get 'signup',      to: 'app/home#signup'
   get 'deals',       to: 'app/home#deals'
@@ -58,7 +62,7 @@ Rails.application.routes.draw do
   get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
 
 
-  root to: "home#index"
+  root to: "app/home#index"
 
 
 end

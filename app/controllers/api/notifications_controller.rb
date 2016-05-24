@@ -1,4 +1,4 @@
-class NotificationsController < ApplicationController
+class Api::NotificationsController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!

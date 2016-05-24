@@ -1,4 +1,4 @@
-class DocumentsController < ApplicationController
+class Api::DocumentsController < ApplicationController
   respond_to :json
 
   before_action :authenticate_user!
