@@ -26,8 +26,20 @@ module DoxlyApp
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     #config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
+
     config.generators do |g|
       g.assets false
     end
+
+    # config.assets.precompile += %w( server-bundle.js )
+    # config.assets.paths << Rails.root.join("app", "assets", "webpack")
+
+    # type = ENV["REACT_ON_RAILS_ENV"] == "HOT" ? "non_webpack" : "static"
+
+    # config.assets.precompile +=
+    #   [
+    #     "application_#{type}.js",
+    #     "application_#{type}.css"
+    #   ]
   end
 end

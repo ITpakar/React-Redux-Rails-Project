@@ -1,58 +1,16 @@
 {
-  "name": "Doxly",
-  "version": "1.0.0",
-  "description": "Application",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
+  "name": "react-webpack-rails-tutorial",
+  "version": "0.0.1",
+  "engines": {
+    "node": "5.10.0",
+    "npm": "3.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babelify": "^7.3.0",
-    "browser-sync": "^2.12.8",
-    "browserify": "^13.0.1",
-    "coffeeify": "^2.0.1",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-babel": "^6.1.2",
-    "gulp-changed": "^1.3.0",
-    "gulp-clean-css": "^2.0.7",
-    "gulp-coffee": "^2.3.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-connect": "^4.0.0",
-    "gulp-filter": "^4.0.0",
-    "gulp-imagemin": "^3.0.1",
-    "gulp-include": "^2.1.0",
-    "gulp-livereload": "^3.8.1",
-    "gulp-load-plugins": "^1.2.2",
-    "gulp-merge": "^0.1.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-rev-all": "^0.8.24",
-    "gulp-sass": "^2.3.1",
-    "gulp-sequence": "^0.4.5",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.5.3",
-    "gulp-watch": "^4.3.5",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
-    "uglifyify": "^3.0.1",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
-  },
-  "dependencies": {
-    "jquery": "^2.2.3",
-    "jquery-ujs": "^1.2.1",
-    "moment": "^2.13.0",
-    "turbolinks": "^5.0.0-beta4"
+    "postinstall": "cd client && npm install",
+    "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
+    "build:production:client": "(cd client && npm run build:production:client --silent)",
+    "build:client": "(cd client && npm run build:client --silent",
+    "build:dev:client": "(cd client && npm run build:dev:client --silent)",
+    "test": "rspec"
   }
 }
