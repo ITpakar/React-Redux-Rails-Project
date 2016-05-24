@@ -15,6 +15,14 @@ class User < ActiveRecord::Base
     presence: true
   )
   validates(
+    :first_name,
+    presence: true
+  )
+  validates(
+    :last_name,
+    presence: true
+  )
+  validates(
     :phone,
     allow_blank: true,
     length:{
@@ -26,6 +34,14 @@ class User < ActiveRecord::Base
     allow_blank: true,
     length:{
       maximum: 100
+    }
+  )
+  validates(
+    :role,
+    presence: true,
+    inclusion: {
+      in: [USER_SUPER, USER_NORMAL],
+      message: "%{value} is not a valid role"
     }
   )
 
@@ -93,8 +109,8 @@ class User < ActiveRecord::Base
   def is_org_deal_admin?(deal_id)
     return true if self.is_super?
 
-    deal = self.deals.find_by_id(deal_id)
-    return if deal and (deal.admin_user_id == self.id or deal.organization.creator.id == self.id)
+    deal = Deal.find_by_id(deal_id)
+    return (deal and (deal.admin_user_id == self.id or deal.organization.creator.id == self.id))
   end
 
   def is_deal_collaborator?(deal_id)
@@ -113,21 +129,21 @@ class User < ActiveRecord::Base
     return true if self.is_super?
     document = Document.find_by_id(document_id)
 
-    return if document and document.created_by == self.id
+    return (document and document.created_by == self.id)
   end
 
   def is_comment_owner?(comment_id)
     return true if self.is_super?
     comment = Comment.find_by_id(comment_id)
 
-    return if comment and comment.user_id == self.id
+    return (comment and comment.user_id == self.id)
   end
 
   def is_notification_reciever?(notification_id)
     return true if self.is_super?
     notification = Notification.find_by_id(notification_id)
 
-    return if notification and notification.user_id == self.id
+    return (notification and notification.user_id == self.id)
   end
 
   def is_super?

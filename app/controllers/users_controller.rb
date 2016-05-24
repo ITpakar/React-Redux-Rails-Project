@@ -58,9 +58,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.activated = true
     @user.skip_confirmation!
     if @user.save
-      success_response(["User created successfully."])
+      success_response(
+        {
+          user: @user.to_hash(false)
+        }
+      )
     else
       error_response(@user.errors)
     end
@@ -98,11 +103,14 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
+      :email,
+      :password,
       :first_name,
       :last_name,
       :phone,
       :address,
-      :company
+      :company,
+      :role
     )
   end
 

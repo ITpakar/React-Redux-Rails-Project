@@ -93,7 +93,11 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.created_by = current_user.id
     if @task.save
-      success_response(["Task created successfully."])
+      success_response(
+        {
+          task: @task.to_hash
+        }
+      )
     else
       error_response(@task.errors)
     end

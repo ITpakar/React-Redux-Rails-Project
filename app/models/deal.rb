@@ -16,6 +16,15 @@ class Deal < ActiveRecord::Base
   has_many   :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
+  after_create :create_deal_collaborator
+
+  def create_deal_collaborator
+    self.deal_collaborators.create(
+      user_id: self.admin_user_id,
+      added_by: self.admin_user_id
+    )
+  end
+
   def to_hash
     data = {
       deal_id:              self.id,

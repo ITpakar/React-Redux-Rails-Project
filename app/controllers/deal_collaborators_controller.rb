@@ -52,7 +52,7 @@ class DealCollaboratorsController < ApplicationController
 
   def create
     @deal_collaborator = @deal.deal_collaborators.new(
-      user_id: params[:deals_controller][:user_id],
+      user_id: params[:deal_collaborator][:user_id],
       added_by: current_user.id
     )
     if @deal_collaborator.save

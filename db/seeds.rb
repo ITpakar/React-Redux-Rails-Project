@@ -407,6 +407,60 @@ DealCollaborator.create(
   user_id: 6,
   added_by: 1
 )
+DealCollaborator.create(
+  #id: 7,
+  deal_id: 2,
+  user_id: 2,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 8,
+  deal_id: 3,
+  user_id: 3,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 9,
+  deal_id: 4,
+  user_id: 4,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 10,
+  deal_id: 4,
+  user_id: 10,
+  added_by: 4
+)
+DealCollaborator.create(
+  #id: 11,
+  deal_id: 5,
+  user_id: 1,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 12,
+  deal_id: 6,
+  user_id: 2,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 13,
+  deal_id: 7,
+  user_id: 3,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 14,
+  deal_id: 8,
+  user_id: 4,
+  added_by: 1
+)
+DealCollaborator.create(
+  #id: 15,
+  deal_id: 9,
+  user_id: 9,
+  added_by: 1
+)
 
 puts "Started creating Categories"
 Category.create(
@@ -461,7 +515,10 @@ Task.create(
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 1,
   assignee_id: 2,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 2,
@@ -470,7 +527,10 @@ Task.create(
                'and written consents of the board of directors and stockholders',
   section_id: 1,
   assignee_id: 2,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 3,
@@ -478,7 +538,10 @@ Task.create(
   description: 'Meeting Materials Provided to BOD',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 4,
@@ -486,7 +549,10 @@ Task.create(
   description: 'Annual and Quaterly Reports',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 5,
@@ -494,7 +560,10 @@ Task.create(
   description: 'Correspndance Related to Blue Sky Laws',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 6,
@@ -502,7 +571,10 @@ Task.create(
   description: 'Equity Intrest Claims',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 7,
@@ -510,7 +582,10 @@ Task.create(
   description: 'Conflict of Interest, Code of Ethics and Cor..',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 8,
@@ -518,7 +593,10 @@ Task.create(
   description: 'Options, Warrents and Other Commitments',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 9,
@@ -526,7 +604,10 @@ Task.create(
   description: '409 Valuations',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 10,
@@ -534,7 +615,10 @@ Task.create(
   description: 'Offering Circulars, PPMs, Etc.',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 11,
@@ -542,7 +626,10 @@ Task.create(
   description: 'Options, Warrents and Other Commitments',
   section_id: 2,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 12,
@@ -550,7 +637,10 @@ Task.create(
   description: 'Term Sheet',
   section_id: 3,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 13,
@@ -558,7 +648,10 @@ Task.create(
   description: 'Diligence',
   section_id: 3,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 14,
@@ -566,7 +659,10 @@ Task.create(
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 15,
@@ -574,7 +670,10 @@ Task.create(
   description: 'Employeement Agreements',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 Task.create(
   #id: 16,
@@ -582,7 +681,10 @@ Task.create(
   description: 'Board Consent',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 17,
@@ -590,7 +692,10 @@ Task.create(
   description: 'Stockholder Consent',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Checked'
 )
 Task.create(
   #id: 18,
@@ -598,7 +703,10 @@ Task.create(
   description: 'Escrow Agreements',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1
+  created_by: 1,
+  organization_id: 1,
+  deal_id: 1,
+  status: 'Incomplete'
 )
 
 puts "Started creating Folders"

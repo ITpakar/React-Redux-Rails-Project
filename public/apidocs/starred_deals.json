@@ -32,11 +32,6 @@
               "code": 403,
               "responseModel": null,
               "message": "You are unauthorized User"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Error with your login or password"
             }
           ],
           "notes": "Permissions: Organization Member",
@@ -118,6 +113,16 @@
               "code": 400,
               "responseModel": null,
               "message": "Incorrect request/formdata"
+            },
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "You are unauthorized to access this page."
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You are unauthorized User"
             }
           ],
           "notes": "Permissions: Deal Collaborators",
