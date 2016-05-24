@@ -313,7 +313,7 @@
                     width: 16px;
                     height: 16px;
                     margin-top: -8px;
-                    background: url("../../images/icon-file.svg") no-repeat 50% 50% / 12px 16px;
+                    background: url(image_path("icon-file.svg")) no-repeat 50% 50% / 12px 16px;
                 }
             }
         }
@@ -323,7 +323,7 @@
             > .item-header {
                 > .item-header-item {
                     &:before{
-                        background: url("../../images/icon-folder.svg") no-repeat 50% 50% / 16px 12px;
+                        background: url(image_path("icon-folder.svg")) no-repeat 50% 50% / 16px 12px;
                     }
                 }
             }
@@ -446,7 +446,7 @@
             position: relative;
             width: 134px;
             height: 177px;
-            background: url("../../images/icon-preview.svg") no-repeat 50% 50% / 134px 177px;
+            background: url(image_path("icon-preview.svg")) no-repeat 50% 50% / 134px 177px;
 
             .badge-signed{
                 position: absolute;
