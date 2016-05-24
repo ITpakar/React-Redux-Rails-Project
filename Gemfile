@@ -12,6 +12,8 @@ gem 'kaminari'
 gem "paperclip"
 gem 'dotenv-rails'
 gem 'swagger-docs'
+gem "react_on_rails", "~> 5"
+
 
 # For Authentication
 gem 'devise'
