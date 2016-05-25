@@ -1,18 +1,20 @@
     <div id="wrapper">
         <%= render "left" %>
-        <div id="page-wrapper">
+        <div id="page-wrapper" class="navbar-double">
+            <% content_for :navbar_bottom do %>
+                <ul class="nav nav-tabs deal-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab-deal-overview" aria-controls="tab-deal-overview" role="tab" data-toggle="tab">Overview</a></li>
+                    <li role="presentation"><a href="#tab-deal-diligence" aria-controls="tab-deal-diligence" role="tab" data-toggle="tab">Diligence</a></li>
+                    <li role="presentation"><a href="#tab-deal-closing" aria-controls="tab-deal-closing" role="tab" data-toggle="tab">Closing</a></li>
+                    <li role="presentation"><a href="#tab-deal-closing-book" aria-controls="tab-deal-closing-book" role="tab" data-toggle="tab">Closing Book</a></li>
+                    <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
+                </ul>
+            <% end %>
             <%= render partial: "top", locals: {title: 'Deals / Project Panda'} %>
             <div class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div>
-                        <ul class="nav nav-tabs deal-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab-deal-overview" aria-controls="tab-deal-overview" role="tab" data-toggle="tab">Overview</a></li>
-                            <li role="presentation"><a href="#tab-deal-diligence" aria-controls="tab-deal-diligence" role="tab" data-toggle="tab">Diligence</a></li>
-                            <li role="presentation"><a href="#tab-deal-closing" aria-controls="tab-deal-closing" role="tab" data-toggle="tab">Closing</a></li>
-                            <li role="presentation"><a href="#tab-deal-closing-book" aria-controls="tab-deal-closing-book" role="tab" data-toggle="tab">Closing Book</a></li>
-                            <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
-                        </ul>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab-deal-overview"> <!-- -->
                                 <div class="container-fluid">
