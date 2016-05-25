@@ -2,7 +2,11 @@
     <div class="box-middle">
         <div class="inner">
             <div class="center-logo"><a href="#"><%= image_tag "logo.svg" %></a></div>
-
+              <% if flash[:error] %>
+                <div class="alert alert-danger">
+                  <%= flash[:error] %>
+                </div>
+              <% end %>
             <div class="panel panel-window">
                 <%= form_for(:user, url: app_account_sign_in_path, method: :post) do |f|%>
                     <div class="form-group">
