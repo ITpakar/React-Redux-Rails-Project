@@ -10,7 +10,13 @@ Rails.application.routes.draw do
   end
 
   scope "/app", module: 'app', as: :app do
-    get '/dashboard', to: 'home#index'
+    get '/dashboard', to: 'dashboard#index'
+
+    resources :deals do
+      resources :deal_collaborators, only: [:create, :index, :destroy]
+      resources :starred_deals, only: [:index, :create, :update, :destroy]
+      resources :sections
+    end
 
     devise_scope :user do
       get '/account/sign_in', to: "sessions#new"

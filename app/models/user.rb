@@ -174,4 +174,9 @@ class User < ActiveRecord::Base
 
     return data
   end
+
+  def deal_stats
+    byebug
+    x=1
+  end
 end

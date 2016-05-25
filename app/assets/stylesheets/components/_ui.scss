@@ -181,12 +181,19 @@
                     width: 100%;
                     font-weight: 500;
                     color: $col-dark-blue;
+                    padding-left: 0;
+
+                    i {
+                        margin-right: 20px;
+                        width: 1em;
+                    }
                 }
 
             }
 
             &:hover{
                 background: $col-blue;
+                color: $white;
                 label{
                     color: $white;
                 }
