@@ -57,7 +57,7 @@ export default class DealView extends React.Component {
         if (that.state.search_term === null) {
           return false;
         }
-        if (_.includes(deal.projectTitle.toLowerCase(), that.state.search_term.toLowerCase()) || _.includes(deal.dealTitle.toLowerCase(), that.state.search_term.toLowerCase())) {
+        if (_.includes(deal.title.toLowerCase(), that.state.search_term.toLowerCase()) || _.includes(deal.client_name.toLowerCase(), that.state.search_term.toLowerCase())) {
           return false;
         } else {
           return true;
@@ -120,7 +120,7 @@ export default class DealView extends React.Component {
                 {
                   heading: "Show", 
                   options: ['All Deals', 'Open Deals', 'Closed Deals', 'Archived Deals'],
-                  optionsForHeading: ['All Deals', 'Open Deals', 'Closed Deals', 'Archived Deals'],
+                  optionsForHeading: ['All Deals', 'Open', 'Closed', 'Archived'],
                   initialSelected: 0,
                   onChange: this.handleFilterChange
                 },

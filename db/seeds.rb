@@ -7,7 +7,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 2,
@@ -17,7 +18,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 3,
@@ -27,7 +29,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 4,
@@ -37,7 +40,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 5,
@@ -47,7 +51,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 6,
@@ -57,7 +62,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 7,
@@ -67,7 +73,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 8,
@@ -77,7 +84,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 9,
@@ -87,7 +95,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 10,
@@ -97,7 +106,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 11,
@@ -107,7 +117,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 12,
@@ -117,7 +128,8 @@ User.create(
   password: '12345678',
   confirmed_at: Time.now,
   role: 'Normal',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 User.create(
   #id: 13,
@@ -137,7 +149,8 @@ User.create(
   password: 'p@ssw0rd',
   confirmed_at: Time.now,
   role: 'Super',
-  activated: true
+  activated: true,
+  avatar_name: '/assets/img-avatar-1.png'
 )
 
 puts "Started creating Organizations"
@@ -254,7 +267,8 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 1,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now
 )
 Deal.create(
   #id: 2,
@@ -266,7 +280,9 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 2,
-  activated: true
+  activated: true,
+  projected_close_date: 3.months.from_now
+
 )
 Deal.create(
   #id: 3,
@@ -278,7 +294,9 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 3,
-  activated: true
+  activated: true,
+  projected_close_date: 4.days.from_now
+
 )
 Deal.create(
   #id: 4,
@@ -290,7 +308,9 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 4,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now,
+  status: 'Pending'
 )
 Deal.create(
   #id: 5,
@@ -302,7 +322,9 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 1,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now,
+  status: 'Ongoing'
 )
 Deal.create(
   #id: 6,
@@ -314,7 +336,9 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 2,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now,
+  status: 'Archived'
 )
 Deal.create(
   #id: 7,
@@ -326,7 +350,8 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 3,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now
 )
 Deal.create(
   #id: 8,
@@ -338,7 +363,8 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 4,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now
 )
 Deal.create(
   #id: 9,
@@ -350,7 +376,8 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 9,
-  activated: true
+  activated: true,
+  projected_close_date: 1.year.from_now
 )
 
 puts "Started creating Starred Deals"

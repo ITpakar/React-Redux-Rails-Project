@@ -16,7 +16,15 @@ class Deal < ActiveRecord::Base
   has_many   :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
+  after_create :set_default_status
   after_create :create_deal_collaborator
+
+  def set_default_status
+    unless status
+      status = "Unstarted"
+      save
+    end
+  end
 
   def create_deal_collaborator
     self.deal_collaborators.create(

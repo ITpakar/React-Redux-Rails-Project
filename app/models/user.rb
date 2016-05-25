@@ -176,7 +176,5 @@ class User < ActiveRecord::Base
   end
 
   def deal_stats
-    byebug
-    x=1
   end
 end

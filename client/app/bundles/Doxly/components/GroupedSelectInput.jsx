@@ -114,7 +114,7 @@ class SelectOption extends React.Component {
     render() {
 
       return (
-        <li key={this.props.index}>
+        <li key={`select-input-${this.props.index}`}>
           <div className="checkbox">
             <label onClick={this.props.handleClick}>
               <i className={this.props.checked ? 'fa fa-check' : 'fa fa-fw'}></i> {this.props.text}

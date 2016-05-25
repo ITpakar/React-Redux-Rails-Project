@@ -4,13 +4,13 @@ import _ from 'lodash';
 export default class Deal extends React.Component {
 
   static propTypes = {
-    percentCompleted: PropTypes.number.isRequired,
-    projectTitle: PropTypes.string.isRequired,
-    dealTitle: PropTypes.string.isRequired,
+    completion_percent: PropTypes.number.isRequired,
+    client_name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     collaborators: PropTypes.arrayOf(PropTypes.shape({
       avatar: PropTypes.string
     })),
-    date: PropTypes.string.isRequired
+    projected_close_date: PropTypes.string.isRequired
 
   }
 
@@ -19,8 +19,8 @@ export default class Deal extends React.Component {
       <div className="item-collaborators-wraper">
           {_.map(collaborators, function(collaborator, i) {
             return (
-              <a href="#" className="avatar" key="1">
-                <img src={collaborator.avatar} />
+              <a href="#" className="avatar" key={i}>
+                <img src={collaborator.avatar_name} />
               </a>
             );
           })}
@@ -32,13 +32,13 @@ export default class Deal extends React.Component {
     return (
       <div className="project-item">
           <div className="item-percent">
-              <div className="progress-pie-chart" data-percent={this.props.percentCompleted}></div>
+              <div className="progress-pie-chart" data-percent={this.props.completion_percent}></div>
           </div>
           <div className="item-body">
-              <a href="/deals/1" className="item-body__project">
-                  <div className="title">{this.props.projectTitle}</div>
+              <a href={`/app/deals/${this.props.id}`} className="item-body__project">
+                  <div className="title">{this.props.client_name}</div>
                   <div className="copy">
-                    {this.props.dealTitle}
+                    {this.props.title}
                     {(() => {
                       if (this.props.starred) {
                         return (
@@ -54,7 +54,7 @@ export default class Deal extends React.Component {
 
               </div>
               <div className="item-body__timestamp">
-                  <div className="title"><span className="timestamp">{this.props.date}</span></div>
+                  <div className="title"><span className="timestamp">{this.props.projected_close_date}</span></div>
               </div>
           </div>
       </div>

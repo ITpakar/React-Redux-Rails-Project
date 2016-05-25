@@ -4,6 +4,9 @@
     <%= render partial: "app/shared/top", locals: {title: 'Deals'} %>
     <div class="content">
         <%= react_component "DealView", props: {
+                initialDeals: @deals
+            } %>
+        <!-- <%= react_component "DealView", props: {
             initialDeals: [
                 {
                     heading: "MARCH 2016",
@@ -90,7 +93,7 @@
                     ]
                 }
             ]
-        } %>
+        } %> -->
         <!-- <div class="container-fluid">
             <div class="row">
                 <div class="toolbar-box">

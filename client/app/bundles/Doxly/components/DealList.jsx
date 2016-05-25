@@ -16,10 +16,10 @@ export default class DealList extends React.Component {
             {dealGroup.heading}
         </div>
         {
-          _.map(dealGroup.deals, function(deal, index) {
+          _.map(dealGroup.deals, function(deal, i) {
             return (
-              <div className="deals-full-group__projects" key={index}>
-                <Deal {...deal} />
+              <div className="deals-full-group__projects" key={`dealGroup-${index}-${i}`}>
+                <Deal {...deal} key={`deal-${index}-${i}`}/>
               </div>
             )
           })
