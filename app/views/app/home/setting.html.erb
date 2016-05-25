@@ -1,14 +1,16 @@
 <div id="wrapper">
   <%= render "left" %>
   <div id="page-wrapper" class="navbar-double">
+    <% content_for :navbar_bottom do %>
+        <ul class="nav nav-tabs deal-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab-settings-account" aria-controls="tab-settings-account" role="tab" data-toggle="tab">Account</a></li>
+            <li role="presentation"><a href="#tab-settings-billing" aria-controls="tab-settings-billing" role="tab" data-toggle="tab">Billing</a></li>
+        </ul>
+    <% end %>
     <%= render partial: "top", locals: {title: 'Settings'} %>
     <div class="container-fluid">
         <div class="row">
             <div>
-                <ul class="nav nav-tabs deal-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#tab-settings-account" aria-controls="tab-settings-account" role="tab" data-toggle="tab">Account</a></li>
-                    <li role="presentation"><a href="#tab-settings-billing" aria-controls="tab-settings-billing" role="tab" data-toggle="tab">Billing</a></li>
-                </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="tab-settings-account">
                         <div class="settings-wrapper">
