@@ -1,3 +1,4 @@
+    <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
     <div id="wrapper">
         <%= render "left" %>
         <div id="page-wrapper">
@@ -846,90 +847,7 @@
                                                         </div>
                                                         <a class="collapse-trigger" role="button" data-toggle="collapse" aria-expanded="false" href="#deal-task-details__body" aria-controls="deal-task-details__body"><span>Show Description</span><i>Hide Description</i></a>
                                                     </div>
-                                                    <div class="chat-box chat-box-small">
-                                                        <div class="chat-box-toggle">
-                                                            <div class="btn-group">
-                                                                <a class="btn toggle-active" href="#deal-chat-1-internal">Internal Chat</a>
-                                                                <a class="btn" href="#deal-chat-1-external">External Chat</a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="chat-box-details">
-                                                            <div class="chat-box-details__instance internal toggle-active" id="deal-chat-1-internal">
-                                                                <div class="chat-box__recipients">
-                                                                    <div class="chat-box__recipients-wrapper">
-                                                                        <div class="recipients-items">
-                                                                            <a href="#" class="avatar"><%= image_tag "img-avatar-2.png" %></a>
-                                                                            <a href="#" class="avatar"><%= image_tag "img-avatar-3.png" %></a>
-                                                                        </div>
-                                                                        <a href="#" class="recipient-add"><i class="icon-icon-plus-circle"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-box__messages">
-                                                                    <div class="comment-item comment-to">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-2.png" %></div>
-                                                                        <div class="comment-message"><span>Looks like we’re missing the June Meeting Minutes.</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                    <div class="comment-item comment-from">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-3.png" %></div>
-                                                                        <div class="comment-message"><span>Cancelled due to weather.</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                    <div class="comment-item comment-to">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-2.png" %></div>
-                                                                        <div class="comment-message"><span>Sounds good. Thanks!</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-box__send">
-                                                                    <form>
-                                                                        <input class="chat-box__message form-control" name="send_message_internal"/>
-                                                                        <a class="btn btn-primary" href="#">Send</a>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="chat-box-details__instance external" id="deal-chat-1-external">
-                                                                <div class="chat-box__recipients">
-                                                                    <div class="chat-box__recipients-wrapper">
-                                                                        <div class="recipients-items">
-                                                                            <a href="#" class="avatar"><%= image_tag "img-avatar-2.png" %></a>
-                                                                            <a href="#" class="avatar"><%= image_tag "img-avatar-3.png" %></a>
-                                                                        </div>
-                                                                        <a href="#" class="recipient-add"><i class="icon-icon-plus-circle"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-box__messages">
-                                                                    <div class="comment-item comment-to">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-2.png" %></div>
-                                                                        <div class="comment-message"><span>Looks like we’re missing the June Meeting Minutes.</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                    <div class="comment-item comment-from">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-3.png" %></div>
-                                                                        <div class="comment-message"><span>Cancelled due to weather.</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                    <div class="comment-item comment-to">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-2.png" %></div>
-                                                                        <div class="comment-message"><span>Sounds good. Thanks!</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                    <div class="comment-item comment-from">
-                                                                        <div class="comment-avatar"><%= image_tag "img-avatar-3.png" %></div>
-                                                                        <div class="comment-message"><span>Cancelled due to weather.</span></div>
-                                                                        <div class="timestamp">March 23 at 1:21 PM</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-box__send">
-                                                                    <form>
-                                                                        <input class="chat-box__message form-control" name="send_message_internal"/>
-                                                                        <a class="btn btn-primary" href="#">Send</a>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <%= react_component("ChatBox") %>
                                                 </div>
                                             </div>
                                         </div>
