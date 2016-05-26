@@ -545,6 +545,15 @@ a.btn-edit{
     }
 }
 
+.errors {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+}
+
+.errors.has-error {
+    opacity: 1;
+}
+
 .error-message {
     margin-left: 5px;
     background: #EF5d5d;

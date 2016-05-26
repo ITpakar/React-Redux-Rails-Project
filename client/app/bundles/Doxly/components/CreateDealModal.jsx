@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
+import classnames from 'classnames';
 
 export default class CreateDealModal extends React.Component {
 
@@ -63,7 +64,7 @@ export default class CreateDealModal extends React.Component {
 
   renderErrors(id, name) {
     return (
-      <span className="errors">
+      <span className={classnames("errors", {"has-error": this.state.errors[id].length > 0})}>
         {
           _.map(this.state.errors[id], function(error, i) {
             return (
