@@ -20,9 +20,10 @@ class Deal < ActiveRecord::Base
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   # Validations
-  validates :title, :client_name, :transaction_type, :deal_size, :projected_close_date, :completion_percent, :status, :admin_user_id, :activated, presence: true
+  validates :title, :client_name, :transaction_type, :deal_size, :completion_percent, :status, :admin_user_id, :activated, presence: true
   validates :title, length: {maximum: 250}
   # validates :transaction_type, inclusion: {in: TRANSACTION_TYPES}
+  validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY"}
   validates :status, inclusion: {in: STATUSES}
   validates :creator, presence: true
   validates :organization, presence: true
