@@ -27,12 +27,15 @@ class CommentBox extends Component {
   }
 
   componentDidMount() {
+
+    // Fetch all comments from the backend
     axios.get('/api/comments')
     .then((res) => {
       this.props.setComments(res.data.data.comments);
       this.forceUpdate();
     });
 
+    // Subscribe to Channel
     App.room = App.cable.subscriptions.create("RoomChannel", {
       connected: () => {},  
       disconnected: () => {},
@@ -43,14 +46,6 @@ class CommentBox extends Component {
         this.perform('speak', data);
       }
     });
-
-    // var pusher = new Pusher('4107f6c14aa53b02f9ab', {
-    //   encrypted: true
-    // });
-    // var channel = pusher.subscribe('test_channel');
-    // channel.bind('my_event', (data) => {
-    //   this.receivedMessage(data);
-    // });
   }
 
   receivedMessage = (data) => {
@@ -59,10 +54,7 @@ class CommentBox extends Component {
   }
 
   sendMessage = (comment) => {
-
     App.room.speak({comment: comment});
-    // axios.post('/api/comments', { comment: comment })
-    // .then(this.resetAndFocus);
   }
 
   sendInternalMessage = (e) => {
