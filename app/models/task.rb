@@ -39,6 +39,9 @@ class Task < ActiveRecord::Base
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
   belongs_to :assingnee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
+  has_many :folders, as: :parent
+  has_many :documents, as: :parent
+
   def to_hash
     data = {
       task_id:      self.id,

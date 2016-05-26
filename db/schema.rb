@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425083416) do
+ActiveRecord::Schema.define(version: 20160526045139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20160425083416) do
     t.boolean  "activated"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "deal_id"
     t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
     t.index ["parent_id"], name: "index_documents_on_parent_id", using: :btree
     t.index ["parent_type"], name: "index_documents_on_parent_type", using: :btree
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160425083416) do
     t.boolean  "activated"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "deal_id"
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
     t.index ["parent_id"], name: "index_folders_on_parent_id", using: :btree
     t.index ["parent_type"], name: "index_folders_on_parent_type", using: :btree

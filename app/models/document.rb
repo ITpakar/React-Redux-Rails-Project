@@ -3,7 +3,19 @@ class Document < ActiveRecord::Base
   has_many :document_signers
   has_many :users, through: :document_signers
   has_many :comments
+
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
+  belongs_to :parent, polymorphic: true
+  belongs_to :deal
+
+  after_create :set_deal_id
+
+  def set_deal_id
+    unless deal_id
+      self.deal_id = parent.deal_id
+      save
+    end
+  end
 
   def to_hash
     data = {

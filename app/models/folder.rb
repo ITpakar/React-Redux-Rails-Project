@@ -1,6 +1,19 @@
 class Folder < ApplicationRecord
   # Association
   belongs_to :user, foreign_key: :created_by
+  belongs_to :parent, polymorphic: true
+  belongs_to :deal
+
+  has_many :documents, as: :parent
+
+  after_create :set_deal_id
+
+  def set_deal_id
+    unless deal_id
+      self.deal_id = parent.deal_id
+      save
+    end
+  end
 
   def to_hash
     data = {
@@ -15,5 +28,9 @@ class Folder < ApplicationRecord
     end
 
     return data
+  end
+
+  def deal
+    Deal.find(parent.deal_id)
   end
 end

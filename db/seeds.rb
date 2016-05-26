@@ -267,8 +267,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 1,
-  activated: true,
-  projected_close_date: 1.year.from_now
+  activated: true
 )
 Deal.create(
   #id: 2,
@@ -280,8 +279,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 2,
-  activated: true,
-  projected_close_date: 3.months.from_now
+  activated: true
 
 )
 Deal.create(
@@ -294,9 +292,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 3,
-  activated: true,
-  projected_close_date: 4.days.from_now
-
+  activated: true
 )
 Deal.create(
   #id: 4,
@@ -309,7 +305,6 @@ Deal.create(
   completion_percent: 9,
   admin_user_id: 4,
   activated: true,
-  projected_close_date: 1.year.from_now,
   status: 'Pending'
 )
 Deal.create(
@@ -323,7 +318,6 @@ Deal.create(
   completion_percent: 9,
   admin_user_id: 1,
   activated: true,
-  projected_close_date: 1.year.from_now,
   status: 'Ongoing'
 )
 Deal.create(
@@ -337,7 +331,6 @@ Deal.create(
   completion_percent: 9,
   admin_user_id: 2,
   activated: true,
-  projected_close_date: 1.year.from_now,
   status: 'Archived'
 )
 Deal.create(
@@ -350,8 +343,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 3,
-  activated: true,
-  projected_close_date: 1.year.from_now
+  activated: true
 )
 Deal.create(
   #id: 8,
@@ -363,8 +355,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 4,
-  activated: true,
-  projected_close_date: 1.year.from_now
+  activated: true
 )
 Deal.create(
   #id: 9,
@@ -376,8 +367,7 @@ Deal.create(
   deal_size: '$1,500,000,000',
   completion_percent: 9,
   admin_user_id: 9,
-  activated: true,
-  projected_close_date: 1.year.from_now
+  activated: true
 )
 
 puts "Started creating Starred Deals"
@@ -1008,6 +998,16 @@ Document.create(
   file_uploaded_at: Time.now(),
   parent_type: 'Task',
   parent_id: '15',
+  created_by: 1,
+  activated: true
+)
+
+puts "Create another folder so it shows up in recents"
+Folder.create(
+  #id: 1,
+  name: 'Important Documents',
+  parent_type: 'Task',
+  parent_id: '1',
   created_by: 1,
   activated: true
 )
