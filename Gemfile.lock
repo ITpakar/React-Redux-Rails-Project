@@ -38,6 +38,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    american_date (1.1.1)
     arel (7.0.0)
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
@@ -219,6 +220,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  american_date
   byebug
   devise
   dotenv-rails

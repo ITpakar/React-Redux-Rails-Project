@@ -1,17 +1,14 @@
 class Deal < ActiveRecord::Base
 
+  # Magic constants
   STATUSES = ["Unstarted", "Pending", "Ongoing", "Completed", "Archived", "Closed"]
   ACTIVE_STATUSES = ["Unstarted", "Pending", "Ongoing", "Completed"]
   ARCHIVED_STATUSES = ["Archived"]
   CLOSED_STATUSES = ["Closed"]
-
-  # Validations
-  validates(
-    :title,
-    length:{
-      maximum: 250
-    }
-  )
+  TRANSACTION_TYPES = []
+  # A deal is considered nearing completion if it's projected
+  # close date is within this many days
+  NEARING_COMPLETION_DAYS = 30
 
   # Associations
   belongs_to :organization
@@ -22,17 +19,28 @@ class Deal < ActiveRecord::Base
   has_many   :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
-  scope :behind_schedule, -> {where('projected_close_date < ?', Date.today)}
-  scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + 30.days)}
+  # Validations
+  validates :title, :client_name, :transaction_type, :deal_size, :projected_close_date, :completion_percent, :status, :admin_user_id, :activated, presence: true
+  validates :title, length: {maximum: 250}
+  # validates :transaction_type, inclusion: {in: TRANSACTION_TYPES}
+  validates :status, inclusion: {in: STATUSES}
+  validates :creator, presence: true
+  validates :organization, presence: true
 
-  after_create :set_default_status
+  # Scopes
+  scope :behind_schedule, -> {where('projected_close_date < ?', Date.today)}
+  scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days)}
+
+  before_validation :set_completion_percent, unless: :completion_percent
+  before_validation :set_default_status, unless: :status
   after_create :create_deal_collaborator
 
+  def set_completion_percent
+    self.completion_percent = 0 unless completion_percent
+  end
+
   def set_default_status
-    unless status
-      status = "Unstarted"
-      save
-    end
+    self.status = "Unstarted" unless status
   end
 
   def create_deal_collaborator
@@ -40,6 +48,23 @@ class Deal < ActiveRecord::Base
       user_id: self.admin_user_id,
       added_by: self.admin_user_id
     )
+  end
+
+  def recently_updated_files
+    documents = Document.where(deal_id: deal.id).order('updated_at').last(5)
+    folders = Folder.where(deal_id: deal.id).order('updated_at').last(5)
+
+    (documents + folders).sort_by {|e| e.updated_at}.last(5).reverse
+  end
+
+  # Will return date like so
+  # December 2015
+  def friendly_date
+    projected_close_date.strftime("%B %Y")
+  end
+
+  def starred_by? user
+    return StarredDeal.where(user_id: user.id, deal_id: self.id).present?
   end
 
   def to_hash
@@ -59,20 +84,5 @@ class Deal < ActiveRecord::Base
     end
 
     return data
-  end
-
-  def recently_updated_files
-    documents = Document.where(deal_id: deal.id).order('updated_at').last(5)
-    folders = Folder.where(deal_id: deal.id).order('updated_at').last(5)
-
-    (documents + folders).sort_by {|e| e.updated_at}.last(5).reverse
-  end
-
-  def friendly_date
-    projected_close_date.strftime("%B %Y")
-  end
-
-  def starred_by? user
-    return StarredDeal.where(user_id: user.id, deal_id: self.id).present?
   end
 end

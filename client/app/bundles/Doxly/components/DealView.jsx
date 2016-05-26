@@ -110,6 +110,10 @@ export default class DealView extends React.Component {
     console.log(e);
   }
 
+  handleClick(e) {
+    $("#modal-new-deal").modal();
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -132,6 +136,7 @@ export default class DealView extends React.Component {
                   onChange: this.handleSortChange
                 }
               ]} />
+              <a href="#" onClick={this.handleClick} className="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
           </div>
         </div>
 

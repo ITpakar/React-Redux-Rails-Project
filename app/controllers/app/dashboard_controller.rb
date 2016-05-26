@@ -1,4 +1,6 @@
 class App::DashboardController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     @deal_stats = current_user.deal_stats
     @recently_updated_files = current_user.recently_updated_files
