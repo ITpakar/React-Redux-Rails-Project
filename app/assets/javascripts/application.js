@@ -23,3 +23,4 @@
 //= require plugins/moment
 //= require plugins/bootstrap-datetimepicker.min
 //= require custom/scripts
+//= require custom/cable

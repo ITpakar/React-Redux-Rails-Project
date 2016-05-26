@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.3.1'
-gem 'rails', '~> 5.0.0.rc1'
+gem 'rails', '5.0.0.beta3'
 gem 'pg'
 gem 'therubyracer', platforms: :ruby
 gem 'jbuilder', '~> 2.0'
@@ -41,11 +41,11 @@ gem 'devise'
 
 group :development, :test do
   gem 'byebug'
+  gem 'puma'
 end
 
 group :development do
   gem 'web-console', '~> 2.0'
-  gem 'spring'
 end
 
 gem 'rails_12factor', group: :production

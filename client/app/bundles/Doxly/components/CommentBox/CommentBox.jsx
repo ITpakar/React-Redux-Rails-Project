@@ -3,9 +3,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import axios from 'axios';
-import {setComments, addComment} from '../reducers/commentReducer';
+import {setComments, addComment} from '../../reducers/commentReducer';
 
-class ChatBox extends Component {
+class CommentBox extends Component {
   static propTypes = {
     comments: PropTypes.array,
     setComments: PropTypes.func,
@@ -155,4 +155,4 @@ class ChatBox extends Component {
 export default connect(
   ({commentStore}) => ({ comments: commentStore.comments }),
   dispatch => bindActionCreators({setComments, addComment}, dispatch)
-)(ChatBox);
+)(CommentBox);
