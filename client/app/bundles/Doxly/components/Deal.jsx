@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
+import ProgressPieChart from './ProgressPieChart';
+
 export default class Deal extends React.Component {
 
   static propTypes = {
@@ -32,7 +34,7 @@ export default class Deal extends React.Component {
     return (
       <div className="project-item">
           <div className="item-percent">
-              <div className="progress-pie-chart" data-percent={this.props.completion_percent}></div>
+              <ProgressPieChart percent={this.props.completion_percent} />
           </div>
           <div className="item-body">
               <a href={`/app/deals/${this.props.id}`} className="item-body__project">
