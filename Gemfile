@@ -16,7 +16,6 @@ gem 'figaro'
 gem "non-stupid-digest-assets"
 gem 'american_date'
 
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 
@@ -51,3 +50,4 @@ group :development do
 end
 
 gem 'rails_12factor', group: :production
+gem 'sprockets-redirect', group: :production

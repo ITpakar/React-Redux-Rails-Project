@@ -190,6 +190,9 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sprockets-redirect (1.0.0)
+      activesupport (>= 3.1.0)
+      rack
     swagger-docs (0.2.8)
       activesupport (>= 3, < 5)
       rails (>= 3, < 5)
@@ -238,6 +241,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
+  sprockets-redirect
   swagger-docs
   therubyracer
   turbolinks (= 2.5.3)
