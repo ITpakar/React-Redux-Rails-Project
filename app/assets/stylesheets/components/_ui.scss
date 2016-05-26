@@ -432,6 +432,28 @@
     }
 }
 
+.project-item {
+    .avatar{
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-right: 10px;
+        float: left;
+
+        .no-photo{
+            background: $col-dark-gray;
+            height: 40px;
+            width: 40px;
+            font-size: 16px;
+            color: $white;
+            letter-spacing: -0.21px;
+            text-align: center;
+            line-height: 40px;
+        }
+    }
+}
+
 .team-member-item{
     a{
         @extend %clearfix;

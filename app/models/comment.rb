@@ -4,6 +4,12 @@ class Comment < ActiveRecord::Base
   belongs_to :task, required: false
   belongs_to :document, required: false
 
+  before_validation :set_deal_id, unless: :deal_id
+
+  def set_deal_id
+    self.deal_id = (self.try(:task).try(:deal_id) || self.try(:document).try(:deal_id)) 
+  end
+
   def to_hash
     data = {
       comment_id:   self.id,

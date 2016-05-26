@@ -216,4 +216,8 @@ class User < ActiveRecord::Base
 
     (documents + folders).sort_by{|e| e.updated_at}.last(5).reverse
   end
+
+  def initials
+    first_name[0] + last_name[0]
+  end
 end

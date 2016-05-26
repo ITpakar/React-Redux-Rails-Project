@@ -1,4 +1,7 @@
 class Task < ActiveRecord::Base
+
+  STATUSES = ["Complete", "Incomplete"]
+
   # Validations
   validates(
     :title,
@@ -41,6 +44,17 @@ class Task < ActiveRecord::Base
 
   has_many :folders, as: :parent
   has_many :documents, as: :parent
+
+  scope :diligence, -> {where(category_id: Category.diligence.id)}
+  scope :closing, -> {where(category_id: Category.closing.id)}
+  scope :complete, -> {where(status: "Complete")}
+  scope :incomplete, -> {where(status: "Incomplete")}
+
+  before_validation :set_category_id, unless: :category_id
+
+  def set_category_id
+    self.category_id = self.section.category_id
+  end
 
   def to_hash
     data = {

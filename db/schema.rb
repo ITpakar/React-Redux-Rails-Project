@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526045139) do
+ActiveRecord::Schema.define(version: 20160526151114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160526045139) do
     t.text     "comment"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "deal_id"
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
@@ -53,7 +54,6 @@ ActiveRecord::Schema.define(version: 20160526045139) do
     t.string   "transaction_type"
     t.string   "deal_size"
     t.date     "projected_close_date"
-    t.float    "completion_percent"
     t.string   "status"
     t.integer  "admin_user_id"
     t.boolean  "activated"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20160526045139) do
     t.datetime "due_date"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "category_id"
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
     t.index ["created_by"], name: "index_tasks_on_created_by", using: :btree
     t.index ["section_id"], name: "index_tasks_on_section_id", using: :btree

@@ -265,7 +265,6 @@ Deal.create(
   projected_close_date: '2016-07-24',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 1,
   activated: true
 )
@@ -277,7 +276,6 @@ Deal.create(
   projected_close_date: '2016-03-18',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 2,
   activated: true
 
@@ -290,7 +288,6 @@ Deal.create(
   projected_close_date: '2016-11-03',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 3,
   activated: true
 )
@@ -302,7 +299,6 @@ Deal.create(
   projected_close_date: '2016-01-31',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 4,
   activated: true,
   status: 'Pending'
@@ -315,7 +311,6 @@ Deal.create(
   projected_close_date: '2016-01-19',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 1,
   activated: true,
   status: 'Ongoing'
@@ -328,7 +323,6 @@ Deal.create(
   projected_close_date: '2015-12-29',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 2,
   activated: true,
   status: 'Archived'
@@ -341,7 +335,6 @@ Deal.create(
   projected_close_date: '2015-12-18',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 3,
   activated: true
 )
@@ -353,7 +346,6 @@ Deal.create(
   projected_close_date: '2015-12-12',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 4,
   activated: true
 )
@@ -365,7 +357,6 @@ Deal.create(
   projected_close_date: '2015-12-01',
   transaction_type: 'Merger',
   deal_size: '$1,500,000,000',
-  completion_percent: 9,
   admin_user_id: 9,
   activated: true
 )
@@ -535,7 +526,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 2,
@@ -547,7 +538,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 3,
@@ -569,7 +560,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 5,
@@ -613,7 +604,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 9,
@@ -624,7 +615,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 10,
@@ -635,7 +626,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 11,
@@ -657,7 +648,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 13,
@@ -668,7 +659,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 14,
@@ -701,7 +692,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 17,
@@ -712,7 +703,7 @@ Task.create(
   created_by: 1,
   organization_id: 1,
   deal_id: 1,
-  status: 'Checked'
+  status: 'Complete'
 )
 Task.create(
   #id: 18,

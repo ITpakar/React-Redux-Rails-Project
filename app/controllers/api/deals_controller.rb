@@ -152,7 +152,6 @@ class Api::DealsController < ApplicationController
       :transaction_type,
       :deal_size,
       :projected_close_date,
-      :completion_percent,
       :status,
       :activated
     )

@@ -16,4 +16,8 @@ class App::DealsController < ApplicationController
 
     @deals = grouped.keys.map {|key| {heading: key, deals: grouped[key]}}
   end
+
+  def show
+    @deal = Deal.find(params[:id])
+  end
 end

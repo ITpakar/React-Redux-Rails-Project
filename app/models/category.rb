@@ -7,6 +7,8 @@ class Category < ActiveRecord::Base
     }
   )
 
+  scope :diligence, -> {where(name: 'Diligence').first}
+  scope :closing, -> {where(name: 'Closing').first}
   # Associations
   has_many :sections
 end
