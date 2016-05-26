@@ -62,4 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.secret_key_base = ENV['secret_key_base']
+
+  # Allow request origin for localhost on dev
+  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:5000']
 end
