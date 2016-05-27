@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :deals do
       resources :deal_collaborators, only: [:create, :index, :destroy]
       resources :starred_deals, only: [:index, :create, :update, :destroy]
+      delete 'starred_deals', to: 'starred_deals#destroy'
       resources :sections
     end
     resources :notifications

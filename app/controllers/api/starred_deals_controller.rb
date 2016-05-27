@@ -66,8 +66,8 @@ class Api::StarredDealsController < ApplicationController
   end
 
   def create
-    @starred_deal = @deal.starred_deals.new(starred_deal_params)
-    if @deal.save
+    @starred_deal = StarredDeal.new(starred_deal_params)
+    if @starred_deal.save
       success_response(["Starred Deal created successfully."])
     else
       error_response(@starred_deal.errors)
@@ -104,12 +104,16 @@ class Api::StarredDealsController < ApplicationController
 
   private
   def set_deal
-    @deal = Deal.find_by_id(params[:deal_id])
+    @deal = Deal.find_by_id(params[:deal_id] || params[:starred_deal][:deal_id])
     error_response(["Deal Not Found."]) if @deal.blank?
   end
 
   def set_starred_deal
-    @starred_deal = @deal.starred_deals.find_by_id(params[:id])
+    if params[:id]
+      @starred_deal = @deal.starred_deals.find_by_id(params[:id])
+    elsif (params[:starred_deal])
+      @starred_deal = StarredDeal.where(user_id: params[:starred_deal][:user_id], deal_id: params[:starred_deal][:deal_id]).try(:first)
+    end
     error_response("Starred Deal Not Found") if @starred_deal.blank?
   end
 

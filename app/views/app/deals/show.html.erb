@@ -10,6 +10,14 @@
                     <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
                 </ul>
             <% end %>
+            <% content_for :navbar_brand do %>
+                <%= react_component 'DealStar', 
+                    props: {initiallyStarred: @deal.starred_by?(current_user), 
+                            user_id: current_user.id,
+                            url: api_deal_starred_deals_path(@deal),
+                            deal_id: @deal.id}, 
+                    html_options: {style: 'display: inline;'} %>
+            <% end %>
             <%= render partial: "app/shared/top", locals: {title: "Deals / #{@deal.title}"} %>
             <div class="content">
             <div class="container-fluid">
