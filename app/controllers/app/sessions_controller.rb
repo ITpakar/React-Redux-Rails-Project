@@ -32,4 +32,10 @@ class App::SessionsController < Devise::SessionsController
       render 'new'
     end
   end
+
+  def require_no_authentication
+    if current_user
+      redirect_to after_sign_in_path_for(current_user)
+    end
+  end
 end
