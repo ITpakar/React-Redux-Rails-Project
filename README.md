@@ -6,44 +6,39 @@
 * PostgreSQL Database
 
 ## Deployment Steps
-#### 0. Install required gems
+#### Install required gems
 ```
 bundle install
 ```
-
-#### 1. Create Database
+#### Set up your configuration
+```
+cp config/application.yml.example config/application.yml
+```
+Now edit config/application.yml with your development database credentials
+#### Create Database
 ```
 rake db:create
 ```
-
-#### 2. Run Migrations
+#### Run Migrations
 ```
 rake db:migrate
 ```
-
-#### 3. Run Seed data file
+#### Run Seed data file
 ```
 rake db:seed
 ```
-
-#### 4. Install npm dependencies
+#### Install npm dependencies
+```
+cd client
+```
 ```
 npm install
 ```
 
-#### 5. Compile assets
-
-* Development
+#### Run the server
 ```
-gulp
+cd ..
 ```
-
-* Production
 ```
-gulp live
-```
-
-#### 4. Start Server
-```
-rails s
+foreman start -f Procfile.dev
 ```
