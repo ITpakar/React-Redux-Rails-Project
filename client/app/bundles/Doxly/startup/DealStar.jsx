@@ -9,6 +9,7 @@ import DealStar from '../components/DealStar';
 // This code here binds your smart component to the redux store.
 export default (props) => {
   const store = ReactOnRails.getStore('doxlyStore');
+
   const reactComponent = (
     <Provider store={store}>
       <DealStar {...props}/>
