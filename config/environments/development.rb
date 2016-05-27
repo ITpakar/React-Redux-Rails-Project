@@ -62,6 +62,12 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.secret_key_base = ENV['secret_key_base']
+
+  # These will send emails through mailcatcher
+  # https://mailcatcher.me/
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+
+  # Allow request origin for localhost on dev
+  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:5000']
 end
