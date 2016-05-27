@@ -1,38 +1,18 @@
-# Be sure to restart your server when you modify this file.
-
-# Your secret key is used for verifying the integrity of signed cookies.
-# If you change this key, all old signed cookies will become invalid!
-
-# Make sure the secret is at least 30 characters and all random,
-# no regular words or you'll be exposed to dictionary attacks.
-# You can use `rails secret` to generate a secure secret key.
-
-# Make sure the secrets in this file are kept private
-# if you're sharing your code publicly.
+# Add configuration values here, as shown below.
+#
+# pusher_app_id: "2954"
+# pusher_key: 7381a978f7dd7f9a1117
+# pusher_secret: abdc3b896a0ffb85d373
+# stripe_api_key: sk_test_2J0l093xOyW72XUYJHE4Dv2r
+# stripe_publishable_key: pk_test_ro9jV5SNwGb1yYlQfzG17LHK
+#
+# production:
+#   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
+#   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
 development:
-  secret_key_base: d2cee93f4c85bde68e2d261f5939dc575b232780df49674a79aff02430f4df3ef5927c63bbb59b538e1b272000e2877ecee0c414f3db7f2f3b580db66a6550fe
-  database:
-    :host: localhost
-    :name: doxly
-    :username: postgres
-    :password: root
-
-test:
-  secret_key_base: 50a9dd1fe5152c0bc314565537bf21e7269694cbd96443c7b170bb50a1f4633baf527a381518d93661890a0655cb20a9cf25a6f201350b242623abc4edc6b983
-  database:
-    :host: localhost
-    :name: doxly_test
-    :username: postgres
-    :password: root
-
-# Do not keep production secrets in the repository,
-# instead read values from the environment.
-production:
-  secret_key_base: f47e3299cb227ab07f497efa39ecf247d054e4b7d7edaf6abd5581932a14ec8ef616a6d35ec7f91405b2ce29f09d4e47ab75e7d29b16b7c8ebed8282be87b89c
-  rails_serve_static_files: true
-  database:
-    :host: localhost
-    :name: doxly
-    :username: postgres
-    :password: root
+  secret_key_base: 850c72be55e5f5072ccdac206574897100d756a5a84986d2306597bbf9e8f2c234f360ed320d7d86365275823c5d0cf670df9718ca6df14733ad25cf4ce1ed57
+  DATABASE_USERNAME: chintanparikh
+  DATABASE_PASSWORD: password
+  DATABASE_HOST: localhost
+  DATABASE_NAME: doxly_development
