@@ -50,4 +50,7 @@ so Rails (so it can be used with react_component), you need to add it into ```cl
 
 We're using the new ES6 syntax with our components.
 
-The app is split into two parts, which are namespaced appropriately app/ and api/ 
+The app is split into two parts, which are namespaced appropriately app/ and api/
+
+If you are working with emails in development, you'll want to use Mailcatcher (development.rb settings are already set up for it). Install and view documentation here: https://mailcatcher.me/
+

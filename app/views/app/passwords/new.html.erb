@@ -1,16 +1,42 @@
-<h2>Forgot your password?</h2>
+<div class="wrap-narrow">
+    <div class="box-middle">
+        <div class="inner">
+            <div class="center-logo"><a href="#"><%= image_tag "logo.svg" %></a></div>
+              <% if flash[:error] %>
+                <div class="alert alert-danger">
+                  <%= flash[:error] %>
+                </div>
+              <% end %>
+            <div class="panel panel-window">
+                <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+                    <div class="form-group">
+                      <label htmlFor="input-email">Email Address</label>
+                      <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+                    </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <%= f.submit "Send me reset password instructions", class: 'btn btn-primary' %>
+                        </div>
+                      </div>
+                    </div>
+                <% end %>
+            </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+            
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                          <%= link_to "Back to Sign In", new_app_user_session_path %>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        Don’t have an account? <a href="#">Sign Up.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
