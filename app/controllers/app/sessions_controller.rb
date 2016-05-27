@@ -4,6 +4,7 @@ class App::SessionsController < Devise::SessionsController
   before_action :ensure_params_exist, only: [:create]
 
   def new
+    super
   end
 
   def create
