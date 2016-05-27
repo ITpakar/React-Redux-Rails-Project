@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classnames from 'classnames'
 import ReactOnRails from 'react-on-rails';
 
-import actions from '../actions/doxlyActions'
+import { starDeal } from '../actions/doxlyActions'
 
 export default class DealStar extends React.Component {
   constructor(props, context) {
@@ -28,7 +28,7 @@ export default class DealStar extends React.Component {
     if (this.state.starred) {
 
     } else {
-      this.store.dispatch(actions.starDeal(this.props.deal_id, this.props.user_id, this.props.url))
+      starDeal(this.props.deal_id, this.props.user_id, this.props.url);
     }
 
     // let data = {

@@ -1,5 +1,6 @@
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import loggerMiddleware from 'lib/middlewares/loggerMiddleware';
+import thunkMiddleware from 'redux-thunk';
 
 import reducers from '../reducers';
 
@@ -19,5 +20,5 @@ export default (props, railsContext) => {
 
   const combinedReducer = combineReducers(reducers);
   props.railsContext = railsContext;
-  return applyMiddleware(loggerMiddleware)(createStore)(combinedReducer, initialState);
+  return applyMiddleware(thunkMiddleware, loggerMiddleware)(createStore)(combinedReducer, initialState);
 };
