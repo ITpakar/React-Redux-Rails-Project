@@ -22,9 +22,9 @@ class Deal < ActiveRecord::Base
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   # Validations
-  validates :title, :client_name, :transaction_type, :deal_size, :status, :admin_user_id, :activated, presence: true
+  validates :title, :client_name, :deal_size, :status, :admin_user_id, :activated, presence: true
   validates :title, length: {maximum: 250}
-  validates :transaction_type, inclusion: {in: TRANSACTION_TYPES}
+  validates :transaction_type, inclusion: {in: TRANSACTION_TYPES, message: "must be #{TRANSACTION_TYPES[0...-1].join(', ')} or #{TRANSACTION_TYPES.last}"}
   validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY"}
   validates :status, inclusion: {in: STATUSES}
   validates :creator, presence: true
