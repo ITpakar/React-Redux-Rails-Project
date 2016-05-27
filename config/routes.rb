@@ -12,17 +12,19 @@ Rails.application.routes.draw do
   scope "/app", module: 'app', as: :app do
     get '/dashboard', to: 'dashboard#index'
 
+    devise_for :user
+
+    # devise_scope :user do
+    #   get '/account/sign_in', to: "sessions#new", as: :user_sessions_path
+    #   post '/account/sign_in',  to: 'sessions#create'
+    #   get '/account/new', to: 'registrations#new'
+    #   post '/account/new', to: 'registrations#create'
+    # end
+
     resources :deals do
       resources :deal_collaborators, only: [:create, :index, :destroy]
       resources :starred_deals, only: [:index, :create, :update, :destroy]
       resources :sections
-    end
-
-    devise_scope :user do
-      get '/account/sign_in', to: "sessions#new"
-      post '/account/sign_in',  to: 'sessions#create'
-      get '/account/new', to: 'registrations#new'
-      post '/account/new', to: 'registrations#create'
     end
 
   end
