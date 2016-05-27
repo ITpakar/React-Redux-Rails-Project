@@ -3,14 +3,15 @@ class App::DealsController < ApplicationController
 
   def index
     if current_user.is_super?
-      deals = Deal.all.includes(:users)
+      deals = Deal.all.includes(:users, :starred_deals)
     elsif current_user.is_organzation_admin?(current_user.organization.try(:id))
-      deals = current_user.organization.deals.includes(:users)
+      deals = current_user.organization.deals.includes(:users, :starred_deals)
     else
-      deals = current_user.deals.includes(:users)
+      deals = current_user.deals.includes(:users, :starred_deals)
     end
 
-    deals = deals.map {|deal| deal.attributes.merge({collaborators: deal.users})}
+    deals = deals.map {|deal| deal.attributes.merge({collaborators: deal.users, 
+                                                     starred: deal.starred_deals.where(user_id: current_user.id).present? })}
 
     grouped = deals.group_by {|deal| DateTime.parse(deal["projected_close_date"].to_s).strftime("%B %Y")}
 
