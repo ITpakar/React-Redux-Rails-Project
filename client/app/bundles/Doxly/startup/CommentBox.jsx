@@ -8,7 +8,7 @@ import CommentBox from '../components/CommentBox/CommentBox';
 // This is how you get props from the Rails view into the redux store.
 // This code here binds your smart component to the redux store.
 export default (props) => {
-  const store = createStore(props);
+  const store = ReactOnRails.getStore('doxlyStore');
   const reactComponent = (
   	<Provider store={store}>
       <CommentBox {...props}/>
