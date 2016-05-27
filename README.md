@@ -43,7 +43,7 @@ foreman start -f Procfile.dev
 ```
 
 ## Things you need to know
-We're using the ```react_on_rails``` gem so all javascript will live in client/.
+We're using the ```react_on_rails``` gem so all javascript will live in `client/`.
 
-If you write a new react component, it goes in client/app/bundles/Doxly/components. If you need to expose this component
-so Rails (so it can be used with react_component), you need to add it into client/app/bundles/Doxly/start/clientRegistration.jsx
+If you write a new react component, it goes in `client/app/bundles/Doxly/components`. If you need to expose this component
+so Rails (so it can be used with react_component), you need to add it into `client/app/bundles/Doxly/start/clientRegistration.jsx`
