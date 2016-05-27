@@ -11,11 +11,7 @@ import { initialStates } from '../reducers';
 
 export default props => {
   // This is how we get initial props Rails into redux.
-  const { user_id } = props;
-  const { userState } = initialStates;
-
   const initialState = {
-    userStore: Object.assign({}, userState, {user_id: user_id})
   };
 
   const reducer = combineReducers(reducers);
