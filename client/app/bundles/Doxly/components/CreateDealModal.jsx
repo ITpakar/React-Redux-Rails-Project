@@ -64,7 +64,7 @@ export default class CreateDealModal extends React.Component {
 
   renderErrors(id, name) {
     return (
-      <span className={classnames("errors", {"has-error": this.state.errors[id].length > 0})}>
+      <span className={classnames("errors", {"has-error": this.state.errors[id] && this.state.errors[id].length > 0})}>
         {
           _.map(this.state.errors[id], function(error, i) {
             return (
@@ -106,9 +106,13 @@ export default class CreateDealModal extends React.Component {
                   {this.renderErrors('transaction_type', 'Transaction Type')}
                   <select id="input-deal-transaction" onChange={this.handleChange('transactionType')} className="selectpicker form-control show-tick">
                     <option>Select a Transaction Type</option>
-                    <option>Type 1</option>
-                    <option>Type 2</option>
-                    <option>Type 3</option>
+                    {
+                      _.map(this.props.transaction_types, function(type, index) {
+                        return (
+                          <option>{type}</option>
+                        )
+                      })
+                    }
                   </select>
                 </div>
                 <div className="form-group">

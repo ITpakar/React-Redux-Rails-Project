@@ -5,7 +5,7 @@ class Deal < ActiveRecord::Base
   ACTIVE_STATUSES = ["Unstarted", "Pending", "Ongoing", "Completed"]
   ARCHIVED_STATUSES = ["Archived"]
   CLOSED_STATUSES = ["Closed"]
-  TRANSACTION_TYPES = []
+  TRANSACTION_TYPES = ["M&A", "Venture Capital", "Commercial Lending", "Other"]
   # A deal is considered nearing completion if it's projected
   # close date is within this many days
   NEARING_COMPLETION_DAYS = 30
@@ -24,7 +24,7 @@ class Deal < ActiveRecord::Base
   # Validations
   validates :title, :client_name, :transaction_type, :deal_size, :status, :admin_user_id, :activated, presence: true
   validates :title, length: {maximum: 250}
-  # validates :transaction_type, inclusion: {in: TRANSACTION_TYPES}
+  validates :transaction_type, inclusion: {in: TRANSACTION_TYPES}
   validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY"}
   validates :status, inclusion: {in: STATUSES}
   validates :creator, presence: true

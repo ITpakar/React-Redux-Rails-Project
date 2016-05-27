@@ -12,7 +12,8 @@
 <%= react_component "CreateDealModal", props: {
     user: current_user, 
     organization_id: current_user.organization.id,
-    url: api_deals_path(format: 'json')
+    url: api_deals_path(format: 'json'),
+    transaction_types: Deal::TRANSACTION_TYPES
     } %>
 <!-- <div class="modal fade" id="modal-new-deal" tabindex="-1" role="dialog" aria-labelledby="modal-new-deal-label">
     <div class="modal-dialog" role="document">
