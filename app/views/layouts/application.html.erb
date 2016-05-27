@@ -12,6 +12,7 @@
   <body>
     <%= yield %>
 
+    <%= redux_store_hydration_data %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
   </body>
 </html>
