@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     if current_user.blank?
       respond_to do |format|
-        format.html { redirect_to app_account_sign_in_path }
+        format.html { redirect_to new_app_user_session_path }
         format.json { unauthorized_response(401) }
       end
       

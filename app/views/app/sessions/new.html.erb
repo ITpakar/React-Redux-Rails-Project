@@ -8,7 +8,7 @@
                 </div>
               <% end %>
             <div class="panel panel-window">
-                <%= form_for(:user, url: app_account_sign_in_path, method: :post) do |f|%>
+                <%= form_for(:user, url: new_app_user_session_path, method: :post) do |f|%>
                     <div class="form-group">
                       <label htmlFor="input-email">Email Address</label>
                       <%= f.text_field :email, id: 'input-email', class: 'form-control', placeholder: "example@doxly.com", required: true %>
