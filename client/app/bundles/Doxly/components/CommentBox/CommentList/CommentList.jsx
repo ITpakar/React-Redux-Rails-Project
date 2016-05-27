@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class CommentList extends Component {
+export default class CommentList extends Component {
   static propTypes = {
     comments: PropTypes.array
   }

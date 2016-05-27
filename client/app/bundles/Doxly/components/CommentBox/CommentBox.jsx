@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import request from 'axios';
 import CommentList from './CommentList/CommentList'
+import CommentForm from './CommentForm/CommentForm'
 import {setComments, addComment} from '../../reducers/commentReducer';
 
 class CommentBox extends Component {
@@ -83,22 +84,19 @@ class CommentBox extends Component {
       connected: () => {},  
       disconnected: () => {},
       received: (data) => {
-        this.receivedMessage(data);
+        this._receivedMessage(data);
       },
       speak: function(data) {
         this.perform('speak', data);
       }
     });
   }
-  _resetAndFocus = () => {
-    
-  }
 
   _internalTypeCommentsFilter(commentObject) {
-    return !isNan(commentObject.comment_type) && commentObject.comment_type == 'Internal';
+    return commentObject.comment_type == 'Internal';
   }
   _externalTypeCommentsFilter(commentObject) {
-    return !isNan(commentObject.comment_type) && commentObject.comment_type == 'External';
+    return commentObject.comment_type == 'External';
   }
   render() {
     const {comments} = this.props;
@@ -124,12 +122,9 @@ class CommentBox extends Component {
             <CommentList
               comments={comments.filter(this._internalTypeCommentsFilter)}
             />
-            <div className="chat-box__send">
-              <form>
-                  <input className="chat-box__message form-control" name="send_message_internal" ref="chatMessageInternal"/>
-                  <a className="btn btn-primary" onClick={this._sendInternalMessage}>Send</a>
-              </form>
-            </div>
+            <CommentForm 
+              commentType="Internal"
+            />
           </div>
           
           <div className="chat-box-details__instance external" id="deal-chat-1-external">
@@ -142,23 +137,13 @@ class CommentBox extends Component {
                     <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
-            <div className="chat-box__messages">
-                {comments.map(comment => (
-                  comment.comment_type == 'External' ? (
-                  <div key={comment.comment_id} className="comment-item comment-to">
-                      <div className="comment-avatar"><img src="/assets/img-avatar-2.png"/></div>
-                      <div className="comment-message"><span>{comment.comment}</span></div>
-                      <div className="timestamp">March 23 at 1:21 PM</div>
-                  </div>)
-                  : ''
-                ))}
-            </div>
-            <div className="chat-box__send">
-                <form>
-                    <input className="chat-box__message form-control" name="send_message_internal" ref="chatMessageExternal"/>
-                    <a className="btn btn-primary" onClick={this._sendExternalMessage}>Send</a>
-                </form>
-            </div>
+            <CommentList
+              comments={comments.filter(this._externalTypeCommentsFilter)}
+            />
+            
+            <CommentForm 
+              commentType="External"
+            />
           </div>
         </div>
       </div>
