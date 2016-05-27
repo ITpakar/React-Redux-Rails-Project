@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-import axios from 'axios';
+import request from 'axios';
+import CommentList from './CommentList/CommentList'
 import {setComments, addComment} from '../../reducers/commentReducer';
 
 class CommentBox extends Component {
@@ -18,10 +19,10 @@ class CommentBox extends Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleSubmit');
+    _.bindAll(this, '_handleSubmit');
   }
 
-  handleSubmit(e) {
+  _handleSubmit(e) {
     console.log(e);
     e.preventDefault();
   }
@@ -29,13 +30,55 @@ class CommentBox extends Component {
   componentDidMount() {
 
     // Fetch all comments from the backend
-    axios.get('/api/comments')
-    .then((res) => {
-      this.props.setComments(res.data.data.comments);
-      this.forceUpdate();
-    });
+    this._fetchComments();
 
     // Subscribe to Channel
+    this._subscribeToChannel();
+  }
+
+  _receivedMessage = (data) => {
+    this.props.addComment(data);
+    this.forceUpdate();
+  }
+
+  _sendMessage = (comment) => {
+    App.room.speak({comment: comment});
+  }
+
+  _sendInternalMessage = (e) => {
+    e.preventDefault();
+    const msg = this.refs.chatMessageInternal.value;
+    const comment = {
+      user_id: 1,
+      task_id: 2,
+      comment_type: 'Internal',
+      comment: msg
+    }
+    this._sendMessage(comment);
+  }
+
+  _sendExternalMessage = (e) => {
+    e.preventDefault();
+    const msg = this.refs.chatMessageExternal.value;
+    const comment = {
+      user_id: 1,
+      task_id: 2,
+      comment_type: 'External',
+      comment: msg
+    }
+    this._sendMessage(comment);
+  }
+
+  _fetchComments = () => {
+    request
+      .get('/api/comments')
+      .then((res) => {
+        this.props.setComments(res.data.data.comments);
+        this.forceUpdate();
+      });
+  }
+
+  _subscribeToChannel() {
     App.room = App.cable.subscriptions.create("RoomChannel", {
       connected: () => {},  
       disconnected: () => {},
@@ -47,44 +90,16 @@ class CommentBox extends Component {
       }
     });
   }
-
-  receivedMessage = (data) => {
-    this.props.addComment(data);
-    this.forceUpdate();
-  }
-
-  sendMessage = (comment) => {
-    App.room.speak({comment: comment});
-  }
-
-  sendInternalMessage = (e) => {
-    e.preventDefault();
-    const msg = this.refs.chatMessageInternal.value;
-    const comment = {
-      user_id: 1,
-      task_id: 2,
-      comment_type: 'Internal',
-      comment: msg
-    }
-    this.sendMessage(comment);
-  }
-
-  sendExternalMessage = (e) => {
-    e.preventDefault();
-    const msg = this.refs.chatMessageExternal.value;
-    const comment = {
-      user_id: 1,
-      task_id: 2,
-      comment_type: 'External',
-      comment: msg
-    }
-    this.sendMessage(comment);
-  }
-
-  resetAndFocus = () => {
+  _resetAndFocus = () => {
     
   }
 
+  _internalTypeCommentsFilter(commentObject) {
+    return !isNan(commentObject.comment_type) && commentObject.comment_type == 'Internal';
+  }
+  _externalTypeCommentsFilter(commentObject) {
+    return !isNan(commentObject.comment_type) && commentObject.comment_type == 'External';
+  }
   render() {
     const {comments} = this.props;
     return (
@@ -106,25 +121,17 @@ class CommentBox extends Component {
                     <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
-            <div className="chat-box__messages">
-              {comments.map(comment => (
-                comment.comment_type == 'Internal' ? (
-                <div key={comment.comment_id} className="comment-item comment-to">
-                    <div className="comment-avatar"><img src="/assets/img-avatar-2.png"/></div>
-                    <div className="comment-message"><span>{comment.comment}</span></div>
-                    <div className="timestamp">March 23 at 1:21 PM</div>
-                </div>)
-                : ''
-              ))}
-            </div>
+            <CommentList
+              comments={comments.filter(this._internalTypeCommentsFilter)}
+            />
             <div className="chat-box__send">
-                <form>
-                    <input className="chat-box__message form-control" name="send_message_internal" ref="chatMessageInternal"/>
-                    <a className="btn btn-primary" onClick={this.sendInternalMessage}>Send</a>
-                </form>
+              <form>
+                  <input className="chat-box__message form-control" name="send_message_internal" ref="chatMessageInternal"/>
+                  <a className="btn btn-primary" onClick={this._sendInternalMessage}>Send</a>
+              </form>
             </div>
           </div>
-
+          
           <div className="chat-box-details__instance external" id="deal-chat-1-external">
             <div className="chat-box__recipients">
                 <div className="chat-box__recipients-wrapper">
@@ -149,7 +156,7 @@ class CommentBox extends Component {
             <div className="chat-box__send">
                 <form>
                     <input className="chat-box__message form-control" name="send_message_internal" ref="chatMessageExternal"/>
-                    <a className="btn btn-primary" onClick={this.sendExternalMessage}>Send</a>
+                    <a className="btn btn-primary" onClick={this._sendExternalMessage}>Send</a>
                 </form>
             </div>
           </div>
