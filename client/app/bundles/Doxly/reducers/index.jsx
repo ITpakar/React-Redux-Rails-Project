@@ -3,11 +3,13 @@
 // A real world app will likely have many reducers and it helps to organize them in one file.
 import userReducer from './userReducer';
 import commentReducer from './commentReducer';
+import dealsReducer from './dealsReducer';
 import { initialState as userState } from './userReducer';
 
 export default {
   userStore: userReducer,
-  commentStore: commentReducer
+  commentStore: commentReducer,
+  dealsStore: dealsReducer
 };
 
 export const initialStates = {

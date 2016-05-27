@@ -1,4 +1,4 @@
-class App::HomeController < ApplicationController
+class App::HomeController < App::ApplicationController
   before_filter :authenticate_user!
 
   def index

@@ -7,6 +7,10 @@ export default {
   COMMENTS: {
   	LOAD: '@doxly/comments/LOAD',
   	ADD: '@doxly/comments/ADD'
+  },
+  DEALS: {
+    ADD_STARRED: '@doxly/deals/ADD_STARRED',
+    REMOVE_STARRED: '@doxly/deals/REMOVE_STARRED'
   }
 }
 

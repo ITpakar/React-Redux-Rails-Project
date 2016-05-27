@@ -6,14 +6,12 @@ import ProgressPieChart from './ProgressPieChart';
 export default class Deal extends React.Component {
 
   static propTypes = {
-    completion_percent: PropTypes.number.isRequired,
     client_name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     collaborators: PropTypes.arrayOf(PropTypes.shape({
       avatar: PropTypes.string
     })),
     projected_close_date: PropTypes.string.isRequired
-
   }
 
   renderCollaborators(collaborators) {

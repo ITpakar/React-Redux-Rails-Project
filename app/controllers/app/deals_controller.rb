@@ -1,4 +1,4 @@
-class App::DealsController < ApplicationController
+class App::DealsController < App::ApplicationController
   before_filter :authenticate_user!
 
   def index
@@ -15,7 +15,7 @@ class App::DealsController < ApplicationController
 
   def show
     @deal = Deal.find(params[:id])
-    redux_store('doxlyStore', props: {deal: @dore})
+    # redux_store('doxlyStore', props: {deal: @deal})
   end
 
   private
@@ -29,5 +29,6 @@ class App::DealsController < ApplicationController
     grouped = deals.group_by {|deal| DateTime.parse(deal["projected_close_date"].to_s).strftime("%B %Y")}
 
     grouped.keys.map {|key| {heading: key, deals: grouped[key]}}
+
   end
 end

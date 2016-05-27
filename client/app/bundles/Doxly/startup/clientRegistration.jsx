@@ -8,12 +8,14 @@ import DealView from '../components/DealView';
 import CreateDealModal from '../components/CreateDealModal';
 import ProgressPieChart from '../components/ProgressPieChart';
 import CommentBox from './CommentBox';
-import DealStar from '../components/DealStar';
+import DealStar from './DealStar';
 
-ReactOnRails.registerStore({doxlyStore})
+
 
 ReactOnRails.register({DealView, 
                        CreateDealModal, 
                        ProgressPieChart, 
                        CommentBox,
                        DealStar});
+
+ReactOnRails.registerStore({doxlyStore});
