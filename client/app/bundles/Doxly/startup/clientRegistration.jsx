@@ -9,13 +9,17 @@ import CreateDealModal from '../components/CreateDealModal';
 import ProgressPieChart from '../components/ProgressPieChart';
 import CommentBox from './CommentBox';
 import DealStar from './DealStar';
+import StarredDealList from './StarredDealList';
 
-
+ReactOnRails.setOptions({
+     traceTurbolinks: true,
+   });
 
 ReactOnRails.register({DealView, 
                        CreateDealModal, 
                        ProgressPieChart, 
                        CommentBox,
-                       DealStar});
+                       DealStar,
+                       StarredDealList});
 
 ReactOnRails.registerStore({doxlyStore});

@@ -1,6 +1,14 @@
 class App::ApplicationController < ApplicationController
   include ReactOnRails::Controller
 
+  before_filter :get_starred_deals, if: "current_user"
+
+  def get_starred_deals
+    @starred_deals = StarredDeal.includes(:deal)
+                                .where(user_id: current_user.id)
+                                .map {|sd| {id: sd.deal_id, title: sd.deal.title, url: app_deal_path(sd.deal)}}
+  end
+
   def add_to_redux_store key, value
     @redux_store_data ||= {}
     @redux_store_data[key] = value;
@@ -12,10 +20,7 @@ class App::ApplicationController < ApplicationController
     # Data that we need for every page goes here
     # Add starred deals
     if current_user
-      starred_deals = StarredDeal.includes(:deal)
-                                 .where(user_id: current_user.id)
-                                 .map {|sd| {id: sd.deal_id, title: sd.deal.title, url: app_deal_path(sd.deal)}}
-      add_to_redux_store :starred_deals, starred_deals
+      add_to_redux_store :starred_deals, @starred_deals
     end
     redux_store('doxlyStore', props: @redux_store_data)
   end

@@ -68,15 +68,27 @@ class Api::StarredDealsController < ApplicationController
   def create
     @starred_deal = StarredDeal.new(starred_deal_params)
     if @starred_deal.save
-      success_response(["Starred Deal created successfully."])
+      deal = @starred_deal.deal
+      success_response({
+        message: "Starred Deal added successfully",
+        id: deal.id,
+        title: deal.title,
+        url: app_deal_path(deal)
+      })
     else
       error_response(@starred_deal.errors)
     end
   end
 
   def destroy
+    deal = @starred_deal.deal
     if @starred_deal.destroy
-      success_response(["Starred Deal destroyed successfully"])
+      success_response({
+        message: "Starred Deal removed successfully",
+        id: deal.id,
+        title: deal.title,
+        url: app_deal_path(deal)
+      })
     else
       error_response(@starred_deal.errors)
     end

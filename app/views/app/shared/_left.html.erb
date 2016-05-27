@@ -24,11 +24,7 @@
     <div class="deals-side-panel">
       <h2>STARRED DEALS</h2>
       <ul class="nav">
-        <li>
-          <a href="/deals/1"><i class="icon-icon-star"></i> Project Panda</a>
-          <a href="/deals/1"><i class="icon-icon-star"></i> Project Dark Knight</a>
-          <a href="/deals/1"><i class="icon-icon-star"></i> Project Alpha Dog</a>
-        </li>
+        <%= react_component "StarredDealList", props: {deals: @starred_deals} %> 
       </ul>
     </div>
   </div>

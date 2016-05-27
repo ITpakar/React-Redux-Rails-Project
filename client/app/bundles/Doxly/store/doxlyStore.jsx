@@ -20,5 +20,5 @@ export default (props, railsContext) => {
 
   const combinedReducer = combineReducers(reducers);
   props.railsContext = railsContext;
-  return applyMiddleware(thunkMiddleware, loggerMiddleware)(createStore)(combinedReducer, initialState);
+  return applyMiddleware(thunkMiddleware)(createStore)(combinedReducer, initialState);
 };

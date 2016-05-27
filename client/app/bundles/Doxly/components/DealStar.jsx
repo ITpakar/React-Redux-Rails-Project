@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classnames from 'classnames'
 import ReactOnRails from 'react-on-rails';
 
-import { starDeal } from '../actions/doxlyActions'
+import { starDeal, unstarDeal } from '../actions/doxlyActions'
 
 export default class DealStar extends React.Component {
   constructor(props, context) {
@@ -18,38 +18,34 @@ export default class DealStar extends React.Component {
     _.bindAll(this, 'handleClick');
   }
 
-  onChange() {
-    console.log(this.store.getState());
-  }
-
   handleClick(event) {
     let that = this;
 
-    if (this.state.starred) {
-
-    } else {
-      starDeal(this.props.deal_id, this.props.user_id, this.props.url);
+    let data = {
+      starred_deal: {
+        user_id: this.props.user_id,
+        deal_id: this.props.deal_id
+      }
     }
 
-    // let data = {
-    //   starred_deal: {
-    //     user_id: this.props.user_id,
-    //     deal_id: this.props.deal_id
-    //   }
-    // }
-
-    // let method = this.state.starred ? "DELETE" : "POST"
+    let method = this.state.starred ? "DELETE" : "POST"
     
-    // $.ajax({
-    //   url: this.props.url,
-    //   method: method,
-    //   data: data
-    // }).done(function() {
-    //   that.setState({starred: !that.state.starred})
-    // }).fail(function(resp) {
-    //   console.log(`Something went wrong when trying to ${that.props.starred ? 'unstar' : 'star'} the deal`);
-    //   console.log(resp);
-    // })
+    $.ajax({
+      url: this.props.url,
+      method: method,
+      data: data
+    }).done(function(response) {
+      if (that.state.starred) {
+        that.store.dispatch(unstarDeal(response.data.id, response.data.title, response.data.url));
+        that.setState({starred: false})
+      } else {
+        that.store.dispatch(starDeal(response.data.id, response.data.title, response.data.url))
+        that.setState({starred: true})
+      }
+    }).fail(function(resp) {
+      console.log(`Something went wrong when trying to ${that.props.starred ? 'unstar' : 'star'} the deal`);
+      console.log(resp);
+    })
 
   }
 
