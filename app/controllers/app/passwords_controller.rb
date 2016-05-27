@@ -1,6 +1,6 @@
 class App::PasswordsController < Devise::PasswordsController
   def edit
-
+    super
   end
 
   def create
@@ -13,5 +13,9 @@ class App::PasswordsController < Devise::PasswordsController
     else
       respond_with(resource)
     end
+  end
+
+  def update
+    super
   end
 end
