@@ -7,7 +7,6 @@ class App::DealsController < App::ApplicationController
 
   def show
     @deal = Deal.find(params[:id])
-    # redux_store('doxlyStore', props: {deal: @deal})
   end
 
   private

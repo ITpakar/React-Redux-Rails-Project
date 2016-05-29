@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
     )
   end
 
-  def is_organzation_admin?(organization_id)
+  def is_organization_admin?(organization_id)
     return true if self.is_super?
 
     organization_user = OrganizationUser.where(
@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
     return !organization_user.blank?
   end
 
-  def is_organzation_member?(organization_id)
+  def is_organization_member?(organization_id)
     return true if self.is_super?
 
     organization_user = OrganizationUser.where(
@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
   end
 
   def context
-    if self.is_organzation_admin? self.organization
+    if self.is_organization_admin? self.organization
       return self.organization
     end 
 
@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
 
   def is_deal_admin? deal
     return true if self.is_super?
-    return true if self.is_organzation_admin? deal.organization
+    return true if self.is_organization_admin? deal.organization
     return true if deal.creator == self
 
     return false

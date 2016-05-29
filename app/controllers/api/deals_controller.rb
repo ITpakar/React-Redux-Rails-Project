@@ -74,7 +74,7 @@ class Api::DealsController < ApplicationController
                    .order("#{sortby} #{sortdir}")
                    .page(@page)
                    .per(@per_page) rescue []
-    elsif current_user.is_organzation_admin?(current_user.organization.try(:id))
+    elsif current_user.is_organization_admin?(current_user.organization.try(:id))
       @deals = current_user.organization
                            .deals
                            .where(conditions[0])

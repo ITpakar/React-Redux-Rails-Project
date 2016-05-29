@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   def authenticate_organization_admin!
     if current_user.blank?
       unauthorized_response(401)
-    elsif !current_user.is_organzation_admin?(params[:organization_id] || params[:id])
+    elsif !current_user.is_organization_admin?(params[:organization_id] || params[:id])
       unauthorized_response
     end
   end
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   def authenticate_organization_member!
     if current_user.blank?
       unauthorized_response(401)
-    elsif !current_user.is_organzation_member?(params[:organization_id] || params[:id] || current_user.organization.id)
+    elsif !current_user.is_organization_member?(params[:organization_id] || params[:id] || current_user.organization.id)
       unauthorized_response
     end
   end
