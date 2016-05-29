@@ -10,7 +10,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 2,
@@ -21,7 +21,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 3,
@@ -32,7 +32,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 4,
@@ -43,7 +43,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 5,
@@ -54,7 +54,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 6,
@@ -65,7 +65,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 7,
@@ -76,7 +76,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 8,
@@ -87,7 +87,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 9,
@@ -98,7 +98,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 10,
@@ -109,7 +109,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 11,
@@ -120,7 +120,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 12,
@@ -131,7 +131,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 13,
@@ -142,7 +142,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Normal',
   activated: false,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 User.create(
   #id: 14,
@@ -153,7 +153,7 @@ User.create(
   confirmed_at: Time.now,
   role: 'Super',
   activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}"
+  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
 )
 
 puts "Started creating Organizations"
