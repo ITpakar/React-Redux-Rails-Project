@@ -44,7 +44,7 @@
             color: $col-link-dark;
             padding: 15px 0;
             &.nav{
-                > li{
+                li{
                     > a{
                         padding-top: 0;
                         padding-bottom: 0;
@@ -58,7 +58,7 @@
                     color: $col-link-dark-hover;
                 }
             }
-            > li{
+            li{
                 display: inline-block;
             }
         }

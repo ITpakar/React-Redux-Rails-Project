@@ -264,7 +264,7 @@ Deal.create(
   client_name: 'Panda Express',
   projected_close_date: '2016-07-24',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 1,
   activated: true
 )
@@ -275,7 +275,7 @@ Deal.create(
   client_name: 'Cordelia Webb',
   projected_close_date: '2016-03-18',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 2,
   activated: true
 
@@ -287,7 +287,7 @@ Deal.create(
   client_name: 'Maverick',
   projected_close_date: '2016-11-03',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 3,
   activated: true
 )
@@ -298,7 +298,7 @@ Deal.create(
   client_name: 'Mitchell Torres',
   projected_close_date: '2016-01-31',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 4,
   activated: true,
   status: 'Pending'
@@ -310,7 +310,7 @@ Deal.create(
   client_name: 'High Alpha',
   projected_close_date: '2016-01-19',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 1,
   activated: true,
   status: 'Ongoing'
@@ -322,7 +322,7 @@ Deal.create(
   client_name: 'Phillip Howard',
   projected_close_date: '2015-12-29',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 2,
   activated: true,
   status: 'Archived'
@@ -334,7 +334,7 @@ Deal.create(
   client_name: 'Myrtle Rodriquez',
   projected_close_date: '2015-12-18',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 3,
   activated: true
 )
@@ -345,7 +345,7 @@ Deal.create(
   client_name: 'Larry Alexander',
   projected_close_date: '2015-12-12',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 4,
   activated: true
 )
@@ -356,7 +356,7 @@ Deal.create(
   client_name: 'Davin Romero',
   projected_close_date: '2015-12-01',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
-  deal_size: '$1,500,000,000',
+  deal_size: 1500000000,
   admin_user_id: 9,
   activated: true
 )

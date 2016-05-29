@@ -7,7 +7,10 @@
                     <li role="presentation"><a href="#tab-deal-diligence" aria-controls="tab-deal-diligence" role="tab" data-toggle="tab">Diligence</a></li>
                     <li role="presentation"><a href="#tab-deal-closing" aria-controls="tab-deal-closing" role="tab" data-toggle="tab">Closing</a></li>
                     <li role="presentation"><a href="#tab-deal-closing-book" aria-controls="tab-deal-closing-book" role="tab" data-toggle="tab">Closing Book</a></li>
-                    <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
+                    <% if current_user.is_deal_admin? @deal %>
+                        <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
+                        <%= react_component "ArchiveDealButton", props: {url: api_deal_path(@deal), initiallyArchived: @deal.status == "Archived" } %>
+                    <% end %>
                 </ul>
             <% end %>
             <% content_for :navbar_brand do %>

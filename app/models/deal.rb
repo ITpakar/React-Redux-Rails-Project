@@ -22,10 +22,14 @@ class Deal < ActiveRecord::Base
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   # Validations
-  validates :title, :client_name, :deal_size, :status, :admin_user_id, :activated, presence: true
+  validates :title, :client_name, :deal_size, :status, :admin_user_id, :projected_close_date, :activated, presence: true
   validates :title, length: {maximum: 250}
+  # The reason we allow nil is to show the message "is blank" if it's nil, not the not numerical message
+  # Nil checks still happen with the first validation
+  validates :deal_size, numericality: {message: "must be a valid number (10000 not $10000 or $10,000)", allow_nil: true}
   validates :transaction_type, inclusion: {in: TRANSACTION_TYPES, message: "must be #{TRANSACTION_TYPES[0...-1].join(', ')} or #{TRANSACTION_TYPES.last}"}
-  validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY"}
+  # We allow_nil here for the same reason is the deal_size validation
+  validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY", allow_nil: true}
   validates :status, inclusion: {in: STATUSES}
   validates :creator, presence: true
   validates :organization, presence: true

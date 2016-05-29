@@ -114,6 +114,14 @@ class User < ActiveRecord::Base
     return (deal and (deal.admin_user_id == self.id or deal.organization.creator.id == self.id))
   end
 
+  def is_deal_admin? deal
+    return true if self.is_super?
+    return true if self.is_organzation_admin? deal.organization
+    return true if deal.creator == self
+
+    return false
+  end
+
   def is_deal_collaborator?(deal_id)
     return true if self.is_super? or self.is_org_deal_admin?(deal_id)
 

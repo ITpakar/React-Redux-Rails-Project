@@ -114,7 +114,8 @@ class Api::DealsController < ApplicationController
     if @deal.update(deal_params)
       success_response(
       {
-        deal: @deal.to_hash
+        deal: @deal.to_hash,
+        redirect_to: app_deal_path(@deal)
       }
     )
     else
