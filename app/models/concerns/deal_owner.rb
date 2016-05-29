@@ -27,4 +27,8 @@ module DealOwner
 
     (documents + folders).sort_by{|e| e.updated_at}.last(5).reverse
   end
+
+  def events
+    Event.where(deal_id: deals.map(&:id))
+  end
 end

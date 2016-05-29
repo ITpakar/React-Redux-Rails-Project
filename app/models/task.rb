@@ -51,9 +51,21 @@ class Task < ActiveRecord::Base
   scope :incomplete, -> {where(status: "Incomplete")}
 
   before_validation :set_category_id, unless: :category_id
+  before_save :create_notification_if_complete
+
+  def create_notification_if_complete
+    if self.status_was != self.status and self.status == "Complete"
+      Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", subject_type: "Task", subject_id: self.id)
+    end
+  end
 
   def set_category_id
     self.category_id = self.section.category_id
+  end
+
+  def complete!
+    self.status = "Complete"
+    save
   end
 
   def to_hash

@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   include DealOwner
 
+  ROLES = ["Normal", "Super"]
+
   devise(
     :database_authenticatable,
     :registerable,
@@ -140,10 +142,10 @@ class User < ActiveRecord::Base
   end
 
   def is_super?
-    self.role == USER_SUPER
+    self.role == "Super"
   end
 
-  # We implement this because it's required by deal_owner
+  # We implement this because it's required by DealOwner
   def email_domain
     self.organization.email_domain
   end

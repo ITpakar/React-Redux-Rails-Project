@@ -66,134 +66,9 @@
 
                                     <div class="row">
                                         <div class="content-left">
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Document Signed</h3><i class="timestamp">2/29/2016</i>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA : CLOSING:</b> Pre-Closing : Term Sheet
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__document signed">
-                                                            <h4>Term Sheet <span class="badge">V9</span></h4>
-                                                            <div class="section-details__collaborators">
-                                                                <a href="#"><%= image_tag "img-avatar-1.png" %></a>
-                                                                <a href="#"><%= image_tag "img-avatar-2.png" %></a>
-                                                                <a href="#"><%= image_tag "img-avatar-6.png" %></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Comment Added</h3><i class="timestamp">2/29/2016</i>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA : CLOSING: Corporate Structure, Equity Capital & Records : Meeting Minutes</b>
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__comment comment-to">
-                                                            <div class="comment-avatar"><%= image_tag "img-avatar-4.png" %></div>
-                                                            <div class="comment-message"><span>Sounds good. Thanks!</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">New Document Version Uploaded</h3><i class="timestamp">2/29/2016</i>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA : CLOSING:</b> Pre-Closing : Term Sheet
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__attachment">
-                                                            <div class="attachment-item item-file">
-                                                                <i></i><a href="#">Term Sheet</a>
-                                                                <span class="badge">V9</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Document Uploaded</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA : CLOSING: Corporate Structure, Equity Capital & Records : Meeting Minutes</b>
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__attachment">
-                                                            <div class="attachment-item item-file">
-                                                                <i></i><a href="#">Subcompany A</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Collaborator Added</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA</b>
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__collaborator">
-                                                            <a href="#">
-                                                                <div class="avatar"><%= image_tag "img-avatar-5.png" %></div>
-                                                                <h4>Alvin Jones</h4>
-                                                                <span>Ice Miller</span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Comment Added</h3><i class="timestamp">2/29/2016</i>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>DILIGENCE: Corporate Structure, Equity Capital & Records : Meeting Minutes</b>
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__comment comment-from">
-                                                            <div class="comment-avatar"><%= image_tag "img-avatar-5.png" %></div>
-                                                            <div class="comment-message"><span>Cancelled due to weather.</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel activity-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">Comment Added</h3><i class="timestamp">2/29/2016</i>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="section-info">
-                                                        <b>PROJECT PANDA : CLOSING: Corporate Structure, Equity Capital & Records : Meeting Minutes</b>
-                                                    </div>
-                                                    <div class="section-details">
-                                                        <div class="section-details__comment comment-to">
-                                                            <div class="comment-avatar"><%= image_tag "img-avatar-4.png" %></div>
-                                                            <div class="comment-message"><span>Looks like we’re missing the June Meeting Minutes.</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <% @deal.events.each do |event| %>
+                                                <%= render 'app/shared/event', event: event %>
+                                            <% end %>
                                         </div>
                                         <div class="content-right">
                                             <div class="panel summary-card">
@@ -202,6 +77,11 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="summary-collaborators">
+                                                        <% if @deal.users.empty? %>
+                                                          <div class="project-item-empty">
+                                                            No collaborators
+                                                          </div>
+                                                        <% end %>
                                                         <% @deal.users.each do |user| %>
                                                             <div class="project-item">
                                                                 <a href="#">
@@ -221,6 +101,11 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="summary-files">
+                                                        <% if @deal.recently_updated_files.empty? %>
+                                                          <div class="project-item-empty">
+                                                            No recently updated files
+                                                          </div>
+                                                        <% end %>
                                                         <% @deal.recently_updated_files.each do |file| %>
                                                           <div class="item item-<%= file.class == Document ? 'file' : 'folder'%>">
                                                             <a href="#" class="details">

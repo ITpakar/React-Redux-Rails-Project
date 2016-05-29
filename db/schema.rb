@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528080414) do
+ActiveRecord::Schema.define(version: 20160529153343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,15 @@ ActiveRecord::Schema.define(version: 20160528080414) do
     t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
     t.index ["parent_id"], name: "index_documents_on_parent_id", using: :btree
     t.index ["parent_type"], name: "index_documents_on_parent_type", using: :btree
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "deal_id"
+    t.string   "subject_type"
+    t.integer  "subject_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "action"
   end
 
   create_table "folders", force: :cascade do |t|

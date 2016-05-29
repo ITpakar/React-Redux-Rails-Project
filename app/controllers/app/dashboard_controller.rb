@@ -6,5 +6,7 @@ class App::DashboardController < App::ApplicationController
     @recently_updated_files = current_user.context.recently_updated_files
     @deals_behind_schedule = current_user.context.deals.behind_schedule
     @deals_nearing_completion = current_user.context.deals.nearing_completion
+
+    @events = current_user.context.events
   end
 end

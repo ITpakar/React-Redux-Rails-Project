@@ -19,6 +19,7 @@ class Deal < ActiveRecord::Base
   has_many   :tasks, dependent: :delete_all
   has_many   :documents
   has_many   :comments
+  has_many   :events
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   # Validations
@@ -39,6 +40,7 @@ class Deal < ActiveRecord::Base
   scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days)}
 
   before_validation :set_default_status, unless: :status
+  before_save :create_notification_if_closed
   after_create :create_deal_collaborator
 
   def completion_percent
@@ -47,6 +49,12 @@ class Deal < ActiveRecord::Base
     completed_tasks = all_tasks.complete
 
     100 * (completed_tasks.count.to_f/all_tasks.count.to_f)
+  end
+
+  def create_notification_if_closed
+    if self.status_was != self.status and self.status == "Closed"
+      Event.create(deal_id: self.id, action: "DEAL_CLOSED", subject_type: "Deal", subject_id: self.id)
+    end
   end
 
   def diligence_completion_percent
@@ -89,6 +97,11 @@ class Deal < ActiveRecord::Base
 
   def starred_by? user
     return StarredDeal.where(user_id: user.id, deal_id: self.id).present?
+  end
+
+  def close!
+    self.status = "Closed"
+    self.save
   end
 
   def to_hash
