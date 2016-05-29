@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include DealOwner
 
   devise(
     :database_authenticatable,
@@ -107,6 +108,14 @@ class User < ActiveRecord::Base
     return !organization_user.blank?
   end
 
+  def context
+    if self.is_organzation_admin? self.organization
+      return self.organization
+    end 
+
+    return self
+  end
+
   def is_org_deal_admin?(deal_id)
     return true if self.is_super?
 
@@ -159,6 +168,10 @@ class User < ActiveRecord::Base
     self.role == USER_SUPER
   end
 
+  def email_domain
+    self.organization.email_domain
+  end
+
   def to_hash(add_organization = true)
     data = {
       email: self.email,
@@ -182,47 +195,6 @@ class User < ActiveRecord::Base
     end
 
     return data
-  end
-
-  def email_domain
-    /@(.+)$/.match(email).captures.first
-  end
-
-  def displayed_deals
-    if is_super?
-      return Deal.all.includes(:users)
-    elsif is_organzation_admin?(organization.try(:id))
-      return organization.deals.includes(:users)
-    else
-      return deals.includes(:users)
-    end
-  end
-
-  def deal_stats
-    deals_for_stats = displayed_deals
-    
-    active_deals = deals_for_stats.where(status: Deal::ACTIVE_STATUSES)
-    archived_deals = deals_for_stats.where(status: Deal::ARCHIVED_STATUSES)
-    team_members = deals_for_stats.map(&:users).flatten.uniq
-    outside_collaborators = team_members.select{|team_member| team_member.email.include? organization.email_domain}
-
-    return {
-      active_deals: active_deals.count,
-      archived_deals: archived_deals.count,
-      team_members: team_members.count, 
-      outside_collaborators: outside_collaborators.count
-    }
-  end
-
-  def recently_updated_files
-    deals_for_files = displayed_deals
-
-    ids = deals_for_files.map(&:id)
-
-    folders = Folder.where(deal_id: ids).order('updated_at').last(5)
-    documents = Document.where(deal_id: ids).order('updated_at').last(5)
-
-    (documents + folders).sort_by{|e| e.updated_at}.last(5).reverse
   end
 
   def initials

@@ -2,15 +2,7 @@ class App::DealsController < App::ApplicationController
   before_filter :authenticate_user!
 
   def index
-    if current_user.is_super?
-      deals = Deal.all.includes(:users, :starred_deals)
-    elsif current_user.is_organzation_admin?(current_user.organization.try(:id))
-      deals = current_user.organization.deals.includes(:users, :starred_deals)
-    else
-      deals = current_user.deals.includes(:users, :starred_deals)
-    end
-
-    @deals = format_deals_for_display(deals)
+    @deals = format_deals_for_display(current_user.context.deals)
   end
 
   def show

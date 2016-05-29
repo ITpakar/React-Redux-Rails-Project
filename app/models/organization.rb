@@ -1,4 +1,5 @@
 class Organization < ActiveRecord::Base
+  include DealOwner
   # Validations
   validates(
     :name,
