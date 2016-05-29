@@ -8,12 +8,15 @@
       </div>
     </div>
     <ul class="nav" id="side-menu">
-      <li class="active">
-        <a href="/"><i class="icon-icon-dashboard"></i> Dashboard</a>
+      <li class="<%= 'active' if controller_name == 'dashboard' %>">
+        <%= link_to app_dashboard_path do %>
+          <i class="icon-icon-dashboard"></i> Dashboard
+        <% end %>
       </li>
-      <li>
-        <a href="/deals"><i class="icon-icon-document"></i> Deals</a>
-      </li>
+      <li class="<%= 'active' if controller_name == 'deals' %>">
+         <%= link_to app_deals_path do %>
+            <i class="icon-icon-document"></i> Deals
+          <% end %>
       <li>
         <a href="/report"><i class="icon-icon-barchart"></i> Report</a>
       </li>

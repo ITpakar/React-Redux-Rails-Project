@@ -49,6 +49,8 @@ Rails.application.routes.draw do
 
   # Temporary routes
 
+  root to: "app/dashboard#index"
+
   get 'signin',      to: 'app/home#signin'
   get 'signup',      to: 'app/home#signup'
   get 'deals',       to: 'app/home#deals'
@@ -62,8 +64,6 @@ Rails.application.routes.draw do
 
   get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
 
-
-  root to: "app/home#index"
 
   # Serve websocket cable requests in-process 
   mount ActionCable.server => '/cable'
