@@ -61,31 +61,6 @@ class User < ActiveRecord::Base
   has_many :folders, foreign_key: :created_by
   has_many :sections, foreign_key: :created_by
 
-  def active_for_authentication?
-    super && self.activated
-  end
-
-  def inactive_message
-    "Failed to login"
-  end
-
-  def create_organization
-    Organization.create(
-      name: self.company,
-      phone: self.phone,
-      address: self.address,
-      created_by: self.id,
-      activated: true
-    )
-  end
-
-  def create_organization_user(organization_id)
-    OrganizationUser.create(
-      user_id: self.id,
-      organization_id: organization_id,
-      user_type: 'Admin'
-    )
-  end
 
   def is_organization_admin?(organization_id)
     return true if self.is_super?
@@ -168,6 +143,7 @@ class User < ActiveRecord::Base
     self.role == USER_SUPER
   end
 
+  # We implement this because it's required by deal_owner
   def email_domain
     self.organization.email_domain
   end
