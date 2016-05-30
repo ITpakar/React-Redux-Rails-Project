@@ -1,4 +1,6 @@
 class Section < ActiveRecord::Base
+  include Traversable
+  
   # Associations
   belongs_to :deal
   belongs_to :category

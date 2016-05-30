@@ -1,4 +1,5 @@
 class Comment < ApplicationRecord
+  include Traversable
 
   # Things you can comment on
   # - Deal
@@ -9,12 +10,14 @@ class Comment < ApplicationRecord
   # - Document
 
   belongs_to :user
+  belongs_to :deal
   belongs_to :commentable, polymorphic: true
 
-  after_create :create_event
+  after_create :create_event, :set_deal
 
-  def deal
-
+  def set_deal
+    self.deal_id = self.traverse_up_to(Deal).try(:id)
+    save
   end
 
   def create_event

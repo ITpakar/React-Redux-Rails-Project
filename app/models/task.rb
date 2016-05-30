@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
-
+  include Traversable
+  
   STATUSES = ["Complete", "Incomplete"]
 
   # Validations

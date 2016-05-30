@@ -1,4 +1,6 @@
 class Folder < ApplicationRecord
+  include Traversable
+
   # Association
   belongs_to :user, foreign_key: :created_by
   belongs_to :parent, polymorphic: true
