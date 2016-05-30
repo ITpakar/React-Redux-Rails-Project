@@ -16,6 +16,7 @@ gem 'figaro'
 gem "non-stupid-digest-assets"
 gem 'american_date'
 gem 'redis', '~> 3.0'
+gem 'puma'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -43,7 +44,6 @@ gem 'devise'
 
 group :development, :test do
   gem 'byebug'
-  gem 'puma'
 end
 
 group :development do
