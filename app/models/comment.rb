@@ -1,22 +1,20 @@
-class Comment < ActiveRecord::Base
-  # Associations
-  belongs_to :user
-  belongs_to :task, required: false
-  belongs_to :document, required: false
+class Comment < ApplicationRecord
 
-  before_validation :set_deal_id, unless: :deal_id
+  # Things you can comment on
+  # - Deal
+  # - Category
+  # - Section
+  # - Task
+  # - Folder
+  # - Document
+
+  belongs_to :user
+  belongs_to :commentable, polymorphic: true
+
   after_create :create_event
 
-  # Need to change this to polymorphic so that we can comment on
-  #   Deal
-  #   Category
-  #   Section
-  #   Task
-  #   Folder
-  #   Document
+  def deal
 
-  def set_deal_id
-    self.deal_id = (self.try(:task).try(:deal_id) || self.try(:document).try(:deal_id)) 
   end
 
   def create_event

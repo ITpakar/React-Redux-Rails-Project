@@ -18,7 +18,7 @@ class Deal < ActiveRecord::Base
   has_many   :sections, dependent: :delete_all
   has_many   :tasks, dependent: :delete_all
   has_many   :documents
-  has_many   :comments
+  has_many   :comments, as: :commentable
   has_many   :events
   belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 

@@ -12,4 +12,5 @@ class Category < ActiveRecord::Base
   
   # Associations
   has_many :sections
+  has_many :comments, as: :commentable
 end

@@ -1,8 +1,8 @@
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   #Associations
   has_many :document_signers
   has_many :users, through: :document_signers
-  has_many :comments
+  has_many :comments, as: :commentable
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
   belongs_to :parent, polymorphic: true
