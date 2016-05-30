@@ -89,7 +89,6 @@ class Api::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     if @comment.save
       success_response(["Comment created successfully."])
-      Pusher.trigger('test_channel', 'my_event', @comment.to_hash)
     else
       error_response(@comment.errors)
     end
