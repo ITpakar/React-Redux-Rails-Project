@@ -74,7 +74,6 @@ export default class CreateDealModal extends React.Component {
   }
 
   renderErrors(id, name) {
-    console.log(this.state.projectedCloseDate);
     return (
       <span className={classnames("errors", {"has-error": this.state.errors[id] && this.state.errors[id].length > 0})}>
         {
