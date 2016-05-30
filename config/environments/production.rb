@@ -89,5 +89,7 @@ Rails.application.configure do
   # Get the secret key from an environmental variable
   config.secret_key_base = ENV['SECRET_KEY_BASE']
 
+  config.action_cable.allowed_request_origins = ['http://doxly.herokuapp.com']
+
 
 end
