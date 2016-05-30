@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
+import DatePicker from 'react-datepicker';
+import moment from 'moment'
 
 import TextFieldWithValidation from './TextFieldWithValidation';
 
@@ -12,7 +14,7 @@ export default class CreateDealModal extends React.Component {
     this.state = {
       title: "",
       clientName: "",
-      projectedCloseDate: "",
+      projectedCloseDate: moment(),
       transactionType: "",
       dealSize: "",
       errors: {
@@ -29,6 +31,13 @@ export default class CreateDealModal extends React.Component {
 
   handleChange(attribute) {
     let that = this;
+    if (attribute == "projectedCloseDate") {
+      return function(date) {
+        let state = that.state;
+        state[attribute] = date;
+        that.setState(state);
+      }
+    }
     return function(e) {
       let state = that.state;
       state[attribute] = e.target.value;
@@ -105,7 +114,14 @@ export default class CreateDealModal extends React.Component {
                 <div className="form-group">
                   <label htmlFor="input-deal-date">Projected Close Date</label>
                   {this.renderErrors('projected_close_date', 'Projected Close Date')}
-                  <input type="text" value={this.state.projectedCloseDate} onChange={this.handleChange('projectedCloseDate')} name="deal_date" id="input-deal-date" className="form-control" placeholder="MM/DD/YYYY" required />
+                  <DatePicker
+                    selected={this.state.projectedCloseDate}
+                    onChange={this.handleChange('projectedCloseDate')}
+                    name="deal_date" 
+                    id="input-deal-date" 
+                    className="form-control" 
+                    placeholderText="MM/DD/YYYY" 
+                    required={true} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="input-deal-transaction">Transaction Type</label>
