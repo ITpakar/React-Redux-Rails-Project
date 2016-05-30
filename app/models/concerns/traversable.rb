@@ -16,6 +16,10 @@ module Traversable
     end
   end
 
+  # This will return true if self has a belongs_to association
+  # on klass
+  # So for example, if comment belongs_to :task
+  # then comment.belongs_to? Task will be true
   def belongs_to? klass
     sym = klass.to_s.downcase.to_sym
     self.class.reflect_on_all_associations(:belongs_to).map(&:name).include? sym
