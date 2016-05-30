@@ -17,7 +17,6 @@ class RoomChannel < ApplicationCable::Channel
     comment.comment_type = comment_params['comment_type']
     comment.comment = comment_params['comment']
 
-    puts 'new comment'
     if comment.save
       puts comment.to_hash
       ActionCable.server.broadcast "room_channel", comment.to_hash
