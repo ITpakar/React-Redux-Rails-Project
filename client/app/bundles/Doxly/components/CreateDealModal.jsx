@@ -34,7 +34,7 @@ export default class CreateDealModal extends React.Component {
     if (attribute == "projectedCloseDate") {
       return function(date) {
         let state = that.state;
-        state[attribute] = date;
+        state[attribute] = date.format('MM/DD/YYYY');
         that.setState(state);
       }
     }
@@ -74,6 +74,7 @@ export default class CreateDealModal extends React.Component {
   }
 
   renderErrors(id, name) {
+    console.log(this.state.projectedCloseDate);
     return (
       <span className={classnames("errors", {"has-error": this.state.errors[id] && this.state.errors[id].length > 0})}>
         {
@@ -115,7 +116,7 @@ export default class CreateDealModal extends React.Component {
                   <label htmlFor="input-deal-date">Projected Close Date</label>
                   {this.renderErrors('projected_close_date', 'Projected Close Date')}
                   <DatePicker
-                    selected={this.state.projectedCloseDate}
+                    selected={moment(this.state.projectedCloseDate)}
                     onChange={this.handleChange('projectedCloseDate')}
                     name="deal_date" 
                     id="input-deal-date" 
