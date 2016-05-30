@@ -40,8 +40,8 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Action Cable endpoint configuration
-  # config.action_cable.url = 'wss://example.com/cable'
-  # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+  config.web_socket_server_url = "wss://doxly.herokuapp.com/cable" 
+  config.action_cable.allowed_request_origins = [ 'http://doxly.herokuapp.com' ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -88,8 +88,6 @@ Rails.application.configure do
 
   # Get the secret key from an environmental variable
   config.secret_key_base = ENV['SECRET_KEY_BASE']
-
-  config.action_cable.allowed_request_origins = ['http://doxly.herokuapp.com']
 
 
 end
