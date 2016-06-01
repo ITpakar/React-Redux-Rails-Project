@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601092824) do
+ActiveRecord::Schema.define(version: 20160601120812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,17 +171,17 @@ ActiveRecord::Schema.define(version: 20160601092824) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "title",           limit: 250
-    t.string   "description",     limit: 1000
-    t.string   "status",          limit: 30
+    t.string   "title",                limit: 250
+    t.string   "description",          limit: 1000
+    t.string   "status",               limit: 30
     t.integer  "section_id"
     t.integer  "assignee_id"
-    t.integer  "organization_id"
+    t.integer  "organization_user_id"
     t.integer  "deal_id"
     t.integer  "created_by"
     t.datetime "due_date"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "category_id"
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
     t.index ["created_by"], name: "index_tasks_on_created_by", using: :btree
