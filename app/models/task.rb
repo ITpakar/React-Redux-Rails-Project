@@ -40,7 +40,7 @@ class Task < ActiveRecord::Base
   belongs_to :organization
   belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
-  belongs_to :assingnee, foreign_key: :assignee_id, class_name: 'User', optional: true
+  belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   has_many :folders, as: :parent
   has_many :documents, as: :parent
@@ -82,8 +82,8 @@ class Task < ActiveRecord::Base
       data[:creator] = self.creator.to_hash(false)
     end
 
-    if self.assingnee
-      data[:assingnee] = self.assingnee.to_hash(false)
+    if self.assignee
+      data[:assignee] = self.assignee.to_hash(false)
     end
 
     return data
