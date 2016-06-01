@@ -474,14 +474,12 @@ DealCollaborator.create(
 )
 
 puts "Started creating Categories"
-Category.create(
+DiligenceCategory.create(
   #id: 1,
-  name: 'DiligenceCategory',
   activated: true
 )
-Category.create(
+ClosingCategory.create(
   #id: 2,
-  name: 'ClosingCategory',
   activated: true
 )
 
@@ -1051,38 +1049,40 @@ DocumentSigner.create(
 )
 
 puts "Started creating Comments"
+task = Task.find(2)
+document = Document.find(15)
 Comment.create(
   #id: 1,
   user_id: 1,
-  task_id: 2,
+  commentable: task, 
   comment_type: 'Internal',
   comment: 'Looks like we are missing the June Meeting Minutes.'
 )
 Comment.create(
   #id: 2,
   user_id: 2,
-  task_id: 2,
+  commentable: task, 
   comment_type: 'Internal',
   comment: 'Cancelled due to weather.'
 )
 Comment.create(
   #id: 3,
   user_id: 1,
-  task_id: 2,
+  commentable: task, 
   comment_type: 'Internal',
   comment: 'Sound Good. Thanks!'
 )
 Comment.create(
   #id: 4,
   user_id: 1,
-  document_id: 15,
+  commentable: document, 
   comment_type: 'Internal',
   comment: 'Just signed the Term Sheet. Looking forward to working on the deal.'
 )
 Comment.create(
   #id: 5,
   user_id: 2,
-  document_id: 15,
+  commentable: document, 
   comment_type: 'Internal',
   comment: 'Great. I will send the Purchase Agreement by Friday.'
 )

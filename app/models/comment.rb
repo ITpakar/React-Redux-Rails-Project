@@ -1,8 +1,7 @@
 class Comment < ActiveRecord::Base
   # Associations
   belongs_to :user
-  belongs_to :task, required: false
-  belongs_to :document, required: false
+  belongs_to :commentable, polymorphic: true
 
   before_validation :set_deal_id, unless: :deal_id
   after_create :create_event

@@ -5,6 +5,7 @@ class Folder < ApplicationRecord
   belongs_to :deal
 
   has_many :documents, as: :parent
+  has_many :comments, as: :commentable
 
   after_create :set_deal_id
 

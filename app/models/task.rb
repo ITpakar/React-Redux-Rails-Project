@@ -35,7 +35,7 @@ class Task < ActiveRecord::Base
   )
 
   # Associations
-  has_many :comments
+  has_many :comments, as: :commentable
   belongs_to :section
   belongs_to :organization
   belongs_to :deal

@@ -1,10 +1,12 @@
 class Section < ActiveRecord::Base
   # Associations
+  has_many   :tasks, dependent: :delete_all
+  has_many   :comments, as: :commentable
+
   belongs_to :deal
   belongs_to :category
-  has_many   :tasks, dependent: :delete_all
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
-
+  
   def to_hash
     data = {
       section_id:  self.id,
