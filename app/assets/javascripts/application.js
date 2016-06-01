@@ -23,4 +23,8 @@
 //= require plugins/moment
 //= require plugins/bootstrap-datetimepicker.min
 //= require custom/scripts
-//= require custom/cable
+//= require action_cable 
+
+// Initialize ActionCable Consumer
+this.App || (this.App = {});
+App.cable = ActionCable.createConsumer();
