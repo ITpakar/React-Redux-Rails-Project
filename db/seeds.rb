@@ -476,12 +476,12 @@ DealCollaborator.create(
 puts "Started creating Categories"
 Category.create(
   #id: 1,
-  name: 'Diligence',
+  name: 'DiligenceCategory',
   activated: true
 )
 Category.create(
   #id: 2,
-  name: 'Closing',
+  name: 'ClosingCategory',
   activated: true
 )
 
