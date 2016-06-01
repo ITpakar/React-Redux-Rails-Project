@@ -1,4 +1,6 @@
 class Category < ActiveRecord::Base
+  self.inheritance_column = 'name'
+
   # Validations
   validates(
     :name,
@@ -7,10 +9,7 @@ class Category < ActiveRecord::Base
     }
   )
 
-  scope :diligence, -> {where(name: 'Diligence').first}
-  scope :closing, -> {where(name: 'Closing').first}
-  
-  # Associations
-  has_many :sections
-  has_many :comments, as: :commentable
+  belongs_to :deal
+  has_many   :comments, :as => :commentable
+  has_many   :sections, :as => :sectionable
 end

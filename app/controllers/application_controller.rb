@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authentication_org_deal_admin!
+  def authenticate_org_deal_admin!
     if current_user.blank?
       unauthorized_response(401)
     elsif !current_user.is_org_deal_admin?(params[:deal_id] || params[:id])
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authentication_deal_collaborator!
+  def authenticate_deal_collaborator!
     if current_user.blank?
       unauthorized_response(401)
     elsif !current_user.is_deal_collaborator?(params[:deal_id] || params[:id])

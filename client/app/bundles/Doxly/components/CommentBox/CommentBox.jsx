@@ -29,7 +29,7 @@ class CommentBox extends Component {
   }
 
   componentDidMount() {
-
+    
     // Fetch all comments from the backend
     this._fetchComments();
 

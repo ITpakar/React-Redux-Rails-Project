@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530141505) do
+ActiveRecord::Schema.define(version: 20160601123003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160530141505) do
     t.datetime "updated_at",       null: false
     t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.integer  "deal_id"
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160530141505) do
     t.string   "invitation_token"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "type"
     t.index ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
     t.index ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_organization_users_on_user_id", using: :btree
@@ -170,17 +172,17 @@ ActiveRecord::Schema.define(version: 20160530141505) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "title",           limit: 250
-    t.string   "description",     limit: 1000
-    t.string   "status",          limit: 30
+    t.string   "title",                limit: 250
+    t.string   "description",          limit: 1000
+    t.string   "status",               limit: 30
     t.integer  "section_id"
     t.integer  "assignee_id"
-    t.integer  "organization_id"
+    t.integer  "organization_user_id"
     t.integer  "deal_id"
     t.integer  "created_by"
     t.datetime "due_date"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "category_id"
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
     t.index ["created_by"], name: "index_tasks_on_created_by", using: :btree

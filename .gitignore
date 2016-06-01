@@ -42,8 +42,8 @@
 /public/rev-manifest.json
 /node_modules
 # React on Rails
-npm-debug.log
 node_modules
+npm-debug.log*
 
 # Generated js bundles
 /app/assets/webpack/*
@@ -57,4 +57,3 @@ node_modules
 dump.rdb
 .env
 secrets.yml.example
-npm-debug.log.8a9be10b48a2357d59568aacc5100c96
