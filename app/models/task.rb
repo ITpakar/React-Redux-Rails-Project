@@ -43,7 +43,7 @@ class Task < ActiveRecord::Base
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   has_many :folders, as: :parent
-  has_many :documents, as: :parent
+  has_many :documents, as: :documentable
 
   scope :diligence, -> {where(category_id: Category.diligence.id)}
   scope :closing, -> {where(category_id: Category.closing.id)}
