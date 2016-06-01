@@ -1,11 +1,12 @@
 class Section < ActiveRecord::Base
   # Associations
-  has_many   :tasks, dependent: :delete_all
-  has_many   :comments, as: :commentable
-
-  belongs_to :deal
-  belongs_to :category
+  belongs_to :sectionable,    :polymorphic => true
+  belongs_to :deal,           :through => :sectionable
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
+  has_many   :folders
+  has_many   :tasks
+  has_many   :deal_documents, :as => :documentable
+  has_many   :comments,       :as => :commentable
   
   def to_hash
     data = {
