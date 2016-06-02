@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602031949) do
+ActiveRecord::Schema.define(version: 20160602154322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,15 +26,15 @@ ActiveRecord::Schema.define(version: 20160602031949) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "organization_user_id"
     t.string   "comment_type"
     t.text     "comment"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "deal_id"
-    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+    t.index ["organization_user_id"], name: "index_comments_on_organization_user_id", using: :btree
   end
 
   create_table "deal_collaborators", force: :cascade do |t|
@@ -69,11 +69,11 @@ ActiveRecord::Schema.define(version: 20160602031949) do
 
   create_table "document_signers", force: :cascade do |t|
     t.integer  "document_id"
-    t.integer  "user_id"
-    t.boolean  "signed",      default: false
+    t.integer  "organization_user_id"
+    t.boolean  "signed",               default: false
     t.datetime "signed_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "documents", force: :cascade do |t|
@@ -118,11 +118,11 @@ ActiveRecord::Schema.define(version: 20160602031949) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "organization_user_id"
     t.text     "message"
     t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "organization_users", force: :cascade do |t|
@@ -169,10 +169,10 @@ ActiveRecord::Schema.define(version: 20160602031949) do
   end
 
   create_table "starred_deals", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "organization_user_id"
     t.integer  "deal_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "tasks", force: :cascade do |t|
