@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601123003) do
+ActiveRecord::Schema.define(version: 20160602031949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160601123003) do
     t.integer  "parent_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "deal_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -59,6 +60,7 @@ ActiveRecord::Schema.define(version: 20160601123003) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.float    "deal_size"
+    t.integer  "organization_user_id"
     t.index ["activated"], name: "index_deals_on_activated", using: :btree
     t.index ["admin_user_id"], name: "index_deals_on_admin_user_id", using: :btree
     t.index ["status"], name: "index_deals_on_status", using: :btree
@@ -80,22 +82,22 @@ ActiveRecord::Schema.define(version: 20160601123003) do
     t.integer  "file_size"
     t.string   "file_type"
     t.datetime "file_uploaded_at"
-    t.string   "parent_type"
-    t.integer  "parent_id"
+    t.string   "documentable_type"
+    t.integer  "documentable_id"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "deal_id"
     t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
-    t.index ["parent_id"], name: "index_documents_on_parent_id", using: :btree
-    t.index ["parent_type"], name: "index_documents_on_parent_type", using: :btree
+    t.index ["documentable_id"], name: "index_documents_on_documentable_id", using: :btree
+    t.index ["documentable_type"], name: "index_documents_on_documentable_type", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
     t.integer  "deal_id"
-    t.string   "subject_type"
-    t.integer  "subject_id"
+    t.string   "trigger_type"
+    t.integer  "trigger_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "action"
@@ -153,13 +155,15 @@ ActiveRecord::Schema.define(version: 20160601123003) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string   "name",        limit: 100
+    t.string   "name",             limit: 100
     t.integer  "deal_id"
     t.integer  "category_id"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "sectionable_id"
+    t.string   "sectionable_type"
     t.index ["activated"], name: "index_sections_on_activated", using: :btree
     t.index ["created_by"], name: "index_sections_on_created_by", using: :btree
   end

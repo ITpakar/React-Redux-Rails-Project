@@ -6,14 +6,14 @@ class Document < ApplicationRecord
   has_many :comments, as: :commentable
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
-  belongs_to :parent, polymorphic: true
+  belongs_to :documentable, polymorphic: true
   belongs_to :deal
 
   after_create :set_deal_id
 
   def set_deal_id
     unless deal_id
-      self.deal_id = parent.deal_id
+      self.deal_id = documentable.deal_id
       save
     end
   end
@@ -26,8 +26,8 @@ class Document < ApplicationRecord
       file_size:        self.file_size,
       file_type:        self.file_type,
       file_uploaded_at: self.file_uploaded_at,
-      parent_type:      self.parent_type,
-      parent_id:        self.parent_id,
+      documentable_type:self.documentable_type,
+      documentable_id:  self.documentable_id,
       activated:        self.activated
     }
 

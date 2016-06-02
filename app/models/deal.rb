@@ -16,9 +16,11 @@ class Deal < ActiveRecord::Base
   has_many   :deal_collaborators, dependent: :delete_all
   has_many   :users, through: :deal_collaborators
   has_many   :sections, through: :categories
+  has_many   :tasks, through: :sections
   has_many   :comments, as: :commentable
   has_many   :categories
-  has_many   :events
+  has_many   :events, as: :trigger
+  has_many   :starred_by, through: :starred_deals, source: :user
 
   # Validations
   validates :title, :client_name, :deal_size, :status, :admin_user_id, :projected_close_date, :activated, presence: true
@@ -30,8 +32,6 @@ class Deal < ActiveRecord::Base
   # We allow_nil here for the same reason is the deal_size validation
   validates :projected_close_date, presence: {message: "must be a valid date MM/DD/YYYY", allow_nil: true}
   validates :status, inclusion: {in: STATUSES}
-  validates :creator, presence: true
-  validates :organization, presence: true
 
   # Scopes
   scope :behind_schedule, -> {where('projected_close_date < ?', Date.today)}
@@ -51,7 +51,7 @@ class Deal < ActiveRecord::Base
 
   def create_notification_if_closed
     if self.status_was != self.status and self.status == "Closed"
-      Event.create(deal_id: self.id, action: "DEAL_CLOSED", subject_type: "Deal", subject_id: self.id)
+      Event.create(deal_id: self.id, action: "DEAL_CLOSED", trigger: self)
     end
   end
 
@@ -113,8 +113,8 @@ class Deal < ActiveRecord::Base
       status:               self.status,
       activated:            self.activated
     }
-    if self.creator
-      data[:admin] = self.creator.to_hash(false)
+    if self.organization_user
+      data[:admin] = self.organization_user.user.to_hash(false)
     end
 
     return data
