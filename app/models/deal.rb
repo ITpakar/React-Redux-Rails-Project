@@ -15,8 +15,7 @@ class Deal < ActiveRecord::Base
   has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
   has_many   :users, through: :deal_collaborators
-  has_many   :sections, dependent: :delete_all
-  
+  has_many   :sections, through: :categories
   has_many   :comments, as: :commentable
   has_many   :categories
   has_many   :events

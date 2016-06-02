@@ -6,7 +6,7 @@ class Folder < ApplicationRecord
   belongs_to :parent, polymorphic: true
   belongs_to :deal
 
-  has_many :documents, as: :parent
+  has_many :documents, as: :documentable
   has_many :comments, as: :commentable
 
   after_create :set_deal_id
