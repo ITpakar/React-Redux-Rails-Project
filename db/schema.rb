@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602154322) do
+ActiveRecord::Schema.define(version: 20160602161950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20160602154322) do
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 100
     t.boolean  "activated"
-    t.integer  "parent_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "deal_id"
@@ -155,15 +154,13 @@ ActiveRecord::Schema.define(version: 20160602154322) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string   "name",             limit: 100
+    t.string   "name",        limit: 100
     t.integer  "deal_id"
     t.integer  "category_id"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "sectionable_id"
-    t.string   "sectionable_type"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.index ["activated"], name: "index_sections_on_activated", using: :btree
     t.index ["created_by"], name: "index_sections_on_created_by", using: :btree
   end

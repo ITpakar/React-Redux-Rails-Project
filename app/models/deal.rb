@@ -40,7 +40,12 @@ class Deal < ActiveRecord::Base
 
   before_validation :set_default_status, unless: :status
   before_save :create_notification_if_closed
-  after_create :create_deal_collaborator
+  after_create :create_deal_collaborator, :create_categories
+
+  def create_categories
+    DiligenceCategory.create(activated: true, deal_id: self.id)
+    ClosingCategory.create(activated: true, deal_id: self.id)
+  end
 
   def completion_percent
     all_tasks = self.tasks
