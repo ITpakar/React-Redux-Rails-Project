@@ -20,6 +20,12 @@ class Comment < ApplicationRecord
     Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", eventable: self)
   end
 
+  def set_deal
+    deal = self.traverse_up_to(Deal)
+    self.deal_id = deal.id
+    self.save
+  end
+
   def to_hash
     data = {
       comment_id:   self.id,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602163600) do
+ActiveRecord::Schema.define(version: 20160602165452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,17 +103,14 @@ ActiveRecord::Schema.define(version: 20160602163600) do
   end
 
   create_table "folders", force: :cascade do |t|
-    t.string   "name",        limit: 250
-    t.string   "parent_type"
-    t.integer  "parent_id"
+    t.string   "name",       limit: 250
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.integer  "deal_id"
+    t.integer  "section_id"
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
-    t.index ["parent_id"], name: "index_folders_on_parent_id", using: :btree
-    t.index ["parent_type"], name: "index_folders_on_parent_type", using: :btree
   end
 
   create_table "notifications", force: :cascade do |t|

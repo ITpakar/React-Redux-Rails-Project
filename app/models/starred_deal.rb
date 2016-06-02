@@ -1,4 +1,8 @@
 class StarredDeal < ActiveRecord::Base
+  # Associations
+  belongs_to :deal
+  belongs_to :organization_user
+  
   # Validations
   validates(
     :deal_id,
@@ -11,9 +15,6 @@ class StarredDeal < ActiveRecord::Base
     :organization_user_id,
     presence: true
   )
-  # Associations
-  belongs_to :deal
-  belongs_to :organization_user
 
   def to_hash
     return self.deal.to_hash

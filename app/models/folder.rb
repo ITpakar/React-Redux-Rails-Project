@@ -2,7 +2,7 @@ class Folder < ApplicationRecord
 
   # Association
   belongs_to :organization_user, foreign_key: :created_by
-  belongs_to :parent, polymorphic: true
+  belongs_to :section
   belongs_to :deal
 
   has_many :documents, as: :documentable
