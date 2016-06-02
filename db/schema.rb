@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20160602031949) do
     t.text     "comment"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "deal_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.integer  "deal_id"
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 

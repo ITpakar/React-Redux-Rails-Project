@@ -1,5 +1,6 @@
-class Task < ActiveRecord::Base
-
+class Task < ApplicationRecord
+  include Traversable
+  
   STATUSES = ["Complete", "Incomplete"]
 
   # Validations
@@ -35,12 +36,12 @@ class Task < ActiveRecord::Base
   )
 
   # Associations
-  has_many :comments, as: :commentable
   belongs_to :section
   belongs_to :organization_user
   belongs_to :deal
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
+  has_many :comments, as: :commentable
   has_many :folders, as: :parent
   has_many :documents, as: :documentable
 

@@ -1,22 +1,24 @@
-class Comment < ActiveRecord::Base
-  # Associations
+class Comment < ApplicationRecord
+  include Traversable
+
+  # Things you can comment on
+  # - Deal
+  # - Category
+  # - Section
+  # - Task
+  # - Folder
+  # - Document
+
   belongs_to :user
+  belongs_to :deal
   belongs_to :commentable, polymorphic: true
   has_many   :events, as: :trigger
 
-  before_validation :set_deal_id, unless: :deal_id
-  after_create :create_event
+  after_create :create_event, :set_deal
 
-  # Need to change this to polymorphic so that we can comment on
-  #   Deal
-  #   Category
-  #   Section
-  #   Task
-  #   Folder
-  #   Document
-
-  def set_deal_id
-    self.deal_id = (self.try(:task).try(:deal_id) || self.try(:document).try(:deal_id)) 
+  def set_deal
+    self.deal_id = self.traverse_up_to(Deal).try(:id)
+    save
   end
 
   def create_event

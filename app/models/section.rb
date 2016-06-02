@@ -1,5 +1,8 @@
 class Section < ActiveRecord::Base
+  include Traversable
+  
   # Associations
+
   belongs_to :sectionable,    :polymorphic => true
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
   has_many   :folders
