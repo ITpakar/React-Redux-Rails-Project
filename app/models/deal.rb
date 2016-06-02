@@ -11,16 +11,14 @@ class Deal < ActiveRecord::Base
   NEARING_COMPLETION_DAYS = 30
 
   # Associations
-  belongs_to :organization
+  belongs_to :organization_user
   has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
   has_many   :users, through: :deal_collaborators
-  has_many   :sections, dependent: :delete_all
-  has_many   :tasks, dependent: :delete_all
-  has_many   :documents
+  has_many   :sections, through: :categories
   has_many   :comments, as: :commentable
+  has_many   :categories
   has_many   :events
-  belongs_to :creator, foreign_key: :admin_user_id, class_name: 'User'
 
   # Validations
   validates :title, :client_name, :deal_size, :status, :admin_user_id, :projected_close_date, :activated, presence: true

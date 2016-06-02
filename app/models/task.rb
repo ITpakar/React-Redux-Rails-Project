@@ -40,11 +40,11 @@ class Task < ApplicationRecord
   belongs_to :organization
   belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
-  belongs_to :assingnee, foreign_key: :assignee_id, class_name: 'User', optional: true
+  belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   has_many :comments, as: :commentable
   has_many :folders, as: :parent
-  has_many :documents, as: :parent
+  has_many :documents, as: :documentable
 
   scope :diligence, -> {where(category_id: Category.diligence.id)}
   scope :closing, -> {where(category_id: Category.closing.id)}
@@ -83,8 +83,8 @@ class Task < ApplicationRecord
       data[:creator] = self.creator.to_hash(false)
     end
 
-    if self.assingnee
-      data[:assingnee] = self.assingnee.to_hash(false)
+    if self.assignee
+      data[:assignee] = self.assignee.to_hash(false)
     end
 
     return data
