@@ -52,16 +52,7 @@ class User < ActiveRecord::Base
   #Associations
   has_one  :organization_user, dependent: :destroy
   has_one  :organization,      through: :organization_user
-  has_many :document_signers
-  has_many :documents, through: :document_signers
-  has_many :comments
-  has_many :deal_collaborators
-  has_many :deals, through: :deal_collaborators
-  has_many :notifications
-  has_many :starred_deals
-  has_many :tasks, foreign_key: :created_by
-  has_many :folders, foreign_key: :created_by
-  has_many :sections, foreign_key: :created_by
+  
 
 
   def is_organization_admin?(organization_id)
@@ -90,7 +81,7 @@ class User < ActiveRecord::Base
       return self.organization
     end 
 
-    return self
+    return self.organization_user
   end
 
   def is_org_deal_admin?(deal_id)

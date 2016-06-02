@@ -4,16 +4,16 @@ class StarredDeal < ActiveRecord::Base
     :deal_id,
     presence: true,
     uniqueness:{
-      scope: :user_id
+      scope: :organization_user_id
     }
   )
   validates(
-    :user_id,
+    :organization_user_id,
     presence: true
   )
   # Associations
   belongs_to :deal
-  belongs_to :user
+  belongs_to :organization_user
 
   def to_hash
     return self.deal.to_hash

@@ -1,6 +1,6 @@
 class Notification < ActiveRecord::Base
   # Associations
-  belongs_to :user
+  belongs_to :organization_user
 
   def to_hash
     data = {

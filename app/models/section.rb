@@ -3,7 +3,7 @@ class Section < ApplicationRecord
 
   belongs_to :sectionable, :polymorphic => true
   belongs_to :deal
-  belongs_to :creator, foreign_key: :created_by, class_name: 'User'
+  belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
   has_many   :folders
   has_many   :tasks
   has_many   :documents, :as => :documentable

@@ -1,7 +1,7 @@
 class Folder < ApplicationRecord
 
   # Association
-  belongs_to :user, foreign_key: :created_by
+  belongs_to :organization_user, foreign_key: :created_by
   belongs_to :parent, polymorphic: true
   belongs_to :deal
 
@@ -18,8 +18,8 @@ class Folder < ApplicationRecord
       activated:   self.activated
     }
 
-    if self.user
-      data[:creator] = self.user.to_hash(false)
+    if self.organization_user
+      data[:creator] = self.organization_user.to_hash(false)
     end
 
     return data

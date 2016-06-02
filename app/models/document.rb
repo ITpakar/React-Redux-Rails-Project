@@ -1,10 +1,10 @@
 class Document < ApplicationRecord
   #Associations
   has_many :document_signers
-  has_many :users, through: :document_signers
+  has_many :organization_users, through: :document_signers
   has_many :comments, as: :commentable
 
-  belongs_to :creator, foreign_key: :created_by, class_name: 'User'
+  belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
   belongs_to :documentable, polymorphic: true
   belongs_to :deal
 

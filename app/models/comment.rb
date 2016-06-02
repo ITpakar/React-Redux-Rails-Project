@@ -9,7 +9,7 @@ class Comment < ApplicationRecord
   # - Folder
   # - Document
 
-  belongs_to :user
+  belongs_to :organization_user
   belongs_to :deal
   belongs_to :commentable, polymorphic: true
   has_many   :events, as: :trigger
@@ -27,7 +27,7 @@ class Comment < ApplicationRecord
       comment:      self.comment
     }
     if self.user
-      data[:user] = self.user.to_hash(false)
+      data[:user] = self.organization.user.to_hash(false)
     end
 
     if self.task
