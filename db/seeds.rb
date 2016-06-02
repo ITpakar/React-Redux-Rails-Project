@@ -262,7 +262,7 @@ OrganizationUser.create(
 puts "Started creating Deals"
 Deal.create(
   #id: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Panda',
   client_name: 'Panda Express',
   projected_close_date: '2016-07-24',
@@ -273,7 +273,7 @@ Deal.create(
 )
 Deal.create(
   #id: 2,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Narwhal',
   client_name: 'Cordelia Webb',
   projected_close_date: '2016-03-18',
@@ -285,7 +285,7 @@ Deal.create(
 )
 Deal.create(
   #id: 3,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Danger Zone',
   client_name: 'Maverick',
   projected_close_date: '2016-11-03',
@@ -296,7 +296,7 @@ Deal.create(
 )
 Deal.create(
   #id: 4,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Dark Knight',
   client_name: 'Mitchell Torres',
   projected_close_date: '2016-01-31',
@@ -308,7 +308,7 @@ Deal.create(
 )
 Deal.create(
   #id: 5,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Alpha Dog',
   client_name: 'High Alpha',
   projected_close_date: '2016-01-19',
@@ -320,7 +320,7 @@ Deal.create(
 )
 Deal.create(
   #id: 6,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Lamonfort',
   client_name: 'Phillip Howard',
   projected_close_date: '2015-12-29',
@@ -332,7 +332,7 @@ Deal.create(
 )
 Deal.create(
   #id: 7,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Helmerfurt',
   client_name: 'Myrtle Rodriquez',
   projected_close_date: '2015-12-18',
@@ -343,7 +343,7 @@ Deal.create(
 )
 Deal.create(
   #id: 8,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project South Paw',
   client_name: 'Larry Alexander',
   projected_close_date: '2015-12-12',
@@ -354,7 +354,7 @@ Deal.create(
 )
 Deal.create(
   #id: 9,
-  organization_id: 1,
+  organization_user_id: 1,
   title: 'Project Margarettaland',
   client_name: 'Davin Romero',
   projected_close_date: '2015-12-01',
@@ -524,20 +524,18 @@ Task.create(
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 1,
   assignee_id: 2,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
-Task.create(
+task = Task.create(
   #id: 2,
   title: 'Meeting Minutes',
   description: 'To the extend not previously provided, all minutes of meeting'+
                'and written consents of the board of directors and stockholders',
   section_id: 1,
   assignee_id: 2,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -547,8 +545,7 @@ Task.create(
   description: 'Meeting Materials Provided to BOD',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -558,8 +555,7 @@ Task.create(
   description: 'Annual and Quaterly Reports',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -569,8 +565,7 @@ Task.create(
   description: 'Correspndance Related to Blue Sky Laws',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -580,8 +575,7 @@ Task.create(
   description: 'Equity Intrest Claims',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -591,8 +585,7 @@ Task.create(
   description: 'Conflict of Interest, Code of Ethics and Cor..',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -602,8 +595,7 @@ Task.create(
   description: 'Options, Warrents and Other Commitments',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -613,8 +605,7 @@ Task.create(
   description: '409 Valuations',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -624,8 +615,7 @@ Task.create(
   description: 'Offering Circulars, PPMs, Etc.',
   section_id: 1,
   assignee_id: 3,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -635,8 +625,7 @@ Task.create(
   description: 'Options, Warrents and Other Commitments',
   section_id: 2,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -646,8 +635,7 @@ Task.create(
   description: 'Term Sheet',
   section_id: 3,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -657,8 +645,7 @@ Task.create(
   description: 'Diligence',
   section_id: 3,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -668,8 +655,7 @@ Task.create(
   description: 'Partnerships, JVS and Subsidiaries',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -679,8 +665,7 @@ Task.create(
   description: 'Employeement Agreements',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -690,8 +675,7 @@ Task.create(
   description: 'Board Consent',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -701,8 +685,7 @@ Task.create(
   description: 'Stockholder Consent',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Complete'
 )
@@ -712,8 +695,7 @@ Task.create(
   description: 'Escrow Agreements',
   section_id: 4,
   assignee_id: 4,
-  created_by: 1,
-  organization_id: 1,
+  organization_user_id: 1,
   deal_id: 1,
   status: 'Incomplete'
 )
@@ -735,8 +717,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '1',
+  documentable_type: 'Task',
+  documentable_id: '1',
   created_by: 1,
   activated: true
 )
@@ -746,8 +728,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '1',
+  documentable_type: 'Task',
+  documentable_id: '1',
   created_by: 1,
   activated: true
 )
@@ -757,8 +739,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -768,8 +750,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -779,8 +761,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -790,8 +772,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -801,8 +783,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -812,8 +794,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -823,8 +805,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -834,8 +816,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -845,8 +827,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -856,8 +838,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -867,8 +849,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -878,8 +860,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '2',
+  documentable_type: 'Task',
+  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -889,8 +871,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '12',
+  documentable_type: 'Task',
+  documentable_id: '12',
   created_by: 1,
   activated: true
 )
@@ -900,8 +882,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '14',
+  documentable_type: 'Task',
+  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -911,8 +893,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '14',
+  documentable_type: 'Task',
+  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -922,8 +904,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '14',
+  documentable_type: 'Task',
+  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -933,8 +915,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '14',
+  documentable_type: 'Task',
+  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -944,8 +926,8 @@ Document.create(
   file_size: '1000',
   file_type: 'ppt',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '14',
+  documentable_type: 'Task',
+  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -955,8 +937,8 @@ Document.create(
   file_size: '1000',
   file_type: 'xls',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '15',
+  documentable_type: 'Task',
+  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -966,8 +948,8 @@ Document.create(
   file_size: '1000',
   file_type: 'pdf',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '15',
+  documentable_type: 'Task',
+  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -977,8 +959,8 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '15',
+  documentable_type: 'Task',
+  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -988,8 +970,8 @@ Document.create(
   file_size: '1000',
   file_type: 'pdf',
   file_uploaded_at: Time.now(),
-  parent_type: 'Task',
-  parent_id: '15',
+  documentable_type: 'Task',
+  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -1049,7 +1031,6 @@ DocumentSigner.create(
 )
 
 puts "Started creating Comments"
-task = Task.find(2)
 document = Document.find(15)
 Comment.create(
   #id: 1,

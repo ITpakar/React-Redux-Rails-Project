@@ -2,6 +2,7 @@ class Comment < ActiveRecord::Base
   # Associations
   belongs_to :user
   belongs_to :commentable, polymorphic: true
+  has_many   :events, as: :trigger
 
   before_validation :set_deal_id, unless: :deal_id
   after_create :create_event
@@ -19,7 +20,7 @@ class Comment < ActiveRecord::Base
   end
 
   def create_event
-    Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", subject_type: "Comment", subject_id: self.id)
+    Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", trigger: self)
   end
 
   def to_hash

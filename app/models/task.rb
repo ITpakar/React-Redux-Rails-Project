@@ -14,7 +14,7 @@ class Task < ActiveRecord::Base
     presence: true
   )
   validates(
-    :organization_id,
+    :organization_user_id,
     presence: true
   )
   validates(
@@ -37,9 +37,8 @@ class Task < ActiveRecord::Base
   # Associations
   has_many :comments, as: :commentable
   belongs_to :section
-  belongs_to :organization
+  belongs_to :organization_user
   belongs_to :deal
-  belongs_to :creator, foreign_key: :created_by, class_name: 'User'
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   has_many :folders, as: :parent
@@ -51,11 +50,11 @@ class Task < ActiveRecord::Base
   scope :incomplete, -> {where(status: "Incomplete")}
 
   before_validation :set_category_id, unless: :category_id
-  before_save :create_notification_if_complete
+  after_create :create_notification_if_complete
 
   def create_notification_if_complete
     if self.status_was != self.status and self.status == "Complete"
-      Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", subject_type: "Task", subject_id: self.id)
+      Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", trigger: self)
     end
   end
 
