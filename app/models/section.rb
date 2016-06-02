@@ -1,7 +1,7 @@
 class Section < ApplicationRecord
   # Associations
 
-  belongs_to :cateogry
+  belongs_to :category
   belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
   has_many   :folders
