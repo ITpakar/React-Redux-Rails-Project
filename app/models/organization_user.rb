@@ -1,4 +1,6 @@
 class OrganizationUser < ActiveRecord::Base
+  include DealOwner
+
   # Associations
   belongs_to :user
   belongs_to :organization
@@ -13,4 +15,9 @@ class OrganizationUser < ActiveRecord::Base
   has_many :folders
   has_many :sections
   has_many :collaborators, :as => :collaboratable
+
+  # We implement this because it's required by DealOwner
+  def email_domain
+    self.organization.email_domain
+  end
 end

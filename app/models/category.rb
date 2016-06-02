@@ -11,5 +11,5 @@ class Category < ActiveRecord::Base
 
   belongs_to :deal
   has_many   :comments, :as => :commentable
-  has_many   :sections, :as => :sectionable
+  has_many   :sections
 end

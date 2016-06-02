@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include DealOwner
 
   ROLES = ["Normal", "Super"]
 
@@ -52,8 +51,6 @@ class User < ActiveRecord::Base
   #Associations
   has_one  :organization_user, dependent: :destroy
   has_one  :organization,      through: :organization_user
-  
-
 
   def is_organization_admin?(organization_id)
     return true if self.is_super?
@@ -136,10 +133,6 @@ class User < ActiveRecord::Base
     self.role == "Super"
   end
 
-  # We implement this because it's required by DealOwner
-  def email_domain
-    self.organization.email_domain
-  end
 
   def to_hash(add_organization = true)
     data = {
