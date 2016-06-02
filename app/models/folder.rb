@@ -1,5 +1,4 @@
 class Folder < ApplicationRecord
-  include Traversable
 
   # Association
   belongs_to :user, foreign_key: :created_by
@@ -9,14 +8,7 @@ class Folder < ApplicationRecord
   has_many :documents, as: :documentable
   has_many :comments, as: :commentable
 
-  after_create :set_deal_id
-
-  def set_deal_id
-    unless deal_id
-      self.deal_id = parent.deal_id
-      save
-    end
-  end
+  after_create :set_deal
 
   def to_hash
     data = {

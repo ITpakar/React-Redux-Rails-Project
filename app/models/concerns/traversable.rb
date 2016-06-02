@@ -8,7 +8,7 @@ module Traversable
     when Comment
       return self.commentable.traverse_up_to klass
     when Document
-      return self.parent.traverse_up_to klass
+      return self.documentable.traverse_up_to klass
     when Folder
       return self.parent.traverse_up_to klass
     when Task

@@ -1,15 +1,16 @@
-class Section < ActiveRecord::Base
-  include Traversable
-  
+class Section < ApplicationRecord
   # Associations
 
-  belongs_to :sectionable,    :polymorphic => true
+  belongs_to :sectionable, :polymorphic => true
+  belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
   has_many   :folders
   has_many   :tasks
   has_many   :documents, :as => :documentable
-  has_many   :comments,       :as => :commentable
+  has_many   :comments,  :as => :commentable
   
+  after_create :set_deal
+
   def to_hash
     data = {
       section_id:  self.id,

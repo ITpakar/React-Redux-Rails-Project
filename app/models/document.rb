@@ -1,5 +1,4 @@
 class Document < ApplicationRecord
-  include Traversable
   #Associations
   has_many :document_signers
   has_many :users, through: :document_signers
@@ -9,14 +8,7 @@ class Document < ApplicationRecord
   belongs_to :documentable, polymorphic: true
   belongs_to :deal
 
-  after_create :set_deal_id
-
-  def set_deal_id
-    unless deal_id
-      self.deal_id = documentable.deal_id
-      save
-    end
-  end
+  after_create :set_deal
 
   def to_hash
     data = {

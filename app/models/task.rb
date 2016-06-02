@@ -38,7 +38,6 @@ class Task < ApplicationRecord
   # Associations
   belongs_to :section
   belongs_to :organization_user
-  belongs_to :deal
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'User', optional: true
 
   has_many :comments, as: :commentable

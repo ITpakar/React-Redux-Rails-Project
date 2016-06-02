@@ -16,11 +16,6 @@ class Comment < ApplicationRecord
 
   after_create :create_event, :set_deal
 
-  def set_deal
-    self.deal_id = self.traverse_up_to(Deal).try(:id)
-    save
-  end
-
   def create_event
     Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", trigger: self)
   end

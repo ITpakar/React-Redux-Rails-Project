@@ -474,12 +474,14 @@ DealCollaborator.create(
 )
 
 puts "Started creating Categories"
-DiligenceCategory.create(
+category = DiligenceCategory.create(
   #id: 1,
+  deal_id: 1,
   activated: true
 )
 ClosingCategory.create(
   #id: 2,
+  deal_id: 2,
   activated: true
 )
 
@@ -488,7 +490,7 @@ Section.create(
   #id: 1,
   name: 'Corporate Structure, Equity Capital & Records',
   deal_id: 1,
-  category_id: 1,
+  sectionable: category,
   created_by: 1,
   activated: true
 )
@@ -496,7 +498,7 @@ Section.create(
   #id: 2,
   name: 'Financial Data, Financings and Indebtedness',
   deal_id: 1,
-  category_id: 1,
+  sectionable: category,
   created_by: 1,
   activated: true
 )
@@ -504,7 +506,7 @@ Section.create(
   #id: 3,
   name: 'Pre-closing',
   deal_id: 1,
-  category_id: 2,
+  sectionable: category,
   created_by: 1,
   activated: true
 )
@@ -512,7 +514,7 @@ Section.create(
   #id: 4,
   name: 'Closing',
   deal_id: 1,
-  category_id: 2,
+  sectionable: category,
   created_by: 1,
   activated: true
 )
