@@ -42,7 +42,8 @@ class Task < ApplicationRecord
 
   has_many :comments, as: :commentable
   has_many :folders, as: :parent
-  has_many :documents, as: :documentable
+  has_many :deal_documents, as: :documentable
+  has_many :documents, through: :deal_documents
 
   scope :diligence, -> {where(category_id: Category.diligence.id)}
   scope :closing, -> {where(category_id: Category.closing.id)}

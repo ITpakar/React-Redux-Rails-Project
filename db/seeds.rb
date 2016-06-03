@@ -168,95 +168,82 @@ Organization.create(
 )
 
 puts "Started creating Organization Users"
-OrganizationUser.create(
+OrganizationAdminUser.create(
   #id: 1,
   organization_id: 1,
-  user_id: 1,
-  user_type: 'Admin'
+  user_id: 1
 )
 
-OrganizationUser.create(
+OrganizationInternalUser.create(
   #id: 2,
   organization_id: 1,
-  user_id: 2,
-  user_type: 'Internal'
+  user_id: 2
 )
 
-OrganizationUser.create(
+OrganizationInternalUser.create(
   #id: 3,
   organization_id: 1,
-  user_id: 3,
-  user_type: 'Internal'
+  user_id: 3
 )
 
-OrganizationUser.create(
+OrganizationInternalUser.create(
   #id: 4,
   organization_id: 1,
-  user_id: 4,
-  user_type: 'Internal'
+  user_id: 4
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 5,
   organization_id: 1,
-  user_id: 5,
-  user_type: 'Outside'
+  user_id: 5
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 6,
   organization_id: 1,
-  user_id: 6,
-  user_type: 'Outside'
+  user_id: 6
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 7,
   organization_id: 1,
-  user_id: 7,
-  user_type: 'Outside'
+  user_id: 7
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 8,
   organization_id: 1,
-  user_id: 8,
-  user_type: 'Outside'
+  user_id: 8
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 9,
   organization_id: 1,
-  user_id: 9,
-  user_type: 'Outside'
+  user_id: 9
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 10,
   organization_id: 1,
-  user_id: 10,
-  user_type: 'Outside'
+  user_id: 10
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 11,
   organization_id: 1,
-  user_id: 11,
-  user_type: 'Outside'
+  user_id: 11
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 12,
   organization_id: 1,
-  user_id: 12,
-  user_type: 'Outside'
+  user_id: 12
 )
 
-OrganizationUser.create(
+OrganizationExternalUser.create(
   #id: 13,
   organization_id: 1,
-  user_id: 13,
-  user_type: 'Outside'
+  user_id: 13
 )
 
 puts "Started creating Deals"
@@ -268,7 +255,6 @@ Deal.create(
   projected_close_date: '2016-07-24',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 1,
   activated: true
 )
 Deal.create(
@@ -279,7 +265,6 @@ Deal.create(
   projected_close_date: '2016-03-18',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 2,
   activated: true
 
 )
@@ -291,7 +276,6 @@ Deal.create(
   projected_close_date: '2016-11-03',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 3,
   activated: true
 )
 Deal.create(
@@ -302,7 +286,6 @@ Deal.create(
   projected_close_date: '2016-01-31',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 4,
   activated: true,
   status: 'Pending'
 )
@@ -314,7 +297,6 @@ Deal.create(
   projected_close_date: '2016-01-19',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 1,
   activated: true,
   status: 'Ongoing'
 )
@@ -326,7 +308,6 @@ Deal.create(
   projected_close_date: '2015-12-29',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 2,
   activated: true,
   status: 'Archived'
 )
@@ -338,7 +319,6 @@ Deal.create(
   projected_close_date: '2015-12-18',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 3,
   activated: true
 )
 Deal.create(
@@ -349,7 +329,6 @@ Deal.create(
   projected_close_date: '2015-12-12',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 4,
   activated: true
 )
 Deal.create(
@@ -360,24 +339,23 @@ Deal.create(
   projected_close_date: '2015-12-01',
   transaction_type: Deal::TRANSACTION_TYPES.sample,
   deal_size: 1500000000,
-  admin_user_id: 9,
   activated: true
 )
 
 puts "Started creating Starred Deals"
 StarredDeal.create(
   #id: 1,
-  user_id: 1,
+  organization_user_id: 1,
   deal_id: 1
 )
 StarredDeal.create(
   #id: 2,
-  user_id: 10,
+  organization_user_id: 10,
   deal_id: 4
 )
 StarredDeal.create(
   #id: 3,
-  user_id: 11,
+  organization_user_id: 11,
   deal_id: 5
 )
 
@@ -385,104 +363,92 @@ puts "Started creating Deal Collaborators"
 DealCollaborator.create(
   #id: 1,
   deal_id: 1,
-  user_id: 1,
+  organization_user_id: 1,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 2,
   deal_id: 1,
-  user_id: 2,
+  organization_user_id: 2,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 3,
   deal_id: 1,
-  user_id: 3,
+  organization_user_id: 3,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 4,
   deal_id: 1,
-  user_id: 4,
+  organization_user_id: 4,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 5,
   deal_id: 1,
-  user_id: 5,
+  organization_user_id: 5,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 6,
   deal_id: 1,
-  user_id: 6,
+  organization_user_id: 6,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 7,
   deal_id: 2,
-  user_id: 2,
+  organization_user_id: 2,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 8,
   deal_id: 3,
-  user_id: 3,
+  organization_user_id: 3,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 9,
   deal_id: 4,
-  user_id: 4,
+  organization_user_id: 4,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 10,
   deal_id: 4,
-  user_id: 10,
+  organization_user_id: 10,
   added_by: 4
 )
 DealCollaborator.create(
   #id: 11,
   deal_id: 5,
-  user_id: 1,
+  organization_user_id: 1,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 12,
   deal_id: 6,
-  user_id: 2,
+  organization_user_id: 2,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 13,
   deal_id: 7,
-  user_id: 3,
+  organization_user_id: 3,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 14,
   deal_id: 8,
-  user_id: 4,
+  organization_user_id: 4,
   added_by: 1
 )
 DealCollaborator.create(
   #id: 15,
   deal_id: 9,
-  user_id: 9,
+  organization_user_id: 9,
   added_by: 1
-)
-
-puts "Started creating Categories"
-category = DiligenceCategory.create(
-  #id: 1,
-  deal_id: 1,
-  activated: true
-)
-ClosingCategory.create(
-  #id: 2,
-  deal_id: 2,
-  activated: true
 )
 
 puts "Started creating Sections"
@@ -490,7 +456,7 @@ Section.create(
   #id: 1,
   name: 'Corporate Structure, Equity Capital & Records',
   deal_id: 1,
-  sectionable: category,
+  category_id: 1,
   created_by: 1,
   activated: true
 )
@@ -498,7 +464,7 @@ Section.create(
   #id: 2,
   name: 'Financial Data, Financings and Indebtedness',
   deal_id: 1,
-  sectionable: category,
+  category_id: 1,
   created_by: 1,
   activated: true
 )
@@ -506,7 +472,7 @@ Section.create(
   #id: 3,
   name: 'Pre-closing',
   deal_id: 1,
-  sectionable: category,
+  category_id: 1,
   created_by: 1,
   activated: true
 )
@@ -514,7 +480,7 @@ Section.create(
   #id: 4,
   name: 'Closing',
   deal_id: 1,
-  sectionable: category,
+  category_id: 1,
   created_by: 1,
   activated: true
 )
@@ -719,8 +685,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '1',
   created_by: 1,
   activated: true
 )
@@ -730,8 +694,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '1',
   created_by: 1,
   activated: true
 )
@@ -741,8 +703,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -752,8 +712,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -763,8 +721,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -774,8 +730,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -785,8 +739,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -796,8 +748,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -807,8 +757,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -818,8 +766,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -829,8 +775,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -840,8 +784,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -851,8 +793,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -862,8 +802,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '2',
   created_by: 1,
   activated: true
 )
@@ -873,8 +811,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '12',
   created_by: 1,
   activated: true
 )
@@ -884,8 +820,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -895,8 +829,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -906,8 +838,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -917,8 +847,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -928,8 +856,6 @@ Document.create(
   file_size: '1000',
   file_type: 'ppt',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '14',
   created_by: 1,
   activated: true
 )
@@ -939,8 +865,6 @@ Document.create(
   file_size: '1000',
   file_type: 'xls',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -950,8 +874,6 @@ Document.create(
   file_size: '1000',
   file_type: 'pdf',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -961,8 +883,6 @@ Document.create(
   file_size: '1000',
   file_type: 'image',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '15',
   created_by: 1,
   activated: true
 )
@@ -972,10 +892,130 @@ Document.create(
   file_size: '1000',
   file_type: 'pdf',
   file_uploaded_at: Time.now(),
-  documentable_type: 'Task',
-  documentable_id: '15',
   created_by: 1,
   activated: true
+)
+
+puts "Started creating DealDocuments"
+DealDocument.create(
+  document_id: 1,
+  documentable_type: 'Task',
+  documentable_id: '1',
+)
+DealDocument.create(
+  document_id: 2,
+  documentable_type: 'Task',
+  documentable_id: '1',
+)
+DealDocument.create(
+  document_id: 3,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 4,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 5,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 6,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 7,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 8,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 9,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 10,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 11,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 12,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 13,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 14,
+  documentable_type: 'Task',
+  documentable_id: '2',
+)
+DealDocument.create(
+  document_id: 15,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 16,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 17,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 18,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 19,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 20,
+  documentable_type: 'Task',
+  documentable_id: '14',
+)
+DealDocument.create(
+  document_id: 21,
+  documentable_type: 'Task',
+  documentable_id: '15',
+)
+DealDocument.create(
+  document_id: 22,
+  documentable_type: 'Task',
+  documentable_id: '15',
+)
+DealDocument.create(
+  document_id: 23,
+  documentable_type: 'Task',
+  documentable_id: '15',
+)
+DealDocument.create(
+  document_id: 24,
+  documentable_type: 'Task',
+  documentable_id: '15',
 )
 
 puts "Create another folder so it shows up in recents"
@@ -992,42 +1032,42 @@ puts "Started creating Document Signers"
 DocumentSigner.create(
   #id: 1,
   document_id: 15,
-  user_id: 1,
+  organization_user_id: 1,
   signed: true,
   signed_at: Time.now()
 )
 DocumentSigner.create(
   #id: 2,
   document_id: 15,
-  user_id: 2,
+  organization_user_id: 2,
   signed: true,
   signed_at: Time.now()
 )
 DocumentSigner.create(
   #id: 3,
   document_id: 15,
-  user_id: 3,
+  organization_user_id: 3,
   signed: true,
   signed_at: Time.now()
 )
 DocumentSigner.create(
   #id: 4,
   document_id: 16,
-  user_id: 4,
+  organization_user_id: 4,
   signed: false,
   signed_at: Time.now()
 )
 DocumentSigner.create(
   #id: 5,
   document_id: 16,
-  user_id: 5,
+  organization_user_id: 5,
   signed: false,
   signed_at: Time.now()
 )
 DocumentSigner.create(
   #id: 6,
   document_id: 16,
-  user_id: 6,
+  organization_user_id: 6,
   signed: false,
   signed_at: Time.now()
 )
@@ -1036,35 +1076,35 @@ puts "Started creating Comments"
 document = Document.find(15)
 Comment.create(
   #id: 1,
-  user_id: 1,
+  organization_user_id: 1,
   commentable: task, 
   comment_type: 'Internal',
   comment: 'Looks like we are missing the June Meeting Minutes.'
 )
 Comment.create(
   #id: 2,
-  user_id: 2,
+  organization_user_id: 2,
   commentable: task, 
   comment_type: 'Internal',
   comment: 'Cancelled due to weather.'
 )
 Comment.create(
   #id: 3,
-  user_id: 1,
+  organization_user_id: 1,
   commentable: task, 
   comment_type: 'Internal',
   comment: 'Sound Good. Thanks!'
 )
 Comment.create(
   #id: 4,
-  user_id: 1,
+  organization_user_id: 1,
   commentable: document, 
   comment_type: 'Internal',
   comment: 'Just signed the Term Sheet. Looking forward to working on the deal.'
 )
 Comment.create(
   #id: 5,
-  user_id: 2,
+  organization_user_id: 2,
   commentable: document, 
   comment_type: 'Internal',
   comment: 'Great. I will send the Purchase Agreement by Friday.'
@@ -1073,7 +1113,7 @@ Comment.create(
 puts "Started creating Notifications"
 Notification.create(
   #id: 1,
-  user_id: 1,
+  organization_user_id: 1,
   message: 'Welcome back to Doxly!',
   status: 'unread'
 )

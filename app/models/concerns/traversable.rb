@@ -7,8 +7,9 @@ module Traversable
     case self
     when Comment
       return self.commentable.traverse_up_to klass
-    when Document
-      return self.documentable.traverse_up_to klass
+    # Need to decide how we can get traverse_up for Document model
+    # when Document
+    #   return self.documentable.traverse_up_to klass
     when Folder
       return self.parent.traverse_up_to klass
     when Task
