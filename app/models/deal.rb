@@ -38,9 +38,13 @@ class Deal < ActiveRecord::Base
   scope :behind_schedule, -> {where('projected_close_date < ?', Date.today)}
   scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days)}
 
-  before_validation :set_default_status, unless: :status
+  before_validation :set_default_status, :set_organization_id
   before_save :create_notification_if_closed
   after_create :create_deal_collaborator, :create_categories
+
+  def set_organization_id
+    self.organization_id = self.organization_user.organization_id unless organization_id
+  end
 
   def create_categories
     DiligenceCategory.create(activated: true, deal_id: self.id)

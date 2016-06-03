@@ -1,263 +1,28 @@
-avatars = [1, 2, 3, 4, 5, 6]
+# Create a user
+user = FactoryGirl.create(:user, email: 'user@doxly.com')
 
-puts "Started creating Users"
-User.create(
-  #id: 1,
-  first_name: 'Alex',
-  last_name: 'Vaughn',
-  email: 'viola.wintheiser@panda.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 2,
-  first_name: 'Harvey',
-  last_name: 'Specter',
-  email: 'albertha_carroll@panda.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 3,
-  first_name: 'Rebecca',
-  last_name: 'Moss',
-  email: 'estefenia.larkin@panda.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 4,
-  first_name: 'Louisa',
-  last_name: 'Curtis',
-  email: 'bret.flatley@panda.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 5,
-  first_name: 'Cecelia',
-  last_name: 'Hopkins',
-  email: 'hahn.jabari@yahoo.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 6,
-  first_name: 'Alvin',
-  last_name: 'Jones',
-  email: 'craig_rice@gmail.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 7,
-  first_name: 'Celia',
-  last_name: 'Clark',
-  email: 'bernhard_thiel@art.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 8,
-  first_name: 'Chad',
-  last_name: 'Copeland',
-  email: 'glover.destin@io.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 9,
-  first_name: 'Louisa',
-  last_name: 'Gilbert',
-  email: 'alysa.collier@yahoo.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 10,
-  first_name: 'Clifford',
-  last_name: 'Snyder',
-  email: 'tom_gerhold@redhat.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 11,
-  first_name: 'Jeff',
-  last_name: 'Daniels',
-  email: 'jarrod_sauer@gmail.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 12,
-  first_name: 'Mabel',
-  last_name: 'Valdez',
-  email: 'roma.buckridge@yahoo.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 13,
-  first_name: 'Christian',
-  last_name: 'Erickson',
-  email: 'martine.hayes@gmail.com',
-  password: '12345678',
-  confirmed_at: Time.now,
-  role: 'Normal',
-  activated: false,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
-User.create(
-  #id: 14,
-  first_name: 'Super',
-  last_name: 'User',
-  email: 'knightang11@gmail.com',
-  password: 'p@ssw0rd',
-  confirmed_at: Time.now,
-  role: 'Super',
-  activated: true,
-  avatar_name: "/assets/img-avatar-#{avatars.sample}.png"
-)
+# Create an organization created by that user
+organization = FactoryGirl.create(:organization, created_by: user.id)
 
-puts "Started creating Organizations"
-Organization.create(
-  #id: 1,
-  name: 'Panda Express',
-  created_by: 1,
-  email_domain: 'panda.com',
-  phone: '9876543240',
-  address: '#1021, River Palace',
-  activated: true
-)
+# Create a bunch more users for that organization
+10.times do |i|
+  FactoryGirl.create(:user, :with_organization_user, organization_id: organization.id, email_domain: user.email_domain)
+end
 
-puts "Started creating Organization Users"
-OrganizationUser.create(
-  #id: 1,
-  organization_id: 1,
-  user_id: 1,
-  user_type: 'Admin'
-)
+# Now we'll create some deals with sections, tasks, documents, and comments
 
-OrganizationUser.create(
-  #id: 2,
-  organization_id: 1,
-  user_id: 2,
-  user_type: 'Internal'
-)
 
-OrganizationUser.create(
-  #id: 3,
-  organization_id: 1,
-  user_id: 3,
-  user_type: 'Internal'
-)
 
-OrganizationUser.create(
-  #id: 4,
-  organization_id: 1,
-  user_id: 4,
-  user_type: 'Internal'
-)
+# Assign users as collaborators
 
-OrganizationUser.create(
-  #id: 5,
-  organization_id: 1,
-  user_id: 5,
-  user_type: 'Outside'
-)
+# Assign some of these deals as starred deals
 
-OrganizationUser.create(
-  #id: 6,
-  organization_id: 1,
-  user_id: 6,
-  user_type: 'Outside'
-)
 
-OrganizationUser.create(
-  #id: 7,
-  organization_id: 1,
-  user_id: 7,
-  user_type: 'Outside'
-)
 
-OrganizationUser.create(
-  #id: 8,
-  organization_id: 1,
-  user_id: 8,
-  user_type: 'Outside'
-)
 
-OrganizationUser.create(
-  #id: 9,
-  organization_id: 1,
-  user_id: 9,
-  user_type: 'Outside'
-)
+# Now lets do this a few more times
 
-OrganizationUser.create(
-  #id: 10,
-  organization_id: 1,
-  user_id: 10,
-  user_type: 'Outside'
-)
 
-OrganizationUser.create(
-  #id: 11,
-  organization_id: 1,
-  user_id: 11,
-  user_type: 'Outside'
-)
-
-OrganizationUser.create(
-  #id: 12,
-  organization_id: 1,
-  user_id: 12,
-  user_type: 'Outside'
-)
-
-OrganizationUser.create(
-  #id: 13,
-  organization_id: 1,
-  user_id: 13,
-  user_type: 'Outside'
-)
 
 puts "Started creating Deals"
 Deal.create(

@@ -16,6 +16,12 @@ class Organization < ActiveRecord::Base
   has_many :deals, dependent: :delete_all
   belongs_to :creator, foreign_key: :created_by, class_name: 'User'
 
+  after_create :create_organization_user
+
+  def create_organization_user
+    OrganizationInternalUser.create(user_id: creator.id, organization_id: self.id)
+  end
+
   def to_hash
     data = {
       name: self.name,

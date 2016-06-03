@@ -17,6 +17,8 @@ gem "non-stupid-digest-assets"
 gem 'american_date'
 gem 'redis', '~> 3.0'
 gem 'puma'
+gem 'factory_girl_rails'
+gem 'ffaker'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

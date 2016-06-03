@@ -1,0 +1,1 @@
+FactoryGirl.definition_file_paths = %w(lib/factories)

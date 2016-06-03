@@ -36,6 +36,7 @@ module DoxlyApp
 
     # type = ENV["REACT_ON_RAILS_ENV"] == "HOT" ? "non_webpack" : "static"
 
+
     # config.assets.precompile +=
     #   [
     #     "application_#{type}.js",

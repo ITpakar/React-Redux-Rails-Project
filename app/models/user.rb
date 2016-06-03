@@ -159,6 +159,10 @@ class User < ActiveRecord::Base
     return data
   end
 
+  def email_domain
+    /@(.+)/.match(self.email).try(:[], 0)
+  end
+
   def initials
     first_name[0] + last_name[0]
   end
