@@ -39,8 +39,6 @@ if ENV["DISABLE_TURBOLINKS"].nil? || ENV["DISABLE_TURBOLINKS"].strip.empty?
   end
 end
 
-
-
 # For Authentication
 gem 'devise'
 
