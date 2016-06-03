@@ -12,12 +12,12 @@ class Comment < ApplicationRecord
   belongs_to :organization_user
   belongs_to :deal
   belongs_to :commentable, polymorphic: true
-  has_many   :events, as: :trigger
+  has_many   :events, as: :eventable
 
   after_create :create_event, :set_deal
 
   def create_event
-    Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", trigger: self)
+    Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", eventable: self)
   end
 
   def to_hash

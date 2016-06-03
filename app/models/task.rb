@@ -55,7 +55,7 @@ class Task < ApplicationRecord
 
   def create_notification_if_complete
     if self.status_was != self.status and self.status == "Complete"
-      Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", trigger: self)
+      Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", eventable: self)
     end
   end
 

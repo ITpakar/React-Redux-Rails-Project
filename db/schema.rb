@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160603025252) do
+=======
+ActiveRecord::Schema.define(version: 20160602163600) do
+>>>>>>> 5e2ccd0cd59ce8df65ab9faa000e492350181ebe
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,11 +102,11 @@ ActiveRecord::Schema.define(version: 20160603025252) do
 
   create_table "events", force: :cascade do |t|
     t.integer  "deal_id"
-    t.string   "trigger_type"
-    t.integer  "trigger_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.string   "action"
+    t.integer  "eventable_id"
+    t.string   "eventable_type"
   end
 
   create_table "folders", force: :cascade do |t|

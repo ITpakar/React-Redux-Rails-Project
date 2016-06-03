@@ -20,7 +20,7 @@ class Deal < ActiveRecord::Base
   has_many   :sections, through: :categories
   has_many   :tasks, through: :sections
   has_many   :comments, as: :commentable
-  has_many   :events, as: :trigger
+  has_many   :events, as: :eventable
   has_many   :starred_by, through: :starred_deals, source: :user
 
   # Validations
@@ -57,7 +57,7 @@ class Deal < ActiveRecord::Base
 
   def create_notification_if_closed
     if self.status_was != self.status and self.status == "Closed"
-      Event.create(deal_id: self.id, action: "DEAL_CLOSED", trigger: self)
+      Event.create(deal_id: self.id, action: "DEAL_CLOSED", eventable: self)
     end
   end
 

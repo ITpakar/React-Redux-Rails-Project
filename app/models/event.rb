@@ -27,7 +27,7 @@ class Event < ApplicationRecord
   # COLLABORATOR_ACCEPTED
 
   belongs_to :deal
-  belongs_to :trigger, polymorphic: true
+  belongs_to :eventable, polymorphic: true
 
   def title
     HEADINGS[self.action]
