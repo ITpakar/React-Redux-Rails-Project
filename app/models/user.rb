@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
     organization_user = OrganizationUser.where(
       user_id: self.id,
       organization_id: organization_id,
-      user_type: ORG_USER_TYPE_ADMIN
+      type: ORG_USER_TYPE_ADMIN
     ).first
     return !organization_user.blank?
   end
@@ -85,13 +85,13 @@ class User < ActiveRecord::Base
     return true if self.is_super?
 
     deal = Deal.find_by_id(deal_id)
-    return (deal and (deal.admin_user_id == self.id or deal.organization.creator.id == self.id))
+    return (deal and (deal.organization_user.user.id == self.id or deal.organization_user.organization.creator.id == self.id))
   end
 
   def is_deal_admin? deal
     return true if self.is_super?
     return true if self.is_organization_admin? deal.organization_user.organization
-    return true if deal.creator == self
+    return true if deal.organization_user_id == self.organization_user.id
 
     return false
   end

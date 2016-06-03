@@ -5,7 +5,7 @@ class App::ApplicationController < ApplicationController
 
   def get_starred_deals
     @starred_deals = StarredDeal.includes(:deal)
-                                .where(user_id: current_user.id)
+                                .where(organization_user_id: current_user.organization_user.id)
                                 .map {|sd| {id: sd.deal_id, title: sd.deal.title, url: app_deal_path(sd.deal)}}
   end
 

@@ -5,7 +5,8 @@ class Folder < ApplicationRecord
   belongs_to :section
   belongs_to :deal
 
-  has_many :documents, as: :documentable
+  has_many :deal_documents, as: :documentable
+  has_many :documents, through: :deal_documents
   has_many :comments, as: :commentable
 
   after_create :set_deal

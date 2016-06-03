@@ -66,11 +66,11 @@ class Api::CommentsController < ApplicationController
     # deal_id      = params[:deal_id]
     task_id      = params[:task_id]
     document_id  = params[:document_id]
-    user_id      = params[:user_id] || current_user.id
+    organization_user_id      = params[:organization_user_id] || current_user.organization_user.id
     comment_type = params[:comment_type]
     conditions  = []
     conditions << ["task_id = ?", "#{task_id}"] if task_id
-    conditions << ["user_id = ?", "#{user_id}"] if user_id
+    conditions << ["organization_user_id = ?", "#{organization_user_id}"] if organization_user_id
     conditions << ["document_id = ?", "#{document_id}"] if document_id
     conditions << ["comment_type = ?", "#{comment_type}"] if comment_type
 

@@ -14,7 +14,7 @@ class Deal < ActiveRecord::Base
   belongs_to :organization_user
   has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
-  has_many   :users, through: :deal_collaborators
+  has_many   :organization_users, through: :deal_collaborators
   has_many   :categories
   has_many   :documents
   has_many   :sections, through: :categories
@@ -24,7 +24,7 @@ class Deal < ActiveRecord::Base
   has_many   :starred_by, through: :starred_deals, source: :user
 
   # Validations
-  validates :title, :client_name, :deal_size, :status, :admin_user_id, :projected_close_date, :activated, presence: true
+  validates :title, :client_name, :deal_size, :status, :projected_close_date, :activated, presence: true
   validates :title, length: {maximum: 250}
   # The reason we allow nil is to show the message "is blank" if it's nil, not the not numerical message
   # Nil checks still happen with the first validation
@@ -85,8 +85,8 @@ class Deal < ActiveRecord::Base
 
   def create_deal_collaborator
     self.deal_collaborators.create(
-      user_id: self.admin_user_id,
-      added_by: self.admin_user_id
+      organization_user_id: self.organization_user_id,
+      added_by: self.organization_user_id
     )
   end
 
@@ -104,7 +104,7 @@ class Deal < ActiveRecord::Base
   end
 
   def starred_by? user
-    return StarredDeal.where(user_id: user.id, deal_id: self.id).present?
+    return StarredDeal.where(organization_user_id: user.organization_user.id, deal_id: self.id).present?
   end
 
   def close!

@@ -11,8 +11,9 @@ export default class CommentForm extends Component {
     // 
     const msg = this.refs.commentText.value;
     const comment = {
-      user_id: 1,
-      task_id: 2,
+      organization_user_id: 1,
+      commentable_id: 2,
+      commentable_type: 'Task',
       comment_type: this.props.commentType,
       comment: msg
     }

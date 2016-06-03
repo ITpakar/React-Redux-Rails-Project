@@ -1,0 +1,2 @@
+class OrganizationAdminUser < OrganizationUser
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602201541) do
+ActiveRecord::Schema.define(version: 20160603025252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,17 +38,26 @@ ActiveRecord::Schema.define(version: 20160602201541) do
 
   create_table "deal_collaborators", force: :cascade do |t|
     t.integer  "deal_id"
-    t.integer  "user_id"
+    t.integer  "organization_user_id"
     t.integer  "added_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.index ["added_by"], name: "index_deal_collaborators_on_added_by", using: :btree
     t.index ["deal_id"], name: "index_deal_collaborators_on_deal_id", using: :btree
-    t.index ["user_id"], name: "index_deal_collaborators_on_user_id", using: :btree
+    t.index ["organization_user_id"], name: "index_deal_collaborators_on_organization_user_id", using: :btree
+  end
+
+  create_table "deal_documents", force: :cascade do |t|
+    t.integer  "document_id"
+    t.integer  "documentable_id"
+    t.string   "documentable_type"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
+    t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
 
   create_table "deals", force: :cascade do |t|
-    t.integer  "organization_id"
     t.string   "title",                limit: 250
     t.string   "client_name"
     t.string   "transaction_type"
@@ -79,16 +88,12 @@ ActiveRecord::Schema.define(version: 20160602201541) do
     t.integer  "file_size"
     t.string   "file_type"
     t.datetime "file_uploaded_at"
-    t.string   "documentable_type"
-    t.integer  "documentable_id"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "deal_id"
     t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
-    t.index ["documentable_id"], name: "index_documents_on_documentable_id", using: :btree
-    t.index ["documentable_type"], name: "index_documents_on_documentable_type", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -122,16 +127,14 @@ ActiveRecord::Schema.define(version: 20160602201541) do
   create_table "organization_users", force: :cascade do |t|
     t.integer  "organization_id"
     t.integer  "user_id"
-    t.string   "user_type",           limit: 30
     t.boolean  "invitation_accepted"
     t.string   "invitation_token"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "type"
     t.index ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
     t.index ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_organization_users_on_user_id", using: :btree
-    t.index ["user_type"], name: "index_organization_users_on_user_type", using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|
