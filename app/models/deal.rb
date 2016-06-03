@@ -14,7 +14,7 @@ class Deal < ActiveRecord::Base
   belongs_to :organization_user
   has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
-  has_many   :users, through: :deal_collaborators
+  has_many   :organization_users, through: :deal_collaborators
   has_many   :categories
   has_many   :documents
   has_many   :sections, through: :categories
@@ -100,7 +100,7 @@ class Deal < ActiveRecord::Base
   end
 
   def starred_by? user
-    return StarredDeal.where(user_id: user.id, deal_id: self.id).present?
+    return StarredDeal.where(organization_user_id: user.organization_user.id, deal_id: self.id).present?
   end
 
   def close!

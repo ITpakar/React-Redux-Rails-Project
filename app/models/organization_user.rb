@@ -14,8 +14,8 @@ class OrganizationUser < ActiveRecord::Base
   has_many :tasks
   has_many :folders
   has_many :sections
+  has_many :deal_collaborators
   has_many :deals, through: :deal_collaborators
-  has_many :collaborators, :as => :collaboratable
 
   # We implement this because it's required by DealOwner
   def email_domain

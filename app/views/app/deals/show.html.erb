@@ -77,17 +77,17 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="summary-collaborators">
-                                                        <% if @deal.users.empty? %>
+                                                        <% if @deal.organization_users.empty? %>
                                                           <div class="project-item-empty">
                                                             No collaborators
                                                           </div>
                                                         <% end %>
-                                                        <% @deal.users.each do |user| %>
+                                                        <% @deal.organization_users.each do |organization_user| %>
                                                             <div class="project-item">
                                                                 <a href="#">
-                                                                    <%= render 'app/shared/avatar', user: user %>
-                                                                    <h4><%= "#{user.first_name} #{user.last_name}"%></h4>
-                                                                    <span><%= user.organization.name %></span>
+                                                                    <%= render 'app/shared/avatar', user: organization_user.user %>
+                                                                    <h4><%= "#{organization_user.user.first_name} #{organization_user.user.last_name}"%></h4>
+                                                                    <span><%= organization_user.organization.name %></span>
                                                                 </a>
                                                             </div>
                                                         <% end %>

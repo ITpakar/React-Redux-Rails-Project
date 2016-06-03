@@ -39,7 +39,7 @@ class CommentBox extends Component {
 
   _receivedMessage = (data) => {
     this.props.addComment(data);
-    this.forceUpdate();
+    this.forceUpdate(); 
   }
 
   _sendMessage = (comment) => {
@@ -50,8 +50,9 @@ class CommentBox extends Component {
     e.preventDefault();
     const msg = this.refs.chatMessageInternal.value;
     const comment = {
-      user_id: 1,
-      task_id: 2,
+      organization_user_id: 1,
+      commentable_id: 2,
+      commentable_type: 'Task',
       comment_type: 'Internal',
       comment: msg
     }
@@ -62,8 +63,9 @@ class CommentBox extends Component {
     e.preventDefault();
     const msg = this.refs.chatMessageExternal.value;
     const comment = {
-      user_id: 1,
-      task_id: 2,
+      organization_user_id: 1,
+      commentable_id: 2,
+      commentable_type: 'Task',
       comment_type: 'External',
       comment: msg
     }

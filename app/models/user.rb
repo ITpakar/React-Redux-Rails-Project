@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
   def is_deal_admin? deal
     return true if self.is_super?
     return true if self.is_organization_admin? deal.organization_user.organization
-    return true if deal.creator == self
+    return true if deal.organization_user_id == self.organization_user.id
 
     return false
   end

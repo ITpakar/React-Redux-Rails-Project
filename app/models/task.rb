@@ -1,5 +1,4 @@
 class Task < ApplicationRecord
-  include Traversable
   
   STATUSES = ["Complete", "Incomplete"]
 
@@ -36,6 +35,7 @@ class Task < ApplicationRecord
   )
 
   # Associations
+  belongs_to :deal
   belongs_to :section
   belongs_to :organization_user
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'OrganizationUser', optional: true
@@ -45,13 +45,13 @@ class Task < ApplicationRecord
   has_many :deal_documents, as: :documentable
   has_many :documents, through: :deal_documents
 
-  scope :diligence, -> {where(category_id: Category.diligence.id)}
-  scope :closing, -> {where(category_id: Category.closing.id)}
+  scope :diligence, -> {where(category_id: DiligenceCategory.ids)}
+  scope :closing, -> {where(category_id: ClosingCategory.ids)}
   scope :complete, -> {where(status: "Complete")}
   scope :incomplete, -> {where(status: "Incomplete")}
 
   before_validation :set_category_id, unless: :category_id
-  after_create :create_notification_if_complete
+  after_create :create_notification_if_complete, :set_deal
 
   def create_notification_if_complete
     if self.status_was != self.status and self.status == "Complete"
