@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160603150900) do
+ActiveRecord::Schema.define(version: 20160603165352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,9 +92,10 @@ ActiveRecord::Schema.define(version: 20160603150900) do
     t.datetime "file_uploaded_at"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "deal_id"
+    t.integer  "visibility",       default: 0
     t.index ["created_by"], name: "index_documents_on_created_by", using: :btree
   end
 
@@ -111,10 +112,11 @@ ActiveRecord::Schema.define(version: 20160603150900) do
     t.string   "name",       limit: 250
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.integer  "deal_id"
     t.integer  "task_id"
+    t.integer  "visibility",             default: 0
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
   end
 
@@ -159,8 +161,9 @@ ActiveRecord::Schema.define(version: 20160603150900) do
     t.integer  "category_id"
     t.integer  "created_by"
     t.boolean  "activated"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "visibility",              default: 0
     t.index ["activated"], name: "index_sections_on_activated", using: :btree
     t.index ["created_by"], name: "index_sections_on_created_by", using: :btree
   end
@@ -181,8 +184,9 @@ ActiveRecord::Schema.define(version: 20160603150900) do
     t.integer  "organization_user_id"
     t.integer  "deal_id"
     t.datetime "due_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "visibility",                        default: 0
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
     t.index ["section_id"], name: "index_tasks_on_section_id", using: :btree
     t.index ["status"], name: "index_tasks_on_status", using: :btree

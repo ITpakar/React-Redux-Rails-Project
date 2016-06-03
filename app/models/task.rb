@@ -1,5 +1,7 @@
 class Task < ApplicationRecord
   
+  include HasVisibility
+  
   STATUSES = ["Complete", "Incomplete"]
 
   # Validations

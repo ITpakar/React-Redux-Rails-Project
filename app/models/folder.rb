@@ -1,5 +1,6 @@
 class Folder < ApplicationRecord
   include Traversable
+  include HasVisibility
 
   # Association
   belongs_to :organization_user, foreign_key: :created_by

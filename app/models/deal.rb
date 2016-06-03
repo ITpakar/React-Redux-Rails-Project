@@ -12,6 +12,7 @@ class Deal < ActiveRecord::Base
 
   # Associations
   belongs_to :organization_user
+  belongs_to :organization
   has_many   :starred_deals, dependent: :delete_all
   has_many   :deal_collaborators, dependent: :delete_all
   has_many   :organization_users, through: :deal_collaborators

@@ -1,4 +1,6 @@
 class Document < ApplicationRecord
+  include HasVisibility
+  
   #Associations
   has_many :document_signers
   has_many :organization_users, through: :document_signers

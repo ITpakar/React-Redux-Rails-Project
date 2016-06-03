@@ -1,5 +1,6 @@
 class Section < ApplicationRecord
   include Traversable
+  include HasVisibility
   # Associations
 
   belongs_to :category
