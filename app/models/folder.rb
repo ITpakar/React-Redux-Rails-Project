@@ -1,15 +1,16 @@
 class Folder < ApplicationRecord
+  include HasVisibility
 
   # Association
   belongs_to :organization_user, foreign_key: :created_by
   belongs_to :section
-  belongs_to :deal
+  # belongs_to :deal
 
   has_many :deal_documents, as: :documentable
   has_many :documents, through: :deal_documents
   has_many :comments, as: :commentable
 
-  after_create :set_deal
+  # after_create :set_deal
 
   def to_hash
     data = {
@@ -26,7 +27,4 @@ class Folder < ApplicationRecord
     return data
   end
 
-  def deal
-    Deal.find(parent.deal_id)
-  end
 end

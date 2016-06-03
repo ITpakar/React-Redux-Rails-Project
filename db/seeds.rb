@@ -699,8 +699,6 @@ puts "Started creating Folders"
 Folder.create(
   #id: 1,
   name: 'Subcmpany B',
-  parent_type: 'Task',
-  parent_id: '1',
   created_by: 1,
   activated: true
 )
@@ -1049,8 +1047,6 @@ puts "Create another folder so it shows up in recents"
 Folder.create(
   #id: 1,
   name: 'Important Documents',
-  parent_type: 'Task',
-  parent_id: '1',
   created_by: 1,
   activated: true
 )

@@ -1,4 +1,6 @@
 class Section < ApplicationRecord
+  include HasVisibility
+
   # Associations
 
   belongs_to :category
