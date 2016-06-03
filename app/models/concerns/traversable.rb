@@ -3,7 +3,8 @@ module Traversable
 
   def traverse_up_to klass
     return self if self.class == klass
-    return self.send(self.association_map[klass.to_s]) if self.association_map.keys.include? klass.to_s
+    assoc_value = self.send(self.association_map[klass.to_s])
+    return assoc_value if self.association_map.keys.include? klass.to_s and assoc_value.present?
     case self
     when Comment
       return self.commentable.traverse_up_to klass
@@ -11,9 +12,11 @@ module Traversable
     # when Document
     #   return self.documentable.traverse_up_to klass
     when Folder
-      return self.parent.traverse_up_to klass
+      return self.task.traverse_up_to klass
     when Task
       return self.section.traverse_up_to klass
+    when Section
+      return self.category.traverse_up_to klass
     end
   end
 

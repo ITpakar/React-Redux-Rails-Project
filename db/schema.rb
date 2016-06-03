@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160603025252) do
+ActiveRecord::Schema.define(version: 20160603150900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20160603025252) do
     t.integer  "added_by"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.string   "type"
     t.index ["added_by"], name: "index_deal_collaborators_on_added_by", using: :btree
     t.index ["deal_id"], name: "index_deal_collaborators_on_deal_id", using: :btree
     t.index ["organization_user_id"], name: "index_deal_collaborators_on_organization_user_id", using: :btree
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(version: 20160603025252) do
     t.datetime "updated_at",                       null: false
     t.float    "deal_size"
     t.integer  "organization_user_id"
+    t.integer  "organization_id"
     t.index ["activated"], name: "index_deals_on_activated", using: :btree
     t.index ["status"], name: "index_deals_on_status", using: :btree
     t.index ["title"], name: "index_deals_on_title", using: :btree
@@ -112,7 +114,7 @@ ActiveRecord::Schema.define(version: 20160603025252) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "deal_id"
-    t.integer  "section_id"
+    t.integer  "task_id"
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
   end
 
@@ -178,13 +180,10 @@ ActiveRecord::Schema.define(version: 20160603025252) do
     t.integer  "assignee_id"
     t.integer  "organization_user_id"
     t.integer  "deal_id"
-    t.integer  "created_by"
     t.datetime "due_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.integer  "category_id"
     t.index ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
-    t.index ["created_by"], name: "index_tasks_on_created_by", using: :btree
     t.index ["section_id"], name: "index_tasks_on_section_id", using: :btree
     t.index ["status"], name: "index_tasks_on_status", using: :btree
   end

@@ -1,16 +1,21 @@
 class Section < ApplicationRecord
+  include Traversable
   # Associations
 
   belongs_to :category
   belongs_to :deal
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
-  has_many   :folders
   has_many   :tasks
   has_many   :deal_documents, as: :documentable
   has_many   :documents, through: :deal_documents
   has_many   :comments,  :as => :commentable
   
   after_create :set_deal
+
+  def set_deal
+    self.deal_id = self.category.deal_id unless self.deal_id
+    save
+  end
 
   def to_hash
     data = {

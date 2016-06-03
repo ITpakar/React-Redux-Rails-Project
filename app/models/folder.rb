@@ -1,8 +1,9 @@
 class Folder < ApplicationRecord
+  include Traversable
 
   # Association
   belongs_to :organization_user, foreign_key: :created_by
-  belongs_to :section
+  belongs_to :task
   belongs_to :deal
 
   has_many :deal_documents, as: :documentable
@@ -10,6 +11,12 @@ class Folder < ApplicationRecord
   has_many :comments, as: :commentable
 
   after_create :set_deal
+
+  def set_deal
+    deal = self.traverse_up_to(Deal)
+    self.deal_id = deal.id
+    self.save
+  end
 
   def to_hash
     data = {
@@ -24,9 +31,5 @@ class Folder < ApplicationRecord
     end
 
     return data
-  end
-
-  def deal
-    Deal.find(parent.deal_id)
   end
 end

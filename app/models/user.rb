@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
   end
 
   def email_domain
-    /@(.+)/.match(self.email).try(:[], 0)
+    /@(.+)/.match(self.email).try(:[], 1)
   end
 
   def initials

@@ -5,6 +5,7 @@ FactoryGirl.define do
   factory :user do
     transient do 
       email_domain { FFaker::Internet.domain_name }
+      organization_id nil
     end
 
     first_name      { FFaker::Name.first_name }
@@ -20,7 +21,9 @@ FactoryGirl.define do
 
     trait :with_organization_user do
       after(:create) do |instance, evaluator|
-        OrganizationUser.create(user_id: instance.id, organization_id: evaluator.organization_id)
+        OrganizationUser.create(
+          user_id: instance.id, 
+          organization_id: evaluator.organization_id)
       end
     end
   end

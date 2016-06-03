@@ -1,6 +1,8 @@
 class Comment < ApplicationRecord
   include Traversable
 
+  TYPES = ['Internal', 'External']
+
   # Things you can comment on
   # - Deal
   # - Category

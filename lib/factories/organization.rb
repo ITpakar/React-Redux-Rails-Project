@@ -1,12 +1,11 @@
 require 'factory_girl_rails'
 require 'ffaker'
 
-
 FactoryGirl.define do 
-  factory :organzation do
+  factory :organization do
     # Need to specify organization_id
-    title           { FFaker::HipsterIpsum.word.titleize + ' Deal' }
-    email_domain    { Organization.find(organization_id).email_domain }
+    name            { FFaker::Company.name }
+    email_domain    { User.find(created_by).email_domain }
     phone           { FFaker::PhoneNumber.phone_number }
     address         { FFaker::Address.street_address }
     activated       'true'

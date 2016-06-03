@@ -1,4 +1,5 @@
 class Category < ActiveRecord::Base
+  include Traversable
   self.inheritance_column = 'name'
 
   # Validations

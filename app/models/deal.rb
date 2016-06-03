@@ -39,16 +39,45 @@ class Deal < ActiveRecord::Base
   scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days)}
 
   before_validation :set_default_status, :set_organization_id
-  before_save :create_notification_if_closed
+  after_save :create_notification_if_closed
   after_create :create_deal_collaborator, :create_categories
+
+  def set_default_status
+    self.status = "Unstarted" unless status
+  end
 
   def set_organization_id
     self.organization_id = self.organization_user.organization_id unless organization_id
   end
 
+  def create_notification_if_closed
+    if self.status_was != self.status and self.status == "Closed"
+      Event.create(deal_id: self.id, action: "DEAL_CLOSED", eventable: self)
+    end
+  end
+
+  def create_deal_collaborator
+    self.deal_collaborators.create(
+      organization_user_id: self.organization_user_id,
+      added_by: self.organization_user_id
+    )
+  end
+
   def create_categories
     DiligenceCategory.create(activated: true, deal_id: self.id)
     ClosingCategory.create(activated: true, deal_id: self.id)
+  end
+
+  def add_collaborator! organization_user, added_by
+    DealCollaborator.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
+  end
+
+  def diligence_category
+    self.categories.where(name: 'DiligenceCategory').first
+  end
+
+  def closing_category
+    self.categories.where(name: 'ClosingCategory').first
   end
 
   def completion_percent
@@ -57,12 +86,6 @@ class Deal < ActiveRecord::Base
     completed_tasks = all_tasks.complete
 
     100 * (completed_tasks.count.to_f/all_tasks.count.to_f)
-  end
-
-  def create_notification_if_closed
-    if self.status_was != self.status and self.status == "Closed"
-      Event.create(deal_id: self.id, action: "DEAL_CLOSED", eventable: self)
-    end
   end
 
   def diligence_completion_percent
@@ -77,17 +100,6 @@ class Deal < ActiveRecord::Base
     return 0 unless closing_tasks.present?
 
     (closing_tasks.complete.count * 100) / closing_tasks.count
-  end
-
-  def set_default_status
-    self.status = "Unstarted" unless status
-  end
-
-  def create_deal_collaborator
-    self.deal_collaborators.create(
-      organization_user_id: self.organization_user_id,
-      added_by: self.organization_user_id
-    )
   end
 
   def recently_updated_files

@@ -19,7 +19,10 @@ class Organization < ActiveRecord::Base
   after_create :create_organization_user
 
   def create_organization_user
-    OrganizationInternalUser.create(user_id: creator.id, organization_id: self.id)
+    OrganizationInternalUser.create(
+      user_id: creator.id, 
+      organization_id: self.id,
+      type: "Internal")
   end
 
   def to_hash

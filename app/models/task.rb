@@ -41,7 +41,7 @@ class Task < ApplicationRecord
   belongs_to :assignee, foreign_key: :assignee_id, class_name: 'OrganizationUser', optional: true
 
   has_many :comments, as: :commentable
-  has_many :folders, as: :parent
+  has_many :folders
   has_many :deal_documents, as: :documentable
   has_many :documents, through: :deal_documents
 
@@ -50,17 +50,18 @@ class Task < ApplicationRecord
   scope :complete, -> {where(status: "Complete")}
   scope :incomplete, -> {where(status: "Incomplete")}
 
-  before_validation :set_category_id, unless: :category_id
-  after_create :create_notification_if_complete, :set_deal
 
-  def create_notification_if_complete
+  before_validation :set_deal
+  after_save :create_event_if_complete 
+
+  def set_deal
+    self.deal_id ||= self.section.deal_id
+  end
+
+  def create_event_if_complete
     if self.status_was != self.status and self.status == "Complete"
       Event.create(deal_id: self.deal_id, action: "TASK_COMPLETED", eventable: self)
     end
-  end
-
-  def set_category_id
-    self.category_id = self.section.category_id
   end
 
   def complete!
