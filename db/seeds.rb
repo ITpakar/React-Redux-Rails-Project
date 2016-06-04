@@ -6,7 +6,7 @@
 
 # Create a user
 puts "Creating the first user"
-user = FactoryGirl.create(:user, email: 'organization.admin@doxly.com')
+user = FactoryGirl.create(:user, :with_confirmed_email, email: 'organization.admin@doxly.com')
 
 # Create an organization created by that user
 # Note that creating an organization with created_by will also create
@@ -16,9 +16,9 @@ organization = FactoryGirl.create(:organization, created_by: user.id)
 
 # More users for that organization
 puts "Creating the 10 internal users"
-internal_users = FactoryGirl.create_list(:user, 10, :with_organization_user, organization_id: organization.id, email_domain: user.email_domain)
+internal_users = FactoryGirl.create_list(:user, 10, :with_organization_user, :with_confirmed_email, organization_id: organization.id, email_domain: user.email_domain)
 puts "Creating the 10 external users"
-external_users = FactoryGirl.create_list(:user, 10, :with_organization_user, organization_id: organization.id)
+external_users = FactoryGirl.create_list(:user, 10, :with_organization_user, :with_confirmed_email, organization_id: organization.id)
 
 users = internal_users + external_users
 
