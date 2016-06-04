@@ -26,5 +26,11 @@ FactoryGirl.define do
           organization_id: evaluator.organization_id)
       end
     end
+
+    trait :with_confirmed_email do
+      after(:create) do |instance, evaluator|
+        instance.confirm!
+      end
+    end
   end
 end
