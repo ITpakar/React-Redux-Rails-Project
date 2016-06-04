@@ -23,7 +23,6 @@ export default class DealStar extends React.Component {
 
     let data = {
       starred_deal: {
-        user_id: this.props.user_id,
         deal_id: this.props.deal_id
       }
     }

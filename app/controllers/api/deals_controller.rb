@@ -97,7 +97,7 @@ class Api::DealsController < ApplicationController
 
   def create
     @deal = Deal.new(deal_params)
-    @deal.admin_user_id = current_user.id
+    @deal.organization_user_id = current_user.organization_user.id
     if @deal.save
       success_response(
         {

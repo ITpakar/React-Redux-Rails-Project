@@ -18,6 +18,7 @@ export default class Deal extends React.Component {
     return (
       <div className="item-collaborators-wraper">
           {_.map(collaborators, function(collaborator, i) {
+            console.log(collaborator);
             return (
               <a href="#" className="avatar" key={i}>
                 <img src={collaborator.avatar_name} />

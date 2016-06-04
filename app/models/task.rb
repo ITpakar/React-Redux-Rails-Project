@@ -47,8 +47,8 @@ class Task < ApplicationRecord
   has_many :deal_documents, as: :documentable
   has_many :documents, through: :deal_documents
 
-  scope :diligence, -> {where(category_id: DiligenceCategory.ids)}
-  scope :closing, -> {where(category_id: ClosingCategory.ids)}
+  scope :diligence, -> {where(section_id: DiligenceCategory.includes(:sections).map(&:sections).flatten.map(&:id))}
+  scope :closing, -> {where(section_id: ClosingCategory.includes(:sections).map(&:sections).flatten.map(&:id))}
   scope :complete, -> {where(status: "Complete")}
   scope :incomplete, -> {where(status: "Incomplete")}
 
