@@ -22,7 +22,7 @@ class Deal < ActiveRecord::Base
   has_many   :sections, through: :categories
   has_many   :tasks, through: :sections
   has_many   :comments
-  has_many   :events, as: :eventable
+  has_many   :events
   has_many   :starred_by, through: :starred_deals, source: :user
 
 
