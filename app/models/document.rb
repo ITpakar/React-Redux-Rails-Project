@@ -1,6 +1,6 @@
 class Document < ApplicationRecord
   include HasVisibility
-  
+
   #Associations
   has_many :document_signers
   has_many :organization_users, through: :document_signers
@@ -11,6 +11,7 @@ class Document < ApplicationRecord
   has_many :sections, through: :deal_documents, source: :documentable, source_type: 'Section'
 
 
+  FILE_TYPES = ["Doc", "Pdf", "Txt"]
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
   

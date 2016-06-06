@@ -63,13 +63,22 @@ deals.each do |deal|
           comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: folder)
         end
 
-        # TODO Create some documents inside these folders
-        # TODO Create some comments on these documents
+        # Create some documents inside these folders
+        documents = FactoryGirl.create_list(:document, folders.count, :with_documentables, documentables: folders, organization_user: user)
+        # Create some comments on these documents
+        documents.each do |document|
+          comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: document)
+        end
       end
 
-      # TODO Create some documents
-      # TODO Create some comments
+      puts "Creating some documents under the sections"
+      documentables = sections.sample(5)
+      # Create some documents within some sections
+      documents = FactoryGirl.create_list(:document, documentables.count, :with_documentables, documentables: documentables, organization_user: user)
+      # Create some comments
+      documents.each do |document|
+        comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: document)
+      end
     end
-
   end
 end
