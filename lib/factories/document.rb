@@ -23,7 +23,7 @@ FactoryGirl.define do
     updated_at            { DateTime.now }
     created_by            { organization_user.id }
 
-    trait :with_documentables do
+    trait :with_deal_document do
       ignore do
         documentables nil
       end

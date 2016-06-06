@@ -3,14 +3,14 @@ module Traversable
 
   def traverse_up_to klass
     return self if self.class == klass
-    assoc_value = self.send(self.association_map[klass.to_s])
+    mapped = self.association_map[klass.to_s]
+    assoc_value = self.send(mapped) if mapped.present?
     return assoc_value if self.association_map.keys.include? klass.to_s and assoc_value.present?
     case self
     when Comment
       return self.commentable.traverse_up_to klass
-    # Need to decide how we can get traverse_up for Document model
-    # when Document
-    #   return self.documentable.traverse_up_to klass
+    when DealDocument
+      return self.documentable.traverse_up_to klass
     when Folder
       return self.task.traverse_up_to klass
     when Task
