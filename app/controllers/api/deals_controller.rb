@@ -6,7 +6,7 @@ class Api::DealsController < ApplicationController
   before_action :authenticate_org_deal_admin!, only: [:update, :destroy]
   before_action :authenticate_deal_collaborator!, only: [:show]
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_deal, only: [:update, :destroy, :show]
+  before_action :set_deal, only: [:update, :destroy, :show, :collaborators]
 
   swagger_controller :deal, "deal"
 
@@ -112,6 +112,8 @@ class Api::DealsController < ApplicationController
 
   def update
     if @deal.update(deal_params)
+      # TODO: update deal_collaborator_invites and send invitation email
+      
       success_response(
       {
         deal: @deal.to_hash,
@@ -137,6 +139,15 @@ class Api::DealsController < ApplicationController
     else
       error_response(@deal.errors)
     end
+  end
+
+  def collaborators
+    collaborators = @deal.collaborators
+    success_response(
+      {
+        deals: @collaborators.map(&:to_hash)
+      }
+    )
   end
 
   private

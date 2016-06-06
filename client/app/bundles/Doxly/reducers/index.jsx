@@ -3,12 +3,14 @@
 // A real world app will likely have many reducers and it helps to organize them in one file.
 import userReducer from './userReducer';
 import commentReducer from './commentReducer';
+import collaboratorReducer from './collaboratorReducer';
 import dealsReducer from './dealsReducer';
 import { initialState as userState } from './userReducer';
 
 export default {
   userStore: userReducer,
   commentStore: commentReducer,
+  collaboratorStore: collaboratorReducer,
   dealsStore: dealsReducer
 };
 
