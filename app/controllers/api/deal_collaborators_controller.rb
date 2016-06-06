@@ -42,10 +42,10 @@ class Api::DealCollaboratorsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
-    @deal_collaborators = DealCollaborator.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
+    collaborators = @deal.collaborators.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
     success_response(
       {
-        deal_collaborators: @deal_collaborators.map(&:to_hash)
+        collaborators: collaborators.map(&:to_hash)
       }
     )
   end
@@ -68,6 +68,41 @@ class Api::DealCollaboratorsController < ApplicationController
     else
       error_response(@deal_collaborator.errors)
     end
+  end
+
+  def find
+    collaborator_identifier = params[:collaborator_identifier]
+
+    candidates = User.where("users.id NOT IN (?)", @deal.collaborators.pluck(:id))
+
+    found = false
+    collaborator = nil
+
+    candidates.each do |candidate|
+      if collaborator_identifier.include? "@"
+        # Find by email  
+        if candidate.email == collaborator_identifier
+          collaborator = candidate
+          break
+        end
+      else
+        # Find by name  
+        if candidate.name == collaborator_identifier
+          collaborator = candidate
+          break
+        end
+      end  
+    end
+    
+    unless collaborator.nil?
+      success_response({
+        collaborator: collaborator.to_hash
+        }
+      )
+    else
+      error_response(["Collaborator not found."])
+    end
+
   end
 
   private

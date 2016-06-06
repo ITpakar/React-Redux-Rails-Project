@@ -14,20 +14,6 @@ class CommentBox extends Component {
     addComment: PropTypes.func
   }
 
-  constructor(props, context) {
-    super(props, context);
-
-    // Uses lodash to bind all methods to the context of the object instance, otherwise
-    // the methods defined here would not refer to the component's class, not the component
-    // instance itself.
-    _.bindAll(this, '_handleSubmit');
-  }
-
-  _handleSubmit(e) {
-    console.log(e);
-    e.preventDefault();
-  }
-
   componentDidMount() {
     
     // Fetch all comments from the backend
@@ -40,36 +26,6 @@ class CommentBox extends Component {
   _receivedMessage = (data) => {
     this.props.addComment(data);
     this.forceUpdate(); 
-  }
-
-  _sendMessage = (comment) => {
-    App.room.speak({comment: comment});
-  }
-
-  _sendInternalMessage = (e) => {
-    e.preventDefault();
-    const msg = this.refs.chatMessageInternal.value;
-    const comment = {
-      organization_user_id: 1,
-      commentable_id: 2,
-      commentable_type: 'Task',
-      comment_type: 'Internal',
-      comment: msg
-    }
-    this._sendMessage(comment);
-  }
-
-  _sendExternalMessage = (e) => {
-    e.preventDefault();
-    const msg = this.refs.chatMessageExternal.value;
-    const comment = {
-      organization_user_id: 1,
-      commentable_id: 2,
-      commentable_type: 'Task',
-      comment_type: 'External',
-      comment: msg
-    }
-    this._sendMessage(comment);
   }
 
   _fetchComments = () => {

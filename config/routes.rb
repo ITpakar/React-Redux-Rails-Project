@@ -32,10 +32,15 @@ Rails.application.routes.draw do
     end
     get    '/deals/starred_deals', to: 'starred_deals#starred_deals'
     resources :deals do
-      resources :deal_collaborators, only: [:create, :index, :destroy]
+      resources :deal_collaborators, only: [:create, :index, :destroy] do
+        collection do
+          get 'find', to: 'deal_collaborators#find'  
+        end
+        
+      end
       resources :starred_deals, only: [:index, :create, :update, :destroy]
-      delete 'starred_deals', to: 'starred_deals#destroy'
       resources :sections
+      delete 'starred_deals', to: 'starred_deals#destroy'
     end
     resources :notifications
     resources :comments

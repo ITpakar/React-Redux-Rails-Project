@@ -133,11 +133,17 @@ class User < ActiveRecord::Base
     self.role == "Super"
   end
 
+  def name
+    [first_name, last_name].join(' ')
+  end
+
 
   def to_hash(add_organization = true)
     data = {
+      id: self.id,
       email: self.email,
       user_id: self.id,
+      name: self.name,
       first_name: self.first_name,
       last_name: self.last_name,
       phone: self.phone,

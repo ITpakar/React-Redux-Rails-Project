@@ -1,13 +1,16 @@
 import React, { PropTypes } from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import _ from 'lodash';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import moment from 'moment'
 
-import TextFieldWithValidation from './TextFieldWithValidation';
+import TextFieldWithValidation   from './TextFieldWithValidation';
 import SelectFieldWithValidation from './SelectFieldWithValidation';
+import CollaboratorControls      from './CollaboratorControls';
 
-export default class EditDealModal extends React.Component {
+class EditDealModal extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -47,6 +50,9 @@ export default class EditDealModal extends React.Component {
   }
 
   handleClick() {
+
+    let { collaborators } = this.props;
+
     let data = {
       deal: {
         title: this.state.title,
@@ -54,8 +60,10 @@ export default class EditDealModal extends React.Component {
         transaction_type: this.state.transactionType,
         deal_size: this.state.dealSize,
         projected_close_date: this.state.projectedCloseDate,
+        collaborators: collaborators
       }
     }
+    console.log(data.deal.collaborators[0]);
 
     let url = this.props.url;
     let that = this;
@@ -142,7 +150,8 @@ export default class EditDealModal extends React.Component {
                                                              errors={this.state.errors['deal_size']}
                                                              onChange={this.handleChange('dealSize')} />
                                 </div>
-                                <div class="col-xs-12 col-md-6">
+                                <div className="col-xs-12 col-md-6">
+                                  <CollaboratorControls dealId={this.props.deal.id} />
                                 </div>
                             </div>
                         </div>
@@ -164,3 +173,7 @@ export default class EditDealModal extends React.Component {
     );
   }
 }
+export default connect(
+  ({collaboratorStore}) => ({ collaborators: collaboratorStore.collaborators }),
+  dispatch => bindActionCreators({}, dispatch)
+)(EditDealModal);

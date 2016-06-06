@@ -1,44 +1,100 @@
 import React, { PropTypes } from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import _ from 'lodash';
+import request from 'axios';
+import Collaborator from './Collaborator';
+import {setCollaborators, addCollaborator, removeCollaborator} from '../reducers/collaboratorReducer';
+import TextFieldWithValidation   from './TextFieldWithValidation';
 
-export default class CollaboratorControls extends React.Component {
+class CollaboratorControls extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      error: []
+    };
+  }
+
+  componentDidMount() {
+    this._reset();
+    $("#modal-edit-deal").on('hidden.bs.modal', this._reset);
+  }
+
+  _reset = () => {
+    // Fetch all collaborators from the backend
+    this._fetchCollaborators();
+    this._clearCollaboratorInput();
+  }
+
+  _fetchCollaborators = () => {
+    let url = "/api/deals/" + this.props.dealId + "/deal_collaborators";
+    request
+      .get(url)
+      .then((res) => {
+        console.log(res.data.data.collaborators);
+        this.props.setCollaborators(res.data.data.collaborators);
+        this.forceUpdate();
+      });
+  }
+  _handleKeyDown = (e) => {
+    console.log(e.keyCode);
+    if (e.keyCode == 13) {
+      const collaboratorIdentifier = e.target.value;
+      request
+        .get('/api/deals/' + this.props.dealId + '/deal_collaborators/find?collaborator_identifier=' + collaboratorIdentifier)
+        .then((res) => {
+          this.props.addCollaborator(res.data.data.collaborator);
+          this.forceUpdate();
+          this._clearCollaboratorInput(0);
+        })
+        .catch(error => {
+          this._clearCollaboratorInput(1);
+        });
+    }
+  }
+  _removeCollaborator = (collaborator) => {
+    console.log(collaborator);
+    this.props.removeCollaborator(collaborator);
+    this.forceUpdate();
+  }
+
+  _clearCollaboratorInput = (error) => {
+    let state = this.state;
+    state['error'] = error ? [ 'Not Found' ] : [ ];
+    this.setState(state);
+    this.refs.collaboratorIdentifier.clearValue();
+  }
+
   render() {
-    <div className="form-group">
+    let { collaborators } = this.props;
+    return (
+      <div className="form-group">
         <label for="input-deal-collaborators">Collaborators</label>
-        <input type="text" name="deal_collaborators_input" id="input-deal-collaborators" className="form-control" placeholder="Enter a name or email address">
+        <TextFieldWithValidation ref="collaboratorIdentifier"
+                                 name="deal_collaborators_input" 
+                                 placeholder="Enter a name or email address" 
+                                 errors={this.state.error}
+                                 onKeyDown={this._handleKeyDown} 
+                                 containerClassName="no-margin"/>
         <div className="deal-collaborators-widget">
-            <ul>
-                <li data-collaborator-id="1">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-2-1807bb0ba1c49d49177f3785907d72377097c4adb75ea9cade83041fad86c28c.png" alt="Img avatar 2"> Alex Vaughn
-                    </a>
-                </li>
-                <li data-collaborator-id="5">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-3-02d0c514f0cd0ea359d3d6cd518ab56696792e4df40af78f2c4dc52a1ad8a971.png" alt="Img avatar 3"> Harvey Specter
-                    </a>
-                </li>
-                <li data-collaborator-id="9">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-4-60c2bad58d5fe03cffa7513597bda39417838a15a53f28ee88482f56d40a83b4.png" alt="Img avatar 4"> Rebecca Moss
-                    </a>
-                </li>
-                <li data-collaborator-id="12">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-5-fb5bde0ee6568b839f1aefedf79b6ce616ffc35a7595fc17abc06fbde882ec7d.png" alt="Img avatar 5"> Louisa Curtis
-                    </a>
-                </li>
-                <li data-collaborator-id="18">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-6-720cf80fed5b4cbed5f35f0071b825e30f25eb1bf316a489f98e5026811e6daa.png" alt="Img avatar 6"> Cecilia Hopkins
-                    </a>
-                </li>
-                <li data-collaborator-id="92">
-                    <a href="#">
-                        <img className="avatar" src="/assets/img-avatar-1-f9794b468f2151d6f36a2d63f5c1e01036fea5df8d7eb1eaa84e7505efbd7361.png" alt="Img avatar 1"> Alvin Jones
-                    </a>
-                </li>
-            </ul>
+          <ul>
+            {
+              collaborators.map(collaborator => (
+                <Collaborator 
+                  key={collaborator.id}
+                  collaborator={collaborator}
+                  removeCollaborator={this._removeCollaborator}
+                />
+              ))
+            }   
+          </ul>
         </div>
-    </div>
+      </div>
+    );
   }
 }
+export default connect(
+  ({collaboratorStore}) => ({ collaborators: collaboratorStore.collaborators }),
+  dispatch => bindActionCreators({setCollaborators, addCollaborator, removeCollaborator}, dispatch)
+)(CollaboratorControls);

@@ -8,6 +8,11 @@ export default {
   	LOAD: '@doxly/comments/LOAD',
   	ADD: '@doxly/comments/ADD'
   },
+  COLLABORATORS: {
+    LOAD: '@doxly/collaborators/LOAD',
+    ADD: '@doxly/collaborators/ADD',
+    REMOVE: '@doxly/collaborators/REMOVE'
+  },
   DEALS: {
     ADD_STARRED: '@doxly/deals/ADD_STARRED',
     REMOVE_STARRED: '@doxly/deals/REMOVE_STARRED'

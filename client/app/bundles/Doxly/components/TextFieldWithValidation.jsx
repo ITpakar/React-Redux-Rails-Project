@@ -19,12 +19,14 @@ export default class TextFieldWithValidation extends React.Component {
 
   render() {
     return (
-      <div className="form-group">
-        <label htmlFor={this.props.id}>{this.props.label}</label>
+      <div className={this.props.containerClassName ? this.props.containerClassName : "form-group"}>
+        <label htmlFor={this.props.id} className={this.props.label ? '' : 'hidden'}>{this.props.label}</label>
         {this.renderErrors()}
-        <input type="text" 
+        <input ref='textbox'
+               type="text" 
                value={this.props.value} 
                onChange={this.props.onChange} 
+               onKeyDown={this.props.onKeyDown} 
                name={this.props.name} 
                id={this.props.id} 
                className="form-control" 
@@ -34,5 +36,9 @@ export default class TextFieldWithValidation extends React.Component {
     );
     
     
+  }
+
+  clearValue() {
+    this.refs.textbox.value = '';
   }
 }

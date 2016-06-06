@@ -6,7 +6,7 @@ import doxlyStore from '../store/doxlyStore';
 // Components
 import DealView from '../components/DealView';
 import CreateDealModal from '../components/CreateDealModal';
-import EditDealModal from '../components/EditDealModal';
+import EditDealModal from './EditDealModal';
 import ProgressPieChart from '../components/ProgressPieChart';
 import CommentBox from './CommentBox';
 import DealStar from './DealStar';
