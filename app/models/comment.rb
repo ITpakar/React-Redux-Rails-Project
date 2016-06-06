@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   TYPES = ['Internal', 'External']
 
   # Things you can comment on
-  # - Deal
+  # - DealDocument
   # - Category
   # - Section
   # - Task
@@ -16,15 +16,15 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true
   has_many   :events, as: :eventable
 
-  # after_save :set_deal, :create_event
+  after_save :create_event
+  after_create :set_deal 
 
   def create_event
     Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", eventable: self)
   end
 
   def set_deal
-    deal = self.traverse_up_to(Deal)
-    self.deal_id = deal.id
+    self.deal_id ||= self.traverse_up_to(Deal).try(:id)
     self.save
   end
 

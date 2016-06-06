@@ -18,12 +18,14 @@ class Deal < ActiveRecord::Base
   has_many   :organization_users, through: :deal_collaborators
   has_many   :collaborators, through: :organization_users, source: :user
   has_many   :categories
-  has_many   :documents
+  has_many   :deal_documents
+  has_many   :documents, through: :deal_documents
   has_many   :sections, through: :categories
   has_many   :tasks, through: :sections
-  has_many   :comments, as: :commentable
-  has_many   :events, as: :eventable
+  has_many   :comments
+  has_many   :events
   has_many   :starred_by, through: :starred_deals, source: :user
+
 
   # Validations
   validates :title, :client_name, :deal_size, :status, :projected_close_date, :activated, presence: true
