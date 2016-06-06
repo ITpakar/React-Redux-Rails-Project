@@ -83,23 +83,7 @@
               </div>
             </div>
 
-            <div class="panel summary-card">
-              <div class="panel-heading">
-                <h3 class="category">RECENTLY UPDATED FILES</h3>
-              </div>
-              <div class="panel-body">
-                <div class="summary-files">
-                  <% @recently_updated_files.each do |file| %>
-                    <div class="item item-<%= file.class == Document ? 'file' : 'folder'%>">
-                      <a href="#" class="details">
-                        <i><%= file.try(:file_name) || file.try(:name) %></i>
-                        <span>Added by <%= "#{file.try(:creator).try(:first_name) || file.try(:user).try(:first_name)} #{file.try(:creator).try(:last_name) || file.try(:user).try(:first_name)}" %> at <%= file.try(:creator).try(:organization).try(:name) || file.try(:user).try(:organization).try(:name) %></span>
-                      </a>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
+            <%= render 'app/shared/panels/files', files: @recently_updated_files, title: 'RECENTLY UPDATED FILES' %>
           </div>
         </div>
       </div>

@@ -71,52 +71,8 @@
                                             <% end %>
                                         </div>
                                         <div class="content-right">
-                                            <div class="panel summary-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">COLLABORATORS</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="summary-collaborators">
-                                                        <% if @deal.organization_users.empty? %>
-                                                          <div class="project-item-empty">
-                                                            No collaborators
-                                                          </div>
-                                                        <% end %>
-                                                        <% @deal.organization_users.each do |organization_user| %>
-                                                            <div class="project-item">
-                                                                <a href="#">
-                                                                    <%= render 'app/shared/avatar', user: organization_user.user %>
-                                                                    <h4><%= "#{organization_user.user.first_name} #{organization_user.user.last_name}"%></h4>
-                                                                    <span><%= organization_user.organization.name %></span>
-                                                                </a>
-                                                            </div>
-                                                        <% end %>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="panel summary-card">
-                                                <div class="panel-heading">
-                                                    <h3 class="category">RECENTLY UPDATED FILES</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="summary-files">
-                                                        <% if @deal.recently_updated_files.empty? %>
-                                                          <div class="project-item-empty">
-                                                            No recently updated files
-                                                          </div>
-                                                        <% end %>
-                                                        <% @deal.recently_updated_files.each do |file| %>
-                                                          <div class="item item-<%= file.class == Document ? 'file' : 'folder'%>">
-                                                            <a href="#" class="details">
-                                                              <i><%= file.try(:file_name) || file.try(:name) %></i>
-                                                              <span>Added by <%= "#{file.try(:creator).try(:first_name) || file.try(:user).try(:first_name)} #{file.try(:creator).try(:last_name) || file.try(:user).try(:first_name)}" %> at <%= file.try(:creator).try(:organization).try(:name) || file.try(:user).try(:organization).try(:name) %></span>
-                                                            </a>
-                                                          </div>
-                                                        <% end %>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <%= render 'app/shared/panels/users', users: @deal.organization_users, title: 'COLLABORATORS' %>
+                                            <%= render 'app/shared/panels/files', files: @deal.recently_updated_files, title: 'RECENTLY UPDATED FILES' %>
                                         </div>
                                     </div>
                                 </div>

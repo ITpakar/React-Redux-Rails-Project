@@ -1,0 +1,23 @@
+<div class="panel summary-card">
+    <div class="panel-heading">
+        <h3 class="category"><%= title %></h3>
+    </div>
+    <div class="panel-body">
+        <div class="summary-collaborators">
+            <% if users.empty? %>
+              <div class="project-item-empty">
+                No collaborators
+              </div>
+            <% end %>
+            <% users.each do |organization_user| %>
+                <div class="project-item">
+                    <a href="#">
+                        <%= render 'app/shared/avatar', user: organization_user.user %>
+                        <h4><%= "#{organization_user.user.first_name} #{organization_user.user.last_name}"%></h4>
+                        <span><%= organization_user.organization.name %></span>
+                    </a>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

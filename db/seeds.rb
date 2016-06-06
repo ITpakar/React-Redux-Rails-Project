@@ -65,7 +65,7 @@ deals.each do |deal|
 
         
         # Create some folders inside these tasks
-        folders = FactoryGirl.create_list(:folder, rand(10), created_by: ([user] + collaborators).sample, task_id: task.id)
+        folders = FactoryGirl.create_list(:folder, rand(10), created_by: ([user] + collaborators).sample.organization_user.id, task_id: task.id)
         # Create some comments on the folders
         folders.each do |folder|
           comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: folder)

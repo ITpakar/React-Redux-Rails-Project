@@ -19,6 +19,10 @@ class Folder < ApplicationRecord
     self.save
   end
 
+  def creator
+    self.organization_user
+  end
+
   def to_hash
     data = {
       name:        self.name,
