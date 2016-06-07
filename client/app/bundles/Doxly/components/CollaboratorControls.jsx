@@ -46,10 +46,10 @@ class CollaboratorControls extends React.Component {
         .then((res) => {
           this.props.addCollaborator(res.data.data.collaborator);
           this.forceUpdate();
-          this._clearCollaboratorInput(0);
+          this._clearCollaboratorInput();
         })
         .catch(error => {
-          this._clearCollaboratorInput(1);
+          this._clearCollaboratorInput(error.data ? error.data.errors.messages[0] : "Connect failed");
         });
     }
   }
@@ -61,7 +61,7 @@ class CollaboratorControls extends React.Component {
 
   _clearCollaboratorInput = (error) => {
     let state = this.state;
-    state['error'] = error ? [ 'Not Found' ] : [ ];
+    state['error'] = error ? [ error ] : [ ];
     this.setState(state);
     this.refs.collaboratorIdentifier.clearValue();
   }

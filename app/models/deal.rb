@@ -25,6 +25,8 @@ class Deal < ActiveRecord::Base
   has_many   :comments
   has_many   :events
   has_many   :starred_by, through: :starred_deals, source: :user
+  has_many   :deal_collaborator_invites, dependent: :delete_all
+  has_many   :invited_organization_users, through: :deal_collaborator_invites, source: :organization_user
 
 
   # Validations
@@ -74,6 +76,17 @@ class Deal < ActiveRecord::Base
 
   def add_collaborator! organization_user, added_by
     DealCollaborator.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
+  end
+
+  def invite_collaborator organization_user, added_by
+    if (self.organization_users.where(id: organization_user).empty? && self.invited_organization_users.where(id: organization_user).empty?) 
+      DealCollaboratorInvite.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
+    end
+  end
+
+  def clear_collaborators organization_user_ids
+    DealCollaborator.where('deal_id = ? AND organization_user_id NOT IN (?)', self.id, organization_user_ids).delete_all
+    DealCollaboratorInvite.where('deal_id = ? AND organization_user_id NOT IN (?)', self.id, organization_user_ids).delete_all
   end
 
   def diligence_category

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606131953) do
+ActiveRecord::Schema.define(version: 20160607084753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 20160606131953) do
     t.string   "commentable_type"
     t.integer  "deal_id"
     t.index ["organization_user_id"], name: "index_comments_on_organization_user_id", using: :btree
+  end
+
+  create_table "deal_collaborator_invites", force: :cascade do |t|
+    t.integer  "deal_id"
+    t.integer  "organization_user_id"
+    t.integer  "added_by"
+    t.string   "type"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["added_by"], name: "index_deal_collaborator_invites_on_added_by", using: :btree
+    t.index ["deal_id"], name: "index_deal_collaborator_invites_on_deal_id", using: :btree
+    t.index ["organization_user_id"], name: "index_deal_collaborator_invites_on_organization_user_id", using: :btree
   end
 
   create_table "deal_collaborators", force: :cascade do |t|

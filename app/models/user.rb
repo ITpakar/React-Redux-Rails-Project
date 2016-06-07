@@ -160,6 +160,7 @@ class User < ActiveRecord::Base
           name: self.organization.name
         }
       ]
+      data[:organization_user_id] = self.organization_user.id,
     end
 
     return data

@@ -112,7 +112,13 @@ class Api::DealsController < ApplicationController
 
   def update
     if @deal.update(deal_params)
-      # TODO: update deal_collaborator_invites and send invitation email
+      params[:deal][:collaborators].each do |i, collaborator|
+        organization_user = OrganizationUser.find(collaborator[:organization_user_id])
+        if (@deal.invite_collaborator(organization_user, current_user.organization_user))
+          InvitationMailer.collaborator_invitation_email(@deal, organization_user).deliver_later
+        end
+      end
+      @deal.clear_collaborators(params[:deal][:collaborators].map { |key, value| value[:id] })
       
       success_response(
       {
