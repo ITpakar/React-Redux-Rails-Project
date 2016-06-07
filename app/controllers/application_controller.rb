@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_organization
+    current_user.try(:organization)
+  end
+
   def authenticate_super_admin!
     if current_user.blank?
       unauthorized_response(401)

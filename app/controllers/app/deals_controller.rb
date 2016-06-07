@@ -6,7 +6,7 @@ class App::DealsController < App::ApplicationController
   end
 
   def show
-    @deal = Deal.find(params[:id])
+    @deal = current_organization.deals.find(params[:id])
   end
 
   private
