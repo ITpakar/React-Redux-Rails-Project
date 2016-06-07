@@ -83,8 +83,8 @@ class Deal < ActiveRecord::Base
   end
 
   def clear_collaborators organization_user_ids
-    DealCollaborator.where('deal_id = ? AND organization_user_id NOT IN (?)', self.id, organization_user_ids).delete_all
-    DealCollaboratorInvite.where('deal_id = ? AND email NOT IN (?)', self.id, organization_user_ids).delete_all
+    DealCollaborator.where('deal_id = ? AND organization_user_id NOT IN (?)', self.id, organization_user_ids.select { |id| !id.include? '@' }).delete_all
+    DealCollaboratorInvite.where('deal_id = ? AND email NOT IN (?)', self.id, organization_user_ids.select { |id| id.include? '@' }).delete_all
   end
 
   def diligence_category
