@@ -1,5 +1,10 @@
 class App::RegistrationsController < Devise::RegistrationsController
   def new
+    @user = User.new
+    if params[:token]
+      invite = DealCollaboratorInvite.find_by_token(params[:token])
+      @user.email = invite.email
+    end
   end
 
   def create
@@ -11,7 +16,7 @@ class App::RegistrationsController < Devise::RegistrationsController
     unless user.save
       warden.custom_failure!
       flash[:errors] = user.errors
-      redirect_to new_app_user_registration_path
+      redirect_to new_app_user_registration_path(token: params[:token])
       return
     end
 

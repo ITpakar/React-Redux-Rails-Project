@@ -38,7 +38,6 @@ class CollaboratorControls extends React.Component {
       });
   }
   _handleKeyDown = (e) => {
-    console.log(e.keyCode);
     if (e.keyCode == 13) {
       const collaboratorIdentifier = e.target.value;
       request

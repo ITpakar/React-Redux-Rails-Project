@@ -94,15 +94,19 @@ class Api::DealCollaboratorsController < ApplicationController
       end  
     end
     
-    unless collaborator.nil?
-      if @deal.invited_organization_users.where(user_id: collaborator.id).present?
-        error_response(["Collaborator already invited."])
-      else
-        success_response({
-          collaborator: collaborator.to_hash
-          }
-        )
-      end
+    if collaborator.present?
+      success_response({
+        collaborator: collaborator.to_hash
+        }
+      )
+    elsif DealCollaboratorInvite.where('deal_id = ? and email = ?', @deal, collaborator_identifier).present?
+      error_response(["Collaborator already invited."])
+    elsif collaborator_identifier.include? "@"
+      user = User.new(email: collaborator_identifier, first_name: collaborator_identifier)
+      success_response({
+        collaborator: user.to_hash
+        }
+      )
     else
       error_response(["Collaborator not found."])
     end
