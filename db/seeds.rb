@@ -47,7 +47,7 @@ deals.each do |deal|
   deal.categories.each do |category|
     # Create some sections
     puts "Creating some sections in #{category.name}"
-    sections = FactoryGirl.create_list(:section, rand(5), category_id: category.id)
+    sections = FactoryGirl.create_list(:section, rand(5), category_id: category.id, created_by: ([user] + collaborators).sample.id, deal_id: deal.id)
     # Create some tasks inside the sections
     sections.each do |section|
       puts "Creating some tasks inside section #{section.name}"
