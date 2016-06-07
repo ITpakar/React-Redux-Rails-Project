@@ -10,7 +10,7 @@ class InvitationMailer < ApplicationMailer
 
   def collaborator_invitation_email(deal_collaborator_invite)
     @deal_collaborator_invite = deal_collaborator_invite
-    @url = invited_url(deal_collaborator_invite)
+    @url = new_app_user_registration_url(token: deal_collaborator_invite.token)
     mail(to: deal_collaborator_invite.email, subject: 'Invitation to collaborate to the deal.')
   end
 end

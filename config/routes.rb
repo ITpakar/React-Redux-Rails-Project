@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     match '/api/account/sign_in',  to: 'sessions#create',      via: :post
     match '/api/account/sign_out', to: 'sessions#destroy',     via: :delete
     match '/api/users',            to: 'registrations#create', via: :post
-    match '/api/users/invited/:token',     to: 'registrations#new', via: :get, as: :invited
   end
 
   scope "/app", module: 'app', as: :app do
