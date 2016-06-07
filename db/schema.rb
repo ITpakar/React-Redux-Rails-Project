@@ -38,14 +38,15 @@ ActiveRecord::Schema.define(version: 20160607084753) do
 
   create_table "deal_collaborator_invites", force: :cascade do |t|
     t.integer  "deal_id"
-    t.integer  "organization_user_id"
+    t.integer  "email"
     t.integer  "added_by"
-    t.string   "type"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["added_by"], name: "index_deal_collaborator_invites_on_added_by", using: :btree
+    t.index ["deal_id", "email"], name: "index_deal_collaborator_invites_on_deal_id_and_email", unique: true, using: :btree
     t.index ["deal_id"], name: "index_deal_collaborator_invites_on_deal_id", using: :btree
-    t.index ["organization_user_id"], name: "index_deal_collaborator_invites_on_organization_user_id", using: :btree
+    t.index ["token"], name: "index_deal_collaborator_invites_on_token", unique: true, using: :btree
   end
 
   create_table "deal_collaborators", force: :cascade do |t|
