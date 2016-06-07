@@ -89,7 +89,7 @@ Rails.application.configure do
   # Get the secret key from an environmental variable
   config.secret_key_base = ENV['SECRET_KEY_BASE']
 
-  config.action_mailer.default_url_options = { :host => 'doxly.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'http://doxly.herokuapp.com' }
 
 
 end
