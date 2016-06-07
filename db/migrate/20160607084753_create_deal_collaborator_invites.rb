@@ -2,7 +2,7 @@ class CreateDealCollaboratorInvites < ActiveRecord::Migration[5.0]
   def change
     create_table :deal_collaborator_invites do |t|
       t.integer  :deal_id
-      t.integer  :email
+      t.string  :email
       t.integer  :added_by
       t.string   :token
 

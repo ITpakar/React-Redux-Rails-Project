@@ -99,7 +99,7 @@ class Api::DealCollaboratorsController < ApplicationController
         collaborator: collaborator.to_hash
         }
       )
-    elsif DealCollaboratorInvite.where(deal: @deal, email: collaborator_identifier).present?
+    elsif DealCollaboratorInvite.where('deal_id = ? and email = ?', @deal, collaborator_identifier).present?
       error_response(["Collaborator already invited."])
     elsif collaborator_identifier.include? "@"
       user = User.new(email: collaborator_identifier, first_name: collaborator_identifier)

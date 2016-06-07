@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160607084753) do
 
   create_table "deal_collaborator_invites", force: :cascade do |t|
     t.integer  "deal_id"
-    t.integer  "email"
+    t.string   "email"
     t.integer  "added_by"
     t.string   "token"
     t.datetime "created_at", null: false
