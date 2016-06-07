@@ -11,12 +11,10 @@ class Folder < ApplicationRecord
   has_many :documents, through: :deal_documents
   has_many :comments, as: :commentable
 
-  after_create :set_deal
+  before_validation :set_deal, on: :create
 
   def set_deal
-    deal = self.traverse_up_to(Deal)
-    self.deal_id = deal.id
-    self.save
+    self.deal_id ||= self.traverse_up_to(Deal).try(:id)
   end
 
   def creator

@@ -11,7 +11,7 @@ class Section < ApplicationRecord
   has_many   :documents, through: :deal_documents
   has_many   :comments,  :as => :commentable
   
-  before_create :set_deal
+  before_validation :set_deal, on: :create
 
   def set_deal
     self.deal_id = self.category.deal_id unless self.deal_id
