@@ -47,7 +47,8 @@ deals.each do |deal|
   deal.categories.each do |category|
     # Create some sections
     puts "Creating some sections in #{category.name}"
-    sections = FactoryGirl.create_list(:section, rand(5), category_id: category.id)
+    puts deal.id
+    sections = FactoryGirl.create_list(:section, rand(5), category_id: category.id, created_by: ([user] + collaborators).sample.id, deal_id: deal.id)
     # Create some tasks inside the sections
     sections.each do |section|
       puts "Creating some tasks inside section #{section.name}"
@@ -55,28 +56,34 @@ deals.each do |deal|
 
       tasks.each do |task|
         # Create some comments on these tasks
+        puts "Creating comment for task #{task.id}"
         comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: task)
 
         # Create some documents inside the tasks
+        puts "Creating documents inside task #{task.id}"
         documents = FactoryGirl.create_list(:document, rand(10), :with_deal_document, documentables: [task], organization_user: user)
         documents.each do |document|
+          puts "Creating comment for document #{document.id}"
           comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: document.deal_documents.where(documentable: task).first)
         end
 
-        
         # Create some folders inside these tasks
+        puts "Creating folders inside task #{task.id}"
         folders = FactoryGirl.create_list(:folder, rand(10), created_by: ([user] + collaborators).sample.organization_user.id, task_id: task.id)
         # Create some comments on the folders
         folders.each do |folder|
+          puts "Creating comment for folder #{folder.id}"
           comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: folder)
         end
 
         # Create some documents inside these folders
         folders.each do |folder|
+          puts "Creating documents inside folder #{folder.id}"
           documents = FactoryGirl.create_list(:document, rand(5), :with_deal_document, documentables: [folder], organization_user: user)
 
           # Create some comments on these documents
           documents.each do |document|
+            puts "Creating comment for document #{document.id}"
             comments = FactoryGirl.create_list(:comment, rand(10), organization_user_id: ([user] + collaborators).sample.organization_user.id, commentable: document.deal_documents.where(documentable: folder).first)
           end
         end

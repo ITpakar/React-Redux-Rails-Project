@@ -6,5 +6,6 @@ FactoryGirl.define do
     name                   { FFaker::Lorem.words.join(' ').titleize }
     category_id            nil 
     activated              true
+    created_by             nil
   end
 end

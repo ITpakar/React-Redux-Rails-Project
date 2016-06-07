@@ -12,12 +12,12 @@ class Comment < ApplicationRecord
   # - Document
 
   belongs_to :organization_user
-  # belongs_to :deal
+  belongs_to :deal
   belongs_to :commentable, polymorphic: true
   has_many   :events, as: :eventable
 
+  before_validation :set_deal, on: :create
   after_save :create_event
-  after_create :set_deal 
 
   def create_event
     Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", eventable: self)
@@ -25,7 +25,6 @@ class Comment < ApplicationRecord
 
   def set_deal
     self.deal_id ||= self.traverse_up_to(Deal).try(:id)
-    self.save
   end
 
   def to_hash

@@ -140,9 +140,9 @@ class User < ActiveRecord::Base
 
   def to_hash(add_organization = true)
     data = {
-      id: self.id,
+      id: self.id ? self.id : self.email,
       email: self.email,
-      user_id: self.id,
+      user_id: self.id ? self.id : self.email,
       name: self.name,
       first_name: self.first_name,
       last_name: self.last_name,
@@ -160,6 +160,7 @@ class User < ActiveRecord::Base
           name: self.organization.name
         }
       ]
+      data[:organization_user_id] = self.organization_user.id
     end
 
     return data

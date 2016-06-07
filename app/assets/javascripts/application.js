@@ -8,7 +8,6 @@
 
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require plugins/bootstrap
 //= require plugins/bootstrap.file-input
 //= require plugins/bootstrap-select

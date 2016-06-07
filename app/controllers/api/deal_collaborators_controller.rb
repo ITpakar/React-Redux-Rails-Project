@@ -53,7 +53,7 @@ class Api::DealCollaboratorsController < ApplicationController
   def create
     @deal_collaborator = @deal.deal_collaborators.new(
       user_id: params[:deal_collaborator][:user_id],
-      added_by: current_user.id
+      added_by: current_user.organization_user.id
     )
     if @deal_collaborator.save
       success_response(["Deal Collaborator created successfully."])
@@ -94,9 +94,17 @@ class Api::DealCollaboratorsController < ApplicationController
       end  
     end
     
-    unless collaborator.nil?
+    if collaborator.present?
       success_response({
         collaborator: collaborator.to_hash
+        }
+      )
+    elsif DealCollaboratorInvite.where('deal_id = ? and email = ?', @deal, collaborator_identifier).present?
+      error_response(["Collaborator already invited."])
+    elsif collaborator_identifier.include? "@"
+      user = User.new(email: collaborator_identifier, first_name: collaborator_identifier)
+      success_response({
+        collaborator: user.to_hash
         }
       )
     else

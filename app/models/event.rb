@@ -29,6 +29,12 @@ class Event < ApplicationRecord
   belongs_to :deal
   belongs_to :eventable, polymorphic: true
 
+  before_validation :set_deal, on: :create
+
+  def set_deal
+    self.deal_id ||= self.eventable.traverse_up_to(Deal).try(:id)
+  end
+
   def title
     HEADINGS[self.action]
   end
