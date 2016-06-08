@@ -36,7 +36,7 @@ class App::RegistrationsController < Devise::RegistrationsController
       # then we need to create it
       organization = Organization.create(name: user_params[:company], email_domain: user.email_domain, created_by: user.id)
     end
-    
+
     flash[:notice] = "Please confirm your email address"
     redirect_to after_sign_up_path_for(user)
   end

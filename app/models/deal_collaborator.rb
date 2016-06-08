@@ -2,6 +2,7 @@ class DealCollaborator < ActiveRecord::Base
   # Associations
   belongs_to :deal
   belongs_to :organization_user
+  belongs_to :addor, foreign_key: :added_by, class_name: 'OrganizationUser'
 
   before_save :set_type
 
