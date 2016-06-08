@@ -112,18 +112,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Get Box token
-  def box_token(type = 'enterprise', user_id = 0)
-    token = Boxr::get_enterprise_token
-    if (type == 'user')
-      token = Boxr::get_use_token user_id
-    end
-    token.access_token
-  end
-
   # Get Box Client
-  def box_client(type = 'enterprise', user_id = 0)
-    access_token = box_token(type, user_id)
+  def box_client
+    # Get Box enterprise token
+    token = Boxr::get_enterprise_token
+    access_token = token.access_token
+
+    # Get Box enterprise client
+    client = Boxr::Client.new(access_token)
+
+    client.all_users.each do |u|
+      puts u
+    end
+
+    # check if app user was created for current user in BOX platform
+    user_id = current_user.box_user_id
+
+    # create app user for current user in BOX platform
+    unless user_id.present?
+      user = client.create_user(current_user.name, login: current_user.email, is_platform_access_only: true)
+      current_user.update!(box_user_id: user[:id])
+    end
+    token = Boxr::get_user_token(current_user.box_user_id.to_s)
+    access_token = token.access_token
     Boxr::Client.new(access_token)
   end
 
