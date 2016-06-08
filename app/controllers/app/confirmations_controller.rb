@@ -19,6 +19,8 @@ class App::ConfirmationsController < Devise::ConfirmationsController
         invite.deal.add_collaborator!(resource.organization_user, invite.addor)
       end
       DealCollaboratorInvite.where(email: resource.email).delete_all
+      # TODO create external user
+
       set_flash_message!(:notice, :confirmed)
       respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource) }
     else
