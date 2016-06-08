@@ -3,7 +3,7 @@ import Provider from 'redux'
 
 import doxlyStore from '../store/doxlyStore';
 
-// Components
+// Public Facing Components
 import DealView from '../components/DealView';
 import CreateDealModal from '../components/CreateDealModal';
 import EditDealModal from './EditDealModal';
@@ -12,6 +12,7 @@ import CommentBox from './CommentBox';
 import DealStar from './DealStar';
 import StarredDealList from './StarredDealList';
 import ArchiveDealButton from '../components/ArchiveDealButton';
+import CategoryView from '../components/CategoryView/CategoryView';
 
 ReactOnRails.register({DealView, 
                        CreateDealModal, 
@@ -20,6 +21,7 @@ ReactOnRails.register({DealView,
                        CommentBox,
                        DealStar,
                        StarredDealList,
-                       ArchiveDealButton});
+                       ArchiveDealButton,
+                       CategoryView});
 
 ReactOnRails.registerStore({doxlyStore});
