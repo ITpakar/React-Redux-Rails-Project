@@ -76,7 +76,11 @@ export default class GroupedSelectInput extends React.Component {
   }
 
   renderText() {
-    return `${this.props.options[0].optionsForHeading[this.state.selected[0]]} by ${this.props.options[1].optionsForHeading[this.state.selected[1]]}`
+    let that = this;
+    return _.map(this.props.options, function(elem, i) {
+      return elem.optionsForHeading[that.state.selected[i]]
+    }).join(' by ')
+    //return `${this.props.options[0].optionsForHeading[this.state.selected[0]]} by ${this.props.options[1].optionsForHeading[this.state.selected[1]]}`
   }
 
   renderGroup(options, index) {
