@@ -112,6 +112,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Get Box token
+  def box_token(type = 'enterprise', user_id = 0)
+    token = Boxr::get_enterprise_token
+    if (type == 'user')
+      token = Boxr::get_use_token user_id
+    end
+    token.access_token
+  end
+
+  # Get Box Client
+  def box_client(type = 'enterprise', user_id = 0)
+    access_token = box_token(type, user_id)
+    Boxr::Client.new(access_token)
+  end
+
   # Other support
   def set_peginate
     @per_page = (params[:per_page].to_i <= 0 ? PER_PAGE : params[:per_page].to_i)
