@@ -23,17 +23,25 @@ class App::RegistrationsController < Devise::RegistrationsController
     # Check to see if the user belongs to an organization
     organization = Organization.find_by_email_domain(user.email_domain)
 
-    # TODO check for an organization invite here
+    # Check to see if the user has any outstanding invites
+    # These invites will only get accepted in ConfirmationsController
+    # but we need them here to create the organization_user
+
+    invite = DealCollaboratorInvite.where(email: user.email).try(:first)
+
+    if invite
+      organization = invite.deal.organization
+    end
 
     if organization
       # Create organization user
-      OrganizationInternalUser.create(user_id: user.id, organization_id: organization.id)
-
-      # TODO if the email domain doesn't match the orgs email domain (like in the case 
-      # of an invite being accepted), then create an OrganizationExternalUser
+      if user.email_domain == organization.email_domain
+        OrganizationInternalUser.create(user_id: user.id, organization_id: organization.id)
+      else
+        OrganizationExternalUser.create(user_id: user.id, organization_id: organization.id)
+      end
     else
-      # If there's no organization with that email domain
-      # then we need to create it
+      # If there's no organization found then we need to create it
       organization = Organization.create(name: user_params[:company], email_domain: user.email_domain, created_by: user.id)
     end
 
