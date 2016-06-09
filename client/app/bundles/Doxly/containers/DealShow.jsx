@@ -11,8 +11,7 @@ class DealShow extends React.Component {
   }
 
   componentWillMount() {
-    // FIXME: Find a better way to get dealId
-    var dealId = window.location.pathname.split("/")[3];
+    var dealId = this.props.id;
     this.props.loadDealSectionsTree(dealId);
   }
 
@@ -20,13 +19,13 @@ class DealShow extends React.Component {
     if (this.props.loadingSectionsStatus == actionTypes.REQUESTS.LOADING) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      console.log("Line 23 ", this.props);
       return (<CategoryView elements={this.props.elements} />);
     }
   }
 }
 
 DealShow.propTypes = {
+  id: PropTypes.number.required,
   elements: PropTypes.arrayOf(PropTypes.object),
   loadingSectionsStatus: PropTypes.string,
   loadDealSectionsTree: PropTypes.func.isRequired
