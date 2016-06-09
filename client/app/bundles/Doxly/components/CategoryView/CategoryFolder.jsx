@@ -22,7 +22,11 @@ export default class CategoryFolder extends React.Component {
     _.bindAll(this, ['toggleContent']);
   }
 
-  toggleContent() {
+  toggleContent(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    
     var bodyClassnames = this.state.bodyClassnames;
     if (bodyClassnames.indexOf("in") >= 0) {
       bodyClassnames = _.without(bodyClassnames, "in");
@@ -67,7 +71,7 @@ export default class CategoryFolder extends React.Component {
     var toggleClassnames = ["collapse-trigger"];
 
     if (bodyClassnames.indexOf("in") == -1) {
-      bodyClassnames.push("collapsed");
+      toggleClassnames.push("collapsed");
     }
 
   	return (

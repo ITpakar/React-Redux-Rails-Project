@@ -41,7 +41,11 @@ export default class CategorySection extends React.Component {
     _.bindAll(this, ['toggleContent']);
   }
 
-  toggleContent() {
+  toggleContent(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    
     var sectionBodyClassnames = this.state.sectionBodyClassnames;
     if (sectionBodyClassnames.indexOf("in") >= 0) {
       sectionBodyClassnames = _.without(sectionBodyClassnames, "in");

@@ -79,10 +79,57 @@ class Api::SectionsController < ApplicationController
   end
 
   def trees
-    sections_json = @deal.sections.as_json(:include => [{:tasks => {:include => [:documents, {:folders => {:include => [:documents]}}]}}])
+    #sections_json = @deal.sections.as_json(:include => [{:tasks => {:include => [:documents, {:folders => {:include => [:documents]}}]}}])
+    results = []
+    @deal.sections.each do |section|
+      tasks = []
+      section_h = {}
+      section_h[:id] = section.id
+      section_h[:type] = section.class.name
+      section_h[:title] = section.name
+      section_h[:elements] = tasks
+
+      section.tasks.each do |task|
+        task_elements = []
+        task_h = {}
+        task_h[:id] = task.id
+        task_h[:type] = task.class.name
+        task_h[:title] = task.title
+        task_h[:status] = task.status
+        task_h[:elements] = task_elements
+
+        task.documents.each do |document|
+          document_h = document.as_json
+          document_h[:type] = document.class.name
+          task_elements << document_h
+        end
+
+        task.folders.each do |folder|
+          folder_elements = []
+          folder_h = {}
+          folder_h[:id] = folder.id
+          folder_h[:type] = folder.class.name
+          folder_h[:title] = folder.name
+          folder_h[:elements] = folder_elements
+
+          folder.documents.each do |document|
+            document_h = document.as_json
+            document_h[:type] = document.class.name
+            folder_elements << document_h
+          end
+
+          task_elements << folder_h
+        end
+
+        tasks << task_h
+      end
+
+      results << section_h
+    end
+
     success_response(
       {
-        sections: sections_json
+        sections: results
       }
     )
   end

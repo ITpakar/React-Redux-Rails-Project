@@ -34,7 +34,11 @@ export default class CategoryTask extends React.Component {
     _.bindAll(this, ['toggleContent']);
   }
 
-  toggleContent() {
+  toggleContent(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
     var bodyClassnames = this.state.bodyClassnames;
     if (bodyClassnames.indexOf("in") >= 0) {
       bodyClassnames = _.without(bodyClassnames, "in");
