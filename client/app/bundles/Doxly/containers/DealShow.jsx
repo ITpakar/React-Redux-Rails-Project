@@ -12,7 +12,7 @@ class DealShow extends React.Component {
 
   componentWillMount() {
     // FIXME: Find a better way to get dealId
-    var dealId = window.location.pathname.split("/")[2];
+    var dealId = window.location.pathname.split("/")[3];
     this.props.loadDealSectionsTree(dealId);
   }
 
