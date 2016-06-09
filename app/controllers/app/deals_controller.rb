@@ -2,7 +2,7 @@ class App::DealsController < App::ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @deals = format_deals_for_display(current_user.context.deals)
+    @deals = format_deals_for_display(current_user.context.deals.uniq)
   end
 
   def show

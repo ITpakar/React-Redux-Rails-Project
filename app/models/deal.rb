@@ -39,8 +39,8 @@ class Deal < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
 
   # Scopes
-  scope :behind_schedule, -> {where('projected_close_date < ?', Date.today)}
-  scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days)}
+  scope :behind_schedule, -> {where('projected_close_date < ?', Date.today).uniq}
+  scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days).uniq}
 
   before_validation :set_default_status, :set_organization_id
   after_save :create_notification_if_closed
