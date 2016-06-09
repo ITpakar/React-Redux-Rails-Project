@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
-import Popover from '@terebentina/react-popover';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 import CategoryProgress from './CategoryProgress';
 import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
+import CategoryFileViewer from './CategoryFileViewer'
 
 // Props
 // title
@@ -28,17 +29,13 @@ export default class CategoryView extends React.Component {
   }
 
   componentDidMount() {
-
+    $(this.refs.button).popover();
   }
 
   handleSearchChange(event) {
   }
 
   handleButtonClick(event) {
-    let position = $(this.refs.button).position();
-    let popoverWidth = $(this.refs.popover).width();
-    console.log(popoverWidth);
-    this.setState({popoverVisible: true, position: {left: position.left + 40 - popoverWidth, top: position.top + 40}});
   }
 
   handleSortChange(event) {
@@ -86,9 +83,22 @@ export default class CategoryView extends React.Component {
                       onChange: this.handleSortChange
                     }
                   ]} />
-                  <a ref="button" href="#" className="btn-add-circle btn-add-deal" onClick={this.handleButtonClick}></a>
-                  {this.renderPopover()}                  
+                  <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="create-new-element"><div className='popover-menu-deal'><a href='#' data-target='#modal-new-section' data-toggle='modal'>New Section</a><a href='#' data-target='#modal-new-task' data-toggle='modal'>New Task</a><a href='#' data-target='#modal-new-file' data-toggle='modal'>New File</a><a href='#' data-target='#modal-new-folder' data-toggle='modal'>New Folder</a></div></Popover>}>
+                    <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
+                  </OverlayTrigger>
               </form>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="content-deal">
+              <div className="content-deal-wrapper">
+                <div className="content-deal-left">
+                  <CategoryFileViewer />
+                </div>
+                <div className="content-deal-right">
+                </div>
+              </div>
             </div>
           </div>
 

@@ -37,6 +37,7 @@
     "mirror-creator": "1.1.0",
     "moment": "^2.13.0",
     "react": "^0.14.8 || ^15.0.0",
+    "react-bootstrap": "^0.29.4",
     "react-datepicker": "^0.27.0",
     "react-dom": "^0.14.8 || ^15.0.0",
     "react-on-rails": "5.2.0",
