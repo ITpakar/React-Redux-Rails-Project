@@ -261,33 +261,10 @@
                 margin-top: 5px;
             }
 
-            &:before{
-                content: "";
-                color: $col-green;
-                display: block;
-                position: absolute;
-                height: 20px;
-                width: 20px;
-                border: 2px solid $col-border;
-                left: 20px;
-                top: 50%;
-                margin-top: -10px;
-                border-radius: 999px;
-            }
-
         }
 
         &.complete {
             .item-header{
-                &:before{
-                    @extend %icomoon;
-                    @extend %icon-check;
-                    font-size: 8px;
-                    line-height: 18px;
-                    text-align: center;
-                    background: $col-green-light;
-                    border: 2px solid $col-green;
-                }
             }
         }
 

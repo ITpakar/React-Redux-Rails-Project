@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import CategorySection from "./CategorySection";
 import CategoryTask from "./CategoryTask";
 import CategoryDocument from "./CategoryDocument";
@@ -81,7 +82,8 @@ export default class CategoryFolder extends React.Component {
         <div className="item-header">
           <a className="item-header-item" href="/deal-file">{element.title}</a>
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>
-            <span>Show {filesCount} {filesCount == 1 ? "File" : "Files"}</span>
+            <span className={classnames({"hidden": filesCount == 0})}>Show {filesCount} {filesCount == 1 ? "File" : "Files"}</span>
+            <span className={classnames("no-files", {"hidden": filesCount != 0})}>0 Files</span>
             <i>Hide Files</i>
           </a>
         </div>
