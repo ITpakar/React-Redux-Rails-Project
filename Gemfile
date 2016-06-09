@@ -20,6 +20,8 @@ gem 'puma'
 gem 'factory_girl_rails'
 gem 'ffaker'
 
+gem 'cancancan', '~> 1.10'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 

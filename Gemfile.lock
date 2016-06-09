@@ -45,6 +45,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (9.0.4)
+    cancancan (1.14.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.8)
@@ -223,6 +224,7 @@ PLATFORMS
 DEPENDENCIES
   american_date
   byebug
+  cancancan (~> 1.10)
   devise
   dotenv-rails
   factory_girl_rails
