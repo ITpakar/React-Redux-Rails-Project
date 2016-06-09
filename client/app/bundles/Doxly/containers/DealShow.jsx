@@ -36,7 +36,7 @@ function stateToProps(state, ownProps) {
   let sectionsStore = state.sectionsStore;
   let props = {};
 
-  if (sectionsStore) {
+  if (sectionsStore && sectionsStore.data) {
     if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
       props.elements = sectionsStore.data.data.sections;
       props.loadingSectionsStatus = sectionsStore.status;

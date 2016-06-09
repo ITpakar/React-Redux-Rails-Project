@@ -26,7 +26,7 @@ export default class CategoryFolder extends React.Component {
     if (event) {
       event.preventDefault();
     }
-    
+
     var bodyClassnames = this.state.bodyClassnames;
     if (bodyClassnames.indexOf("in") >= 0) {
       bodyClassnames = _.without(bodyClassnames, "in");
@@ -41,6 +41,7 @@ export default class CategoryFolder extends React.Component {
     var element = this.props.element;
     var children = element.elements;
     var displayedChildren = [];
+    var filesCount = 0;
 
     for (let i = 0; i < children.length; i++) {
       let child = children[i];
@@ -62,6 +63,7 @@ export default class CategoryFolder extends React.Component {
         displayedChild = (
           <CategoryDocument element={child} />
         );
+        filesCount++;
       }
 
       displayedChildren.push(displayedChild);
@@ -79,7 +81,7 @@ export default class CategoryFolder extends React.Component {
         <div className="item-header">
           <a className="item-header-item" href="/deal-file">{element.title}</a>
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>
-            <span>Show {element.file_count} Files</span>
+            <span>Show {filesCount} {filesCount == 1 ? "File" : "Files"}</span>
             <i>Hide Files</i>
           </a>
         </div>
