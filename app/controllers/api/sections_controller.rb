@@ -1,10 +1,13 @@
 class Api::SectionsController < ApplicationController
   respond_to :json
 
-  before_action :authenticate_deal_collaborator!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_section, only: [:show, :update, :destroy]
+
+  before_action do
+    authorize! :update, @deal
+  end
 
   swagger_controller :sections, "Section"
 

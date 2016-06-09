@@ -21,9 +21,6 @@ class OrganizationUser < ActiveRecord::Base
 
   before_validation :set_type
 
-  def self.collaboratable_deals
-  end
-
   def set_type
     if organization.email_domain == user.email_domain
       self.type = "Internal"

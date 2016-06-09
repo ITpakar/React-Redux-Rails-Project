@@ -142,7 +142,7 @@ class Api::TasksController < ApplicationController
     end
 
     if !@deal.blank?
-      return current_user.is_deal_collaborator?(@deal.id)
+      return current_user.is_deal_collaborator?(@deal)
     else
       error_response(["Deal Not Found for this task."])
     end
