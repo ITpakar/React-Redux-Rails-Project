@@ -43,7 +43,7 @@ export default class CategoryFileViewer extends React.Component {
 
         if (element.type == "Section") {
           displayedElement = (
-            <CategorySection element={element} />
+            <CategorySection element={element} isExpanding={i == 0} />
           );
         } else if (element.type == "Folder") {
           displayedElement = (

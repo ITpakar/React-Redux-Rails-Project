@@ -82,9 +82,19 @@ class Api::SectionsController < ApplicationController
   end
 
   def trees
-    #sections_json = @deal.sections.as_json(:include => [{:tasks => {:include => [:documents, {:folders => {:include => [:documents]}}]}}])
+    scope = @deal.sections
+    category = params[:category].try(:downcase)
+    if category.present? && ["diligence", "closing"].include?(category)
+      scope = scope.joins(:category)
+      if category == "diligence"
+        scope = scope.where("categories.name" => DiligenceCategory.name)
+      elsif category == "closing"
+        scope = scope.where("categories.name" => ClosingCategory.name)
+      end
+    end
+
     results = []
-    @deal.sections.each do |section|
+    scope.each do |section|
       tasks = []
       section_h = {}
       section_h[:id] = section.id

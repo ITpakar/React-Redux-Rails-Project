@@ -14,11 +14,11 @@
                 </ul>
             <% end %>
             <% content_for :navbar_brand do %>
-                <%= react_component 'DealStar', 
-                    props: {initiallyStarred: @deal.starred_by?(current_user), 
+                <%= react_component 'DealStar',
+                    props: {initiallyStarred: @deal.starred_by?(current_user),
                             user_id: current_user.id,
                             url: api_deal_starred_deals_path(@deal),
-                            deal_id: @deal.id}, 
+                            deal_id: @deal.id},
                     html_options: {style: 'display: inline;'} %>
             <% end %>
             <%= render partial: "app/shared/top", locals: {title: "Deals / #{@deal.title}"} %>
@@ -79,12 +79,12 @@
                             </div> <!-- tab panel Overview End -->
                             <div role="tabpanel" class="tab-pane " id="tab-deal-diligence">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id]}) %>
+                                  <%= react_component("DealApp", :props => {:id => params[:id], :category => "Diligence"}) %>
                                 </div>
                             </div> <!-- tab panel Diligence End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id]}) %>
+                                  <%= react_component("DealApp", :props => {:id => params[:id], :category => "Closing"}) %>
                                 </div>
                             </div> <!-- tab panel Closing End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing-book"> <!-- -->
