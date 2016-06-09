@@ -4,7 +4,9 @@ class Api::TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_task, only: [:show, :update, :destroy]
-  before_action :is_deal_collaborator?, only: [:update, :destroy, :show, :create]
+  before_action only: [:update, :destroy, :show, :create] do
+    authorize! :update, @deal
+  end
 
   swagger_controller :task, "Task"
 
