@@ -19,6 +19,7 @@ gem 'redis', '~> 3.0'
 gem 'puma'
 gem 'factory_girl_rails'
 gem 'ffaker'
+gem 'boxr'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

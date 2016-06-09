@@ -20,6 +20,16 @@ class App::HomeController < App::ApplicationController
   end
 
   def deal_file
+    client = box_client
+
+    # client.delete_file(client.file_from_path('/.gitignore'))
+    # folder = client.folder_from_path('/')
+    # file = client.upload_file('.gitignore', folder)
+    # updated_file = client.create_shared_link_for_file(file, access: :open)
+    # puts "Shared Link: #{updated_file.shared_link.url}"
+
+    items = client.root_folder_items
+    items.each {|i| puts i.name}
   end
 
   def report
