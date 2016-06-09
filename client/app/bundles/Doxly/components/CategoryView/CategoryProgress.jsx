@@ -11,9 +11,15 @@ export default class CategoryProgress extends React.Component {
 
   render() {
     let percentCompleted = 100 * this.props.completedCount/this.props.totalCount
+    let title = this.props.title;
+
+    if (title) {
+      title = title.toUpperCase();
+    }
+
     return (
       <div className="deal-progress-statistic">
-          <div className="title">{this.props.title.toUpperCase()} TASKS COMPLETE <strong>{this.props.completedCount}/{this.props.totalCount}</strong></div>
+          <div className="title">{title} TASKS COMPLETE <strong>{this.props.completedCount}/{this.props.totalCount}</strong></div>
           <div className={classnames("progress", {'finished': percentCompleted == 100})}>
               <div className="progress-bar" role="progressbar" aria-valuenow={percentCompleted} aria-valuemin="0" aria-valuemax="100" style={{width: `${percentCompleted}%`}}>
                   <span className="sr-only">{percentCompleted}% Complete</span>
@@ -23,5 +29,3 @@ export default class CategoryProgress extends React.Component {
     );
   }
 }
-
-

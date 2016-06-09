@@ -1,4 +1,8 @@
 import React, { PropTypes } from 'react';
+import CategorySection from "./CategorySection";
+import CategoryTask from "./CategoryTask";
+import CategoryFolder from "./CategoryFolder";
+import CategoryDocument from "./CategoryDocument";
 
 // Props
 // elements = [
@@ -29,16 +33,34 @@ import React, { PropTypes } from 'react';
 
 export default class CategoryFileViewer extends React.Component {
   render() {
-	return (
-		<div className="deal-section" id="deal-sections">
-			<div className="deal-section-item">
-				<div className="deal-section__header">
-                    <a role="button" data-toggle="collapse" data-parent="#deal-sections" href="#section-id-1-body" aria-expanded="true" aria-controls="section-id-1-body">CORPORATE STRUCTURE, EQUITY CAPITAL &amp; RECORDS</a>
-                </div>
-                <div className="deal-section__panel collapse in">
-                </div>
-			</div>
-		</div>
-	);
+    var elements = this.props.elements;
+    var displayedElements = [];
+
+    for (let i = 0; i < elements.length; i++) {
+      let element = elements[i];
+      let displayedElement;
+
+      if (element.type == "Section") {
+        displayedElement = (
+          <CategorySection element={element} />
+        );
+      } else if (element.type == "Folder") {
+        displayedElement = (
+          <CategoryFolder element={element} />
+        );
+      } else if (element.type == "Document") {
+        displayedElement = (
+          <CategoryDocument element={element} />
+        );
+      }
+
+      displayedElements.push(displayedElement);
+    }
+
+  	return (
+  		<div className="deal-section" id="deal-sections">
+        {displayedElements}
+  		</div>
+  	);
   }
 }
