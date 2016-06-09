@@ -14,18 +14,106 @@
                 </ul>
             <% end %>
             <% content_for :navbar_brand do %>
-                <%= react_component 'DealStar',
-                    props: {initiallyStarred: @deal.starred_by?(current_user),
+                <%= react_component 'DealStar', 
+                    props: {initiallyStarred: @deal.starred_by?(current_user), 
                             user_id: current_user.id,
                             url: api_deal_starred_deals_path(@deal),
-                            deal_id: @deal.id},
+                            deal_id: @deal.id}, 
                     html_options: {style: 'display: inline;'} %>
             <% end %>
             <%= render partial: "app/shared/top", locals: {title: "Deals / #{@deal.title}"} %>
             <div class="content">
             <div class="container-fluid">
+                <div class="row">
+                    <div>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="tab-deal-overview"> <!-- -->
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="deal-overview-statistic">
+                                            <div class="statistic-box__item item-small">
+                                                <i><%= @deal.documents.count %></i><span>DOCUMENTS</span>
+                                            </div>
+                                            <div class="statistic-box__item item-small">
+                                                <i><%= @deal.comments.count %></i><span>COMMENTS</span>
+                                            </div>
+                                            <div class="statistic-box__item item-big">
+                                                <i><%= @deal.projected_close_date.strftime("%m/%d/%y") %></i><span>PROJECTED CLOSE DATE</span>
+                                            </div>
+                                            <div class="statistic-box__item item-big">
+                                                <div class="statistic-box__mini-wrapper">
+                                                    <div class="statistic-box__mini-item">
+                                                        <div class="title">Diligence Tasks Completed <strong><%= @deal.tasks.diligence.complete.count %>/<%= @deal.tasks.diligence.count %></strong></div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.diligence_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.diligence_completion_percent %>%;">
+                                                                <span class="sr-only"><%= @deal.diligence_completion_percent %>% Complete</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-              <%= react_component("DealApp", :props => {:id => params[:id]}) %>
+                                                    <div class="statistic-box__mini-item">
+                                                        <div class="title">Closing Tasks Completed <strong><%= @deal.tasks.closing.complete.count %>/<%= @deal.tasks.closing.count %></strong></div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.closing_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.closing_completion_percent %>%;">
+                                                                <span class="sr-only"><%= @deal.closing_completion_percent %>% Complete</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="content-left">
+                                            <% @deal.events.first(15).each do |event| %>
+                                                <%= render 'app/shared/event', event: event %>
+                                            <% end %>
+                                        </div>
+                                        <div class="content-right">
+                                            <%= render 'app/shared/panels/users', users: @deal.organization_users, title: 'COLLABORATORS' %>
+                                            <%= render 'app/shared/panels/files', files: @deal.recently_updated_files, title: 'RECENTLY UPDATED FILES' %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- tab panel Overview End -->
+                            <div role="tabpanel" class="tab-pane " id="tab-deal-diligence">
+                                <div class="container-fluid">
+                                  <%= react_component("DealApp", :props => {:id => params[:id]}) %>
+                                </div>
+                            </div> <!-- tab panel Diligence End -->
+                            <div role="tabpanel" class="tab-pane" id="tab-deal-closing">
+                                <div class="container-fluid">
+                                  <%= react_component("DealApp", :props => {:id => params[:id]}) %>
+                                </div>
+                            </div> <!-- tab panel Closing End -->
+                            <div role="tabpanel" class="tab-pane" id="tab-deal-closing-book"> <!-- -->
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="deal-closing-book">
+                                            <div class="buttons">
+                                                <a href="#" class="btn btn-default">...</a>
+                                                <a href="#" class="btn btn-default">Download</a>
+                                            </div>
+                                            <div class="deal-closing-book__inner">
+                                                <div class="deal-closing-book__dummy-item">
+                                                    <div class="title">
+                                                        <h3>Cover Page Title</h3>
+                                                        <h4>Cover Page Subtitle</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- tab panel Close Book End -->
+                        </div> <!-- tab content End -->
+                    </div>
+
+                </div>
+                <div class="row">
+
+                </div>
 
             </div>
             </div>
