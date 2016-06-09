@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to new_app_user_session_path }
         format.json { unauthorized_response(401) }
       end
-      
     end
   end
 

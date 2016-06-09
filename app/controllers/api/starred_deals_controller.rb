@@ -1,11 +1,14 @@
 class Api::StarredDealsController < ApplicationController
   respond_to :json
-
-  before_action :authenticate_deal_collaborator!, only: [:index, :create, :destroy]
-  before_action :authenticate_organization_member!, only: [:starred_deals]
+  
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, except: [:starred_deals]
   before_action :set_starred_deal, only: [:destroy]
+
+  before_action only: [:index, :create, :destroy] do
+    authorize! :update, @deal
+  end
+  before_action :authenticate_organization_member!, only: [:starred_deals]
 
   swagger_controller :starred_deal, "starred_deal"
 
