@@ -61,6 +61,12 @@
             li{
                 display: inline-block;
             }
+
+            .user-nav {
+                li {
+                    display: block;
+                }
+            }
         }
     }
     #page-wrapper.navbar-double &{
@@ -70,7 +76,15 @@
         > a{
             span{
                 padding: 0 10px;
+
+                &.initials {
+                    float: left;
+                    padding: 0px 7px;
+                    background: #555555;
+                    color: white;
+                }
             }
+
             i{
                 font-size: 7px;
             }
