@@ -34,8 +34,12 @@ export default class CategorySection extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    var sectionBodyClassnames = ["deal-section__panel", "collapse"];
+    if (this.props.isExpanding) {
+      sectionBodyClassnames.push(["in"]);
+    }
     this.state = {
-      sectionBodyClassnames: ["deal-section__panel", "collapse"]
+      sectionBodyClassnames: sectionBodyClassnames
     };
 
     _.bindAll(this, ['toggleContent']);
@@ -45,7 +49,7 @@ export default class CategorySection extends React.Component {
     if (event) {
       event.preventDefault();
     }
-    
+
     var sectionBodyClassnames = this.state.sectionBodyClassnames;
     if (sectionBodyClassnames.indexOf("in") >= 0) {
       sectionBodyClassnames = _.without(sectionBodyClassnames, "in");

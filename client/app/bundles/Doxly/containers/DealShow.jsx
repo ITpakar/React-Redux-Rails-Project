@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
-import {loadDealSectionsTree} from "../actions/doxlyActions";
+import {loadCategorySectionsTree} from "../actions/doxlyActions";
 
 class DealShow extends React.Component {
   constructor(props, context) {
@@ -12,7 +12,8 @@ class DealShow extends React.Component {
 
   componentWillMount() {
     var dealId = this.props.id;
-    this.props.loadDealSectionsTree(dealId);
+    var category = this.props.category
+    this.props.loadCategorySectionsTree(category, dealId);
   }
 
   render() {
@@ -25,22 +26,44 @@ class DealShow extends React.Component {
 }
 
 DealShow.propTypes = {
-  id: PropTypes.number.required,
+  id: PropTypes.number.isRequired,
+  category: PropTypes.string.isRequired,
   elements: PropTypes.arrayOf(PropTypes.object),
   loadingSectionsStatus: PropTypes.string,
-  loadDealSectionsTree: PropTypes.func.isRequired
+  loadCategorySectionsTree: PropTypes.func.isRequired
 }
 
 function stateToProps(state, ownProps) {
   let sectionsStore = state.sectionsStore;
   let props = {};
+  let category = ownProps.category;
 
-  if (sectionsStore && sectionsStore.data) {
-    if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-      props.elements = sectionsStore.data.data.sections;
-      props.loadingSectionsStatus = sectionsStore.status;
-    } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-      props.loadingSectionsStatus = sectionsStore.status;
+  if (category) {
+    category = category.toLowerCase();
+  }
+
+  if (sectionsStore) {
+    if (category == "diligence" && sectionsStore.diligenceSections) {
+      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
+        props.elements = sectionsStore.diligenceSections.data.sections;
+        props.loadingSectionsStatus = sectionsStore.status;
+      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
+        props.loadingSectionsStatus = sectionsStore.status;
+      }
+    } else if (category == "closing" && sectionsStore.closingSections) {
+      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
+        props.elements = sectionsStore.closingSections.data.sections;
+        props.loadingSectionsStatus = sectionsStore.status;
+      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
+        props.loadingSectionsStatus = sectionsStore.status;
+      }
+    } else if (sectionsStore.allSections){
+      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
+        props.elements = sectionsStore.allSections.data.sections;
+        props.loadingSectionsStatus = sectionsStore.status;
+      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
+        props.loadingSectionsStatus = sectionsStore.status;
+      }
     }
   }
 
@@ -48,7 +71,7 @@ function stateToProps(state, ownProps) {
 }
 
 DealShow = connect(stateToProps, {
-  loadDealSectionsTree
+  loadCategorySectionsTree
 })(DealShow);
 
 export default DealShow;

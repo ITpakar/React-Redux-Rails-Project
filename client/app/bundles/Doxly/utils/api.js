@@ -16,6 +16,6 @@ let submitRequest = function(url, method, data, successCallback, errorCallback) 
   });
 }
 
-export function doLoadDealSectionsTree(dealId) {
-  return submitRequest("/api/deals/" + dealId + "/sections/trees", "get");
+export function doLoadCategorySectionsTree(section, dealId) {
+  return submitRequest("/api/deals/" + dealId + "/sections/trees", "get", {category: section});
 }

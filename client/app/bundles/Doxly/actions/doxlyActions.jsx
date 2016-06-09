@@ -1,5 +1,5 @@
 import actionTypes from '../constants';
-import {doLoadDealSectionsTree} from "../utils/api";
+import {doLoadCategorySectionsTree} from "../utils/api";
 
 export function starDeal(id, title, url) {
 
@@ -34,13 +34,27 @@ let setRequestStatus = function(requestType, status, data, responseStatus) {
   };
 };
 
-export function loadDealSectionsTree(dealId) {
+export function loadCategorySectionsTree(category, dealId) {
+  var requestType;
+  if (category) {
+    var cat = category.toLowerCase();
+    if (cat == "diligence") {
+      requestType = actionTypes.REQUESTS.LOAD_DILIGENCE_SECTIONS;
+    } else if (cat == "closing"){
+      requestType = actionTypes.REQUESTS.LOAD_CLOSING_SECTIONS;
+    } else {
+      requestType = actionTypes.REQUESTS.LOAD_SECTIONS;
+    }
+  } else {
+    requestType = actionTypes.REQUESTS.LOAD_SECTIONS;
+  }
+
   return function(dispatch) {
-    dispatch(setRequestStatus(actionTypes.REQUESTS.LOAD_SECTIONS, actionTypes.REQUESTS.LOADING));
-    return doLoadDealSectionsTree(dealId).then(function(responseData, responseStatus) {
-      dispatch(setRequestStatus(actionTypes.REQUESTS.LOAD_SECTIONS, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadCategorySectionsTree(category, dealId).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
-      dispatch(setRequestStatus(actionTypes.REQUESTS.LOAD_SECTIONS, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
     })
   }
 }
