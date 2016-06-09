@@ -52,6 +52,7 @@ GEM
       oj (~> 2.11)
     builder (3.2.2)
     byebug (9.0.4)
+    cancancan (1.14.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.8)
@@ -235,6 +236,7 @@ DEPENDENCIES
   american_date
   boxr
   byebug
+  cancancan (~> 1.10)
   devise
   dotenv-rails
   factory_girl_rails

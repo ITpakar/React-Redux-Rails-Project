@@ -34,12 +34,16 @@ Rails.application.routes.draw do
     resources :deals do
       resources :deal_collaborators, only: [:create, :index, :destroy] do
         collection do
-          get 'find', to: 'deal_collaborators#find'  
+          get 'find', to: 'deal_collaborators#find'
         end
-        
+
       end
       resources :starred_deals, only: [:index, :create, :update, :destroy]
-      resources :sections
+      resources :sections do
+        collection do
+          get :trees
+        end
+      end
       delete 'starred_deals', to: 'starred_deals#destroy'
     end
     resources :notifications
@@ -70,7 +74,7 @@ Rails.application.routes.draw do
   get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
 
 
-  # Serve websocket cable requests in-process 
+  # Serve websocket cable requests in-process
   mount ActionCable.server => '/cable'
 
 end

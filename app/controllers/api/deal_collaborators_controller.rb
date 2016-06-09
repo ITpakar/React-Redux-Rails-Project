@@ -1,10 +1,15 @@
 class Api::DealCollaboratorsController < ApplicationController
   respond_to :json
 
-  before_action :authenticate_deal_collaborator!, only: [:index]
+  before_action :set_deal
+  
+  before_action only: [:index] do
+    authorize! :update, @deal
+  end
+  
+  # before_action :authenticate_deal_collaborator!, only: [:index]
   before_action :authenticate_org_deal_admin!, only: [:create, :destroy]
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_deal
   before_action :set_deal_collaborator, only: [:destroy]
 
   swagger_controller :deal_collaborators, "Deal Collaborator"
@@ -42,6 +47,7 @@ class Api::DealCollaboratorsController < ApplicationController
   def index
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
+
     collaborators = @deal.collaborators.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
     success_response(
       {

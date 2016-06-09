@@ -4,7 +4,11 @@ class Api::DealsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_organization_member!, only: [:create]
   before_action :authenticate_org_deal_admin!, only: [:update, :destroy]
-  before_action :authenticate_deal_collaborator!, only: [:show]
+  
+  before_action only: [:show] do
+    authorize! :update, @deal
+  end
+  
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, only: [:update, :destroy, :show, :collaborators]
 

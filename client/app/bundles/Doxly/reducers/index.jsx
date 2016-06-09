@@ -5,13 +5,15 @@ import userReducer from './userReducer';
 import commentReducer from './commentReducer';
 import collaboratorReducer from './collaboratorReducer';
 import dealsReducer from './dealsReducer';
+import sectionsReducer from "./sectionsReducer";
 import { initialState as userState } from './userReducer';
 
 export default {
   userStore: userReducer,
   commentStore: commentReducer,
   collaboratorStore: collaboratorReducer,
-  dealsStore: dealsReducer
+  dealsStore: dealsReducer,
+  sectionsStore: sectionsReducer
 };
 
 export const initialStates = {

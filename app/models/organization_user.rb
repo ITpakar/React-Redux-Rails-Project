@@ -37,6 +37,17 @@ class OrganizationUser < ActiveRecord::Base
     StarredDeal.create(organization_user_id: self.id, deal_id: deal.id)
   end
 
+  def is_deal_collaborator? deal
+    return true if self.user.is_super?
+
+    deal_collaborator = DealCollaborator.where(
+      organization_user_id: id,
+      deal_id: deal.deal_id
+    ).first
+
+    return !deal_collaborator.blank?
+  end
+
   # Metaprogramming for the to find the correct STI classes
   class << self
     def find_sti_class(type_name)

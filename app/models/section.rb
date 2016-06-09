@@ -10,7 +10,7 @@ class Section < ApplicationRecord
   has_many   :deal_documents, as: :documentable
   has_many   :documents, through: :deal_documents
   has_many   :comments,  :as => :commentable
-  
+
   before_validation :set_deal, on: :create
 
   def set_deal
@@ -30,10 +30,9 @@ class Section < ApplicationRecord
     end
 
     if self.creator
-      data[:creator] = self.creator.to_hash(false)
+      data[:creator] = self.creator.user.to_hash(false)
     end
 
     return data
   end
 end
-

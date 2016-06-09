@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
     deal = Deal.find_by_id(deal_id)
 
     deal_collaborator = DealCollaborator.where(
-      user_id: id,
+      organization_user_id: organization_user.id,
       deal_id: deal_id
     ).first
     return !deal_collaborator.blank?
@@ -131,6 +131,10 @@ class User < ActiveRecord::Base
 
   def is_super?
     self.role == "Super"
+  end
+
+  def is_normal?
+    self.role == "Normal"
   end
 
   def name
@@ -172,5 +176,9 @@ class User < ActiveRecord::Base
 
   def initials
     first_name[0] + last_name[0]
+  end
+
+  def name
+    "#{first_name} #{last_name}"
   end
 end

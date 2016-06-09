@@ -341,6 +341,10 @@
         display: none;
     }
 
+    &.no-files {
+        color: #B8B9BD;
+    }
+    
     &.collapsed{
         i{
             display: none;
