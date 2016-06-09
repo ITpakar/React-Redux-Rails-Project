@@ -2,7 +2,7 @@
 
 export default {
   USERS: {
-    LOGIN: 'LOGIN'  
+    LOGIN: 'LOGIN'
   },
   COMMENTS: {
   	LOAD: '@doxly/comments/LOAD',
@@ -16,6 +16,10 @@ export default {
   DEALS: {
     ADD_STARRED: '@doxly/deals/ADD_STARRED',
     REMOVE_STARRED: '@doxly/deals/REMOVE_STARRED'
+  },
+  REQUESTS: {
+    LOADING: "LOADING",
+    FINISH_LOADING: "FINISH_LOADING",
+    LOAD_SECTIONS: "LOAD_SECTIONS"
   }
 }
-

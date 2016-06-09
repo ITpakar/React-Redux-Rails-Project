@@ -78,6 +78,15 @@ class Api::SectionsController < ApplicationController
     )
   end
 
+  def trees
+    sections_json = @deal.sections.as_json(:include => [{:tasks => {:include => [:documents, {:folders => {:include => [:documents]}}]}}])
+    success_response(
+      {
+        sections: sections_json
+      }
+    )
+  end
+
   def create
     @section = @deal.sections.new(section_params)
     @section.created_by = current_user.id

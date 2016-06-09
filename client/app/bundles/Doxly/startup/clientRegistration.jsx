@@ -12,16 +12,16 @@ import CommentBox from './CommentBox';
 import DealStar from './DealStar';
 import StarredDealList from './StarredDealList';
 import ArchiveDealButton from '../components/ArchiveDealButton';
-import CategoryView from '../components/CategoryView/CategoryView';
+import DealApp from './DealApp';
 
-ReactOnRails.register({DealView, 
-                       CreateDealModal, 
+ReactOnRails.register({DealView,
+                       CreateDealModal,
                        EditDealModal,
-                       ProgressPieChart, 
+                       ProgressPieChart,
                        CommentBox,
                        DealStar,
                        StarredDealList,
                        ArchiveDealButton,
-                       CategoryView});
+                       DealApp});
 
 ReactOnRails.registerStore({doxlyStore});

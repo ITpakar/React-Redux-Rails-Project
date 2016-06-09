@@ -45,7 +45,6 @@ export default class CategorySection extends React.Component {
     var sectionBodyClassnames = this.state.sectionBodyClassnames;
     if (sectionBodyClassnames.indexOf("in") >= 0) {
       sectionBodyClassnames = _.without(sectionBodyClassnames, "in");
-      console.log("Line 48 ", sectionBodyClassnames);
     } else {
       sectionBodyClassnames.push("in");
     }

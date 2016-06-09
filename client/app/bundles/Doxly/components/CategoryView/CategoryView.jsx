@@ -62,46 +62,6 @@ export default class CategoryView extends React.Component {
   }
 
   render() {
-    // For demo only;
-    var elements = [
-    	{
-    		type: "Section",
-    		title: "Section Title",
-    		elements: [
-    			{
-    				type: "Task",
-    				title: "Task Title",
-    				status: "Complete",
-    				elements: [
-    					{
-    						type: "Document",
-    						title: "Document Title",
-    					},
-    					{
-    						type: "Folder",
-    						title: "Folder Title",
-    						file_count: 42,
-    						elements: [
-                  {
-        						type: "Document",
-        						title: "Document Title 1",
-        					},
-                  {
-        						type: "Document",
-        						title: "Document Title 2",
-        					},
-                  {
-        						type: "Document",
-        						title: "Document Title 3",
-        					}
-                ]
-    					}
-    				]
-    			}
-    		]
-    	}
-    ]
-
     return (
         <div className="container-fluid">
           <div className="row">
@@ -134,7 +94,7 @@ export default class CategoryView extends React.Component {
             <div className="content-deal">
               <div className="content-deal-wrapper">
                 <div className="content-deal-left">
-                  <CategoryFileViewer elements={elements} />
+                  <CategoryFileViewer elements={this.props.elements} />
                 </div>
                 <div className="content-deal-right">
                 </div>
