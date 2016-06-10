@@ -32,6 +32,19 @@ import CategoryDocument from "./CategoryDocument";
 // ]
 
 export default class CategoryFileViewer extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    _.bindAll(this, ["openNewSectionModal"]);
+  }
+
+  openNewSectionModal(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.openNewSectionModal();
+  }
+
   render() {
     var elements = this.props.elements;
     var displayedElements = [];
@@ -43,15 +56,33 @@ export default class CategoryFileViewer extends React.Component {
 
         if (element.type == "Section") {
           displayedElement = (
-            <CategorySection element={element} isExpanding={i == 0} key={"section_" + (i + 1)} />
+            <CategorySection element={element}
+                             selectElement={this.props.selectElement}
+                             openNewFileModal={this.props.openNewFileModal}
+                             openNewFolderModal={this.props.openNewFolderModal}
+                             openNewTaskModal={this.props.openNewTaskModal}
+                             isExpanding={i == 0}
+                             key={"section_" + (i + 1)} />
+          );
+        } else if (element.type == "Task") {
+          displayedElement = (
+            <CategoryTask element={element}
+                          selectElement={this.props.selectElement}
+                          openNewFileModal={this.props.openNewFileModal}
+                          openNewFolderModal={this.props.openNewFolderModal}
+                          openNewTaskModal={this.props.openNewTaskModal}
+                          key={"task_" + (i + 1)} />
           );
         } else if (element.type == "Folder") {
           displayedElement = (
-            <CategoryFolder element={element} key={"folder_" + (i + 1)} />
+            <CategoryFolder element={element}
+                            selectElement={this.props.selectElement}
+                            openNewFileModal={this.props.openNewFileModal}
+                            key={"folder_" + (i + 1)} />
           );
         } else if (element.type == "Document") {
           displayedElement = (
-            <CategoryDocument element={element} key={"document_" + (i + 1)} />
+            <CategoryDocument element={element} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
           );
         }
 
@@ -60,9 +91,12 @@ export default class CategoryFileViewer extends React.Component {
     }
 
   	return (
-  		<div className="deal-section" id="deal-sections">
+      <div className="deal-section" id="deal-sections">
         {displayedElements}
-  		</div>
+        <div className="deal-element-add-item deal-element-add-new-section">
+          <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewSectionModal}>Section</a></span>
+        </div>
+      </div>
   	);
   }
 }

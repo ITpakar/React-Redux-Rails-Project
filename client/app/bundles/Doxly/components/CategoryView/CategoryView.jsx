@@ -4,6 +4,10 @@ import CategoryProgress from './CategoryProgress';
 import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
 import CategoryFileViewer from './CategoryFileViewer'
+import CategoryElementDetails from "./CategoryElementDetails";
+import NewFolderModal from "./NewFolderModal";
+import NewTaskModal from "./NewTaskModal";
+import NewSectionModal from "./NewSectionModal";
 
 // Props
 // title
@@ -22,10 +26,27 @@ export default class CategoryView extends React.Component {
       position: {
         left: 0,
         top: 0
-      }
+      },
+      selectedElement: undefined,
+      showNewFolderModal: false,
+      showNewFileModal: false,
+      showNewTaskModal: false,
+      showNewSectionModal: false,
+      parentElement: undefined
     }
 
-    _.bindAll(this, ['handleSearchChange', 'handleButtonClick', 'handleSortChange']);
+    _.bindAll(this, ['handleSearchChange',
+                     'handleButtonClick',
+                     'handleSortChange',
+                     "selectElement",
+                     "openNewFolderModal",
+                     "openNewTaskModal",
+                     "openNewSectionModal",
+                     "closeNewFolderModal",
+                     "closeNewTaskModal",
+                     "closeNewSectionModal",
+                     "createFolder",
+                     "createTask"]);
   }
 
   componentDidMount() {
@@ -40,6 +61,63 @@ export default class CategoryView extends React.Component {
 
   handleSortChange(event) {
 
+  }
+
+  selectElement(element) {
+    this.setState({selectedElement: element});
+  }
+
+  openNewFolderModal(element) {
+    this.setState({showNewFolderModal: true, parentElement: element});
+  }
+
+  closeNewFolderModal() {
+    this.setState({showNewFolderModal: false, parentElement: undefined});
+  }
+
+  createFolder(folderAttrs, callback) {
+    var parentElement = this.state.parentElement;
+    folderAttrs.task_id = parentElement.id;
+
+    this.props.createFolder(folderAttrs, callback);
+  }
+
+  openNewFileModal(element) {
+    this.setState({showNewFileModal: true, parentElement: element});
+  }
+
+  closeNewFileModal() {
+    this.setState({showNewFileModal: false, parentElement: undefined});
+  }
+
+  createFile(fileAttrs, callback) {
+    var parentElement = this.state.parentElement;
+    fileAttrs.task_id = parentElement.id;
+
+    this.props.createFile(folderAttrs, callback);
+  }
+
+  openNewTaskModal(element) {
+    this.setState({showNewTaskModal: true, parentElement: element});
+  }
+
+  closeNewTaskModal() {
+    this.setState({showNewTaskModal: false, parentElement: undefined});
+  }
+
+  createTask(taskAttrs, callback) {
+    var parentElement = this.state.parentElement;
+    taskAttrs.section_id = parentElement.id;
+
+    this.props.createTask(taskAttrs, callback);
+  }
+
+  openNewSectionModal() {
+    this.setState({showNewSectionModal: true});
+  }
+
+  closeNewSectionModal() {
+    this.setState({showNewSectionModal: false});
   }
 
   renderPopover() {
@@ -62,6 +140,13 @@ export default class CategoryView extends React.Component {
   }
 
   render() {
+    var selectedElementDetails;
+    if (this.state.selectedElement) {
+      selectedElementDetails = (
+        <CategoryElementDetails element={this.state.selectedElement} />
+      );
+    }
+
     return (
         <div className="container-fluid">
           <div className="row">
@@ -94,14 +179,29 @@ export default class CategoryView extends React.Component {
             <div className="content-deal">
               <div className="content-deal-wrapper">
                 <div className="content-deal-left">
-                  <CategoryFileViewer elements={this.props.elements} />
+                  <CategoryFileViewer elements={this.props.elements}
+                                      selectElement={this.selectElement}
+                                      openNewFileModal={this.openNewFileModal}
+                                      openNewFolderModal={this.openNewFolderModal}
+                                      openNewTaskModal={this.openNewTaskModal}
+                                      openNewSectionModal={this.openNewSectionModal} />
                 </div>
                 <div className="content-deal-right">
+                  {selectedElementDetails}
                 </div>
               </div>
             </div>
           </div>
 
+          <NewFolderModal createFolder={this.createFolder}
+                          closeNewFolderModal={this.closeNewFolderModal}
+                          showNewFolderModal={this.state.showNewFolderModal} />
+          <NewTaskModal createTask={this.createTask}
+                        closeNewTaskModal={this.closeNewTaskModal}
+                        showNewTaskModal={this.state.showNewTaskModal} />
+                      <NewSectionModal createSection={this.props.createSection}
+                           closeNewSectionModal={this.closeNewSectionModal}
+                           showNewSectionModal={this.state.showNewSectionModal} />
         </div>
     )
   }

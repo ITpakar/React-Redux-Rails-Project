@@ -43,7 +43,7 @@ export default class CategorySection extends React.Component {
       sectionBodyClassnames: sectionBodyClassnames
     };
 
-    _.bindAll(this, ['toggleContent']);
+    _.bindAll(this, ['toggleContent', "openNewTaskModal"]);
   }
 
   toggleContent(event) {
@@ -57,8 +57,17 @@ export default class CategorySection extends React.Component {
     } else {
       sectionBodyClassnames.push("in");
     }
-console.log("Line 60 ", sectionBodyClassnames);
+
     this.setState({sectionBodyClassnames: sectionBodyClassnames});
+    this.props.selectElement(undefined);
+  }
+
+  openNewTaskModal(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.openNewTaskModal(this.props.element);
   }
 
   render() {
@@ -72,19 +81,32 @@ console.log("Line 60 ", sectionBodyClassnames);
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} key={"section_" + (i + 1)} />
+          <CategorySection element={child}
+                           selectElement={this.props.selectElement}
+                           openNewFileModal={this.props.openNewFileModal}
+                           openNewFolderModal={this.props.openNewFolderModal}
+                           openNewTaskModal={this.props.openNewTaskModal}
+                           key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} key={"task_" + (i + 1)} />
+          <CategoryTask element={child}
+                        selectElement={this.props.selectElement}
+                        openNewFileModal={this.props.openNewFileModal}
+                        openNewFolderModal={this.props.openNewFolderModal}
+                        openNewTaskModal={this.props.openNewTaskModal}
+                        key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} key={"folder_" + (i + 1)} />
+          <CategoryFolder element={child}
+                          selectElement={this.props.selectElement}
+                          openNewFileModal={this.props.openNewFileModal}
+                          key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
         );
       }
 
@@ -92,7 +114,7 @@ console.log("Line 60 ", sectionBodyClassnames);
     }
 
     var sectionBodyClassnames = this.state.sectionBodyClassnames;
-    var toggleClassnames = [];
+    var toggleClassnames = ["section-header-title"];
 
     if (sectionBodyClassnames.indexOf("in") == -1) {
       toggleClassnames.push("collapsed");
@@ -102,11 +124,16 @@ console.log("Line 60 ", sectionBodyClassnames);
 			<div className="deal-section-item">
 				<div className="deal-section__header">
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>{element.title}</a>
-          <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
+          <div className={classnames({"badge-chat-container": true, "hidden": element.comments_count == 0})}>
+            <div className="badge-chat"><span>{element.comments_count}</span></div>
+          </div>
         </div>
         <div className={sectionBodyClassnames.join(" ")}>
           <div className="deal-tasks">
             {displayedChildren}
+          </div>
+          <div className="deal-element-add-item deal-element-add-new-task">
+            <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewTaskModal}>Task</a></span>
           </div>
         </div>
 			</div>
