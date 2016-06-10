@@ -31,7 +31,8 @@ class Comment < ApplicationRecord
     data = {
       comment_id:   self.id,
       comment_type: self.comment_type,
-      comment:      self.comment
+      comment:      self.comment,
+      created_at:   self.created_at
     }
     if self.organization_user
       data[:user] = self.organization_user.user.to_hash(false)
