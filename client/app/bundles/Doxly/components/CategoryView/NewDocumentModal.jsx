@@ -39,9 +39,10 @@ export default class NewDocumentModal extends React.Component {
   }
 
   createDocument(title, file) {
+    console.log("");
     var _this = this;
     if (title && file) {
-      this.props.createDocument({title: title, file: file}, function() {
+      this.props.createDocument(title, file, function() {
         _this.props.closeNewDocumentModal();
       });
     }

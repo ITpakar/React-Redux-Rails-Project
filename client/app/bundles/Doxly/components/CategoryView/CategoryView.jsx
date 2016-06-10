@@ -49,7 +49,8 @@ export default class CategoryView extends React.Component {
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
                      "createFolder",
-                     "createTask"]);
+                     "createTask",
+                     "createDocument"]);
   }
 
   componentDidMount() {
@@ -96,7 +97,7 @@ export default class CategoryView extends React.Component {
   createDocument(title, file, callback) {
     var parentElement = this.state.parentElement;
     var data = new FormData();
-
+console.log("Line 100 ", title, file);
     data.append("document[file]", file);
     data.append("document[title]", title)
     data.append("document[documentable_id]", parentElement.id)
@@ -210,7 +211,7 @@ export default class CategoryView extends React.Component {
           <NewSectionModal createSection={this.props.createSection}
                closeNewSectionModal={this.closeNewSectionModal}
                showNewSectionModal={this.state.showNewSectionModal} />
-          <NewDocumentModal createDocument={this.props.createDocument}
+          <NewDocumentModal createDocument={this.createDocument}
                             closeNewDocumentModal={this.closeNewDocumentModal}
                             showNewDocumentModal={this.state.showNewDocumentModal} />
         </div>

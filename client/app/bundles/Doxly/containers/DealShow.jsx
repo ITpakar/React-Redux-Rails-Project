@@ -67,7 +67,7 @@ class DealShow extends React.Component {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
-
+console.log("Line 70 ", formData);
     formData.append("document[deal_id]", dealId)
     doCreateDocument(formData).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
