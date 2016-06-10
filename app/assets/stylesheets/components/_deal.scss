@@ -359,7 +359,6 @@
         position: relative;
         @extend %clearfix;
         h4{
-            @include singleLine;
             font-weight: 300;
             font-size: 24px;
             color: $col-dark-gray;
