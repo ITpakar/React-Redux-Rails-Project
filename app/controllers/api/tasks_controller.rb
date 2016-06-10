@@ -5,8 +5,8 @@ class Api::TasksController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_task, only: [:show, :update, :destroy]
   
-  before_action only: [:update, :destroy, :show, :create] do
-    authorize! :update, @deal
+  before_action only: [:update, :destroy, :show] do
+    authorize! :update, @task.deal
   end
 
   swagger_controller :task, "Task"
@@ -93,6 +93,9 @@ class Api::TasksController < ApplicationController
   end
 
   def create
+    @deal = Deal.find(task_params[:deal_id])
+    authorize! :update, @deal
+    
     @task = current_user.organization_user.tasks.build(task_params)
     if @task.save
       success_response(
@@ -162,7 +165,6 @@ class Api::TasksController < ApplicationController
     )
   end
 
-  protected
   def ensure_params_exist
     if params[:task].blank?
       error_response(["Task related parameters not found."])
