@@ -8,6 +8,7 @@ import CategoryElementDetails from "./CategoryElementDetails";
 import NewFolderModal from "./NewFolderModal";
 import NewTaskModal from "./NewTaskModal";
 import NewSectionModal from "./NewSectionModal";
+import NewDocumentModal from "./NewDocumentModal";
 
 // Props
 // title
@@ -29,7 +30,7 @@ export default class CategoryView extends React.Component {
       },
       selectedElement: undefined,
       showNewFolderModal: false,
-      showNewFileModal: false,
+      showNewDocumentModal: false,
       showNewTaskModal: false,
       showNewSectionModal: false,
       parentElement: undefined
@@ -42,11 +43,14 @@ export default class CategoryView extends React.Component {
                      "openNewFolderModal",
                      "openNewTaskModal",
                      "openNewSectionModal",
+                     "openNewDocumentModal",
                      "closeNewFolderModal",
                      "closeNewTaskModal",
                      "closeNewSectionModal",
+                     "closeNewDocumentModal",
                      "createFolder",
-                     "createTask"]);
+                     "createTask",
+                     "createDocument"]);
   }
 
   componentDidMount() {
@@ -82,19 +86,24 @@ export default class CategoryView extends React.Component {
     this.props.createFolder(folderAttrs, callback);
   }
 
-  openNewFileModal(element) {
-    this.setState({showNewFileModal: true, parentElement: element});
+  openNewDocumentModal(element) {
+    this.setState({showNewDocumentModal: true, parentElement: element});
   }
 
-  closeNewFileModal() {
-    this.setState({showNewFileModal: false, parentElement: undefined});
+  closeNewDocumentModal() {
+    this.setState({showNewDocumentModal: false, parentElement: undefined});
   }
 
-  createFile(fileAttrs, callback) {
+  createDocument(title, file, callback) {
     var parentElement = this.state.parentElement;
-    fileAttrs.task_id = parentElement.id;
+    var data = new FormData();
+console.log("Line 100 ", title, file);
+    data.append("document[file]", file);
+    data.append("document[title]", title)
+    data.append("document[documentable_id]", parentElement.id)
+    data.append("document[documentable_type]", parentElement.type)
 
-    this.props.createFile(folderAttrs, callback);
+    this.props.createDocument(data, callback);
   }
 
   openNewTaskModal(element) {
@@ -181,7 +190,7 @@ export default class CategoryView extends React.Component {
                 <div className="content-deal-left">
                   <CategoryFileViewer elements={this.props.elements}
                                       selectElement={this.selectElement}
-                                      openNewFileModal={this.openNewFileModal}
+                                      openNewDocumentModal={this.openNewDocumentModal}
                                       openNewFolderModal={this.openNewFolderModal}
                                       openNewTaskModal={this.openNewTaskModal}
                                       openNewSectionModal={this.openNewSectionModal} />
@@ -199,9 +208,12 @@ export default class CategoryView extends React.Component {
           <NewTaskModal createTask={this.createTask}
                         closeNewTaskModal={this.closeNewTaskModal}
                         showNewTaskModal={this.state.showNewTaskModal} />
-                      <NewSectionModal createSection={this.props.createSection}
-                           closeNewSectionModal={this.closeNewSectionModal}
-                           showNewSectionModal={this.state.showNewSectionModal} />
+          <NewSectionModal createSection={this.props.createSection}
+               closeNewSectionModal={this.closeNewSectionModal}
+               showNewSectionModal={this.state.showNewSectionModal} />
+          <NewDocumentModal createDocument={this.createDocument}
+                            closeNewDocumentModal={this.closeNewDocumentModal}
+                            showNewDocumentModal={this.state.showNewDocumentModal} />
         </div>
     )
   }

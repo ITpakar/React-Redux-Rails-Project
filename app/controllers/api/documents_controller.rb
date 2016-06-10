@@ -150,7 +150,17 @@ class Api::DocumentsController < ApplicationController
   end
 
   def create
-    @document = Document.new(document_params)
+    puts "Line 153 "; puts params.inspect
+    file = params[:document][:file]
+    name = file.original_filename
+    directory = "#{Rails.public_path.to_s}/upload"
+    Dir.mkdir(directory) unless File.exists?(directory)
+    path = File.join(directory, name)
+    puts "Line 158 #{path}"
+    File.open(path, "wb") { |f| f.write(file.read) }
+
+    # TODO check user permission with documentable first
+    @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name)))
     @document.created_by = current_user.id
     if @document.save
       success_response(["Document created successfully."])
@@ -192,14 +202,9 @@ class Api::DocumentsController < ApplicationController
   def document_params
     params.require(:document).permit(
       :title,
-      :file_name,
-      :file_size,
-      :file_type,
-      :file_uploaded_at,
-      :parent_type,
-      :parent_id,
-      :created_by,
-      :activated
+      :documentable_type,
+      :documentable_id,
+      :deal_id
     )
   end
 
