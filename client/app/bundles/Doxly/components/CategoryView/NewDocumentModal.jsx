@@ -14,13 +14,6 @@ export default class NewDocumentModal extends React.Component {
 
   addFile(files) {
     this.setState({file: files[0]});
-
-    var title = $.trim($(this.refs.document_title).val());
-    var file = files[0];
-
-    if (title && file) {
-      this.createDocument(title, file);
-    }
   }
 
   handleSubmit(event) {
@@ -39,7 +32,6 @@ export default class NewDocumentModal extends React.Component {
   }
 
   createDocument(title, file) {
-    console.log("");
     var _this = this;
     if (title && file) {
       this.props.createDocument(title, file, function() {
@@ -63,12 +55,13 @@ export default class NewDocumentModal extends React.Component {
               <input type="text" ref="document_title" required placeholder="Give your document a title" className="form-control" id="input-file-title" name="document_title" />
             </div>
           </form>
-          <Dropzone onDrop={this.addFile}>
+          <Dropzone onDrop={this.addFile} style={{width: "100%", padding: "20px", margin: "0 0 20px"}}>
             <div>Try dropping some files here, or click to select files to upload.</div>
           </Dropzone>
         </Modal.Body>
         <Modal.Footer>
           <button type="button" className="btn btn-default pull-left" onClick={this.props.closeNewDocumentModal}>Cancel</button>
+          <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create</button>
         </Modal.Footer>
       </Modal>
   	);

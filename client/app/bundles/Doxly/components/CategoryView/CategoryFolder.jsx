@@ -20,7 +20,7 @@ export default class CategoryFolder extends React.Component {
       bodyClassnames: ["deal-element-folder-wrapper", "collapse"]
     }
 
-    _.bindAll(this, ['toggleContent', "selectFolder"]);
+    _.bindAll(this, ['toggleContent', "selectFolder", "openNewDocumentModal"]);
   }
 
   toggleContent(event) {
@@ -44,6 +44,14 @@ export default class CategoryFolder extends React.Component {
     }
 
     this.props.selectElement(this.props.element);
+  }
+
+  openNewDocumentModal(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.openNewDocumentModal(this.props.element);
   }
 
   render() {
@@ -112,6 +120,9 @@ export default class CategoryFolder extends React.Component {
         <div className={bodyClassnames.join(" ")}>
           <div className="deal-element-folder-elements">
             {displayedChildren}
+            <div className="deal-element-add-item deal-item-add-document">
+              <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewDocumentModal}>File</a></span>
+            </div>
           </div>
         </div>
       </div>
