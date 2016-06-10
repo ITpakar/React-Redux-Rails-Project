@@ -119,7 +119,7 @@ export default class DealView extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="toolbar-box">
-            <SearchInput handleChange={this.handleSearchChange} />
+            <SearchInput handleChange={this.handleSearchChange} placeholder="Search Deals"/>
             <GroupedSelectInput options={[
                 {
                   heading: "Show", 

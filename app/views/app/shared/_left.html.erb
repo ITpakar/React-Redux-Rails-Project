@@ -20,8 +20,10 @@
       <li>
         <a href="/report"><i class="icon-icon-barchart"></i> Report</a>
       </li>
-      <li>
-        <a href="/team"><i class="icon-icon-users"></i> Team</a>
+      <li class="<%= 'active' if controller_name == 'team_members' %>">
+        <%= link_to app_team_members_path do %>
+          <i class="icon-icon-users"></i> Team</a>
+        <% end %>
       </li>
     </ul>
     <div class="deals-side-panel">

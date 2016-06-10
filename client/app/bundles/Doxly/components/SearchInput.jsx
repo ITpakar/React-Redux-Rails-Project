@@ -7,7 +7,7 @@ export default class SearchInput extends React.Component {
         <div className="form-group">
           <input name="search_str" 
                  className="input-search form-control" 
-                 placeholder="Search Deals" 
+                 placeholder={this.props.placeholder} 
                  onChange={this.props.handleChange} />
         </div>
         <a href="#"><i className="icon-icon-search"></i></a>

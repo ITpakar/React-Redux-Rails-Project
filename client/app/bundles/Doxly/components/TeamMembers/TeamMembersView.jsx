@@ -26,7 +26,7 @@ export default class TeamMembersView extends React.Component {
   	  <div className="container-fluid">
   	    <div className="row">
   	      <div className="toolbar-box">
-  	        <SearchInput handleChange={this.handleSearchChange} />
+  	        <SearchInput handleChange={this.handleSearchChange} placeholder="Search Users"/>
   	        <GroupedSelectInput options={[
   	            {
   	              heading: "Sort", 
