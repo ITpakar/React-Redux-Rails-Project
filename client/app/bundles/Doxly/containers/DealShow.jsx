@@ -4,18 +4,18 @@ import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
 import {loadCategorySectionsTree} from "../actions/doxlyActions";
-import {doCreateFolder, doCreateTask} from "../utils/api";
+import {doCreateFolder, doCreateTask, doCreateSection} from "../utils/api";
 
 class DealShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createFolder", "createTask"]);
+    _.bindAll(this, ["createFolder", "createTask", "createSection"]);
   }
 
   componentWillMount() {
     var dealId = this.props.id;
     var category = this.props.category;
-    this.props.loadCategorySectionsTree(category, dealId);
+    this.props.loadCategorySectionsTree(dealId, category);
   }
 
   createFolder(folderAttrs, callback) {
@@ -25,7 +25,7 @@ class DealShow extends React.Component {
 
     folderAttrs.deal_id = dealId;
     doCreateFolder(folderAttrs).then(function() {
-      _this.props.loadCategorySectionsTree(category, dealId);
+      _this.props.loadCategorySectionsTree(dealId, category);
 
       if (callback) {
         callback();
@@ -40,7 +40,22 @@ class DealShow extends React.Component {
 
     taskAttrs.deal_id = dealId;
     doCreateTask(taskAttrs).then(function() {
-      _this.props.loadCategorySectionsTree(category, dealId);
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (callback) {
+        callback();
+      }
+    });
+  }
+
+  createSection(sectionAttrs, callback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    sectionAttrs.category_id = category.id;
+    doCreateSection(dealId, sectionAttrs).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
 
       if (callback) {
         callback();
@@ -54,14 +69,15 @@ class DealShow extends React.Component {
     } else {
       return (<CategoryView elements={this.props.elements}
                             createFolder={this.createFolder}
-                            createTask={this.createTask} />);
+                            createTask={this.createTask}
+                            createSection={this.createSection} />);
     }
   }
 }
 
 DealShow.propTypes = {
   id: PropTypes.number.isRequired,
-  category: PropTypes.string.isRequired,
+  category: PropTypes.object.isRequired,
   elements: PropTypes.arrayOf(PropTypes.object),
   loadingSectionsStatus: PropTypes.string,
   loadCategorySectionsTree: PropTypes.func.isRequired
@@ -71,20 +87,21 @@ function stateToProps(state, ownProps) {
   let sectionsStore = state.sectionsStore;
   let props = {};
   let category = ownProps.category;
+  let categoryName;
 
   if (category) {
-    category = category.toLowerCase();
+    categoryName = category.name.toLowerCase();
   }
 
   if (sectionsStore) {
-    if (category == "diligence" && sectionsStore.diligenceSections) {
+    if (categoryName == "diligencecategory" && sectionsStore.diligenceSections) {
       if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
         props.elements = sectionsStore.diligenceSections.data.sections;
         props.loadingSectionsStatus = sectionsStore.status;
       } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
         props.loadingSectionsStatus = sectionsStore.status;
       }
-    } else if (category == "closing" && sectionsStore.closingSections) {
+    } else if (categoryName == "closingcategory" && sectionsStore.closingSections) {
       if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
         props.elements = sectionsStore.closingSections.data.sections;
         props.loadingSectionsStatus = sectionsStore.status;

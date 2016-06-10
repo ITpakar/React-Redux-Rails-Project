@@ -7,6 +7,7 @@ import CategoryFileViewer from './CategoryFileViewer'
 import CategoryElementDetails from "./CategoryElementDetails";
 import NewFolderModal from "./NewFolderModal";
 import NewTaskModal from "./NewTaskModal";
+import NewSectionModal from "./NewSectionModal";
 
 // Props
 // title
@@ -30,6 +31,7 @@ export default class CategoryView extends React.Component {
       showNewFolderModal: false,
       showNewFileModal: false,
       showNewTaskModal: false,
+      showNewSectionModal: false,
       parentElement: undefined
     }
 
@@ -39,8 +41,10 @@ export default class CategoryView extends React.Component {
                      "selectElement",
                      "openNewFolderModal",
                      "openNewTaskModal",
+                     "openNewSectionModal",
                      "closeNewFolderModal",
                      "closeNewTaskModal",
+                     "closeNewSectionModal",
                      "createFolder",
                      "createTask"]);
   }
@@ -108,6 +112,14 @@ export default class CategoryView extends React.Component {
     this.props.createTask(taskAttrs, callback);
   }
 
+  openNewSectionModal() {
+    this.setState({showNewSectionModal: true});
+  }
+
+  closeNewSectionModal() {
+    this.setState({showNewSectionModal: false});
+  }
+
   renderPopover() {
     console.log(this.state);
     if (this.state.popoverVisible) {
@@ -171,7 +183,8 @@ export default class CategoryView extends React.Component {
                                       selectElement={this.selectElement}
                                       openNewFileModal={this.openNewFileModal}
                                       openNewFolderModal={this.openNewFolderModal}
-                                      openNewTaskModal={this.openNewTaskModal} />
+                                      openNewTaskModal={this.openNewTaskModal}
+                                      openNewSectionModal={this.openNewSectionModal} />
                 </div>
                 <div className="content-deal-right">
                   {selectedElementDetails}
@@ -186,6 +199,9 @@ export default class CategoryView extends React.Component {
           <NewTaskModal createTask={this.createTask}
                         closeNewTaskModal={this.closeNewTaskModal}
                         showNewTaskModal={this.state.showNewTaskModal} />
+                      <NewSectionModal createSection={this.props.createSection}
+                           closeNewSectionModal={this.closeNewSectionModal}
+                           showNewSectionModal={this.state.showNewSectionModal} />
         </div>
     )
   }

@@ -16,8 +16,8 @@ let submitRequest = function(url, method, data, successCallback, errorCallback) 
   });
 }
 
-export function doLoadCategorySectionsTree(section, dealId) {
-  return submitRequest("/api/deals/" + dealId + "/sections/trees", "get", {category: section});
+export function doLoadCategorySectionsTree(dealId, categoryId) {
+  return submitRequest("/api/deals/" + dealId + "/sections/trees", "get", {category_id: categoryId});
 }
 
 export function doCreateFolder(attrs) {
@@ -26,4 +26,8 @@ export function doCreateFolder(attrs) {
 
 export function doCreateTask(attrs) {
   return submitRequest("/api/tasks", "post", {task: attrs});
+}
+
+export function doCreateSection(dealId, attrs) {
+  return submitRequest("/api/deals/" + dealId + "/sections", "post", {section: attrs});
 }
