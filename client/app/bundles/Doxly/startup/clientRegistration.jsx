@@ -13,6 +13,7 @@ import DealStar from './DealStar';
 import StarredDealList from './StarredDealList';
 import ArchiveDealButton from '../components/ArchiveDealButton';
 import DealApp from './DealApp';
+import TeamMembersView from '../components/TeamMembers/TeamMembersView';
 
 ReactOnRails.register({DealView,
                        CreateDealModal,
@@ -22,6 +23,7 @@ ReactOnRails.register({DealView,
                        DealStar,
                        StarredDealList,
                        ArchiveDealButton,
-                       DealApp});
+                       DealApp,
+                   	   TeamMembersView});
 
 ReactOnRails.registerStore({doxlyStore});

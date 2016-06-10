@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import TeamMembersList from './DealList';
+import TeamMembersList from './TeamMembersList';
 import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
 
@@ -18,7 +18,7 @@ export default class TeamMembersView extends React.Component {
   }
 
   getVisibleUsers() {
-
+    return this.props.teamMembers;
   }
 
   render() {
@@ -34,8 +34,7 @@ export default class TeamMembersView extends React.Component {
   	              optionsForHeading: ['Manual Sort'],
   	              initialSelected: 0,
   	              onChange: this.handleFilterChange
-  	            },
-  	            {
+  	            }
   	          ]} />
   	          <a href="#" onClick={this.handleClick} className="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
   	      </div>
@@ -43,7 +42,7 @@ export default class TeamMembersView extends React.Component {
 
   	    <div className="row">
   	      <div className="content-single">
-  	        <DealList dealGroups={this.getVisibleUsers()} />
+  	        <TeamMembersList teamMembers={this.getVisibleUsers()} />
   	      </div>
   	    </div>
   	  </div>

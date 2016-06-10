@@ -1,6 +1,6 @@
 class App::TeamMembersController < App::ApplicationController
   def index
-  	@team = current_user.organization_user.organization.organization_users
+  	@team = format_users_for_display(current_user.organization_user.organization.organization_users)
   end
 
   def update
@@ -15,9 +15,13 @@ class App::TeamMembersController < App::ApplicationController
   private
   def format_users_for_display organization_users
     organization_users.map do |org_user|
-      organization_user.attributes.merge({
+      org_user.attributes.merge({
       	active_deal_count: org_user.deals.active.count,
-      	completed_deal_count: org_user.deals.complete.count
+      	completed_deal_count: org_user.deals.complete.count,
+        name: org_user.user.name,
+        email: org_user.user.email,
+        avatar_name: org_user.user.avatar_name,
+        initials: org_user.user.initials
       });
     end
   end

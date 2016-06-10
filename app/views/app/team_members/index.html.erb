@@ -1,0 +1,40 @@
+<div id="wrapper">
+    <%= render "app/shared/left" %>
+    <div id="page-wrapper">
+      <%= render partial: "app/shared/top", locals: {title: 'Team'} %>
+        <div class="content">
+            <%= react_component "TeamMembersView", props: {teamMembers: @team} %>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-edit-user-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-edit-user-label">New User</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="input-user-fname">First Name</label>
+                        <input type="text" name="user_fname" id="input-user-fname" class="form-control" placeholder="John" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-user-lname">Last Name</label>
+                        <input type="text" name="user_lname" id="input-user-lname" class="form-control" placeholder="Doe" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-user-email">Email Address</label>
+                        <input type="text" name="user_email" id="input-user-email" class="form-control" placeholder="example@doxly.com" required="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
