@@ -4,12 +4,12 @@ import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
 import {loadCategorySectionsTree} from "../actions/doxlyActions";
-import {doCreateFolder, doCreateTask, doCreateSection} from "../utils/api";
+import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument} from "../utils/api";
 
 class DealShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createFolder", "createTask", "createSection"]);
+    _.bindAll(this, ["createFolder", "createTask", "createSection", "createDocument"]);
   }
 
   componentWillMount() {
@@ -63,6 +63,21 @@ class DealShow extends React.Component {
     });
   }
 
+  createDocument(formData, callback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+console.log("Line 70 ", formData);
+    formData.append("document[deal_id]", dealId)
+    doCreateDocument(formData).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (callback) {
+        callback();
+      }
+    });
+  }
+
   render() {
     if (this.props.loadingSectionsStatus == actionTypes.REQUESTS.LOADING) {
       return (<div className="is-loading">Loading, please wait...</div>);
@@ -70,7 +85,8 @@ class DealShow extends React.Component {
       return (<CategoryView elements={this.props.elements}
                             createFolder={this.createFolder}
                             createTask={this.createTask}
-                            createSection={this.createSection} />);
+                            createSection={this.createSection}
+                            createDocument={this.createDocument} />);
     }
   }
 }

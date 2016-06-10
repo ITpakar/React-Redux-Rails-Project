@@ -17,10 +17,18 @@ class CommentBox extends Component {
   componentDidMount() {
     
     // Fetch all comments from the backend
-    this._fetchComments();
+    this._fetchComments(this.props.element);
 
     // Subscribe to Channel
     this._subscribeToChannel();
+  }
+
+  componentWillReceiveProps(props) {
+    var currentElement = this.props.element;
+    var newElement = props.element;
+    if (currentElement.id != newElement.id || currentElement.type != currentElement.type) {
+      this._fetchComments(newElement);
+    }
   }
 
   _receivedMessage = (data) => {
@@ -28,12 +36,12 @@ class CommentBox extends Component {
     this.forceUpdate(); 
   }
 
-  _fetchComments = () => {
+  _fetchComments = (element) => {
     request
-      .get('/api/comments')
+      .get('/api/comments?commentable_id=' + element.id + '&commentable_type=' + element.type)
       .then((res) => {
         this.props.setComments(res.data.data.comments);
-        this.forceUpdate();
+        // this.forceUpdate();
       });
   }
 
@@ -81,7 +89,7 @@ class CommentBox extends Component {
               comments={comments.filter(this._internalTypeCommentsFilter)}
             />
             <CommentForm 
-              commentType="Internal"
+              commentType="Internal" element={this.props.element}
             />
           </div>
           
@@ -100,7 +108,7 @@ class CommentBox extends Component {
             />
             
             <CommentForm 
-              commentType="External"
+              commentType="External" element={this.props.element}
             />
           </div>
         </div>

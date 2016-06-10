@@ -10,16 +10,18 @@ export default class CommentForm extends Component {
 
     // 
     const msg = this.refs.commentText.value;
+    var element = this.props.element;
     const comment = {
       organization_user_id: 1,
-      commentable_id: 2,
-      commentable_type: 'Task',
+      commentable_id: element.id,
+      commentable_type: element.type,
       comment_type: this.props.commentType,
       comment: msg
     }
 
     // Send comment to channel
     App.room.speak({comment: comment});
+    this.refs.commentText.value = '';
   }
 
   render() {

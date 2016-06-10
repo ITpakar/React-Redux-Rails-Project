@@ -40,7 +40,8 @@ export default class CategorySection extends React.Component {
       sectionBodyClassnames.push("in");
     }
     this.state = {
-      sectionBodyClassnames: sectionBodyClassnames
+      sectionBodyClassnames: sectionBodyClassnames,
+      open: false
     };
 
     _.bindAll(this, ['toggleContent', "openNewTaskModal"]);
@@ -58,7 +59,7 @@ export default class CategorySection extends React.Component {
       sectionBodyClassnames.push("in");
     }
 
-    this.setState({sectionBodyClassnames: sectionBodyClassnames});
+    this.setState({sectionBodyClassnames: sectionBodyClassnames, open: !this.state.open});
     this.props.selectElement(undefined);
   }
 
@@ -83,7 +84,7 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
-                           openNewFileModal={this.props.openNewFileModal}
+                           openNewDocumentModal={this.props.openNewDocumentModal}
                            openNewFolderModal={this.props.openNewFolderModal}
                            openNewTaskModal={this.props.openNewTaskModal}
                            key={"section_" + (i + 1)} />
@@ -92,7 +93,7 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
-                        openNewFileModal={this.props.openNewFileModal}
+                        openNewDocumentModal={this.props.openNewDocumentModal}
                         openNewFolderModal={this.props.openNewFolderModal}
                         openNewTaskModal={this.props.openNewTaskModal}
                         key={"task_" + (i + 1)} />
@@ -101,7 +102,7 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
-                          openNewFileModal={this.props.openNewFileModal}
+                          openNewDocumentModal={this.props.openNewDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
@@ -119,6 +120,8 @@ export default class CategorySection extends React.Component {
     if (sectionBodyClassnames.indexOf("in") == -1) {
       toggleClassnames.push("collapsed");
     }
+      console.log(this.state.open);
+
 
   	return (
 			<div className="deal-section-item">
@@ -128,14 +131,14 @@ export default class CategorySection extends React.Component {
             <div className="badge-chat"><span>{element.comments_count}</span></div>
           </div>
         </div>
-        <div className={sectionBodyClassnames.join(" ")}>
-          <div className="deal-tasks">
-            {displayedChildren}
+          <div className={sectionBodyClassnames.join(" ")}>
+            <div className="deal-tasks">
+              {displayedChildren}
+            </div>
+            <div className="deal-element-add-item deal-element-add-new-task">
+              <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewTaskModal}>Task</a></span>
+            </div>
           </div>
-          <div className="deal-element-add-item deal-element-add-new-task">
-            <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewTaskModal}>Task</a></span>
-          </div>
-        </div>
 			</div>
   	);
   }

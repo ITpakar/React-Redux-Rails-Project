@@ -5,8 +5,22 @@ import GroupedSelectInput from '../GroupedSelectInput';
 
 export default class TeamMembersView extends React.Component {
   
-  handleSearchChange() {
+  constructor(props, context) {
+    super(props, context);
 
+    this.state = {
+      searchTerm: null
+    }
+
+    _.bindAll(this, ['handleSearchChange', 'handleFilterChange', 'handleClick']);
+  }
+
+  handleSearchChange(e) {
+    if (_.isEmpty(e.target.value)) {
+      this.setState({searchTerm: null})
+    } else {
+      this.setState({searchTerm: e.target.value})
+    }
   }
 
   handleFilterChange() {
@@ -18,7 +32,17 @@ export default class TeamMembersView extends React.Component {
   }
 
   getVisibleUsers() {
-    return this.props.teamMembers;
+    let that = this;
+    let teamMembers = _.reject(this.props.teamMembers, function(teamMember) {
+      if (that.state.searchTerm === null) {
+        return false;
+      } else if (_.includes(teamMember['name'].toLowerCase(), that.state.searchTerm.toLowerCase()) || _.includes(teamMember['email'].toLowerCase(), that.state.searchTerm.toLowerCase())) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    return teamMembers;
   }
 
   render() {

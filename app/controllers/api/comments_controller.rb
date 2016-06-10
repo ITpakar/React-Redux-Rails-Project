@@ -64,20 +64,22 @@ class Api::CommentsController < ApplicationController
   end
 
   def index
-    sortby       = params[:sortby] || ''
-    sortdir      = params[:sortdir] || ''
-    # deal_id      = params[:deal_id]
-    task_id      = params[:task_id]
-    document_id  = params[:document_id]
-    organization_user_id      = params[:organization_user_id] || current_user.organization_user.id
-    comment_type = params[:comment_type]
-    conditions  = []
-    conditions << ["task_id = ?", "#{task_id}"] if task_id
-    conditions << ["organization_user_id = ?", "#{organization_user_id}"] if organization_user_id
-    conditions << ["document_id = ?", "#{document_id}"] if document_id
-    conditions << ["comment_type = ?", "#{comment_type}"] if comment_type
+    sortby               = params[:sortby] || ''
+    sortdir              = params[:sortdir] || ''
+    deal_id              = params[:deal_id]
+    commentable_id       = params[:commentable_id]
+    commentable_type     = params[:commentable_type]
+    comment_type         = params[:comment_type]
+    organization_user_id = params[:organization_user_id]
+    
+    conditions  = {}
+    conditions[:deal_id] = deal_id if deal_id
+    conditions[:commentable_id] = commentable_id if commentable_id
+    conditions[:commentable_type] = commentable_type if commentable_type
+    conditions[:comment_type] = comment_type if comment_type
+    conditions[:organization_user_id] = organization_user_id if organization_user_id
 
-    @comments = Comment.where(conditions[0])
+    @comments = Comment.where(conditions)
                        .order("#{sortby} #{sortdir}")
                        .page(@page)
                        .per(@per_page) rescue []
