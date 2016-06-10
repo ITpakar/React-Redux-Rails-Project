@@ -89,7 +89,7 @@ class CommentBox extends Component {
               comments={comments.filter(this._internalTypeCommentsFilter)}
             />
             <CommentForm 
-              commentType="Internal"
+              commentType="Internal" element={this.props.element}
             />
           </div>
           
@@ -108,7 +108,7 @@ class CommentBox extends Component {
             />
             
             <CommentForm 
-              commentType="External"
+              commentType="External" element={this.props.element}
             />
           </div>
         </div>
