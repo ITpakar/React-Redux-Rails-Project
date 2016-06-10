@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import CategorySection from "./CategorySection";
 import CategoryFolder from "./CategoryFolder";
 import CategoryDocument from "./CategoryDocument";
+import classnames from 'classnames';
 
 // Props
 // element = {
@@ -60,19 +61,19 @@ export default class CategoryTask extends React.Component {
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} />
+          <CategorySection element={child} key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} />
+          <CategoryTask element={child} key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} />
+          <CategoryFolder element={child} key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} />
+          <CategoryDocument element={child} key={"document_" + (i + 1)} />
         );
       }
 
@@ -90,6 +91,7 @@ export default class CategoryTask extends React.Component {
       <div className="deal-task-item ">
           <div className="deal-task-item__header">
               <a className="deal-task-item__header-item" href="#">{element.title}</a>
+              <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
               <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}><span>Show Files</span><i>Hide Files</i></a>
           </div>
           <div className={bodyClassnames.join(" ")}>
