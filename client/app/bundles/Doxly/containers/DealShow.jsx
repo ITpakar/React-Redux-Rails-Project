@@ -8,8 +8,6 @@ import {loadCategorySectionsTree} from "../actions/doxlyActions";
 class DealShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    _.bindAll(this, ['onSelectElement']);
   }
 
   componentWillMount() {
@@ -18,15 +16,11 @@ class DealShow extends React.Component {
     this.props.loadCategorySectionsTree(category, dealId);
   }
 
-  onSelectElement(element) {
-    
-  }
-
   render() {
     if (this.props.loadingSectionsStatus == actionTypes.REQUESTS.LOADING) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<CategoryView elements={this.props.elements} selectElement={this.onSelectElement} />);
+      return (<CategoryView elements={this.props.elements} />);
     }
   }
 }

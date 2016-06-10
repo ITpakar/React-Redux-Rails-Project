@@ -119,6 +119,7 @@ class Api::SectionsController < ApplicationController
         task_h[:type] = task.class.name
         task_h[:title] = task.title
         task_h[:status] = task.status
+        task_h[:description] = task.description
         task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
 

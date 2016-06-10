@@ -59,6 +59,7 @@ export default class CategorySection extends React.Component {
     }
 
     this.setState({sectionBodyClassnames: sectionBodyClassnames});
+    this.props.selectElement(undefined);
   }
 
   selectFolder(event) {
