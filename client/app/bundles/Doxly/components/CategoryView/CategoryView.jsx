@@ -98,11 +98,10 @@ export default class CategoryView extends React.Component {
   createDocument(title, file, callback) {
     var parentElement = this.state.parentElement;
     var data = new FormData();
-console.log("Line 100 ", title, file);
     data.append("document[file]", file);
     data.append("document[title]", title)
-    data.append("document[documentable_id]", parentElement.id)
-    data.append("document[documentable_type]", parentElement.type)
+    data.append("document[deal_documents_attributes][0][documentable_id]", parentElement.id)
+    data.append("document[deal_documents_attributes][0][documentable_type]", parentElement.type)
 
     this.props.createDocument(data, callback);
   }

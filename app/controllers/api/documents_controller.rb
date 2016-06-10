@@ -150,17 +150,16 @@ class Api::DocumentsController < ApplicationController
   end
 
   def create
-    puts "Line 153 "; puts params.inspect
     file = params[:document][:file]
     name = file.original_filename
     directory = "#{Rails.public_path.to_s}/upload"
     Dir.mkdir(directory) unless File.exists?(directory)
     path = File.join(directory, name)
-    puts "Line 158 #{path}"
     File.open(path, "wb") { |f| f.write(file.read) }
 
-    # TODO check user permission with documentable first
-    @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name)))
+    # TODO: Save file to box.net
+    # TODO: Check user permission with documentable first
+    @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
     @document.created_by = current_user.id
     document.upload_to_box(path, current_user)
     if @document.save
@@ -203,9 +202,8 @@ class Api::DocumentsController < ApplicationController
   def document_params
     params.require(:document).permit(
       :title,
-      :documentable_type,
-      :documentable_id,
-      :deal_id
+      :deal_id,
+      :deal_documents_attributes => [:documentable_id, :documentable_type]
     )
   end
 

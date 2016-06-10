@@ -9,6 +9,8 @@ class Document < ApplicationRecord
   has_many :folders,  through: :deal_documents, source: :documentable, source_type: 'Folder'
   has_many :sections, through: :deal_documents, source: :documentable, source_type: 'Section'
 
+  accepts_nested_attributes_for :deal_documents
+
   FILE_TYPES = ["Doc", "Pdf", "Txt"]
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
