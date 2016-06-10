@@ -1,19 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
-import Dropzone from 'react-dropzone';
 
 export default class NewDocumentModal extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      file: undefined
-    }
-
-    _.bindAll(this, ["createDocument", "handleSubmit", "addFile"]);
-  }
-
-  addFile(files) {
-    this.setState({file: files[0]});
+    _.bindAll(this, ["createDocument", "handleSubmit", "showDialog"]);
   }
 
   handleSubmit(event) {
@@ -22,7 +13,7 @@ export default class NewDocumentModal extends React.Component {
     }
 
     var title = $.trim($(this.refs.document_title).val());
-    var file = this.state.file;
+    var file = this.refs.file.files[0];
     if (title && file) {
       let _this = this;
       this.createDocument(title, file, function() {
@@ -40,6 +31,10 @@ export default class NewDocumentModal extends React.Component {
     }
   }
 
+  showDialog() {
+    $(this.refs.file).click();
+  }
+
   render() {
   	return (
       <Modal show={this.props.showNewDocumentModal} onHide={this.props.closeNewDocumentModal} dialogClassName="new-question-modal">
@@ -54,10 +49,14 @@ export default class NewDocumentModal extends React.Component {
               <label htmlFor="input-document-title">File Name</label>
               <input type="text" ref="document_title" required placeholder="Give your document a title" className="form-control" id="input-file-title" name="document_title" />
             </div>
+            <div className="form-group">
+              <label>Upload</label>
+              <a className="file-input-wrapper btn btn-fileinput  file-inputs" onClick={this.showDialog}>
+                <span><i className="icon-icon-uploadcloud"></i> Choose a File</span>
+                <input style={{left: "-11008.5px", top: "18.4px"}} ref="file" className="file-inputs" name="file_name" title="<i class='icon-icon-uploadcloud'></i> Choose a File" data-filename-placement="inside" type="file" />
+              </a>
+            </div>
           </form>
-          <Dropzone onDrop={this.addFile} style={{width: "100%", padding: "20px", margin: "0 0 20px"}}>
-            <div>Try dropping some files here, or click to select files to upload.</div>
-          </Dropzone>
         </Modal.Body>
         <Modal.Footer>
           <button type="button" className="btn btn-default pull-left" onClick={this.props.closeNewDocumentModal}>Cancel</button>
