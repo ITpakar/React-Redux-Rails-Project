@@ -359,7 +359,6 @@
         position: relative;
         @extend %clearfix;
         h4{
-            @include singleLine;
             font-weight: 300;
             font-size: 24px;
             color: $col-dark-gray;
@@ -502,4 +501,51 @@
         }
     }
 
+}
+
+.item-header .badge-chat {
+  margin-top: 6px;
+  margin-left: 12px;
+}
+
+.deal-section__header {
+  display: table;
+  width: 100%;
+
+  .section-header-title, .badge-chat-container {
+    display: table-cell;
+  }
+
+  .badge-chat-container {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: $col-blue-light;
+    border-bottom: 1px solid $col-border;
+
+    .badge-chat {
+      &:after {
+        background-color: $col-blue-light;
+      }
+    }
+  }
+
+  &:hover {
+    .badge-chat-container {
+      background-color: $col-gray-light;
+      .badge-chat {
+        &:after {
+          background-color: $col-gray-light;
+        }
+      }
+    }
+  }
+}
+
+.deal-element-add-new-task {
+  padding: 5px 0 5px 20px;
+}
+
+.deal-element-add-new-section {
+  padding: 5px 0 5px 10px;
 }

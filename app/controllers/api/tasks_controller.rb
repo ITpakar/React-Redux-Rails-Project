@@ -4,6 +4,7 @@ class Api::TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_task, only: [:show, :update, :destroy]
+  
   before_action only: [:update, :destroy, :show, :create] do
     authorize! :update, @deal
   end
@@ -92,8 +93,7 @@ class Api::TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.created_by = current_user.id
+    @task = current_user.organization_user.tasks.build(task_params)
     if @task.save
       success_response(
         {
@@ -152,14 +152,12 @@ class Api::TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(
-      :organization_id,
       :deal_id,
       :title,
       :description,
       :status,
       :section_id,
       :assignee_id,
-      :created_by,
       :due_date
     )
   end

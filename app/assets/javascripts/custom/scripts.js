@@ -134,10 +134,10 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         $('#modal-new-task').modal();
     });
-    $('body').on('click', '.deal-element-add-item a', function (e) {
-        e.preventDefault();
-        $('#modal-new-file').modal();
-    });
+    //$('body').on('click', '.deal-element-add-item a', function (e) {
+    //    e.preventDefault();
+    //    $('#modal-new-file').modal();
+    //});
 }(jQuery));
 
 (function($){

@@ -34,13 +34,16 @@ let setRequestStatus = function(requestType, status, data, responseStatus) {
   };
 };
 
-export function loadCategorySectionsTree(category, dealId) {
+export function loadCategorySectionsTree(dealId, category) {
   var requestType;
+  var categoryId;
   if (category) {
-    var cat = category.toLowerCase();
-    if (cat == "diligence") {
+    var cat = category.name.toLowerCase();
+    categoryId = category.id;
+    console.log("Line 43 ", cat);
+    if (cat == "diligencecategory") {
       requestType = actionTypes.REQUESTS.LOAD_DILIGENCE_SECTIONS;
-    } else if (cat == "closing"){
+    } else if (cat == "closingcategory"){
       requestType = actionTypes.REQUESTS.LOAD_CLOSING_SECTIONS;
     } else {
       requestType = actionTypes.REQUESTS.LOAD_SECTIONS;
@@ -51,7 +54,7 @@ export function loadCategorySectionsTree(category, dealId) {
 
   return function(dispatch) {
     dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
-    return doLoadCategorySectionsTree(category, dealId).then(function(responseData, responseStatus) {
+    return doLoadCategorySectionsTree(dealId, categoryId).then(function(responseData, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));

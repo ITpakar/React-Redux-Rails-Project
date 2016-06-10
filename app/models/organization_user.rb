@@ -13,7 +13,7 @@ class OrganizationUser < ActiveRecord::Base
   has_many :notifications
   has_many :starred_deals
   has_many :tasks
-  has_many :folders
+  has_many :folders, :foreign_key => :created_by
   has_many :sections
   has_many :deal_collaborators
   has_many :deals, through: :deal_collaborators

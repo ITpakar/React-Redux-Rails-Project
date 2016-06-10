@@ -25,6 +25,15 @@ class Api::SectionsController < ApplicationController
     response :forbidden, "You are unauthorized User"
   end
 
+  swagger_api :trees do
+    notes "Permissions: Deal Collaborators"
+    param :query, :category_id, :integer, :optional, "Category Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "List of sections with related information in tree", :sections
+    response :unauthorized, "You are unauthorized to access this page."
+    response :forbidden, "You are unauthorized User"
+  end
+
   swagger_api :show do
     notes "Permissions: Deal Collaborators"
     param :path, :id, :integer, :required, "Section Id"
@@ -83,14 +92,9 @@ class Api::SectionsController < ApplicationController
 
   def trees
     scope = @deal.sections
-    category = params[:category].try(:downcase)
-    if category.present? && ["diligence", "closing"].include?(category)
-      scope = scope.joins(:category)
-      if category == "diligence"
-        scope = scope.where("categories.name" => DiligenceCategory.name)
-      elsif category == "closing"
-        scope = scope.where("categories.name" => ClosingCategory.name)
-      end
+    category_id = params[:category_id]
+    if category_id.present?
+      scope = scope.where(:category_id => category_id)
     end
 
     results = []
@@ -100,6 +104,7 @@ class Api::SectionsController < ApplicationController
       section_h[:id] = section.id
       section_h[:type] = section.class.name
       section_h[:title] = section.name
+      section_h[:comments_count] = section.comments.count
       section_h[:elements] = tasks
 
       section.tasks.each do |task|
@@ -109,6 +114,8 @@ class Api::SectionsController < ApplicationController
         task_h[:type] = task.class.name
         task_h[:title] = task.title
         task_h[:status] = task.status
+        task_h[:description] = task.description
+        task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
 
         task.documents.each do |document|
@@ -123,6 +130,7 @@ class Api::SectionsController < ApplicationController
           folder_h[:id] = folder.id
           folder_h[:type] = folder.class.name
           folder_h[:title] = folder.name
+          folder_h[:comments_count] = folder.comments.count
           folder_h[:elements] = folder_elements
 
           folder.documents.each do |document|
