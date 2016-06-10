@@ -20,7 +20,7 @@ class App::HomeController < App::ApplicationController
   end
 
   def deal_file
-    client = box_client
+    client = current_user.box_client
 
     # client.delete_file(client.file_from_path('/.gitignore'))
     # folder = client.folder_from_path('/')

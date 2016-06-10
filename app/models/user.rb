@@ -173,4 +173,22 @@ class User < ActiveRecord::Base
   def initials
     first_name[0] + last_name[0]
   end
+
+  # Get Box Client
+  def box_client
+    # Get Box enterprise token
+    token = Boxr::get_enterprise_token
+    access_token = token.access_token
+
+    # Get Box enterprise client
+    client = Boxr::Client.new(access_token)
+
+    unless self.box_user_id
+      user = client.create_user(user.email, is_platform_access_only: true)
+      self.update(box_user_id: user[:id])
+    end
+    token = Boxr::get_user_token(self.box_user_id)
+    access_token = token.access_token
+    Boxr::Client.new(access_token)
+  end
 end
