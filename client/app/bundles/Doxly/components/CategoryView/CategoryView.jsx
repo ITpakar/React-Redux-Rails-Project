@@ -4,6 +4,7 @@ import CategoryProgress from './CategoryProgress';
 import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
 import CategoryFileViewer from './CategoryFileViewer'
+import CategoryElementDetails from "./CategoryElementDetails";
 
 // Props
 // title
@@ -22,10 +23,11 @@ export default class CategoryView extends React.Component {
       position: {
         left: 0,
         top: 0
-      }
+      },
+      selectedElement: undefined
     }
 
-    _.bindAll(this, ['handleSearchChange', 'handleButtonClick', 'handleSortChange']);
+    _.bindAll(this, ['handleSearchChange', 'handleButtonClick', 'handleSortChange', "selectElement"]);
   }
 
   componentDidMount() {
@@ -40,6 +42,10 @@ export default class CategoryView extends React.Component {
 
   handleSortChange(event) {
 
+  }
+
+  selectElement(element) {
+    this.setState({selectedElement: element});
   }
 
   renderPopover() {
@@ -62,6 +68,13 @@ export default class CategoryView extends React.Component {
   }
 
   render() {
+    var selectedElementDetails;
+    if (this.state.selectedElement) {
+      selectedElementDetails = (
+        <CategoryElementDetails element={this.state.selectedElement} />
+      );
+    }
+
     return (
         <div className="container-fluid">
           <div className="row">
@@ -92,7 +105,14 @@ export default class CategoryView extends React.Component {
 
           <div className="row">
             <div className="content-deal">
-              <CategoryFileViewer elements={this.props.elements} />
+              <div className="content-deal-wrapper">
+                <div className="content-deal-left">
+                  <CategoryFileViewer elements={this.props.elements} selectElement={this.selectElement} />
+                </div>
+                <div className="content-deal-right">
+                  {selectedElementDetails}
+                </div>
+              </div>
             </div>
           </div>
 
