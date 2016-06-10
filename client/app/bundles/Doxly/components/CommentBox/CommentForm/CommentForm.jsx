@@ -21,6 +21,7 @@ export default class CommentForm extends Component {
 
     // Send comment to channel
     App.room.speak({comment: comment});
+    this.refs.commentText.value = '';
   }
 
   render() {
