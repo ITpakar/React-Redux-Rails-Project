@@ -6,6 +6,7 @@ import GroupedSelectInput from '../GroupedSelectInput';
 import CategoryFileViewer from './CategoryFileViewer'
 import CategoryElementDetails from "./CategoryElementDetails";
 import NewFolderModal from "./NewFolderModal";
+import NewTaskModal from "./NewTaskModal";
 
 // Props
 // title
@@ -28,10 +29,20 @@ export default class CategoryView extends React.Component {
       selectedElement: undefined,
       showNewFolderModal: false,
       showNewFileModal: false,
+      showNewTaskModal: false,
       parentElement: undefined
     }
 
-    _.bindAll(this, ['handleSearchChange', 'handleButtonClick', 'handleSortChange', "selectElement", "openNewFolderModal", "closeNewFolderModal", "createFolder"]);
+    _.bindAll(this, ['handleSearchChange',
+                     'handleButtonClick',
+                     'handleSortChange',
+                     "selectElement",
+                     "openNewFolderModal",
+                     "openNewTaskModal",
+                     "closeNewFolderModal",
+                     "closeNewTaskModal",
+                     "createFolder",
+                     "createTask"]);
   }
 
   componentDidMount() {
@@ -68,7 +79,6 @@ export default class CategoryView extends React.Component {
   }
 
   openNewFileModal(element) {
-    console.log("Line 71 CategoryView");
     this.setState({showNewFileModal: true, parentElement: element});
   }
 
@@ -81,6 +91,21 @@ export default class CategoryView extends React.Component {
     fileAttrs.task_id = parentElement.id;
 
     this.props.createFile(folderAttrs, callback);
+  }
+
+  openNewTaskModal(element) {
+    this.setState({showNewTaskModal: true, parentElement: element});
+  }
+
+  closeNewTaskModal() {
+    this.setState({showNewTaskModal: false, parentElement: undefined});
+  }
+
+  createTask(taskAttrs, callback) {
+    var parentElement = this.state.parentElement;
+    taskAttrs.section_id = parentElement.id;
+
+    this.props.createTask(taskAttrs, callback);
   }
 
   renderPopover() {
@@ -142,7 +167,11 @@ export default class CategoryView extends React.Component {
             <div className="content-deal">
               <div className="content-deal-wrapper">
                 <div className="content-deal-left">
-                  <CategoryFileViewer elements={this.props.elements} selectElement={this.selectElement} openNewFileModal={this.openNewFileModal} openNewFolderModal={this.openNewFolderModal} />
+                  <CategoryFileViewer elements={this.props.elements}
+                                      selectElement={this.selectElement}
+                                      openNewFileModal={this.openNewFileModal}
+                                      openNewFolderModal={this.openNewFolderModal}
+                                      openNewTaskModal={this.openNewTaskModal} />
                 </div>
                 <div className="content-deal-right">
                   {selectedElementDetails}
@@ -154,6 +183,9 @@ export default class CategoryView extends React.Component {
           <NewFolderModal createFolder={this.createFolder}
                           closeNewFolderModal={this.closeNewFolderModal}
                           showNewFolderModal={this.state.showNewFolderModal} />
+          <NewTaskModal createTask={this.createTask}
+                        closeNewTaskModal={this.closeNewTaskModal}
+                        showNewTaskModal={this.state.showNewTaskModal} />
         </div>
     )
   }

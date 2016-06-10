@@ -23,3 +23,7 @@ export function doLoadCategorySectionsTree(section, dealId) {
 export function doCreateFolder(attrs) {
   return submitRequest("/api/folders", "post", {folder: attrs});
 }
+
+export function doCreateTask(attrs) {
+  return submitRequest("/api/tasks", "post", {task: attrs});
+}
