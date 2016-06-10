@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :deal_collaborators, only: [:create, :index, :destroy]
       resources :starred_deals, only: [:index, :create, :update, :destroy]
       resources :sections
+      resources :team_members, only: [:index, :update, :create, :destroy]
     end
   end
 
