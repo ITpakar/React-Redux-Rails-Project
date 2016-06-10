@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :sections
     end
 
-    resources :team_members, only: [:index, :update, :create, :destroy]  
+    resources :team_members, only: [:index, :show, :update, :create, :destroy]  
   end
 
   scope '/api', module: 'api', as: 'api' do

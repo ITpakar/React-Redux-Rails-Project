@@ -21,6 +21,5 @@ class App::DealsController < App::ApplicationController
     grouped = deals.group_by {|deal| DateTime.parse(deal["projected_close_date"].to_s).strftime("%B %Y")}
 
     grouped.keys.map {|key| {heading: key, deals: grouped[key]}}
-
   end
 end

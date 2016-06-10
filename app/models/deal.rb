@@ -141,6 +141,14 @@ class Deal < ActiveRecord::Base
     self.save
   end
 
+  def active?
+    ACTIVE_STATUSES.include? deal.status
+  end
+
+  def complete?
+    (ARCHIVED_STATUSES + CLOSED_STATUSES).include? deal.status
+  end
+
   def to_hash
     data = {
       deal_id:              self.id,

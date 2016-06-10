@@ -5,6 +5,7 @@ import doxlyStore from '../store/doxlyStore';
 
 // Public Facing Components
 import DealView from '../components/DealView';
+import DealList from '../components/DealList';
 import CreateDealModal from '../components/CreateDealModal';
 import EditDealModal from './EditDealModal';
 import ProgressPieChart from '../components/ProgressPieChart';
@@ -16,6 +17,7 @@ import DealApp from './DealApp';
 import TeamMembersView from '../components/TeamMembers/TeamMembersView';
 
 ReactOnRails.register({DealView,
+					   DealList,
                        CreateDealModal,
                        EditDealModal,
                        ProgressPieChart,
