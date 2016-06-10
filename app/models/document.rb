@@ -30,4 +30,8 @@ class Document < ApplicationRecord
 
     return data
   end
+
+  def upload_to_box(local_path, user)
+
+  end
 end
