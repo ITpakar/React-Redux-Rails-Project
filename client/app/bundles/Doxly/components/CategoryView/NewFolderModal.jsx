@@ -16,7 +16,7 @@ export default class NewFolderModal extends React.Component {
     var folderAttrs = {};
     folderAttrs.name = $.trim($(this.refs.folder_name).val());
 
-    if (folderAttrs.folderName) {
+    if (folderAttrs.name) {
       this.props.createFolder(folderAttrs, function() {
         _this.props.closeNewFolderModal();
       });
