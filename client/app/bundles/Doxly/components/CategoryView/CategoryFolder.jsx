@@ -50,19 +50,19 @@ export default class CategoryFolder extends React.Component {
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} />
+          <CategorySection element={child} key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} />
+          <CategoryTask element={child} key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} />
+          <CategoryFolder element={child} key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} />
+          <CategoryDocument element={child} key={"document_" + (i + 1)} />
         );
         filesCount++;
       }
@@ -81,6 +81,7 @@ export default class CategoryFolder extends React.Component {
       <div className="deal-element-item deal-element-item__folder">
         <div className="item-header">
           <a className="item-header-item" href="/deal-file">{element.title}</a>
+          <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>
             <span className={classnames({"hidden": filesCount == 0})}>Show {filesCount} {filesCount == 1 ? "File" : "Files"}</span>
             <span className={classnames("no-files", {"hidden": filesCount != 0})}>0 Files</span>

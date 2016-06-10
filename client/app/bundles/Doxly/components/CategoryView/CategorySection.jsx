@@ -3,6 +3,7 @@ import CategoryTask from "./CategoryTask";
 import CategoryFolder from "./CategoryFolder";
 import CategoryDocument from "./CategoryDocument";
 import _ from 'lodash';
+import classnames from 'classnames';
 
 // Props
 // element = {
@@ -36,7 +37,7 @@ export default class CategorySection extends React.Component {
 
     var sectionBodyClassnames = ["deal-section__panel", "collapse"];
     if (this.props.isExpanding) {
-      sectionBodyClassnames.push(["in"]);
+      sectionBodyClassnames.push("in");
     }
     this.state = {
       sectionBodyClassnames: sectionBodyClassnames
@@ -56,7 +57,7 @@ export default class CategorySection extends React.Component {
     } else {
       sectionBodyClassnames.push("in");
     }
-
+console.log("Line 60 ", sectionBodyClassnames);
     this.setState({sectionBodyClassnames: sectionBodyClassnames});
   }
 
@@ -71,19 +72,19 @@ export default class CategorySection extends React.Component {
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} />
+          <CategorySection element={child} key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} />
+          <CategoryTask element={child} key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} />
+          <CategoryFolder element={child} key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} />
+          <CategoryDocument element={child} key={"document_" + (i + 1)} />
         );
       }
 
@@ -96,10 +97,12 @@ export default class CategorySection extends React.Component {
     if (sectionBodyClassnames.indexOf("in") == -1) {
       toggleClassnames.push("collapsed");
     }
+
   	return (
 			<div className="deal-section-item">
 				<div className="deal-section__header">
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>{element.title}</a>
+          <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
         </div>
         <div className={sectionBodyClassnames.join(" ")}>
           <div className="deal-tasks">
