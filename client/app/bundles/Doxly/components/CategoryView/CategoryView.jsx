@@ -9,6 +9,7 @@ import NewFolderModal from "./NewFolderModal";
 import NewTaskModal from "./NewTaskModal";
 import NewSectionModal from "./NewSectionModal";
 import NewDocumentModal from "./NewDocumentModal";
+import CommentBox from "../CommentBox/CommentBox";
 
 // Props
 // title
@@ -150,9 +151,13 @@ console.log("Line 100 ", title, file);
 
   render() {
     var selectedElementDetails;
+    var selectedElementComments;
     if (this.state.selectedElement) {
       selectedElementDetails = (
         <CategoryElementDetails element={this.state.selectedElement} />
+      );
+      selectedElementComments = (
+        <CommentBox element={this.state.selectedElement} />
       );
     }
 
@@ -197,6 +202,7 @@ console.log("Line 100 ", title, file);
                 </div>
                 <div className="content-deal-right">
                   {selectedElementDetails}
+                  {selectedElementComments}
                 </div>
               </div>
             </div>
