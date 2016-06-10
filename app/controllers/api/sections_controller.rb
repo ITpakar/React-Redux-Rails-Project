@@ -1,10 +1,13 @@
 class Api::SectionsController < ApplicationController
   respond_to :json
 
-  before_action :authenticate_deal_collaborator!
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal
   before_action :set_section, only: [:show, :update, :destroy]
+
+  before_action do
+    authorize! :update, @deal
+  end
 
   swagger_controller :sections, "Section"
 
@@ -18,6 +21,15 @@ class Api::SectionsController < ApplicationController
     param :query, :category_id, :integer, :optional, "Category Id"
     param :path, :deal_id, :integer, :required, "Deal Id"
     response :success, "List of sections records", :section
+    response :unauthorized, "You are unauthorized to access this page."
+    response :forbidden, "You are unauthorized User"
+  end
+
+  swagger_api :trees do
+    notes "Permissions: Deal Collaborators"
+    param :query, :category_id, :integer, :optional, "Category Id"
+    param :path, :deal_id, :integer, :required, "Deal Id"
+    response :success, "List of sections with related information in tree", :sections
     response :unauthorized, "You are unauthorized to access this page."
     response :forbidden, "You are unauthorized User"
   end
@@ -74,6 +86,71 @@ class Api::SectionsController < ApplicationController
     success_response(
       {
         sections: @sections.map(&:to_hash)
+      }
+    )
+  end
+
+  def trees
+    scope = @deal.sections
+    category_id = params[:category_id]
+    if category_id.present?
+      scope = scope.where(:category_id => category_id)
+    end
+
+    results = []
+    scope.each do |section|
+      tasks = []
+      section_h = {}
+      section_h[:id] = section.id
+      section_h[:type] = section.class.name
+      section_h[:title] = section.name
+      section_h[:comments_count] = section.comments.count
+      section_h[:elements] = tasks
+
+      section.tasks.each do |task|
+        task_elements = []
+        task_h = {}
+        task_h[:id] = task.id
+        task_h[:type] = task.class.name
+        task_h[:title] = task.title
+        task_h[:status] = task.status
+        task_h[:description] = task.description
+        task_h[:comments_count] = task.comments.count
+        task_h[:elements] = task_elements
+
+        task.documents.each do |document|
+          document_h = document.as_json
+          document_h[:type] = document.class.name
+          task_elements << document_h
+        end
+
+        task.folders.each do |folder|
+          folder_elements = []
+          folder_h = {}
+          folder_h[:id] = folder.id
+          folder_h[:type] = folder.class.name
+          folder_h[:title] = folder.name
+          folder_h[:comments_count] = folder.comments.count
+          folder_h[:elements] = folder_elements
+
+          folder.documents.each do |document|
+            document_h = document.as_json
+            document_h[:type] = document.class.name
+            folder_elements << document_h
+          end
+
+          task_elements << folder_h
+        end
+
+        tasks << task_h
+      end
+
+      results << section_h
+    end
+
+    success_response(
+      {
+        sections: results
       }
     )
   end

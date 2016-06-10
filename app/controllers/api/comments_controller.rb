@@ -145,7 +145,7 @@ class Api::CommentsController < ApplicationController
     end
 
     if !@deal.blank?
-      return if current_user.is_deal_collaborator?(@deal.id) or
+      return if current_user.is_deal_collaborator?(@deal) or
                 current_user.is_org_deal_admin?(@deal.id) or
                 current_user.is_comment_owner?(@comment.id)
     else

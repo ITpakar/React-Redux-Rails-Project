@@ -90,8 +90,7 @@ class Api::TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.created_by = current_user.id
+    @task = current_user.organization_user.tasks.build(task_params)
     if @task.save
       success_response(
         {
@@ -142,7 +141,7 @@ class Api::TasksController < ApplicationController
     end
 
     if !@deal.blank?
-      return current_user.is_deal_collaborator?(@deal.id)
+      return current_user.is_deal_collaborator?(@deal)
     else
       error_response(["Deal Not Found for this task."])
     end
@@ -150,14 +149,12 @@ class Api::TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(
-      :organization_id,
       :deal_id,
       :title,
       :description,
       :status,
       :section_id,
       :assignee_id,
-      :created_by,
       :due_date
     )
   end

@@ -261,33 +261,10 @@
                 margin-top: 5px;
             }
 
-            &:before{
-                content: "";
-                color: $col-green;
-                display: block;
-                position: absolute;
-                height: 20px;
-                width: 20px;
-                border: 2px solid $col-border;
-                left: 20px;
-                top: 50%;
-                margin-top: -10px;
-                border-radius: 999px;
-            }
-
         }
 
         &.complete {
             .item-header{
-                &:before{
-                    @extend %icomoon;
-                    @extend %icon-check;
-                    font-size: 8px;
-                    line-height: 18px;
-                    text-align: center;
-                    background: $col-green-light;
-                    border: 2px solid $col-green;
-                }
             }
         }
 
@@ -525,4 +502,51 @@
         }
     }
 
+}
+
+.item-header .badge-chat {
+  margin-top: 6px;
+  margin-left: 12px;
+}
+
+.deal-section__header {
+  display: table;
+  width: 100%;
+
+  .section-header-title, .badge-chat-container {
+    display: table-cell;
+  }
+
+  .badge-chat-container {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: $col-blue-light;
+    border-bottom: 1px solid $col-border;
+
+    .badge-chat {
+      &:after {
+        background-color: $col-blue-light;
+      }
+    }
+  }
+
+  &:hover {
+    .badge-chat-container {
+      background-color: $col-gray-light;
+      .badge-chat {
+        &:after {
+          background-color: $col-gray-light;
+        }
+      }
+    }
+  }
+}
+
+.deal-element-add-new-task {
+  padding: 5px 0 5px 20px;
+}
+
+.deal-element-add-new-section {
+  padding: 5px 0 5px 10px;
 }

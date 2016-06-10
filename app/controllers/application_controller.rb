@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include CanCan::ControllerAdditions
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
       end
       
     end
+  end
+
+  def current_organization
+    current_user.try(:organization)
   end
 
   def authenticate_super_admin!
@@ -52,7 +57,7 @@ class ApplicationController < ActionController::Base
   def authenticate_deal_collaborator!
     if current_user.blank?
       unauthorized_response(401)
-    elsif !current_user.is_deal_collaborator?(params[:deal_id] || params[:id])
+    elsif !current_user.organization_user.is_deal_collaborator?(params[:deal_id] || params[:id])
       unauthorized_response
     end
   end

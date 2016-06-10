@@ -13,7 +13,7 @@ class OrganizationUser < ActiveRecord::Base
   has_many :notifications
   has_many :starred_deals
   has_many :tasks
-  has_many :folders
+  has_many :folders, :foreign_key => :created_by
   has_many :sections
   has_many :deal_collaborators
   has_many :deals, through: :deal_collaborators
@@ -35,6 +35,17 @@ class OrganizationUser < ActiveRecord::Base
 
   def star! deal
     StarredDeal.create(organization_user_id: self.id, deal_id: deal.id)
+  end
+
+  def is_deal_collaborator? deal
+    return true if self.user.is_super?
+
+    deal_collaborator = DealCollaborator.where(
+      organization_user_id: id,
+      deal_id: deal.deal_id
+    ).first
+
+    return !deal_collaborator.blank?
   end
 
   # Metaprogramming for the to find the correct STI classes
