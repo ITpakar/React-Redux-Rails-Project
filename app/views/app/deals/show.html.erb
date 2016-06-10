@@ -79,12 +79,12 @@
                             </div> <!-- tab panel Overview End -->
                             <div role="tabpanel" class="tab-pane " id="tab-deal-diligence">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id], :category => "Diligence"}) %>
+                                  <%= react_component("DealApp", :props => {:id => params[:id].to_i, :category => "Diligence"}) %>
                                 </div>
                             </div> <!-- tab panel Diligence End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id], :category => "Closing"}) %>
+                                  <%= react_component("DealApp", :props => {:id => params[:id].to_i, :category => "Closing"}) %>
                                 </div>
                             </div> <!-- tab panel Closing End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing-book"> <!-- -->

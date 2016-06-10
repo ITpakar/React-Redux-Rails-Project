@@ -81,15 +81,15 @@ export default class CategorySection extends React.Component {
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} selectElement={this.props.selectElement} key={"section_" + (i + 1)} />
+          <CategorySection element={child} selectElement={this.props.selectElement} openNewFileModal={this.props.openNewFileModal} openNewFolderModal={this.props.openNewFolderModal} key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} selectElement={this.props.selectElement} key={"task_" + (i + 1)} />
+          <CategoryTask element={child} selectElement={this.props.selectElement} openNewFileModal={this.props.openNewFileModal} openNewFolderModal={this.props.openNewFolderModal} key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} selectElement={this.props.selectElement} key={"folder_" + (i + 1)} />
+          <CategoryFolder element={child} selectElement={this.props.selectElement} openNewFileModal={this.props.openNewFileModal} key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (

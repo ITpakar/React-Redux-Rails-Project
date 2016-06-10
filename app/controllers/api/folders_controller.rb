@@ -124,7 +124,7 @@ class Api::FoldersController < ApplicationController
   end
 
   def create
-    @folder = current_user.folders.new(folder_params)
+    @folder = current_user.organization_user.folders.new(folder_params)
     if @folder.save
       success_response(["Folder created successfully."])
     else
@@ -166,10 +166,9 @@ class Api::FoldersController < ApplicationController
   def folder_params
     params.require(:folder).permit(
       :name,
-      :parent_type,
-      :parent_id,
-      :created_by,
-      :activated
+      :task_id,
+      :deal_id,
+      :visibility
     )
   end
 
