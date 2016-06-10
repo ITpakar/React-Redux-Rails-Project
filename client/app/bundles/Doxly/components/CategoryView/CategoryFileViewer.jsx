@@ -43,15 +43,19 @@ export default class CategoryFileViewer extends React.Component {
 
         if (element.type == "Section") {
           displayedElement = (
-            <CategorySection element={element} isExpanding={i == 0} key={"section_" + (i + 1)} />
+            <CategorySection element={element} selectElement={this.props.selectElement} isExpanding={i == 0} key={"section_" + (i + 1)} />
+          );
+        } else if (element.type == "Task") {
+          displayedElement = (
+            <CategoryTask element={element} selectElement={this.props.selectElement} key={"task_" + (i + 1)} />
           );
         } else if (element.type == "Folder") {
           displayedElement = (
-            <CategoryFolder element={element} key={"folder_" + (i + 1)} />
+            <CategoryFolder element={element} selectElement={this.props.selectElement} key={"folder_" + (i + 1)} />
           );
         } else if (element.type == "Document") {
           displayedElement = (
-            <CategoryDocument element={element} key={"document_" + (i + 1)} />
+            <CategoryDocument element={element} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
           );
         }
 

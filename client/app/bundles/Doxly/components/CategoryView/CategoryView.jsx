@@ -94,7 +94,7 @@ export default class CategoryView extends React.Component {
             <div className="content-deal">
               <div className="content-deal-wrapper">
                 <div className="content-deal-left">
-                  <CategoryFileViewer elements={this.props.elements} />
+                  <CategoryFileViewer elements={this.props.elements} selectElement={this.props.selectElement} />
                 </div>
                 <div className="content-deal-right">
                 </div>

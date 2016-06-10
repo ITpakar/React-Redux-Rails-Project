@@ -20,7 +20,7 @@ export default class CategoryFolder extends React.Component {
       bodyClassnames: ["deal-element-folder-wrapper", "collapse"]
     }
 
-    _.bindAll(this, ['toggleContent']);
+    _.bindAll(this, ['toggleContent', "selectFolder"]);
   }
 
   toggleContent(event) {
@@ -38,6 +38,14 @@ export default class CategoryFolder extends React.Component {
     this.setState({bodyClassnames: bodyClassnames});
   }
 
+  selectFolder(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.selectElement(this.props.element);
+  }
+
   render() {
     var element = this.props.element;
     var children = element.elements;
@@ -50,19 +58,19 @@ export default class CategoryFolder extends React.Component {
 
       if (child.type == "Section") {
         displayedChild = (
-          <CategorySection element={child} key={"section_" + (i + 1)} />
+          <CategorySection element={child} selectElement={this.props.selectElement} key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
         displayedChild = (
-          <CategoryTask element={child} key={"task_" + (i + 1)} />
+          <CategoryTask element={child} selectElement={this.props.selectElement} key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
         displayedChild = (
-          <CategoryFolder element={child} key={"folder_" + (i + 1)} />
+          <CategoryFolder element={child} selectElement={this.props.selectElement} key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
         );
         filesCount++;
       }
@@ -80,7 +88,7 @@ export default class CategoryFolder extends React.Component {
   	return (
       <div className="deal-element-item deal-element-item__folder">
         <div className="item-header">
-          <a className="item-header-item" href="/deal-file">{element.title}</a>
+          <a className="item-header-item" href="#" onClick={this.selectFolder}>{element.title}</a>
           <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>
             <span className={classnames({"hidden": filesCount == 0})}>Show {filesCount} {filesCount == 1 ? "File" : "Files"}</span>
