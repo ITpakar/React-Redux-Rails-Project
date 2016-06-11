@@ -19,7 +19,7 @@ export default class NewTaskModal extends React.Component {
     taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_section).val());
     taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || $.trim($(this.refs.task_assignee).val());
 
-    if (taskAttrs.title) {
+    if (taskAttrs.title && taskAttrs.section_id) {
       this.props.createTask(taskAttrs, function() {
         _this.props.closeNewTaskModal();
       });

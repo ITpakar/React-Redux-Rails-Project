@@ -50,7 +50,6 @@ export default class CategoryView extends React.Component {
                      "closeNewTaskModal",
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
-                     "createFolder",
                      "createDocument",
                      "getChildElementsOf"]);
   }
@@ -79,13 +78,6 @@ export default class CategoryView extends React.Component {
 
   closeNewFolderModal() {
     this.setState({showNewFolderModal: false, parentElement: undefined});
-  }
-
-  createFolder(folderAttrs, callback) {
-    var parentElement = this.state.parentElement;
-    folderAttrs.task_id = parentElement.id;
-
-    this.props.createFolder(folderAttrs, callback);
   }
 
   openNewDocumentModal(element) {
@@ -143,11 +135,20 @@ export default class CategoryView extends React.Component {
   }
 
   getChildElementsOf(element, type) {
+    var results = [];
+
     if (element && element.elements) {
-      return _.filter(element.elements, function(el) { return el.type == type});
-    } else {
-      return [];
+      for (let i = 0; i < element.elements.length; i++) {
+        let el = element.elements[i];
+        if (el.type == type) {
+          results.push(el)
+        }
+
+        results = _.union(results, this.getChildElementsOf(el, type));
+      }
     }
+
+    return results;
   }
 
   render() {
@@ -174,15 +175,19 @@ export default class CategoryView extends React.Component {
     );
 
     var availableSections = [];
+    var availableTasks = [];
     var elements = this.props.elements;
     if (elements) {
       for (let i = 0; i < elements.length; i++) {
         let el = elements[i];
         if (el.type == "Section") {
           availableSections.push(el);
+        } else if (el.type == "Task") {
+          availableTasks.push(el);
         }
 
-        availableSections = _.union(availableSections, this.getChildElementsOf(el.elements, "Section"));
+        availableSections = _.union(availableSections, this.getChildElementsOf(el, "Section"));
+        availableTasks = _.union(availableTasks, this.getChildElementsOf(el, "Task"));
       }
     }
 
@@ -234,7 +239,8 @@ export default class CategoryView extends React.Component {
           </div>
 
           <NewFolderModal parentElement={this.state.parentElement}
-                          createFolder={this.createFolder}
+                          tasks={availableTasks}
+                          createFolder={this.props.createFolder}
                           closeNewFolderModal={this.closeNewFolderModal}
                           showNewFolderModal={this.state.showNewFolderModal} />
           <NewTaskModal parentElement={this.state.parentElement}
