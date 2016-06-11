@@ -50,7 +50,7 @@ export default class CategoryView extends React.Component {
                      "closeNewTaskModal",
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
-                     "createDocument",
+                    //  "createDocument",
                      "getChildElementsOf"]);
   }
 
@@ -88,16 +88,16 @@ export default class CategoryView extends React.Component {
     this.setState({showNewDocumentModal: false, parentElement: undefined});
   }
 
-  createDocument(title, file, callback) {
-    var parentElement = this.state.parentElement;
-    var data = new FormData();
-    data.append("document[file]", file);
-    data.append("document[title]", title)
-    data.append("document[deal_documents_attributes][0][documentable_id]", parentElement.id)
-    data.append("document[deal_documents_attributes][0][documentable_type]", parentElement.type)
-
-    this.props.createDocument(data, callback);
-  }
+  // createDocument(title, file, callback) {
+  //   var parentElement = this.state.parentElement;
+  //   var data = new FormData();
+  //   data.append("document[file]", file);
+  //   data.append("document[title]", title)
+  //   data.append("document[deal_documents_attributes][0][documentable_id]", parentElement.id)
+  //   data.append("document[deal_documents_attributes][0][documentable_type]", parentElement.type)
+  //
+  //   this.props.createDocument(data, callback);
+  // }
 
   openNewTaskModal(element) {
     this.setState({showNewTaskModal: true, parentElement: element});
@@ -176,6 +176,8 @@ export default class CategoryView extends React.Component {
 
     var availableSections = [];
     var availableTasks = [];
+    var availableFolders = [];
+    var availableTasksAndFolders = [];
     var elements = this.props.elements;
     if (elements) {
       for (let i = 0; i < elements.length; i++) {
@@ -184,11 +186,16 @@ export default class CategoryView extends React.Component {
           availableSections.push(el);
         } else if (el.type == "Task") {
           availableTasks.push(el);
+        } else if (el.type == "Folder") {
+          availableFolders.push(el);
         }
 
         availableSections = _.union(availableSections, this.getChildElementsOf(el, "Section"));
         availableTasks = _.union(availableTasks, this.getChildElementsOf(el, "Task"));
+        availableFolders = _.union(availableFolders, this.getChildElementsOf(el, "Folder"));
       }
+
+      availableTasksAndFolders = _.union(availableTasks, availableFolders)
     }
 
     return (
@@ -253,7 +260,8 @@ export default class CategoryView extends React.Component {
                            closeNewSectionModal={this.closeNewSectionModal}
                            showNewSectionModal={this.state.showNewSectionModal} />
           <NewDocumentModal parentElement={this.state.parentElement}
-                            createDocument={this.createDocument}
+                            parents={availableTasksAndFolders}
+                            createDocument={this.props.createDocument}
                             closeNewDocumentModal={this.closeNewDocumentModal}
                             showNewDocumentModal={this.state.showNewDocumentModal} />
         </div>
