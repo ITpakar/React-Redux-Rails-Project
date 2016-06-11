@@ -91,7 +91,7 @@ class Api::SectionsController < ApplicationController
   end
 
   def trees
-    scope = @deal.sections
+    scope = @deal.sections.order("name ASC")
     category_id = params[:category_id]
     if category_id.present?
       scope = scope.where(:category_id => category_id)
@@ -107,7 +107,7 @@ class Api::SectionsController < ApplicationController
       section_h[:comments_count] = section.comments.count
       section_h[:elements] = tasks
 
-      section.tasks.each do |task|
+      section.tasks.order("title").each do |task|
         task_elements = []
         task_h = {}
         task_h[:id] = task.id
@@ -118,13 +118,13 @@ class Api::SectionsController < ApplicationController
         task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
 
-        task.documents.each do |document|
+        task.documents.order("title").each do |document|
           document_h = document.as_json
           document_h[:type] = document.class.name
           task_elements << document_h
         end
 
-        task.folders.each do |folder|
+        task.folders.order("name").each do |folder|
           folder_elements = []
           folder_h = {}
           folder_h[:id] = folder.id
@@ -133,7 +133,7 @@ class Api::SectionsController < ApplicationController
           folder_h[:comments_count] = folder.comments.count
           folder_h[:elements] = folder_elements
 
-          folder.documents.each do |document|
+          folder.documents.order("title").each do |document|
             document_h = document.as_json
             document_h[:type] = document.class.name
             folder_elements << document_h

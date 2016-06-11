@@ -29,10 +29,11 @@ export default class CategoryTask extends React.Component {
     super(props, context);
 
     this.state = {
-      bodyClassnames: ["deal-task-item__panel", "collapse"]
+      bodyClassnames: ["deal-task-item__panel", "collapse"],
+      checked: (this.props.element.status || "").toLowerCase() == "complete"
     };
 
-    _.bindAll(this, ['toggleContent', "selectTask", "openNewFolderModal", "openNewDocumentModal"]);
+    _.bindAll(this, ['toggleContent', "selectTask", "openNewFolderModal", "openNewDocumentModal", "toggleStatus"]);
   }
 
   toggleContent(event) {
@@ -74,6 +75,22 @@ export default class CategoryTask extends React.Component {
     this.props.openNewDocumentModal(this.props.element);
   }
 
+  toggleStatus() {
+    var _this = this;
+    var status = (this.props.element.status || "incomplete").toLowerCase();
+    if (status == "complete") {
+      status = "incomplete";
+    } else {
+      status = "complete";
+    }
+
+    // For quick response.
+    this.setState({checked: status == "complete"});
+    this.props.updateTask(this.props.element.id, {status: status}, undefined, function () {
+      _this.setState({checked: !_this.state.checked});
+    });
+  }
+
   render() {
     var element = this.props.element;
     var children = element.elements;
@@ -87,6 +104,8 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
+                           selectedElement={this.props.selectedElement}
+                           updateTask={this.props.updateTask}
                            openNewDocumentModal={this.props.openNewDocumentModal}
                            openNewFolderModal={this.props.openNewFolderModal}
                            openNewTaskModal={this.props.openNewTaskModal}
@@ -96,6 +115,8 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
+                        selectedElement={this.props.selectedElement}
+                        updateTask={this.props.updateTask}
                         openNewDocumentModal={this.props.openNewDocumentModal}
                         openNewFolderModal={this.props.openNewFolderModal}
                         openNewTaskModal={this.props.openNewTaskModal}
@@ -106,12 +127,16 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
+                          selectedElement={this.props.selectedElement}
                           openNewDocumentModal={this.props.openNewDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child}
+                            selectElement={this.props.selectElement}
+                            selectedElement={this.props.selectedElement}
+                            key={"document_" + (i + 1)} />
         );
       }
 
@@ -125,9 +150,15 @@ export default class CategoryTask extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
+    var isChecked = this.state.checked;
+    var isSelected = this.props.selectedElement &&
+                     this.props.selectedElement.id == this.props.element.id &&
+                     this.props.selectedElement.type == this.props.element.type;
+
   	return (
-      <div className="deal-task-item ">
+      <div className={classnames({"deal-task-item": true, "complete": isChecked, "deal-item-active" : isSelected})}>
           <div className="deal-task-item__header">
+              <span className="checkbox-placeholder" onClick={this.toggleStatus}></span>
               <a className="deal-task-item__header-item" href="#" onClick={this.selectTask}>{element.title}</a>
               <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>
               <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}><span>Show Files</span><i>Hide Files</i></a>

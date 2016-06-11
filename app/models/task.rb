@@ -86,7 +86,7 @@ class Task < ApplicationRecord
     end
 
     if self.assignee
-      data[:assignee] = self.assignee.to_hash(false)
+      data[:assignee] = self.assignee.user.to_hash(false)
     end
 
     return data

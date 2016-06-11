@@ -68,6 +68,7 @@ export default class CategoryFolder extends React.Component {
         displayedChild = (
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
+                           selectedElement={this.props.selectedElement}
                            openNewDocumentModal={this.props.openNewDocumentModal}
                            openNewFolderModal={this.props.openNewFolderModal}
                            openNewTaskModal={this.props.openNewTaskModal}
@@ -77,6 +78,7 @@ export default class CategoryFolder extends React.Component {
         displayedChild = (
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
+                        selectedElement={this.props.selectedElement}
                         openNewDocumentModal={this.props.openNewDocumentModal}
                         openNewFolderModal={this.props.openNewFolderModal}
                         openNewTaskModal={this.props.openNewTaskModal}
@@ -86,12 +88,16 @@ export default class CategoryFolder extends React.Component {
         displayedChild = (
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
+                          selectedElement={this.props.selectedElement}
                           openNewDocumentModal={this.props.openNewDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child}
+                            selectElement={this.props.selectElement}
+                            selectedElement={this.props.selectedElement}
+                            key={"document_" + (i + 1)} />
         );
         filesCount++;
       }
@@ -106,8 +112,12 @@ export default class CategoryFolder extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
+    var isSelected = this.props.selectedElement &&
+                     this.props.selectedElement.id == this.props.element.id &&
+                     this.props.selectedElement.type == this.props.element.type;
+
   	return (
-      <div className="deal-element-item deal-element-item__folder">
+      <div className={classnames({"deal-element-item": true, "deal-element-item__folder": true, "deal-item-active": isSelected})}>
         <div className="item-header">
           <a className="item-header-item" href="#" onClick={this.selectFolder}>{element.title}</a>
           <div className={classnames({"badge-chat": true, "hidden": element.comments_count == 0})}><span>{element.comments_count}</span></div>

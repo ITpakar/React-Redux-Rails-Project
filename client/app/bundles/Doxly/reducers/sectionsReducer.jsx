@@ -1,8 +1,7 @@
 import actionTypes from '../constants';
 
 export const initialState ={
-  status: undefined,
-  data: undefined
+  status: undefined
 }
 
 export default function sectionsReducer(state = initialState, action) {
@@ -11,8 +10,7 @@ export default function sectionsReducer(state = initialState, action) {
       switch (action.status) {
         case actionTypes.REQUESTS.LOADING:
           return Object.assign({}, state, {
-            status: actionTypes.REQUESTS.LOADING,
-            allSections: undefined
+            status: actionTypes.REQUESTS.LOADING
           });
         case actionTypes.REQUESTS.FINISH_LOADING:
           return Object.assign({}, state, {
@@ -27,8 +25,7 @@ export default function sectionsReducer(state = initialState, action) {
       switch (action.status) {
         case actionTypes.REQUESTS.LOADING:
           return Object.assign({}, state, {
-            status: actionTypes.REQUESTS.LOADING,
-            diligenceSections: undefined
+            status: actionTypes.REQUESTS.LOADING
           });
         case actionTypes.REQUESTS.FINISH_LOADING:
           return Object.assign({}, state, {
@@ -42,8 +39,7 @@ export default function sectionsReducer(state = initialState, action) {
       switch (action.status) {
         case actionTypes.REQUESTS.LOADING:
           return Object.assign({}, state, {
-            status: actionTypes.REQUESTS.LOADING,
-            closingSections: undefined
+            status: actionTypes.REQUESTS.LOADING
           });
         case actionTypes.REQUESTS.FINISH_LOADING:
           return Object.assign({}, state, {

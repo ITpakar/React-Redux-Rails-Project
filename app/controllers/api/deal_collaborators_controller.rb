@@ -2,11 +2,11 @@ class Api::DealCollaboratorsController < ApplicationController
   respond_to :json
 
   before_action :set_deal
-  
+
   before_action only: [:index] do
     authorize! :update, @deal
   end
-  
+
   # before_action :authenticate_deal_collaborator!, only: [:index]
   before_action :authenticate_org_deal_admin!, only: [:create, :destroy]
   before_action :ensure_params_exist, only: [:create, :update]
@@ -49,9 +49,17 @@ class Api::DealCollaboratorsController < ApplicationController
     sortdir = params[:sortdir] || ''
 
     collaborators = @deal.collaborators.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
+    json = []
+    collaborators.each do |user|
+      user_h = user.to_hash
+      user_h[:organization_user_id] = user.organization_user.id
+
+      json << user_h
+    end
+
     success_response(
       {
-        collaborators: collaborators.map(&:to_hash)
+        collaborators: json
       }
     )
   end
@@ -86,20 +94,20 @@ class Api::DealCollaboratorsController < ApplicationController
 
     candidates.each do |candidate|
       if collaborator_identifier.include? "@"
-        # Find by email  
+        # Find by email
         if candidate.email == collaborator_identifier
           collaborator = candidate
           break
         end
       else
-        # Find by name  
+        # Find by name
         if candidate.name == collaborator_identifier
           collaborator = candidate
           break
         end
-      end  
+      end
     end
-    
+
     if collaborator.present?
       success_response({
         collaborator: collaborator.to_hash
