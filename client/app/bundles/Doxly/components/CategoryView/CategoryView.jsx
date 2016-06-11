@@ -10,6 +10,7 @@ import NewTaskModal from "./NewTaskModal";
 import NewSectionModal from "./NewSectionModal";
 import NewDocumentModal from "./NewDocumentModal";
 import CommentBox from "../CommentBox/CommentBox";
+import _ from "lodash";
 
 // Props
 // title
@@ -50,8 +51,8 @@ export default class CategoryView extends React.Component {
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
                      "createFolder",
-                     "createTask",
-                     "createDocument"]);
+                     "createDocument",
+                     "getChildElementsOf"]);
   }
 
   componentDidMount() {
@@ -114,13 +115,6 @@ export default class CategoryView extends React.Component {
     this.setState({showNewTaskModal: false, parentElement: undefined});
   }
 
-  createTask(taskAttrs, callback) {
-    var parentElement = this.state.parentElement;
-    taskAttrs.section_id = parentElement.id;
-
-    this.props.createTask(taskAttrs, callback);
-  }
-
   openNewSectionModal() {
     this.setState({showNewSectionModal: true});
   }
@@ -148,6 +142,14 @@ export default class CategoryView extends React.Component {
     }
   }
 
+  getChildElementsOf(element, type) {
+    if (element && element.elements) {
+      return _.filter(element.elements, function(el) { return el.type == type});
+    } else {
+      return [];
+    }
+  }
+
   render() {
     var selectedElementDetails;
     var selectedElementComments;
@@ -158,6 +160,30 @@ export default class CategoryView extends React.Component {
       selectedElementComments = (
         <CommentBox element={this.state.selectedElement} />
       );
+    }
+
+    var toolbarBoxOverlayActions = (
+      <Popover id="create-new-element">
+        <div className='popover-menu-deal'>
+          <a href='#' onClick={this.openNewSectionModal}>New Section</a>
+          <a href='#' onClick={this.openNewTaskModal.bind(this, undefined)}>New Task</a>
+          <a href='#' onClick={this.openNewDocumentModal.bind(this, undefined)}>New File</a>
+          <a href='#' onClick={this.openNewFolderModal.bind(this, undefined)}>New Folder</a>
+        </div>
+      </Popover>
+    );
+
+    var availableSections = [];
+    var elements = this.props.elements;
+    if (elements) {
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        if (el.type == "Section") {
+          availableSections.push(el);
+        }
+
+        availableSections = _.union(availableSections, this.getChildElementsOf(el.elements, "Section"));
+      }
     }
 
     return (
@@ -181,7 +207,7 @@ export default class CategoryView extends React.Component {
                       onChange: this.handleSortChange
                     }
                   ]} />
-                  <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="create-new-element"><div className='popover-menu-deal'><a href='#' data-target='#modal-new-section' data-toggle='modal'>New Section</a><a href='#' data-target='#modal-new-task' data-toggle='modal'>New Task</a><a href='#' data-target='#modal-new-file' data-toggle='modal'>New File</a><a href='#' data-target='#modal-new-folder' data-toggle='modal'>New Folder</a></div></Popover>}>
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
                     <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
                   </OverlayTrigger>
               </form>
@@ -207,16 +233,21 @@ export default class CategoryView extends React.Component {
             </div>
           </div>
 
-          <NewFolderModal createFolder={this.createFolder}
+          <NewFolderModal parentElement={this.state.parentElement}
+                          createFolder={this.createFolder}
                           closeNewFolderModal={this.closeNewFolderModal}
                           showNewFolderModal={this.state.showNewFolderModal} />
-          <NewTaskModal createTask={this.createTask}
+          <NewTaskModal parentElement={this.state.parentElement}
+                        assignees={this.props.collaborators}
+                        sections={availableSections}
+                        createTask={this.props.createTask}
                         closeNewTaskModal={this.closeNewTaskModal}
                         showNewTaskModal={this.state.showNewTaskModal} />
           <NewSectionModal createSection={this.props.createSection}
-               closeNewSectionModal={this.closeNewSectionModal}
-               showNewSectionModal={this.state.showNewSectionModal} />
-          <NewDocumentModal createDocument={this.createDocument}
+                           closeNewSectionModal={this.closeNewSectionModal}
+                           showNewSectionModal={this.state.showNewSectionModal} />
+          <NewDocumentModal parentElement={this.state.parentElement}
+                            createDocument={this.createDocument}
                             closeNewDocumentModal={this.closeNewDocumentModal}
                             showNewDocumentModal={this.state.showNewDocumentModal} />
         </div>

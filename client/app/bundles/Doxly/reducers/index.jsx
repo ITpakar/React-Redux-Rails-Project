@@ -6,6 +6,7 @@ import commentReducer from './commentReducer';
 import collaboratorReducer from './collaboratorReducer';
 import dealsReducer from './dealsReducer';
 import sectionsReducer from "./sectionsReducer";
+import dealCollaboratorsReducer from "./dealCollaboratorsReducer";
 import { initialState as userState } from './userReducer';
 
 export default {
@@ -13,7 +14,8 @@ export default {
   commentStore: commentReducer,
   collaboratorStore: collaboratorReducer,
   dealsStore: dealsReducer,
-  sectionsStore: sectionsReducer
+  sectionsStore: sectionsReducer,
+  dealCollaboratorsStore: dealCollaboratorsReducer
 };
 
 export const initialStates = {

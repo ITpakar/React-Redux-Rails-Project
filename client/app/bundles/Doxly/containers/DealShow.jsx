@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
-import {loadCategorySectionsTree} from "../actions/doxlyActions";
+import {loadCategorySectionsTree, loadDealCollaborators} from "../actions/doxlyActions";
 import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument} from "../utils/api";
 
 class DealShow extends React.Component {
@@ -16,6 +16,7 @@ class DealShow extends React.Component {
     var dealId = this.props.id;
     var category = this.props.category;
     this.props.loadCategorySectionsTree(dealId, category);
+    this.props.loadDealCollaborators(dealId);
   }
 
   createFolder(folderAttrs, callback) {
@@ -83,6 +84,7 @@ class DealShow extends React.Component {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
       return (<CategoryView elements={this.props.elements}
+                            collaborators={this.props.collaborators}
                             createFolder={this.createFolder}
                             createTask={this.createTask}
                             createSection={this.createSection}
@@ -96,11 +98,14 @@ DealShow.propTypes = {
   category: PropTypes.object.isRequired,
   elements: PropTypes.arrayOf(PropTypes.object),
   loadingSectionsStatus: PropTypes.string,
-  loadCategorySectionsTree: PropTypes.func.isRequired
+  loadCategorySectionsTree: PropTypes.func.isRequired,
+  collaborators: PropTypes.arrayOf(PropTypes.object),
+  loadDealCollaborators: PropTypes.func.isRequired
 }
 
 function stateToProps(state, ownProps) {
   let sectionsStore = state.sectionsStore;
+  let dealCollaboratorsStore = state.dealCollaboratorsStore;
   let props = {};
   let category = ownProps.category;
   let categoryName;
@@ -118,15 +123,20 @@ function stateToProps(state, ownProps) {
       props.loadingSectionsStatus = sectionsStore.status;
     } else if (sectionsStore.allSections){
       props.elements = sectionsStore.allSections.data.sections;
-      props.loadingSectionsStatus = sectionsStore.status;
     }
+  }
+
+  if (dealCollaboratorsStore && dealCollaboratorsStore.data) {
+    props.collaborators = dealCollaboratorsStore.data.data.collaborators;
+    props.loadingDealCollaboratorsStatus = dealCollaboratorsStore.status;
   }
 
   return props;
 }
 
 DealShow = connect(stateToProps, {
-  loadCategorySectionsTree
+  loadCategorySectionsTree,
+  loadDealCollaborators
 })(DealShow);
 
 export default DealShow;

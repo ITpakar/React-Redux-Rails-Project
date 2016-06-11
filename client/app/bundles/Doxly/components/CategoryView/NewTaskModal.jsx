@@ -16,6 +16,8 @@ export default class NewTaskModal extends React.Component {
     var taskAttrs = {};
     taskAttrs.title = $.trim($(this.refs.task_title).val());
     taskAttrs.description = $.trim($(this.refs.task_description).val());
+    taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_section).val());
+    taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || $.trim($(this.refs.task_assignee).val());
 
     if (taskAttrs.title) {
       this.props.createTask(taskAttrs, function() {
@@ -25,6 +27,40 @@ export default class NewTaskModal extends React.Component {
   }
 
   render() {
+    var availableSections;
+    if (!this.props.parentElement && this.props.sections) {
+      availableSections = (
+        <div className="form-group optional">
+          <label htmlFor="input-task-section">Add to Section</label>
+          <select name="task_section" ref="task_section" className="form-control show-tick">
+            <option>Select a Section</option>
+            {this.props.sections.map(function(section) {
+              return (
+                <option value={section.id} key={"section_" + section.id}>{section.title}</option>
+              )
+            })}
+          </select>
+        </div>
+      );
+    }
+
+    var assignees;
+    if (!this.props.assignee && this.props.assignees) {
+      assignees = (
+        <div className="form-group optional">
+          <label htmlFor="input-task-assignee">Add an Assignee</label>
+          <select name="task_assignee" ref="task_assignee" className="form-control show-tick">
+            <option>Select a Team Member</option>
+            {this.props.assignees.map(function(assignee) {
+              return (
+                <option value={assignee.organization_user_id} key={"assignee_" + assignee.id}>{assignee.first_name} {assignee.last_name}</option>
+              );
+            })}
+          </select>
+        </div>
+      );
+    }
+
   	return (
       <Modal show={this.props.showNewTaskModal} onHide={this.props.closeNewTaskModal} dialogClassName="new-question-modal">
         <Modal.Header closeButton>
@@ -40,8 +76,10 @@ export default class NewTaskModal extends React.Component {
             </div>
             <div className="form-group">
               <label htmlFor="input-task-description">Task Description</label>
-              <textarea ref="task_description" placeholder="Give your task a description" className="form-control" id="input-task-description" name="task_description" />
+              <textarea ref="task_description" placeholder="Explain this task" className="form-control" id="input-task-description" name="task_description" />
             </div>
+            {availableSections}
+            {assignees}
           </form>
         </Modal.Body>
         <Modal.Footer>
