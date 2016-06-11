@@ -74,3 +74,16 @@ export function loadDealCollaborators(dealId) {
     })
   }
 }
+
+export function updateTask(taskId, attrs) {
+  var requestType = actionTypes.REQUESTS.UPDATE_TASK;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doUpdateTask(dealId, attrs).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}

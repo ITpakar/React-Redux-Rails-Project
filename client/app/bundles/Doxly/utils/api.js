@@ -47,3 +47,7 @@ export function doCreateDocument(formData) {
 export function doLoadDealCollaborators(dealId) {
   return submitRequest("/api/deals/" + dealId + "/deal_collaborators", "get");
 }
+
+export function doUpdateTask(taskId, attrs) {
+  return submitRequest("/api/tasks/" + taskId, "put", {task: attrs});
+}

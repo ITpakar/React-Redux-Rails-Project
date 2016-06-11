@@ -549,3 +549,27 @@
 .deal-element-add-new-section {
   padding: 5px 0 5px 10px;
 }
+
+
+.deal-element-add-item > span {
+  font-size: 12px;
+  letter-spacing: 0px;
+  line-height: 40px;
+
+  i {
+      font-size: 10px;
+      margin-right: 12px;
+  }
+}
+
+.deal-task-item__header {
+  position: relative;
+  .checkbox-placeholder {
+    display: block;
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+  }
+}

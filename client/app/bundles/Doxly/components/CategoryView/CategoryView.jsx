@@ -50,7 +50,6 @@ export default class CategoryView extends React.Component {
                      "closeNewTaskModal",
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
-                    //  "createDocument",
                      "getChildElementsOf"]);
   }
 
@@ -87,17 +86,6 @@ export default class CategoryView extends React.Component {
   closeNewDocumentModal() {
     this.setState({showNewDocumentModal: false, parentElement: undefined});
   }
-
-  // createDocument(title, file, callback) {
-  //   var parentElement = this.state.parentElement;
-  //   var data = new FormData();
-  //   data.append("document[file]", file);
-  //   data.append("document[title]", title)
-  //   data.append("document[deal_documents_attributes][0][documentable_id]", parentElement.id)
-  //   data.append("document[deal_documents_attributes][0][documentable_type]", parentElement.type)
-  //
-  //   this.props.createDocument(data, callback);
-  // }
 
   openNewTaskModal(element) {
     this.setState({showNewTaskModal: true, parentElement: element});
@@ -232,6 +220,7 @@ export default class CategoryView extends React.Component {
                 <div className="content-deal-left">
                   <CategoryFileViewer elements={this.props.elements}
                                       selectElement={this.selectElement}
+                                      updateTask={this.props.updateTask}
                                       openNewDocumentModal={this.openNewDocumentModal}
                                       openNewFolderModal={this.openNewFolderModal}
                                       openNewTaskModal={this.openNewTaskModal}
