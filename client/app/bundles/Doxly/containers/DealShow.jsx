@@ -79,15 +79,19 @@ class DealShow extends React.Component {
     });
   }
 
-  updateTask(taskId, attrs, callback) {
+  updateTask(taskId, attrs, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
 
     doUpdateTask(taskId, attrs).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
-      if (callback) {
-        callback();
+      if (successCallback) {
+        successCallback();
+      }
+    }, function() {
+      if (errorCallback) {
+        errorCallback();
       }
     });
   }

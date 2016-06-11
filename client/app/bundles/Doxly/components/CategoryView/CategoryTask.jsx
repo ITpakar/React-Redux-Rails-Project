@@ -29,7 +29,8 @@ export default class CategoryTask extends React.Component {
     super(props, context);
 
     this.state = {
-      bodyClassnames: ["deal-task-item__panel", "collapse"]
+      bodyClassnames: ["deal-task-item__panel", "collapse"],
+      checked: (this.props.element.status || "").toLowerCase() == "complete"
     };
 
     _.bindAll(this, ['toggleContent', "selectTask", "openNewFolderModal", "openNewDocumentModal", "toggleStatus"]);
@@ -75,6 +76,7 @@ export default class CategoryTask extends React.Component {
   }
 
   toggleStatus() {
+    var _this = this;
     var status = (this.props.element.status || "incomplete").toLowerCase();
     if (status == "complete") {
       status = "incomplete";
@@ -82,7 +84,11 @@ export default class CategoryTask extends React.Component {
       status = "complete";
     }
 
-    this.props.updateTask(this.props.element.id, {status: status});
+    // For quick response.
+    this.setState({checked: status == "complete"});
+    this.props.updateTask(this.props.element.id, {status: status}, undefined, function () {
+      _this.setState({checked: !_this.state.checked});
+    });
   }
 
   render() {
@@ -144,12 +150,13 @@ export default class CategoryTask extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
+    var isChecked = this.state.checked;
     var isSelected = this.props.selectedElement &&
                      this.props.selectedElement.id == this.props.element.id &&
                      this.props.selectedElement.type == this.props.element.type;
 
   	return (
-      <div className={classnames(["deal-task-item", element.status || "unknown", (isSelected ? "deal-item-active" : "")])}>
+      <div className={classnames({"deal-task-item": true, "complete": isChecked, "deal-item-active" : isSelected})}>
           <div className="deal-task-item__header">
               <span className="checkbox-placeholder" onClick={this.toggleStatus}></span>
               <a className="deal-task-item__header-item" href="#" onClick={this.selectTask}>{element.title}</a>
