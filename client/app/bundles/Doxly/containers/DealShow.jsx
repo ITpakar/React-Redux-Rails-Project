@@ -79,7 +79,7 @@ class DealShow extends React.Component {
   }
 
   render() {
-    if (this.props.loadingSectionsStatus == actionTypes.REQUESTS.LOADING) {
+    if (!this.props.elements) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
       return (<CategoryView elements={this.props.elements}
@@ -111,26 +111,14 @@ function stateToProps(state, ownProps) {
 
   if (sectionsStore) {
     if (categoryName == "diligencecategory" && sectionsStore.diligenceSections) {
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.diligenceSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.diligenceSections.data.sections;
+      props.loadingSectionsStatus = sectionsStore.status;
     } else if (categoryName == "closingcategory" && sectionsStore.closingSections) {
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.closingSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.closingSections.data.sections;
+      props.loadingSectionsStatus = sectionsStore.status;
     } else if (sectionsStore.allSections){
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.allSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.allSections.data.sections;
+      props.loadingSectionsStatus = sectionsStore.status;
     }
   }
 

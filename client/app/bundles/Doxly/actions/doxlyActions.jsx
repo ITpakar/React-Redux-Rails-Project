@@ -40,7 +40,7 @@ export function loadCategorySectionsTree(dealId, category) {
   if (category) {
     var cat = category.name.toLowerCase();
     categoryId = category.id;
-    console.log("Line 43 ", cat);
+
     if (cat == "diligencecategory") {
       requestType = actionTypes.REQUESTS.LOAD_DILIGENCE_SECTIONS;
     } else if (cat == "closingcategory"){
