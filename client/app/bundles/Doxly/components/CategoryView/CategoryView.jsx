@@ -220,6 +220,7 @@ export default class CategoryView extends React.Component {
                 <div className="content-deal-left">
                   <CategoryFileViewer elements={this.props.elements}
                                       selectElement={this.selectElement}
+                                      selectedElement={this.state.selectedElement}
                                       updateTask={this.props.updateTask}
                                       openNewDocumentModal={this.openNewDocumentModal}
                                       openNewFolderModal={this.openNewFolderModal}

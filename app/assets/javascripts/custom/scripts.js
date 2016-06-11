@@ -89,6 +89,7 @@ jQuery(document).ready(function($) {
         $(this).toggleClass('favorite');
     })
 
+    /*
     $('body').on('click', 'a.deal-task-item__header-item', function (e) {
         e.preventDefault();
         var parent = $(this).closest('.deal-task-item'),
@@ -108,6 +109,7 @@ jQuery(document).ready(function($) {
             parent.addClass('deal-item-active');
         }
     });
+    */
 
     $('body').on('click', '.chat-box .chat-box-toggle .btn', function (e) {
         e.preventDefault();

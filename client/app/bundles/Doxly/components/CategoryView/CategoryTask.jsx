@@ -98,6 +98,7 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
+                           selectedElement={this.props.selectedElement}
                            updateTask={this.props.updateTask}
                            openNewDocumentModal={this.props.openNewDocumentModal}
                            openNewFolderModal={this.props.openNewFolderModal}
@@ -108,6 +109,7 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
+                        selectedElement={this.props.selectedElement}
                         updateTask={this.props.updateTask}
                         openNewDocumentModal={this.props.openNewDocumentModal}
                         openNewFolderModal={this.props.openNewFolderModal}
@@ -119,12 +121,16 @@ export default class CategoryTask extends React.Component {
         displayedChild = (
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
+                          selectedElement={this.props.selectedElement}
                           openNewDocumentModal={this.props.openNewDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child}
+                            selectElement={this.props.selectElement}
+                            selectedElement={this.props.selectedElement}
+                            key={"document_" + (i + 1)} />
         );
       }
 
@@ -138,8 +144,12 @@ export default class CategoryTask extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
+    var isSelected = this.props.selectedElement &&
+                     this.props.selectedElement.id == this.props.element.id &&
+                     this.props.selectedElement.type == this.props.element.type;
+
   	return (
-      <div className={classnames(["deal-task-item", element.status || "unknown"])}>
+      <div className={classnames(["deal-task-item", element.status || "unknown", (isSelected ? "deal-item-active" : "")])}>
           <div className="deal-task-item__header">
               <span className="checkbox-placeholder" onClick={this.toggleStatus}></span>
               <a className="deal-task-item__header-item" href="#" onClick={this.selectTask}>{element.title}</a>

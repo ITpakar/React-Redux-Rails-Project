@@ -58,6 +58,7 @@ export default class CategoryFileViewer extends React.Component {
           displayedElement = (
             <CategorySection element={element}
                              selectElement={this.props.selectElement}
+                             selectedElement={this.props.selectedElement}
                              updateTask={this.props.updateTask}
                              openNewDocumentModal={this.props.openNewDocumentModal}
                              openNewFolderModal={this.props.openNewFolderModal}
@@ -69,6 +70,7 @@ export default class CategoryFileViewer extends React.Component {
           displayedElement = (
             <CategoryTask element={element}
                           selectElement={this.props.selectElement}
+                          selectedElement={this.props.selectedElement}
                           updateTask={this.props.updateTask}
                           openNewDocumentModal={this.props.openNewDocumentModal}
                           openNewFolderModal={this.props.openNewFolderModal}
@@ -79,12 +81,16 @@ export default class CategoryFileViewer extends React.Component {
           displayedElement = (
             <CategoryFolder element={element}
                             selectElement={this.props.selectElement}
+                            selectedElement={this.props.selectedElement}
                             openNewDocumentModal={this.props.openNewDocumentModal}
                             key={"folder_" + (i + 1)} />
           );
         } else if (element.type == "Document") {
           displayedElement = (
-            <CategoryDocument element={element} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
+            <CategoryDocument element={element}
+                              selectElement={this.props.selectElement}
+                              selectedElement={this.props.selectedElement}
+                              key={"document_" + (i + 1)} />
           );
         }
 
