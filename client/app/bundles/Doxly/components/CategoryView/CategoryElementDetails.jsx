@@ -47,7 +47,17 @@ export default class CategoryElementDetails extends React.Component {
       <div className="deal-task-details">
         <div className="deal-task-details__header">
           <h4>{element.title}</h4>
-          <a href="#"><i className="icon-icon-edit"></i></a>
+            <div className="dropdown">
+              <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a href="#">Edit {element.type}</a>
+                </li>
+                <li>
+                  <a href="#">Delete {element.type}</a>
+                </li>
+              </ul>
+          </div>
         </div>
         <div className={classnames({"deal-task-details__body": true, "collapse": true, "in": this.state.showDescription})} id="deal-task-details__body" style={{height: (this.state.showDescription ? "" : 10)}}>
           {description}

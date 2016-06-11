@@ -5,7 +5,6 @@ export const initialState ={
 }
 
 export default function sectionsReducer(state = initialState, action) {
-  console.log("Line 9 ", state);
   switch (action.type) {
     case actionTypes.REQUESTS.LOAD_SECTIONS:
       switch (action.status) {
