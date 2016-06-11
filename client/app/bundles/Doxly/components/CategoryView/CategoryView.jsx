@@ -38,8 +38,7 @@ export default class CategoryView extends React.Component {
       parentElement: undefined
     }
 
-    _.bindAll(this, ['handleSearchChange',
-                     'handleButtonClick',
+    _.bindAll(this, ['handleButtonClick',
                      'handleSortChange',
                      "selectElement",
                      "openNewFolderModal",
@@ -57,14 +56,15 @@ export default class CategoryView extends React.Component {
     $(this.refs.button).popover();
   }
 
-  handleSearchChange(event) {
-  }
-
   handleButtonClick(event) {
   }
 
   handleSortChange(event) {
 
+  }
+
+  handleSubmit(event) {
+    event.prevenDefault();
   }
 
   selectElement(element) {
@@ -196,8 +196,8 @@ export default class CategoryView extends React.Component {
 
           <div className="row">
             <div className="toolbar-box">
-              <form>
-                  <SearchInput onChange={this.handleSearchChange} />
+              <form onSubmit={this.handleSubmit}>
+                  <SearchInput handleChange={this.props.searchTree} />
                   <GroupedSelectInput options={[
                     {
                       heading: "Sort By",
