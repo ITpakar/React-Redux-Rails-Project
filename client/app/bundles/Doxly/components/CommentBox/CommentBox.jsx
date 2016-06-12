@@ -6,18 +6,21 @@ import request from 'axios';
 import CommentList from './CommentList/CommentList'
 import CommentForm from './CommentForm/CommentForm'
 import {setComments, addComment} from '../../reducers/commentReducer';
+import {setCollaborators} from '../../reducers/collaboratorReducer';
 
 class CommentBox extends Component {
   static propTypes = {
     comments: PropTypes.array,
     setComments: PropTypes.func,
-    addComment: PropTypes.func
+    addComment: PropTypes.func,
+    setCollaborators: PropTypes.func,
   }
 
   componentDidMount() {
     
     // Fetch all comments from the backend
     this._fetchComments(this.props.element);
+    this._fetchCollaborators();
 
     // Subscribe to Channel
     this._subscribeToChannel();
@@ -37,11 +40,21 @@ class CommentBox extends Component {
   }
 
   _fetchComments = (element) => {
+    console.log(element);
     request
       .get('/api/comments?commentable_id=' + element.id + '&commentable_type=' + element.type)
       .then((res) => {
         this.props.setComments(res.data.data.comments);
         // this.forceUpdate();
+      });
+  }
+
+  _fetchCollaborators = () => {
+    let url = "/api/deals/" + this.props.deal_id + "/deal_collaborators";
+    request
+      .get(url)
+      .then((res) => {
+        this.props.setCollaborators(res.data.data.collaborators);
       });
   }
 
@@ -65,7 +78,7 @@ class CommentBox extends Component {
     return commentObject.comment_type == 'External';
   }
   render() {
-    const {comments} = this.props;
+    const {comments, collaborators} = this.props;
     return (
       <div className="chat-box chat-box-small">
         <div className="chat-box-toggle">
@@ -79,8 +92,11 @@ class CommentBox extends Component {
             <div className="chat-box__recipients">
                 <div className="chat-box__recipients-wrapper">
                     <div className="recipients-items">
-                        <a href="#" className="avatar"><img src="/assets/img-avatar-2.png"/></a>
-                        <a href="#" className="avatar"><img src="/assets/img-avatar-3.png"/></a>
+                    {
+                      collaborators.map((collaborator, index) => (
+                        <a href="#" className="avatar" key={index}><img src={collaborator.avatar_name}/></a>
+                      ))
+                    }   
                     </div>
                     <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
                 </div>
@@ -117,6 +133,6 @@ class CommentBox extends Component {
   }
 }
 export default connect(
-  ({commentStore}) => ({ comments: commentStore.comments }),
-  dispatch => bindActionCreators({setComments, addComment}, dispatch)
+  ({commentStore, collaboratorStore}) => ({ comments: commentStore.comments, collaborators: collaboratorStore.collaborators }),
+  dispatch => bindActionCreators({setComments, addComment, setCollaborators}, dispatch)
 )(CommentBox);

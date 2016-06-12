@@ -84,6 +84,7 @@ console.log("Line 70 ", formData);
     } else {
       return (<CategoryView elements={this.props.elements}
                             user_id={this.props.user_id}
+                            deal_id={this.props.id}
                             createFolder={this.createFolder}
                             createTask={this.createTask}
                             createSection={this.createSection}

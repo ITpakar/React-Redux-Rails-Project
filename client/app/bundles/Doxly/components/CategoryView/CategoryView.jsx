@@ -157,7 +157,7 @@ console.log("Line 100 ", title, file);
         <CategoryElementDetails element={this.state.selectedElement} />
       );
       selectedElementComments = (
-        <CommentBox user_id={this.props.user_id} element={this.state.selectedElement} />
+        <CommentBox user_id={this.props.user_id} element={this.state.selectedElement} deal_id={this.props.deal_id} />
       );
     }
 
