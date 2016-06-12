@@ -83,6 +83,7 @@ console.log("Line 70 ", formData);
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
       return (<CategoryView elements={this.props.elements}
+                            user_id={this.props.user_id}
                             createFolder={this.createFolder}
                             createTask={this.createTask}
                             createSection={this.createSection}
@@ -92,6 +93,7 @@ console.log("Line 70 ", formData);
 }
 
 DealShow.propTypes = {
+  user_id: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   category: PropTypes.object.isRequired,
   elements: PropTypes.arrayOf(PropTypes.object),

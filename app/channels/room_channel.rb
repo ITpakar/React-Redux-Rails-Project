@@ -11,7 +11,8 @@ class RoomChannel < ApplicationCable::Channel
   def speak(data)
     comment = Comment.new
     comment_params = data['comment']
-    comment.organization_user_id = current_user.organization_user_id
+    user = User.find(comment_params['user_id'])
+    comment.organization_user_id = user.organization_user.id
     comment.commentable_type = comment_params['commentable_type']
     comment.commentable_id = comment_params['commentable_id']
     comment.comment_type = comment_params['comment_type']

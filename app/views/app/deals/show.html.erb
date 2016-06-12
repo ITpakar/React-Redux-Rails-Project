@@ -83,12 +83,12 @@
                             %>
                             <div role="tabpanel" class="tab-pane " id="tab-deal-diligence">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id].to_i, :category => {:name => diligence_category.name, :id => diligence_category.id}}) %>
+                                  <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => diligence_category.name, :id => diligence_category.id}}) %>
                                 </div>
                             </div> <!-- tab panel Diligence End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing">
                                 <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {:id => params[:id].to_i, :category => {:name => closing_category.name, :id => closing_category.id}}) %>
+                                  <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => closing_category.name, :id => closing_category.id}}) %>
                                 </div>
                             </div> <!-- tab panel Closing End -->
                             <div role="tabpanel" class="tab-pane" id="tab-deal-closing-book"> <!-- -->
