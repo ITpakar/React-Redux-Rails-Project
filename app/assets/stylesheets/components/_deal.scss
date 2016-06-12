@@ -551,19 +551,21 @@
 }
 
 
-.deal-element-add-item > span {
-  font-size: 12px;
-  letter-spacing: 0px;
-  line-height: 40px;
-  color: $col-blue;
+.deal-element-add-item{
+  > span, a {
+    font-size: 12px;
+    letter-spacing: 0px;
+    line-height: 40px;
+    color: $col-blue;
 
-  i {
-      font-size: 10px;
-      margin-right: 12px;
-  }
+    i {
+        font-size: 10px;
+        margin-right: 12px;
+    }
 
-  a {
-    text-decoration: underline;
+    a {
+      text-decoration: underline;
+    }
   }
 }
 

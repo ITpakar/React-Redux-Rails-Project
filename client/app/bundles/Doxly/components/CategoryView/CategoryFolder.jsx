@@ -131,7 +131,7 @@ export default class CategoryFolder extends React.Component {
           <div className="deal-element-folder-elements">
             {displayedChildren}
             <div className="deal-element-add-item deal-item-add-document">
-              <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewDocumentModal}>File</a></span>
+              <a href="#" onClick={this.openNewDocumentModal}><i className="icon-icon-plus"></i> Add a new File</a>
             </div>
           </div>
         </div>
