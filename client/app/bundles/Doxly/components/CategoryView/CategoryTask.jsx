@@ -29,8 +29,7 @@ export default class CategoryTask extends React.Component {
     super(props, context);
 
     this.state = {
-      bodyClassnames: ["deal-task-item__panel", "collapse"],
-      checked: (this.props.element.status || "").toLowerCase() == "complete"
+      bodyClassnames: ["deal-task-item__panel", "collapse"]
     };
 
     _.bindAll(this, ['toggleContent', "selectTask", "openNewFolderModal", "openNewDocumentModal", "toggleStatus"]);
@@ -85,10 +84,7 @@ export default class CategoryTask extends React.Component {
     }
 
     // For quick response.
-    this.setState({checked: status == "complete"});
-    this.props.updateTask(this.props.element.id, {status: status}, undefined, function () {
-      _this.setState({checked: !_this.state.checked});
-    });
+    this.props.updateTask(this.props.element.id, {status: status});
   }
 
   render() {
@@ -150,7 +146,7 @@ export default class CategoryTask extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
-    var isChecked = this.state.checked;
+    var isChecked = (this.props.element.status || "").toLowerCase() == "complete";
     var isSelected = this.props.selectedElement &&
                      this.props.selectedElement.id == this.props.element.id &&
                      this.props.selectedElement.type == this.props.element.type;

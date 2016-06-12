@@ -150,7 +150,7 @@ class DealShow extends React.Component {
 
   removeUnmatchedChildren(element, matchedElements) {
     if (element && element.elements) {
-      for (let i = element.elements.length - 1; i > 0; i--) {
+      for (let i = element.elements.length - 1; i >= 0; i--) {
         let el = element.elements[i];
         let matched = false;
 
@@ -159,12 +159,14 @@ class DealShow extends React.Component {
           matched = matched || el.type == matchedEl.type && el.id == matchedEl.id;
         }
 
-        matched = matched || this.hasMatchedChildren(el, matchedElements);
-
         if (!matched) {
-          element.elements.splice(i, 1);
-        } else {
-          this.removeUnmatchedChildren(el, matchedElements);
+          matched = this.hasMatchedChildren(el, matchedElements);
+
+          if (matched) {
+            this.removeUnmatchedChildren(el, matchedElements);
+          } else {
+            element.elements.splice(i, 1);
+          }
         }
       }
     }
@@ -175,18 +177,21 @@ class DealShow extends React.Component {
       return elements;
     }
 
+    // Search flatten al elements
     var flattenedElements = this.flattenElements(elements);
     var matchedElements = [];
 
+    // Second, store all matched elements inside matchedElements
     for (let i = 0; i < flattenedElements.length; i++) {
       let el = flattenedElements[i];
-      let matched = el.title && el.title.toLowerCase().indexOf(value) >= 0 || el.description && el.description.toLowerCase().indexOf(value) >= 0;
+      let matched = (el.title || "").toLowerCase().indexOf(value) >= 0 || (el.description || "").toLowerCase().indexOf(value) >= 0;
 
       if (matched) {
         matchedElements.push(el);
       }
     }
 
+    // Construct new tree base on the matchedElements
     var newTree = [];
     for (let i = 0; i < elements.length; i++) {
       let el = elements[i];
@@ -197,13 +202,17 @@ class DealShow extends React.Component {
         matched = matched || el.type == matchedEl.type && el.id == matchedEl.id;
       }
 
-      matched = matched || this.hasMatchedChildren(el, matchedElements);
-
       if (matched) {
         newTree.push(el);
+      } else {
+        // If element is not matched, but it has matched descendants
+        // Then we need to remove any children that are not matched.
+        matched = this.hasMatchedChildren(el, matchedElements);
+        if (matched) {
+          newTree.push(el);
+          this.removeUnmatchedChildren(el, matchedElements);
+        }
       }
-
-      this.removeUnmatchedChildren(el, matchedElements);
     }
 
     return newTree;
