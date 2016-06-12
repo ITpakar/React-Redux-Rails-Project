@@ -103,6 +103,8 @@
 
     .chat-box__messages{
         padding: 10px;
+        height: 210px;
+        overflow-y: auto;
         .comment-item{
             @extend %clearfix;
             padding-top: 5px;

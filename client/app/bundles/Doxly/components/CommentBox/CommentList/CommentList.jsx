@@ -9,7 +9,7 @@ export default class CommentList extends Component {
   render() {
     const {comments} = this.props;
     return (
-      <div className="chat-box__messages">
+      <div ref="chatbox_messages" className="chat-box__messages">
         {comments.map(comment => (
           <div key={comment.comment_id} className="comment-item comment-to">
               <div className="comment-avatar"><img src={comment.user.avatar_name} /></div>
@@ -19,5 +19,9 @@ export default class CommentList extends Component {
         )}
       </div>
     );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.refs.chatbox_messages.scrollTop = this.refs.chatbox_messages.scrollHeight;
   }
 }
