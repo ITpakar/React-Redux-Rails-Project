@@ -184,10 +184,15 @@ class Api::DealsController < ApplicationController
       end_time = (start_time + 5.months).end_of_month
     end
 
-    scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
+    #scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
     if by == "size"
-      scope = scope.group("1, 2")
-                   .select("deal_size, EXTRACT(MONTH FROM deals.created_at) AS month, COUNT(*) AS count")
+      if time == "1_month"
+        scope = scope.group("1, 2")
+                     .select("deal_size, EXTRACT(DAY FROM deals.created_at) AS month, COUNT(*) AS count")
+      else
+        scope = scope.group("1, 2")
+                     .select("deal_size, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) AS count")
+      end
     elsif by == "type"
       scope = scope.group(:transaction_type)
                    .select("transaction_type, COUNT(*) as count")
