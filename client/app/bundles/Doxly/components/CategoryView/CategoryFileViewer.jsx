@@ -102,7 +102,7 @@ export default class CategoryFileViewer extends React.Component {
       <div className="deal-section" id="deal-sections">
         {displayedElements}
         <div className="deal-element-add-item deal-element-add-new-section">
-          <a href="#" onClick={this.openNewSectionModal}><i className="icon-icon-plus"></i> Add a new Section</a>
+          <a href="#" onClick={this.openNewSectionModal}><i className="icon-icon-plus"></i> Add a Section</a>
         </div>
       </div>
   	);
