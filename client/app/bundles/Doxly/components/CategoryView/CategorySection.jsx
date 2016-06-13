@@ -40,7 +40,8 @@ export default class CategorySection extends React.Component {
       sectionBodyClassnames.push("in");
     }
     this.state = {
-      sectionBodyClassnames: sectionBodyClassnames
+      sectionBodyClassnames: sectionBodyClassnames,
+      open: false
     };
 
     _.bindAll(this, ['toggleContent', "openNewTaskModal"]);
@@ -58,7 +59,7 @@ export default class CategorySection extends React.Component {
       sectionBodyClassnames.push("in");
     }
 
-    this.setState({sectionBodyClassnames: sectionBodyClassnames});
+    this.setState({sectionBodyClassnames: sectionBodyClassnames, open: !this.state.open});
     this.props.selectElement(undefined);
   }
 
@@ -127,6 +128,8 @@ export default class CategorySection extends React.Component {
     if (sectionBodyClassnames.indexOf("in") == -1) {
       toggleClassnames.push("collapsed");
     }
+      console.log(this.state.open);
+
 
     var isSelected = this.props.selectedElement &&
                      this.props.selectedElement.id == this.props.element.id &&
@@ -147,7 +150,6 @@ export default class CategorySection extends React.Component {
               <a href="#" onClick={this.openNewTaskModal}><i className="icon-icon-plus"></i> Add a Task</a>
             </div>
           </div>
-        </div>
 			</div>
   	);
   }

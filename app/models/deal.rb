@@ -41,6 +41,8 @@ class Deal < ActiveRecord::Base
   # Scopes
   scope :behind_schedule, -> {where('projected_close_date < ?', Date.today).uniq}
   scope :nearing_completion, -> {where('projected_close_date >= ? AND projected_close_date < ?', Date.today, Date.today + NEARING_COMPLETION_DAYS.days).uniq}
+  scope :active, -> {where(status: ACTIVE_STATUSES).uniq}
+  scope :complete, -> {where(status: ARCHIVED_STATUSES + CLOSED_STATUSES).uniq}
 
   before_validation :set_default_status, :set_organization_id
   after_save :create_notification_if_closed
@@ -137,6 +139,14 @@ class Deal < ActiveRecord::Base
   def close!
     self.status = "Closed"
     self.save
+  end
+
+  def active?
+    ACTIVE_STATUSES.include? deal.status
+  end
+
+  def complete?
+    (ARCHIVED_STATUSES + CLOSED_STATUSES).include? deal.status
   end
 
   def to_hash

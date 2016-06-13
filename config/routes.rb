@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       resources :starred_deals, only: [:index, :create, :update, :destroy]
       resources :sections
     end
+
+    resources :team_members, only: [:index, :show, :update, :create, :destroy]  
   end
 
   scope '/api', module: 'api', as: 'api' do

@@ -161,7 +161,7 @@ class Api::DocumentsController < ApplicationController
     # TODO: Check user permission with documentable first
     @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
     @document.created_by = current_user.id
-    document.upload_to_box(path, current_user)
+    @document.upload_to_box(path, current_user)
     if @document.save
       success_response(["Document created successfully."])
     else
