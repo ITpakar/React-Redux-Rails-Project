@@ -150,6 +150,7 @@ export default class CategorySection extends React.Component {
               <a href="#" onClick={this.openNewTaskModal}><i className="icon-icon-plus"></i> Add a Task</a>
             </div>
           </div>
+        </div>
 			</div>
   	);
   }

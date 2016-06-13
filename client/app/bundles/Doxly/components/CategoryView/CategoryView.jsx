@@ -191,7 +191,7 @@ export default class CategoryView extends React.Component {
     }))
 
     let completedTasks = _.reject(tasks, function(task) {
-      return task.status == "Complete";
+      return task.status != "Complete";
     })
 
     return (
