@@ -20,7 +20,6 @@ class App::DashboardController < App::ApplicationController
     @user = current_user
     password = params[:user][:password]
     @user.assign_attributes(setting_params)
-puts "Line 17 #{password.inspect} #{setting_params.inspect}"
 
     if @user.valid_password?(password)
       if @user.save
