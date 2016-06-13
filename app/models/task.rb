@@ -81,12 +81,12 @@ class Task < ApplicationRecord
       due_date:     self.due_date
     }
 
-    if self.creator
-      data[:creator] = self.creator.to_hash(false)
+    if self.organization_user
+      data[:organization_user] = self.organization_user
     end
 
     if self.assignee
-      data[:assignee] = self.assignee.to_hash(false)
+      data[:assignee] = self.assignee.user.to_hash(false)
     end
 
     return data

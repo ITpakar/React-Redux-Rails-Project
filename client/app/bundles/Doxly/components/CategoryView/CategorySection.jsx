@@ -83,6 +83,8 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
+                           selectedElement={this.props.selectedElement}
+                           updateTask={this.props.updateTask}
                            openNewDocumentModal={this.props.openNewDocumentModal}
                            openNewFolderModal={this.props.openNewFolderModal}
                            openNewTaskModal={this.props.openNewTaskModal}
@@ -92,6 +94,8 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
+                        selectedElement={this.props.selectedElement}
+                        updateTask={this.props.updateTask}
                         openNewDocumentModal={this.props.openNewDocumentModal}
                         openNewFolderModal={this.props.openNewFolderModal}
                         openNewTaskModal={this.props.openNewTaskModal}
@@ -101,12 +105,16 @@ export default class CategorySection extends React.Component {
         displayedChild = (
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
+                          selectedElement={this.props.selectedElement}
                           openNewDocumentModal={this.props.openNewDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
         displayedChild = (
-          <CategoryDocument element={child} selectElement={this.props.selectElement} key={"document_" + (i + 1)} />
+          <CategoryDocument element={child}
+                            selectElement={this.props.selectElement}
+                            selectedElement={this.props.selectedElement}
+                            key={"document_" + (i + 1)} />
         );
       }
 
@@ -120,8 +128,12 @@ export default class CategorySection extends React.Component {
       toggleClassnames.push("collapsed");
     }
 
+    var isSelected = this.props.selectedElement &&
+                     this.props.selectedElement.id == this.props.element.id &&
+                     this.props.selectedElement.type == this.props.element.type;
+
   	return (
-			<div className="deal-section-item">
+			<div className={classnames({"deal-section-item": true, "deal-item-active": isSelected})}>
 				<div className="deal-section__header">
           <a className={toggleClassnames.join(" ")} href="#" onClick={this.toggleContent}>{element.title}</a>
           <div className={classnames({"badge-chat-container": true, "hidden": element.comments_count == 0})}>
@@ -133,7 +145,7 @@ export default class CategorySection extends React.Component {
             {displayedChildren}
           </div>
           <div className="deal-element-add-item deal-element-add-new-task">
-            <span><i className="icon-icon-plus"></i> Add a new <a href="#" onClick={this.openNewTaskModal}>Task</a></span>
+            <a href="#" onClick={this.openNewTaskModal}><i className="icon-icon-plus"></i> Add a new Task</a>
           </div>
         </div>
 			</div>

@@ -1,5 +1,5 @@
 import actionTypes from '../constants';
-import {doLoadCategorySectionsTree} from "../utils/api";
+import {doLoadCategorySectionsTree, doLoadDealCollaborators} from "../utils/api";
 
 export function starDeal(id, title, url) {
 
@@ -40,7 +40,7 @@ export function loadCategorySectionsTree(dealId, category) {
   if (category) {
     var cat = category.name.toLowerCase();
     categoryId = category.id;
-    console.log("Line 43 ", cat);
+
     if (cat == "diligencecategory") {
       requestType = actionTypes.REQUESTS.LOAD_DILIGENCE_SECTIONS;
     } else if (cat == "closingcategory"){
@@ -55,6 +55,32 @@ export function loadCategorySectionsTree(dealId, category) {
   return function(dispatch) {
     dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
     return doLoadCategorySectionsTree(dealId, categoryId).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function loadDealCollaborators(dealId) {
+  var requestType = actionTypes.REQUESTS.LOAD_DEAL_COLLABORATORS;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadDealCollaborators(dealId).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function updateTask(taskId, attrs) {
+  var requestType = actionTypes.REQUESTS.UPDATE_TASK;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doUpdateTask(dealId, attrs).then(function(responseData, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));

@@ -359,7 +359,6 @@
         position: relative;
         @extend %clearfix;
         h4{
-            @include singleLine;
             font-weight: 300;
             font-size: 24px;
             color: $col-dark-gray;
@@ -549,4 +548,35 @@
 
 .deal-element-add-new-section {
   padding: 5px 0 5px 10px;
+}
+
+
+.deal-element-add-item{
+  > span, a {
+    font-size: 12px;
+    letter-spacing: 0px;
+    line-height: 40px;
+    color: $col-blue;
+
+    i {
+        font-size: 10px;
+        margin-right: 12px;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}
+
+.deal-task-item__header {
+  position: relative;
+  .checkbox-placeholder {
+    display: block;
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+  }
 }

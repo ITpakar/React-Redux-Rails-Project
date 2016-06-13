@@ -33,7 +33,6 @@ export function doCreateSection(dealId, attrs) {
 }
 
 export function doCreateDocument(formData) {
-  // return submitRequest("/api/documents", "post", formData);
   return $.ajax({
     url: '/api/documents?files',
     type: 'POST',
@@ -43,4 +42,12 @@ export function doCreateDocument(formData) {
     processData: false, // Don't process the files
     contentType: false // Set content type to false as jQuery will tell the server its a query string request
     });
+}
+
+export function doLoadDealCollaborators(dealId) {
+  return submitRequest("/api/deals/" + dealId + "/deal_collaborators", "get");
+}
+
+export function doUpdateTask(taskId, attrs) {
+  return submitRequest("/api/tasks/" + taskId, "put", {task: attrs});
 }

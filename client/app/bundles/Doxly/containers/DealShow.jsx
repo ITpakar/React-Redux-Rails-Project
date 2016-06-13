@@ -3,19 +3,32 @@ import { bindActionCreators } from 'redux'
 import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
-import {loadCategorySectionsTree} from "../actions/doxlyActions";
-import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument} from "../utils/api";
+import {loadCategorySectionsTree, loadDealCollaborators} from "../actions/doxlyActions";
+import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument, doUpdateTask} from "../utils/api";
 
 class DealShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createFolder", "createTask", "createSection", "createDocument"]);
+    this.state = {
+      searchTreeValue: ""
+    };
+    _.bindAll(this, ["createFolder",
+                     "createTask",
+                     "createSection",
+                     "createDocument",
+                     "updateTask",
+                     "searchTree",
+                     "hasMatchedChildren",
+                     "searchTreeByValue",
+                     "flattenElements",
+                     "removeUnmatchedChildren"]);
   }
 
   componentWillMount() {
     var dealId = this.props.id;
     var category = this.props.category;
     this.props.loadCategorySectionsTree(dealId, category);
+    this.props.loadDealCollaborators(dealId);
   }
 
   createFolder(folderAttrs, callback) {
@@ -67,7 +80,7 @@ class DealShow extends React.Component {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
-console.log("Line 70 ", formData);
+
     formData.append("document[deal_id]", dealId)
     doCreateDocument(formData).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
@@ -78,11 +91,142 @@ console.log("Line 70 ", formData);
     });
   }
 
+  updateTask(taskId, attrs, successCallback, errorCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    doUpdateTask(taskId, attrs).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+      if (successCallback) {
+        successCallback();
+      }
+    }, function() {
+      if (errorCallback) {
+        errorCallback();
+      }
+    });
+  }
+
+  searchTree(value) {
+    this.setState({searchTreeValue: value});
+  }
+
+  flattenElements(elements) {
+    if (!elements) {
+      return [];
+    }
+
+    var results = [];
+    for (let i = 0; i < elements.length; i++) {
+      let el = elements[i];
+      results.push(el);
+      results = _.union(results, this.flattenElements(el.elements))
+    }
+
+    return results;
+  }
+
+  hasMatchedChildren(element, matchedElements) {
+    if (!element || !element.elements) {
+      return false;
+    }
+
+    var matched = false;
+
+    for (let i = 0; i < element.elements.length; i++) {
+      let el = element.elements[i];
+
+      for (let j = 0; j < matchedElements.length; j++) {
+        let matchedEl = matchedElements[j];
+        matched = matched || matchedEl.type == el.type && matchedEl.id == el.id;
+      }
+
+      matched = matched || this.hasMatchedChildren(el, matchedElements);
+    }
+
+    return matched;
+  }
+
+  removeUnmatchedChildren(element, matchedElements) {
+    if (element && element.elements) {
+      for (let i = element.elements.length - 1; i >= 0; i--) {
+        let el = element.elements[i];
+        let matched = false;
+
+        for (let j = 0; j < matchedElements.length; j++) {
+          let matchedEl = matchedElements[j];
+          matched = matched || el.type == matchedEl.type && el.id == matchedEl.id;
+        }
+
+        if (!matched) {
+          matched = this.hasMatchedChildren(el, matchedElements);
+
+          if (matched) {
+            this.removeUnmatchedChildren(el, matchedElements);
+          } else {
+            element.elements.splice(i, 1);
+          }
+        }
+      }
+    }
+  }
+
+  searchTreeByValue(elements, value) {
+    if (!value || !elements) {
+      return elements;
+    }
+
+    // Search flatten al elements
+    var flattenedElements = this.flattenElements(elements);
+    var matchedElements = [];
+
+    // Second, store all matched elements inside matchedElements
+    for (let i = 0; i < flattenedElements.length; i++) {
+      let el = flattenedElements[i];
+      let matched = (el.title || "").toLowerCase().indexOf(value) >= 0 || (el.description || "").toLowerCase().indexOf(value) >= 0;
+
+      if (matched) {
+        matchedElements.push(el);
+      }
+    }
+
+    // Construct new tree base on the matchedElements
+    var newTree = [];
+    for (let i = 0; i < elements.length; i++) {
+      let el = elements[i];
+      let matched = false;
+
+      for (let j = 0; j < matchedElements.length; j++) {
+        let matchedEl = matchedElements[j];
+        matched = matched || el.type == matchedEl.type && el.id == matchedEl.id;
+      }
+
+      if (matched) {
+        newTree.push(el);
+      } else {
+        // If element is not matched, but it has matched descendants
+        // Then we need to remove any children that are not matched.
+        matched = this.hasMatchedChildren(el, matchedElements);
+        if (matched) {
+          newTree.push(el);
+          this.removeUnmatchedChildren(el, matchedElements);
+        }
+      }
+    }
+
+    return newTree;
+  }
+
   render() {
-    if (this.props.loadingSectionsStatus == actionTypes.REQUESTS.LOADING) {
+    if (!this.props.elements) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<CategoryView elements={this.props.elements}
+      var elements = this.searchTreeByValue(jQuery.extend(true, [], this.props.elements), this.state.searchTreeValue);
+      return (<CategoryView elements={elements}
+                            collaborators={this.props.collaborators}
+                            updateTask={this.updateTask}
+                            searchTree={this.searchTree}
                             user_id={this.props.user_id}
                             deal_id={this.props.id}
                             createFolder={this.createFolder}
@@ -99,11 +243,14 @@ DealShow.propTypes = {
   category: PropTypes.object.isRequired,
   elements: PropTypes.arrayOf(PropTypes.object),
   loadingSectionsStatus: PropTypes.string,
-  loadCategorySectionsTree: PropTypes.func.isRequired
+  loadCategorySectionsTree: PropTypes.func.isRequired,
+  collaborators: PropTypes.arrayOf(PropTypes.object),
+  loadDealCollaborators: PropTypes.func.isRequired
 }
 
 function stateToProps(state, ownProps) {
   let sectionsStore = state.sectionsStore;
+  let dealCollaboratorsStore = state.dealCollaboratorsStore;
   let props = {};
   let category = ownProps.category;
   let categoryName;
@@ -114,34 +261,27 @@ function stateToProps(state, ownProps) {
 
   if (sectionsStore) {
     if (categoryName == "diligencecategory" && sectionsStore.diligenceSections) {
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.diligenceSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.diligenceSections.data.sections;
+      props.loadingSectionsStatus = sectionsStore.status;
     } else if (categoryName == "closingcategory" && sectionsStore.closingSections) {
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.closingSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.closingSections.data.sections;
+      props.loadingSectionsStatus = sectionsStore.status;
     } else if (sectionsStore.allSections){
-      if (sectionsStore.status == actionTypes.REQUESTS.FINISH_LOADING) {
-        props.elements = sectionsStore.allSections.data.sections;
-        props.loadingSectionsStatus = sectionsStore.status;
-      } else if (sectionsStore.status == actionTypes.REQUESTS.LOADING) {
-        props.loadingSectionsStatus = sectionsStore.status;
-      }
+      props.elements = sectionsStore.allSections.data.sections;
     }
+  }
+
+  if (dealCollaboratorsStore && dealCollaboratorsStore.data) {
+    props.collaborators = dealCollaboratorsStore.data.data.collaborators;
+    props.loadingDealCollaboratorsStatus = dealCollaboratorsStore.status;
   }
 
   return props;
 }
 
 DealShow = connect(stateToProps, {
-  loadCategorySectionsTree
+  loadCategorySectionsTree,
+  loadDealCollaborators
 })(DealShow);
 
 export default DealShow;

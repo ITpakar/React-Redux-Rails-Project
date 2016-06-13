@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   def context
     if self.is_organization_admin? self.organization
       return self.organization
-    end 
+    end
 
     return self.organization_user
   end
@@ -200,5 +200,9 @@ class User < ActiveRecord::Base
     token = Boxr::get_user_token(self.box_user_id.to_s)
     access_token = token.access_token
     Boxr::Client.new(access_token)
+  end
+
+  def name
+    "#{first_name} #{last_name}"
   end
 end

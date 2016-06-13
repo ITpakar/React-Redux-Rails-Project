@@ -10,6 +10,7 @@ import NewTaskModal from "./NewTaskModal";
 import NewSectionModal from "./NewSectionModal";
 import NewDocumentModal from "./NewDocumentModal";
 import CommentBox from "../CommentBox/CommentBox";
+import _ from "lodash";
 
 // Props
 // title
@@ -37,8 +38,7 @@ export default class CategoryView extends React.Component {
       parentElement: undefined
     }
 
-    _.bindAll(this, ['handleSearchChange',
-                     'handleButtonClick',
+    _.bindAll(this, ['handleButtonClick',
                      'handleSortChange',
                      "selectElement",
                      "openNewFolderModal",
@@ -49,16 +49,11 @@ export default class CategoryView extends React.Component {
                      "closeNewTaskModal",
                      "closeNewSectionModal",
                      "closeNewDocumentModal",
-                     "createFolder",
-                     "createTask",
-                     "createDocument"]);
+                     "getChildElementsOf"]);
   }
 
   componentDidMount() {
     $(this.refs.button).popover();
-  }
-
-  handleSearchChange(event) {
   }
 
   handleButtonClick(event) {
@@ -66,6 +61,10 @@ export default class CategoryView extends React.Component {
 
   handleSortChange(event) {
 
+  }
+
+  handleSubmit(event) {
+    event.prevenDefault();
   }
 
   selectElement(element) {
@@ -80,13 +79,6 @@ export default class CategoryView extends React.Component {
     this.setState({showNewFolderModal: false, parentElement: undefined});
   }
 
-  createFolder(folderAttrs, callback) {
-    var parentElement = this.state.parentElement;
-    folderAttrs.task_id = parentElement.id;
-
-    this.props.createFolder(folderAttrs, callback);
-  }
-
   openNewDocumentModal(element) {
     this.setState({showNewDocumentModal: true, parentElement: element});
   }
@@ -95,31 +87,12 @@ export default class CategoryView extends React.Component {
     this.setState({showNewDocumentModal: false, parentElement: undefined});
   }
 
-  createDocument(title, file, callback) {
-    var parentElement = this.state.parentElement;
-    var data = new FormData();
-console.log("Line 100 ", title, file);
-    data.append("document[file]", file);
-    data.append("document[title]", title)
-    data.append("document[documentable_id]", parentElement.id)
-    data.append("document[documentable_type]", parentElement.type)
-
-    this.props.createDocument(data, callback);
-  }
-
   openNewTaskModal(element) {
     this.setState({showNewTaskModal: true, parentElement: element});
   }
 
   closeNewTaskModal() {
     this.setState({showNewTaskModal: false, parentElement: undefined});
-  }
-
-  createTask(taskAttrs, callback) {
-    var parentElement = this.state.parentElement;
-    taskAttrs.section_id = parentElement.id;
-
-    this.props.createTask(taskAttrs, callback);
   }
 
   openNewSectionModal() {
@@ -149,6 +122,23 @@ console.log("Line 100 ", title, file);
     }
   }
 
+  getChildElementsOf(element, type) {
+    var results = [];
+
+    if (element && element.elements) {
+      for (let i = 0; i < element.elements.length; i++) {
+        let el = element.elements[i];
+        if (el.type == type) {
+          results.push(el)
+        }
+
+        results = _.union(results, this.getChildElementsOf(el, type));
+      }
+    }
+
+    return results;
+  }
+
   render() {
     var selectedElementDetails;
     var selectedElementComments;
@@ -161,18 +151,61 @@ console.log("Line 100 ", title, file);
       );
     }
 
+    var toolbarBoxOverlayActions = (
+      <Popover id="create-new-element">
+        <div className='popover-menu-deal'>
+          <a href='#' onClick={this.openNewSectionModal}>New Section</a>
+          <a href='#' onClick={this.openNewTaskModal.bind(this, undefined)}>New Task</a>
+          <a href='#' onClick={this.openNewDocumentModal.bind(this, undefined)}>New File</a>
+          <a href='#' onClick={this.openNewFolderModal.bind(this, undefined)}>New Folder</a>
+        </div>
+      </Popover>
+    );
+
+    var availableSections = [];
+    var availableTasks = [];
+    var availableFolders = [];
+    var availableTasksAndFolders = [];
+    var elements = this.props.elements;
+    if (elements) {
+      for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        if (el.type == "Section") {
+          availableSections.push(el);
+        } else if (el.type == "Task") {
+          availableTasks.push(el);
+        } else if (el.type == "Folder") {
+          availableFolders.push(el);
+        }
+
+        availableSections = _.union(availableSections, this.getChildElementsOf(el, "Section"));
+        availableTasks = _.union(availableTasks, this.getChildElementsOf(el, "Task"));
+        availableFolders = _.union(availableFolders, this.getChildElementsOf(el, "Folder"));
+      }
+
+      availableTasksAndFolders = _.union(availableTasks, availableFolders)
+    }
+
+    let tasks = _.flatten(_.map(this.props.elements, function(e) {
+      return e.elements;
+    }))
+
+    let completedTasks = _.reject(tasks, function(task) {
+      return task.status == "Complete";
+    })
+
     return (
         <div className="container-fluid">
           <div className="row">
               <CategoryProgress title={this.props.title}
-                                totalCount={100}
-                                completedCount={100} />
+                                totalCount={tasks.length}
+                                completedCount={completedTasks.length} />
           </div>
 
           <div className="row">
             <div className="toolbar-box">
-              <form>
-                  <SearchInput onChange={this.handleSearchChange} />
+              <form onSubmit={this.handleSubmit}>
+                  <SearchInput handleChange={this.props.searchTree} placeholder="Search Sections, Tasks, Folders and Files"/>
                   <GroupedSelectInput options={[
                     {
                       heading: "Sort By",
@@ -182,7 +215,7 @@ console.log("Line 100 ", title, file);
                       onChange: this.handleSortChange
                     }
                   ]} />
-                  <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="create-new-element"><div className='popover-menu-deal'><a href='#' data-target='#modal-new-section' data-toggle='modal'>New Section</a><a href='#' data-target='#modal-new-task' data-toggle='modal'>New Task</a><a href='#' data-target='#modal-new-file' data-toggle='modal'>New File</a><a href='#' data-target='#modal-new-folder' data-toggle='modal'>New Folder</a></div></Popover>}>
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
                     <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
                   </OverlayTrigger>
               </form>
@@ -195,6 +228,8 @@ console.log("Line 100 ", title, file);
                 <div className="content-deal-left">
                   <CategoryFileViewer elements={this.props.elements}
                                       selectElement={this.selectElement}
+                                      selectedElement={this.state.selectedElement}
+                                      updateTask={this.props.updateTask}
                                       openNewDocumentModal={this.openNewDocumentModal}
                                       openNewFolderModal={this.openNewFolderModal}
                                       openNewTaskModal={this.openNewTaskModal}
@@ -208,16 +243,23 @@ console.log("Line 100 ", title, file);
             </div>
           </div>
 
-          <NewFolderModal createFolder={this.createFolder}
+          <NewFolderModal parentElement={this.state.parentElement}
+                          tasks={availableTasks}
+                          createFolder={this.props.createFolder}
                           closeNewFolderModal={this.closeNewFolderModal}
                           showNewFolderModal={this.state.showNewFolderModal} />
-          <NewTaskModal createTask={this.createTask}
+          <NewTaskModal parentElement={this.state.parentElement}
+                        assignees={this.props.collaborators}
+                        sections={availableSections}
+                        createTask={this.props.createTask}
                         closeNewTaskModal={this.closeNewTaskModal}
                         showNewTaskModal={this.state.showNewTaskModal} />
           <NewSectionModal createSection={this.props.createSection}
-               closeNewSectionModal={this.closeNewSectionModal}
-               showNewSectionModal={this.state.showNewSectionModal} />
-          <NewDocumentModal createDocument={this.createDocument}
+                           closeNewSectionModal={this.closeNewSectionModal}
+                           showNewSectionModal={this.state.showNewSectionModal} />
+          <NewDocumentModal parentElement={this.state.parentElement}
+                            parents={availableTasksAndFolders}
+                            createDocument={this.props.createDocument}
                             closeNewDocumentModal={this.closeNewDocumentModal}
                             showNewDocumentModal={this.state.showNewDocumentModal} />
         </div>
