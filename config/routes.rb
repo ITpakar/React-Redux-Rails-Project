@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   scope "/app", module: 'app', as: :app do
     get '/dashboard', to: 'dashboard#index'
+    get "/settings", to: "dashboard#settings"
+    put "/settings", to: "dashboard#save_settings"
 
     devise_for :users
 
@@ -20,7 +22,7 @@ Rails.application.routes.draw do
       resources :sections
     end
 
-    resources :team_members, only: [:index, :show, :update, :create, :destroy]  
+    resources :team_members, only: [:index, :show, :update, :create, :destroy]
   end
 
   scope '/api', module: 'api', as: 'api' do
