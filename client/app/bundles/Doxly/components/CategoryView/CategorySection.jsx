@@ -143,9 +143,9 @@ export default class CategorySection extends React.Component {
         <div className={sectionBodyClassnames.join(" ")}>
           <div className="deal-tasks">
             {displayedChildren}
-          </div>
-          <div className="deal-element-add-item deal-element-add-new-task">
-            <a href="#" onClick={this.openNewTaskModal}><i className="icon-icon-plus"></i> Add a new Task</a>
+            <div className="deal-task-add-item deal-element-add-new-task">
+              <a href="#" onClick={this.openNewTaskModal}><i className="icon-icon-plus"></i> Add a Task</a>
+            </div>
           </div>
         </div>
 			</div>
