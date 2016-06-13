@@ -14,7 +14,7 @@ export default class CreateDealModal extends React.Component {
     this.state = {
       title: "",
       clientName: "",
-      projectedCloseDate: moment(),
+      projectedCloseDate: moment().format('MM/DD/YYYY'),
       transactionType: "",
       dealSize: "",
       errors: {
@@ -46,6 +46,7 @@ export default class CreateDealModal extends React.Component {
   }
 
   handleClick() {
+    console.log(this.state);
     let data = {
       deal: {
         organization_id: this.props.organization_id,
