@@ -184,7 +184,7 @@ class Api::DealsController < ApplicationController
       end_time = (start_time + 5.months).end_of_month
     end
 
-    #scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
+    scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
     if by == "size"
       if time == "1_month"
         scope = scope.group("1, 2")
