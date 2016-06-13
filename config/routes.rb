@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :sections
     end
 
-    resources :team_members, only: [:index, :show, :update, :create, :destroy]  
+    resources :team_members, only: [:index, :show, :update, :create, :destroy]
   end
 
   scope '/api', module: 'api', as: 'api' do
@@ -34,6 +34,10 @@ Rails.application.routes.draw do
     end
     get    '/deals/starred_deals', to: 'starred_deals#starred_deals'
     resources :deals do
+      collection do
+        get :summary
+      end
+      
       resources :deal_collaborators, only: [:create, :index, :destroy] do
         collection do
           get 'find', to: 'deal_collaborators#find'

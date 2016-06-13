@@ -4,11 +4,11 @@ class Api::DealsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_organization_member!, only: [:create]
   before_action :authenticate_org_deal_admin!, only: [:update, :destroy]
-  
+
   before_action only: [:show] do
     authorize! :update, @deal
   end
-  
+
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, only: [:update, :destroy, :show, :collaborators]
 
@@ -126,7 +126,7 @@ class Api::DealsController < ApplicationController
         end
       end
       @deal.clear_collaborators(params[:deal][:collaborators].map { |key, value| value[:id] })
-      
+
       success_response(
       {
         deal: @deal.to_hash,
@@ -159,6 +159,47 @@ class Api::DealsController < ApplicationController
     success_response(
       {
         deals: @collaborators.map(&:to_hash)
+      }
+    )
+  end
+
+  def summary
+    time = params[:time].try(:downcase)
+    time = "6_months" unless ["6_months", "3_months", "1_month"].include?(time)
+    by = params[:by].try(:downcase)
+    by = "size" unless ["member", "size", "type"].include?(by)
+
+
+    start_of_month = Time.now.beginning_of_month
+    scope = Deal.where(:activated => true)
+
+    if time == "1_month"
+      start_time = start_of_month - 1.month
+      end_time = start_time.end_of_month
+    elsif time == "3_months"
+      start_time = start_of_month - 3.months
+      end_time = (start_time + 2.months).end_of_month
+    else
+      start_time = start_of_month - 6.months
+      end_time = (start_time + 5.months).end_of_month
+    end
+
+    scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
+    if by == "size"
+      scope = scope.group("1, 2")
+                   .select("deal_size, EXTRACT(MONTH FROM deals.created_at) AS month, COUNT(*) AS count")
+    elsif by == "type"
+      scope = scope.group(:transaction_type)
+                   .select("transaction_type, COUNT(*) as count")
+    else
+      scope = scope.joins(:organization_user)
+                   .group(:user_id)
+                   .select("user_id, COUNT(*) as count")
+    end
+
+    success_response(
+      {
+        :results => scope.as_json
       }
     )
   end
