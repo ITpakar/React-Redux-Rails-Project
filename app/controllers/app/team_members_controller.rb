@@ -12,6 +12,9 @@ class App::TeamMembersController < App::ApplicationController
   end
 
   def create
+    InvitationMailer.organization_invitation_email("#{params[:first_name]} #{params[:last_name]}", params[:email], current_organization).deliver_later
+    flash[:notice] = "#{params[:first_name]} #{params[:last_name]} successfully invited!"
+    redirect_to app_team_members_path
   end
 
   def destroy
