@@ -187,9 +187,9 @@ class Api::DocumentsController < ApplicationController
           {
             title: "Change 1",
             removed_section: "Removed section 1",
-            removed_details: "Removed details 1",
+            removed_content: "Removed details 1",
             added_section: "New section 1",
-            added_details: "New details 1"
+            added_content: "New details 1"
           }
         ]
       },
@@ -200,9 +200,9 @@ class Api::DocumentsController < ApplicationController
           {
             title: "Change 2",
             removed_section: "Removed section 2",
-            removed_details: "Removed details 2",
+            removed_content: "Removed details 2",
             added_section: "New section 2",
-            added_details: "New details 2"
+            added_content: "New details 2"
           }
         ]
       }

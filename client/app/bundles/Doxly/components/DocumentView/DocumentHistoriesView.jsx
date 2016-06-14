@@ -3,30 +3,22 @@ import _ from "lodash";
 import FileViewer from "./FileViewer";
 import ChangesView from "./ChangesView";
 import CommentBox from "../CommentBox/CommentBox";
+import Util from "../../utils/util";
 
 export default class DocumentHistoriesView extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {versionIndex: undefined};
-    _.bindAll(this, ["changeVersion"]);
+    _.bindAll(this, ["changeVersion", "getSelectedIndex", "download"]);
   }
 
   changeVersion() {
-    var val = $(this.refs.versionIndex);
+    var val = $(this.refs.versionIndex).val();
     this.setState({versionIndex: val});
   }
 
-  render() {
-    console.log("Line 46 DocumentHistoriesView");
-    var doc = this.props.document;
-    var versions = doc.versions;
-    if (!versions || versions.length == 0) {
-      return (
-        <div className="text-center">Loading...</div>
-      );
-    }
-
-
+  getSelectedIndex() {
+    var versions = this.props.document.versions;
     var selectedIndex;
 
     if (this.state.versionIndex !== undefined && this.state.versionIndex !== null) {
@@ -37,17 +29,58 @@ export default class DocumentHistoriesView extends React.Component {
       selectedIndex = versions.length - 1;
     }
 
+    return selectedIndex;
+  }
+
+  download(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    var versions = this.props.document.versions;
+    var selectedIndex = this.getSelectedIndex();
+    var docVersion = versions[selectedIndex];
+
+    window.open(docVersion.url);
+  }
+
+  render() {
+    var doc = this.props.document;
+    var versions = doc.versions;
+    if (!versions || versions.length == 0) {
+      return (
+        <div className="text-center">Loading...</div>
+      );
+    }
+
+    var selectedIndex = this.getSelectedIndex();
     var docVersion = versions[selectedIndex];
     var versionOptions = [];
 
     for (let i = 0; i < versions.length; i++) {
-      let v = (
-        <option value={i} key={"option_" + (i + 1)}>{versions[i].title}</option>
-      );
+      let v;
+
+      if (i == selectedIndex) {
+        v = (
+          <option value={i} key={"option_" + (i + 1)}>{versions[i].title} (current)</option>
+        );
+      } else {
+        v = (
+          <option value={i} key={"option_" + (i + 1)}>{versions[i].title}</option>
+        );
+      }
+
       versionOptions.push(v);
     }
 
-    console.log("Line 46 DocumentHistoriesView");
+    var uploadedBy;
+    if (docVersion.creator) {
+      uploadedBy = (
+        <span className="uploaded-by">
+          by {docVersion.creator.first_name} {docVersion.creator.last_name}
+        </span>
+      );
+    }
     return (
       <div id="page-wrapper">
         <div className="file-viewer__toolbox">
@@ -55,15 +88,15 @@ export default class DocumentHistoriesView extends React.Component {
                 <a href="#" className="file-viewer__close"><i className="icon-icon-close"></i></a>
                 <div className="file-viewer__title">
                     <div className="title">
-                        Term Sheet <span className="badge-signed signed">3/3 signed</span>
+                        {docVersion.title} <span className="badge-signed signed">FIXME: 3/3 signed</span>
                     </div>
                     <div className="meta">
-                        V9 Uploaded 3/23/2016 at 3:13 AM by Ice Miller
+                        V{selectedIndex + 1} Uploaded {Util.formatDate(docVersion.file_uploaded_at, "MM/DD/YYYY")} at {Util.formatDate(docVersion.file_uploaded_at, "HH:MM A")} {uploadedBy}
                     </div>
                 </div>
                 <div className="buttons">
                     <a href="#" className="btn btn-default">...</a>
-                    <a href="#" className="btn btn-default">Download</a>
+                    <a href="#" className="btn btn-default" onClick={this.download}>Download</a>
                 </div>
             </div>
             <div className="toolbox-right">
@@ -86,7 +119,6 @@ export default class DocumentHistoriesView extends React.Component {
                             <form>
                                 <div className="form-group optional">
                                     <select name="file_vestion" ref="versionIndex" value={selectedIndex} className="form-control show-tick" onChange={this.changeVersion}>
-                                        <option>Version 9 (Current)</option>
                                         {versionOptions}
                                     </select>
                                 </div>

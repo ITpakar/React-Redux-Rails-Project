@@ -24,10 +24,10 @@ export default class ChangesView extends React.Component {
           </div>
           <div className="change-item added">
             <div className="section">
-              <p>{change.new_section}</p>
+              <p>{change.added_section}</p>
             </div>
             <div className="details">
-              <p>{change.new_content}</p>
+              <p>{change.added_content}</p>
             </div>
           </div>
         </div>
