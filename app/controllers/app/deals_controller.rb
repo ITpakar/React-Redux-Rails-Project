@@ -1,15 +1,30 @@
 class App::DealsController < App::ApplicationController
   before_filter :authenticate_user!
+  before_action :set_deal, only: [:show, :diligence, :closing, :closing_book]
+
+  layout 'deals', only: [:show, :diligence, :closing, :closing_book]
 
   def index
     @deals = format_deals_for_display(current_user.context.deals.uniq)
   end
 
   def show
-    @deal = current_organization.deals.find(params[:id])
+  end
+
+  def diligence
+  end
+
+  def closing
+  end
+
+  def closing_book
   end
 
   private
+
+  def set_deal
+    @deal = current_organization.deals.find(params[:id])
+  end
 
   # This method will add the collaborators attribute, the starred attribute
   # and will group the deals together
