@@ -33,7 +33,28 @@ class Document < ApplicationRecord
     return data
   end
 
-  def upload_to_box(local_path, user)
-
+  def upload_to_box(file, user)
+    tmp = "#{Rails.root}/tmp/"
+    client = user.box_client
+    self.deal_documents.each do |deal_document|
+      folders = []
+      folders << deal_document.documentable.deal.organization.name
+      folders << deal_document.documentable.deal.title
+      folders << deal_document.documentable.section.name
+      folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
+      path = '/'
+      parent = client.folder_from_path(path)
+      folders.each do |folder|
+        box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
+        if box_folder.nil?
+          box_folder = client.create_folder(folder, parent)
+        end
+        parent = box_folder
+      end
+      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      File.open(local_path, "wb") { |f| f.write(file.read) }
+      file = client.upload_file(local_path, parent)
+      deal_document.update(box_file_id: file.id)
+    end
   end
 end

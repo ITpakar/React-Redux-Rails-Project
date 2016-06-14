@@ -195,7 +195,7 @@ class User < ActiveRecord::Base
 
   # Get Box Client
   def box_client
-    client = enterprise_box_client
+    client = User.enterprise_box_client
 
     unless self.organization_user.box_user_id
       user = client.create_user(self.email, is_platform_access_only: true)
