@@ -35,4 +35,8 @@ class Folder < ApplicationRecord
 
     return data
   end
+
+  def section
+    self.task.section
+  end
 end
