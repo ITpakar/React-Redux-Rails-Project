@@ -5,6 +5,7 @@ class DealDocument < ApplicationRecord
   belongs_to :deal
 
   has_many :comments, as: :commentable
+  has_many :versions, class_name: 'DealDocumentVersion'
 
   before_validation :set_deal, on: :create
   after_create :set_deal

@@ -57,4 +57,17 @@ class Document < ApplicationRecord
       deal_document.update(box_file_id: file.id)
     end
   end
+
+  def add_new_version(file, name)
+    tmp = "#{Rails.root}/tmp/"
+    client = user.box_client
+    self.deal_documents.each do |deal_document|
+      next unless deal_document.box_file_id
+      box_file = client.file_from_id(deal_document.box_file_id)
+      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      File.open(local_path, "wb") { |f| f.write(file.read) }
+      box_file = client.upload_new_version_of_file(local_path, box_file)
+      deal_document.versions.create(name: name, box_version_id: box_file.id)
+    end
+  end
 end
