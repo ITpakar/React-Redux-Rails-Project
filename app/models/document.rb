@@ -15,7 +15,11 @@ class Document < ApplicationRecord
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
 
-  def to_hash
+  def box_client
+    self.creator.user.box_client
+  end
+
+  def to_hash(box_client = nil)
     data = {
       document_id:      self.id,
       title:            self.title,
@@ -27,7 +31,12 @@ class Document < ApplicationRecord
     }
 
     if self.creator
-      data[:creator] = self.creator.to_hash(false)
+      data[:creator] = self.creator.user.to_hash(false)
+    end
+
+    data[:deal_documents] = []
+    self.deal_documents.each do |deal_document|
+      data[:deal_documents] << deal_document.to_hash(box_client)
     end
 
     return data
