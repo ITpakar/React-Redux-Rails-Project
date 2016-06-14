@@ -19,6 +19,8 @@ export default class DealStar extends React.Component {
   }
 
   handleClick(event) {
+    event.preventDefault();
+
     let that = this;
 
     let data = {
