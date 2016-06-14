@@ -1,5 +1,5 @@
 import actionTypes from '../constants';
-import {doLoadCategorySectionsTree, doLoadDealCollaborators} from "../utils/api";
+import {doLoadCategorySectionsTree, doLoadDealCollaborators, doLoadDocument} from "../utils/api";
 
 export function starDeal(id, title, url) {
 
@@ -81,6 +81,19 @@ export function updateTask(taskId, attrs) {
   return function(dispatch) {
     dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
     return doUpdateTask(dealId, attrs).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function loadDocument(documentId) {
+  var requestType = actionTypes.REQUESTS.LOAD_DOCUMENT;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadDocument(documentId).then(function(responseData, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));

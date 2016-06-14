@@ -178,9 +178,39 @@ class Api::DocumentsController < ApplicationController
   end
 
   def show
+    json = @document.to_hash
+    json[:versions] = [
+      {
+        title: "Version 1",
+        url: "https://view-api.box.com/1/sessions/a7b7e41df3894924bee97fb1435ab3f7/assets",
+        changes: [
+          {
+            title: "Change 1",
+            removed_section: "Removed section 1",
+            removed_details: "Removed details 1",
+            added_section: "New section 1",
+            added_details: "New details 1"
+          }
+        ]
+      },
+      {
+        title: "Version 2",
+        url: "https://view-api.box.com/1/sessions/a7b7e41df3894924bee97fb1435ab3f7/assets",
+        changes: [
+          {
+            title: "Change 2",
+            removed_section: "Removed section 2",
+            removed_details: "Removed details 2",
+            added_section: "New section 2",
+            added_details: "New details 2"
+          }
+        ]
+      }
+    ]
+
     success_response(
       {
-        document: @document.to_hash
+        document: json
       }
     )
   end

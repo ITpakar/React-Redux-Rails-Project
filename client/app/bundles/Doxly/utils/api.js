@@ -51,3 +51,7 @@ export function doLoadDealCollaborators(dealId) {
 export function doUpdateTask(taskId, attrs) {
   return submitRequest("/api/tasks/" + taskId, "put", {task: attrs});
 }
+
+export function doLoadDocument(documentId) {
+  return submitRequest("/api/documents/" + documentId, "get");
+}

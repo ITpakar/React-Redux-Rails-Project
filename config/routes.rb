@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
 
     resources :team_members, only: [:index, :show, :update, :create, :destroy]
+    resources :documents, :only => [:show]
   end
 
   scope '/api', module: 'api', as: 'api' do

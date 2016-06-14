@@ -27,7 +27,7 @@ class Document < ApplicationRecord
     }
 
     if self.creator
-      data[:creator] = self.creator.to_hash(false)
+      data[:creator] = self.creator.user.to_hash(false)
     end
 
     return data
