@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: 'dashboard#index'
     get "/settings", to: "dashboard#settings"
     put "/settings", to: "dashboard#save_settings"
+    get "/report", to: "dashboard#report"
 
     devise_for :users
 
@@ -39,7 +40,7 @@ Rails.application.routes.draw do
       collection do
         get :summary
       end
-      
+
       resources :deal_collaborators, only: [:create, :index, :destroy] do
         collection do
           get 'find', to: 'deal_collaborators#find'

@@ -194,19 +194,50 @@ class Api::DealsController < ApplicationController
                      .select("deal_size, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) AS count")
       end
     elsif by == "type"
-      scope = scope.group(:transaction_type)
-                   .select("transaction_type, COUNT(*) as count")
+      if time == "1_month"
+        scope = scope.group("1, 2")
+                     .select("transaction_type, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) as count")
+      else
+        scope = scope.group("1, 2")
+                     .select("transaction_type, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) as count")
+      end
     else
       scope = scope.joins(:organization_user)
                    .group(:user_id)
                    .select("user_id, COUNT(*) as count")
     end
 
-    success_response(
-      {
-        :results => scope.as_json
+    json = {}
+    json[:results] = scope.as_json(:except => [:id])
+
+    if by == "size"
+      json[:sizes] = json[:results].collect{|h| h["deal_size"]}
+    elsif by == "type"
+      json[:types] = Deal::TRANSACTION_TYPES
+    else
+      json[:members] = []
+      json[:results].collect{|h|
+        user = User.find(h["user_id"])
+        json[:members].push(user.to_hash)
       }
-    )
+    end
+
+    unless by == "member"
+      group_values = []
+      if time == "1_month"
+        group_values = (start_time.to_date..end_time.to_date).to_a.collect{|d| d.strftime("%Y-%m-%d")}
+      else
+        i = 0
+        begin
+          d = start_time + i.month
+          group_values.push(d.strftime("%Y-%m"))
+          i += 1
+        end while d < (end_time - 1.month)
+      end
+
+      json[:group_values] = group_values
+    end
+    success_response(json)
   end
 
   private
