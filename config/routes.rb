@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   scope "/app", module: 'app', as: :app do
     get '/dashboard', to: 'dashboard#index'
+    get "/settings", to: "dashboard#settings"
+    put "/settings", to: "dashboard#save_settings"
 
     devise_for :users
 

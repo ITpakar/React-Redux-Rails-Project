@@ -132,10 +132,10 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $('body').on('click', '.deal-task-add-item a', function (e) {
-        e.preventDefault();
-        $('#modal-new-task').modal();
-    });
+    //$('body').on('click', '.deal-task-add-item a', function (e) {
+    //    e.preventDefault();
+    //    $('#modal-new-task').modal();
+    //});
     //$('body').on('click', '.deal-element-add-item a', function (e) {
     //    e.preventDefault();
     //    $('#modal-new-file').modal();

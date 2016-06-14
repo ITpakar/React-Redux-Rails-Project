@@ -75,7 +75,9 @@ class Deal < ActiveRecord::Base
   end
 
   def add_collaborator! organization_user, added_by
-    DealCollaborator.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
+    if (self.deal_collaborators.where(organization_user_id: organization_user.id).empty?) 
+      DealCollaborator.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
+    end
   end
 
   def invite_collaborator collaborator_email, added_by

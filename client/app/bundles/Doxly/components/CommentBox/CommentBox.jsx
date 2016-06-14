@@ -102,7 +102,7 @@ class CommentBox extends Component {
                 </div>
             </div>
             <CommentList
-              comments={comments.filter(this._internalTypeCommentsFilter)}
+              comments={comments.filter(this._internalTypeCommentsFilter)} user_id={this.props.user_id}
             />
             <CommentForm 
               commentType="Internal" element={this.props.element} user_id={this.props.user_id}
@@ -120,7 +120,7 @@ class CommentBox extends Component {
                 </div>
             </div>
             <CommentList
-              comments={comments.filter(this._externalTypeCommentsFilter)}
+              comments={comments.filter(this._externalTypeCommentsFilter)} user_id={this.props.user_id}
             />
             
             <CommentForm 
