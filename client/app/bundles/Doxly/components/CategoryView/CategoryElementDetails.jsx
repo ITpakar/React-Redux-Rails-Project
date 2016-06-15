@@ -47,6 +47,7 @@ export default class CategoryElementDetails extends React.Component {
           <dd>{element.file_size}</dd>
           <dt>File type</dt>
           <dd>{element.file_type}</dd>
+          <a link={element.url}>Download</a>
         </dl>
       )
     }
