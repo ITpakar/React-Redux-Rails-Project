@@ -190,9 +190,9 @@ export default class CategoryView extends React.Component {
       return e.elements;
     }))
 
-    let completedTasks = _.reject(tasks, function(task) {
-      return task.status != "Complete";
-    })
+    let completedTasks = _.filter(tasks, function(task) {
+      return task.status && task.status == "complete";
+    });
 
     return (
         <div className="container-fluid">
