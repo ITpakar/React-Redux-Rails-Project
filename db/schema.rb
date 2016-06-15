@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614145132) do
+ActiveRecord::Schema.define(version: 20160615172713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(version: 20160614145132) do
     t.integer  "task_id"
     t.integer  "visibility",             default: 0
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
+  end
+
+  create_table "kpis", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "key"
+    t.integer  "value"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "notifications", force: :cascade do |t|
