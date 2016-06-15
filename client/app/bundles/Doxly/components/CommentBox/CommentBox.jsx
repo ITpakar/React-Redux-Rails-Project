@@ -116,7 +116,7 @@ class CommentBox extends Component {
                         <a href="#" className="avatar"><img src="/assets/img-avatar-2.png"/></a>
                         <a href="#" className="avatar"><img src="/assets/img-avatar-3.png"/></a>
                     </div>
-                    <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
+                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
             <CommentList
