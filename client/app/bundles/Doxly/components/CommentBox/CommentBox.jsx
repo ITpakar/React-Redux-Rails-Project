@@ -98,7 +98,7 @@ class CommentBox extends Component {
                       ))
                     }   
                     </div>
-                    <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
+                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
             <CommentList
