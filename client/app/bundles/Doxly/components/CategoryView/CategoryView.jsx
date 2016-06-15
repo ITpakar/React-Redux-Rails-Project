@@ -191,7 +191,7 @@ export default class CategoryView extends React.Component {
     }))
 
     let completedTasks = _.filter(tasks, function(task) {
-      return task.status && task.status == "complete";
+      return task.status && task.status.toLowerCase() == "complete";
     });
 
     return (
