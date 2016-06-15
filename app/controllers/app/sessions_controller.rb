@@ -48,9 +48,10 @@ class App::SessionsController < Devise::SessionsController
       warden.set_user(resource, options.merge!(scope: scope))
     end
   end
-  # def require_no_authentication
-  #   if current_user
-  #     redirect_to after_sign_in_path_for(current_user)
-  #   end
-  # end
+  
+  def require_no_authentication
+    if current_user
+      redirect_to after_sign_in_path_for(current_user)
+    end
+  end
 end

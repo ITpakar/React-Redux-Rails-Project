@@ -7,16 +7,16 @@
         <div class="row">
           <div class="statistic-box">
             <div class="statistic-box__item">
-              <i><%= @deal_stats[:active_deals] %></i><span>ACTIVE DEALS</span>
+              <i><%= @deal_stats[:active_deals] %></i><span>ACTIVE <%= 'DEAL'.pluralize(@deal_stats[:active_deals]).upcase %></span>
             </div>
             <div class="statistic-box__item">
-              <i><%= @deal_stats[:archived_deals] %></i><span>ARCHIVED DEALS</span>
+              <i><%= @deal_stats[:archived_deals] %></i><span>ARCHIVED <%= 'DEAL'.pluralize(@deal_stats[:archived_deals]).upcase %></span>
             </div>
             <div class="statistic-box__item">
-              <i><%= @deal_stats[:team_members] %></i><span>TEAM MEMBERS</span>
+              <i><%= @deal_stats[:team_members] %></i><span>TEAM <%= 'MEMBER'.pluralize(@deal_stats[:team_members]).upcase %></span>
             </div>
             <div class="statistic-box__item">
-              <i><%= @deal_stats[:outside_collaborators] %></i><span>OUTSIDE COLLABORATORS</span>
+              <i><%= @deal_stats[:outside_collaborators] %></i><span>OUTSIDE <%= 'COLLABORATOR'.pluralize(@deal_stats[:outside_collaborators]).upcase %> </span>
             </div>
           </div>
         </div>

@@ -4,7 +4,9 @@ import {connect} from "react-redux";
 import CategoryView from "../components/CategoryView/CategoryView"
 import actionTypes from "../constants";
 import {loadCategorySectionsTree, loadDealCollaborators} from "../actions/doxlyActions";
-import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument, doUpdateTask} from "../utils/api";
+import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument} from "../utils/api";
+import {doUpdateFolder, doUpdateTask, doUpdateSection, doUpdateDocument} from "../utils/api";
+import {doDeleteFolder, doDeleteTask, doDeleteSection, doDeleteDocument} from "../utils/api";
 
 class DealShow extends React.Component {
   constructor(props, context) {
@@ -16,7 +18,14 @@ class DealShow extends React.Component {
                      "createTask",
                      "createSection",
                      "createDocument",
+                     "updateFolder",
                      "updateTask",
+                     "updateSection",
+                     "updateDocument",
+                     "deleteFolder",
+                     "deleteTask",
+                     "deleteSection",
+                     "deleteDocument",
                      "searchTree",
                      "hasMatchedChildren",
                      "searchTreeByValue",
@@ -46,6 +55,21 @@ class DealShow extends React.Component {
     });
   }
 
+  updateFolder(folderId, folderAttrs, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    folderAttrs.deal_id = dealId;
+    doUpdateFolder(folderId, folderAttrs).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
   createTask(taskAttrs, callback) {
     var _this = this;
     var dealId = this.props.id;
@@ -53,36 +77,6 @@ class DealShow extends React.Component {
 
     taskAttrs.deal_id = dealId;
     doCreateTask(taskAttrs).then(function() {
-      _this.props.loadCategorySectionsTree(dealId, category);
-
-      if (callback) {
-        callback();
-      }
-    });
-  }
-
-  createSection(sectionAttrs, callback) {
-    var _this = this;
-    var dealId = this.props.id;
-    var category = this.props.category;
-
-    sectionAttrs.category_id = category.id;
-    doCreateSection(dealId, sectionAttrs).then(function() {
-      _this.props.loadCategorySectionsTree(dealId, category);
-
-      if (callback) {
-        callback();
-      }
-    });
-  }
-
-  createDocument(formData, callback) {
-    var _this = this;
-    var dealId = this.props.id;
-    var category = this.props.category;
-
-    formData.append("document[deal_id]", dealId)
-    doCreateDocument(formData).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
       if (callback) {
@@ -108,10 +102,130 @@ class DealShow extends React.Component {
     });
   }
 
+  createSection(sectionAttrs, callback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    sectionAttrs.category_id = category.id;
+    doCreateSection(dealId, sectionAttrs).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (callback) {
+        callback();
+      }
+    });
+  }
+
+  updateSection(sectionId, sectionAttrs, successCallback, errorCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    sectionAttrs.category_id = category.id;
+    doUpdateSection(dealId, sectionId, sectionAttrs).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
+  createDocument(formData, callback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    formData.append("document[deal_id]", dealId)
+    doCreateDocument(formData).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (callback) {
+        callback();
+      }
+    });
+  }
+
+  updateDocument(documentId, formData, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    formData.append("document[deal_id]", dealId)
+    doUpdateDocument(documentId, formData).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
+  deleteFolder(folderId, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    doDeleteFolder(folderId).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
+  deleteTask(taskId, successCallback, errorCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    doDeleteTask(taskId).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+      if (successCallback) {
+        successCallback();
+      }
+    }, function() {
+      if (errorCallback) {
+        errorCallback();
+      }
+    });
+  }
+
+  deleteSection(sectionId, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    doDeleteSection(dealId, sectionId).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        callback();
+      }
+    });
+  }
+
+  deleteDocument(documentId, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+
+    doDeleteDocument(documentId).then(function() {
+      _this.props.loadCategorySectionsTree(dealId, category);
+
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
   searchTree(value) {
     this.setState({searchTreeValue: value});
   }
 
+  // TODO: Move this to util file.
   flattenElements(elements) {
     if (!elements) {
       return [];
@@ -225,14 +339,21 @@ class DealShow extends React.Component {
       var elements = this.searchTreeByValue(jQuery.extend(true, [], this.props.elements), this.state.searchTreeValue);
       return (<CategoryView elements={elements}
                             collaborators={this.props.collaborators}
-                            updateTask={this.updateTask}
                             searchTree={this.searchTree}
                             user_id={this.props.user_id}
                             deal_id={this.props.id}
                             createFolder={this.createFolder}
                             createTask={this.createTask}
                             createSection={this.createSection}
-                            createDocument={this.createDocument} />);
+                            createDocument={this.createDocument}
+                            updateFolder={this.updateFolder}
+                            updateTask={this.updateTask}
+                            updateSection={this.updateSection}
+                            updateDocument={this.updateDocument}
+                            deleteFolder={this.deleteFolder}
+                            deleteTask={this.deleteTask}
+                            deleteSection={this.deleteSection}
+                            deleteDocument={this.deleteDocument} />);
     }
   }
 }

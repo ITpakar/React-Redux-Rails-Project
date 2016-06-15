@@ -13,4 +13,12 @@ class InvitationMailer < ApplicationMailer
     @url = new_app_user_registration_url(token: deal_collaborator_invite.token)
     mail(to: deal_collaborator_invite.email, subject: 'Invitation to collaborate to the deal.')
   end
+
+  def organization_invitation_email(name, email, organization)
+    @name = name
+    @email = email
+    @organization = organization
+    @url = new_app_user_registration_url
+    mail(to: @email, subject: "You've been invited to join #{organization.name.capitalize} on Doxly")
+  end
 end

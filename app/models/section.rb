@@ -35,4 +35,8 @@ class Section < ApplicationRecord
 
     return data
   end
+
+  def section
+    self
+  end
 end

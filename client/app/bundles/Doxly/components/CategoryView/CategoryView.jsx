@@ -5,11 +5,12 @@ import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
 import CategoryFileViewer from './CategoryFileViewer'
 import CategoryElementDetails from "./CategoryElementDetails";
-import NewFolderModal from "./NewFolderModal";
-import NewTaskModal from "./NewTaskModal";
-import NewSectionModal from "./NewSectionModal";
-import NewDocumentModal from "./NewDocumentModal";
+import FolderModal from "./FolderModal";
+import TaskModal from "./TaskModal";
+import SectionModal from "./SectionModal";
+import DocumentModal from "./DocumentModal";
 import CommentBox from "../CommentBox/CommentBox";
+import ConfirmModal from "../ConfirmModal";
 import _ from "lodash";
 
 // Props
@@ -31,32 +32,70 @@ export default class CategoryView extends React.Component {
         top: 0
       },
       selectedElement: undefined,
-      showNewFolderModal: false,
-      showNewDocumentModal: false,
-      showNewTaskModal: false,
-      showNewSectionModal: false,
-      parentElement: undefined
+      showFolderModal: false,
+      showDocumentModal: false,
+      showTaskModal: false,
+      showSectionModal: false,
+      showConfirmModal: false,
+      parentElement: undefined,
+      element: undefined
     }
 
-    _.bindAll(this, ['handleButtonClick',
-                     'handleSortChange',
+    _.bindAll(this, ['handleSortChange',
                      "selectElement",
-                     "openNewFolderModal",
-                     "openNewTaskModal",
-                     "openNewSectionModal",
-                     "openNewDocumentModal",
-                     "closeNewFolderModal",
-                     "closeNewTaskModal",
-                     "closeNewSectionModal",
-                     "closeNewDocumentModal",
-                     "getChildElementsOf"]);
+                     "openFolderModal",
+                     "openTaskModal",
+                     "openSectionModal",
+                     "openDocumentModal",
+                     "openConfirmModal",
+                     "closeFolderModal",
+                     "closeTaskModal",
+                     "closeSectionModal",
+                     "closeDocumentModal",
+                     "closeConfirmModal",
+                     "editElement",
+                     "getChildElementsOf",
+                     "doConfirm",
+                     "dontConfirm",
+                     "flattenElements"]);
   }
 
   componentDidMount() {
     $(this.refs.button).popover();
   }
 
-  handleButtonClick(event) {
+  componentWillReceiveProps(newProps) {
+    var selectedElement = this.state.selectedElement;
+    var newElements = newProps.elements;
+
+    if (newElements && selectedElement) {
+      let flattenedElements = this.flattenElements(newElements);
+      let updatedElement = _.find(flattenedElements, function(element) {
+        return element.type == selectedElement.type && element.id == selectedElement.id;
+      });
+
+      if (updatedElement) {
+        this.setState({selectedElement: updatedElement});
+      } else {
+        this.setState({selectedElement: undefined});
+      }
+    }
+  }
+
+  // TODO: Move to a util file
+  flattenElements(elements) {
+    if (!elements) {
+      return [];
+    }
+
+    var results = [];
+    for (let i = 0; i < elements.length; i++) {
+      let el = elements[i];
+      results.push(el);
+      results = _.union(results, this.flattenElements(el.elements))
+    }
+
+    return results;
   }
 
   handleSortChange(event) {
@@ -71,36 +110,75 @@ export default class CategoryView extends React.Component {
     this.setState({selectedElement: element});
   }
 
-  openNewFolderModal(element) {
-    this.setState({showNewFolderModal: true, parentElement: element});
+  openFolderModal(parentElement, element) {
+    this.setState({showFolderModal: true, parentElement: parentElement, element: element});
   }
 
-  closeNewFolderModal() {
-    this.setState({showNewFolderModal: false, parentElement: undefined});
+  closeFolderModal() {
+    console.log("Line 118 ");
+    this.setState({showFolderModal: false, parentElement: undefined});
   }
 
-  openNewDocumentModal(element) {
-    this.setState({showNewDocumentModal: true, parentElement: element});
+  openDocumentModal(parentElement, element) {
+    this.setState({showDocumentModal: true, parentElement: parentElement, element: element});
   }
 
-  closeNewDocumentModal() {
-    this.setState({showNewDocumentModal: false, parentElement: undefined});
+  closeDocumentModal() {
+    this.setState({showDocumentModal: false, parentElement: undefined});
   }
 
-  openNewTaskModal(element) {
-    this.setState({showNewTaskModal: true, parentElement: element});
+  openTaskModal(parentElement, element) {
+    this.setState({showTaskModal: true, parentElement: parentElement, element: element});
   }
 
-  closeNewTaskModal() {
-    this.setState({showNewTaskModal: false, parentElement: undefined});
+  closeTaskModal() {
+    this.setState({showTaskModal: false, parentElement: undefined});
   }
 
-  openNewSectionModal() {
-    this.setState({showNewSectionModal: true});
+  openSectionModal(element) {
+    this.setState({showSectionModal: true, element: element});
   }
 
-  closeNewSectionModal() {
-    this.setState({showNewSectionModal: false});
+  closeSectionModal() {
+    this.setState({showSectionModal: false});
+  }
+
+  openConfirmModal() {
+    this.setState({showConfirmModal: true});
+  }
+
+  closeConfirmModal() {
+    this.setState({showConfirmModal: false, confirmElement: undefined});
+  }
+
+  editElement(element) {
+    if (element.type == "Task") {
+      this.openTaskModal(undefined, element);
+    } else if (element.type == "Folder") {
+      this.openFolderModal(undefined, element);
+    } else if (element.type == "Document") {
+      this.openDocumentModal(undefined, element);
+    }
+  }
+
+  doConfirm() {
+    var elementId = this.state.selectedElement.id;
+    var elementType = this.state.selectedElement.type;
+    this.closeConfirmModal();
+
+    if (elementType == "Section") {
+      this.props.deleteSection(elementId);
+    } else if (elementType == "Task") {
+      this.props.deleteTask(elementId);
+    } else if (elementType == "Folder") {
+      this.props.deleteFolder(elementId);
+    } else if (elementType == "Document") {
+      this.props.deleteDocument(elementId);
+    }
+  }
+
+  dontConfirm() {
+    this.closeConfirmModal();
   }
 
   renderPopover() {
@@ -144,7 +222,7 @@ export default class CategoryView extends React.Component {
     var selectedElementComments;
     if (this.state.selectedElement) {
       selectedElementDetails = (
-        <CategoryElementDetails element={this.state.selectedElement} />
+        <CategoryElementDetails element={this.state.selectedElement} editElement={this.editElement} deleteElement={this.openConfirmModal} />
       );
       selectedElementComments = (
         <CommentBox user_id={this.props.user_id} element={this.state.selectedElement} deal_id={this.props.deal_id} />
@@ -154,10 +232,10 @@ export default class CategoryView extends React.Component {
     var toolbarBoxOverlayActions = (
       <Popover id="create-new-element">
         <div className='popover-menu-deal'>
-          <a href='#' onClick={this.openNewSectionModal}>New Section</a>
-          <a href='#' onClick={this.openNewTaskModal.bind(this, undefined)}>New Task</a>
-          <a href='#' onClick={this.openNewDocumentModal.bind(this, undefined)}>New File</a>
-          <a href='#' onClick={this.openNewFolderModal.bind(this, undefined)}>New Folder</a>
+          <a href='#' onClick={this.openSectionModal.bind(this, undefined)}>New Section</a>
+          <a href='#' onClick={this.openTaskModal.bind(this, undefined, undefined)}>New Task</a>
+          <a href='#' onClick={this.openDocumentModal.bind(this, undefined, undefined)}>New File</a>
+          <a href='#' onClick={this.openFolderModal.bind(this, undefined, undefined)}>New Folder</a>
         </div>
       </Popover>
     );
@@ -190,9 +268,9 @@ export default class CategoryView extends React.Component {
       return e.elements;
     }))
 
-    let completedTasks = _.reject(tasks, function(task) {
-      return task.status != "Complete";
-    })
+    let completedTasks = _.filter(tasks, function(task) {
+      return task.status && task.status.toLowerCase() == "complete";
+    });
 
     return (
         <div className="container-fluid">
@@ -230,10 +308,10 @@ export default class CategoryView extends React.Component {
                                       selectElement={this.selectElement}
                                       selectedElement={this.state.selectedElement}
                                       updateTask={this.props.updateTask}
-                                      openNewDocumentModal={this.openNewDocumentModal}
-                                      openNewFolderModal={this.openNewFolderModal}
-                                      openNewTaskModal={this.openNewTaskModal}
-                                      openNewSectionModal={this.openNewSectionModal} />
+                                      openDocumentModal={this.openDocumentModal}
+                                      openFolderModal={this.openFolderModal}
+                                      openTaskModal={this.openTaskModal}
+                                      openSectionModal={this.openSectionModal} />
                 </div>
                 <div className="content-deal-right">
                   {selectedElementDetails}
@@ -243,25 +321,35 @@ export default class CategoryView extends React.Component {
             </div>
           </div>
 
-          <NewFolderModal parentElement={this.state.parentElement}
+          <FolderModal parentElement={this.state.parentElement}
+                       element={this.state.element}
                           tasks={availableTasks}
                           createFolder={this.props.createFolder}
-                          closeNewFolderModal={this.closeNewFolderModal}
-                          showNewFolderModal={this.state.showNewFolderModal} />
-          <NewTaskModal parentElement={this.state.parentElement}
+                          updateFolder={this.props.updateFolder}
+                          closeFolderModal={this.closeFolderModal}
+                          showFolderModal={this.state.showFolderModal} />
+          <TaskModal parentElement={this.state.parentElement}
+                        element={this.state.element}
                         assignees={this.props.collaborators}
                         sections={availableSections}
                         createTask={this.props.createTask}
-                        closeNewTaskModal={this.closeNewTaskModal}
-                        showNewTaskModal={this.state.showNewTaskModal} />
-          <NewSectionModal createSection={this.props.createSection}
-                           closeNewSectionModal={this.closeNewSectionModal}
-                           showNewSectionModal={this.state.showNewSectionModal} />
-          <NewDocumentModal parentElement={this.state.parentElement}
+                        updateTask={this.props.updateTask}
+                        closeTaskModal={this.closeTaskModal}
+                        showTaskModal={this.state.showTaskModal} />
+                      <SectionModal saveSection={this.props.saveSection}
+                           closeSectionModal={this.closeSectionModal}
+                           showSectionModal={this.state.showSectionModal} />
+          <DocumentModal parentElement={this.state.parentElement}
+                         element={this.state.element}
                             parents={availableTasksAndFolders}
                             createDocument={this.props.createDocument}
-                            closeNewDocumentModal={this.closeNewDocumentModal}
-                            showNewDocumentModal={this.state.showNewDocumentModal} />
+                            updateDocument={this.props.updateDocument}
+                            closeDocumentModal={this.closeDocumentModal}
+                            showDocumentModal={this.state.showDocumentModal} />
+                          <ConfirmModal showConfirmModal={this.state.showConfirmModal}
+                                        closeConfirmModal={this.closeConfirmModal}
+                                        doConfirm={this.doConfirm}
+                                        dontConfirm={this.dontConfirm} />
         </div>
     )
   }

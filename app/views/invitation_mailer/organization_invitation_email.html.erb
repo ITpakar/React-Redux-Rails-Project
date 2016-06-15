@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>You've been invited to join <%= @organization.name.titleize %> on Doxly.</h1>
+    <p>
+      To accept this invitation, sign up <%= link_to "here", @url %> with your <%= @organization.email_domain %> email address.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
