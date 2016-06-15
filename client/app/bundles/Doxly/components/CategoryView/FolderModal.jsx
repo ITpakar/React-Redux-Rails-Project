@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 
-export default class NewFolderModal extends React.Component {
+export default class FolderModal extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createFolder"]);
+    _.bindAll(this, ["saveFolder"]);
   }
 
-  createFolder(event) {
+  saveFolder(event) {
     if (event) {
       event.preventDefault();
     }
@@ -18,19 +18,22 @@ export default class NewFolderModal extends React.Component {
     folderAttrs.task_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_id).val());
 
     if (folderAttrs.name && folderAttrs.task_id) {
-      this.props.createFolder(folderAttrs, function() {
-        _this.props.closeNewFolderModal();
+      this.props.saveFolder(folderAttrs, function() {
+        _this.props.closeFolderModal();
       });
     }
   }
 
   render() {
+    var element = this.props.element;
     var availableTasks = [];
+
     if (!this.props.parentElement && this.props.tasks) {
+      let taskId = element && element.task_id;
       availableTasks = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task</label>
-          <select name="task" ref="task_id" className="form-control show-tick">
+          <select name="task" ref="task_id" value={taskId} className="form-control show-tick">
             <option>Select a Task</option>
             {this.props.tasks.map(function(task) {
               return (
@@ -42,25 +45,29 @@ export default class NewFolderModal extends React.Component {
       );
     }
 
+    var folderName = element && element.name;
+    var modalTitle = element && element.id ? "Edit Folder" : "New Folder";
+    var submitText = element && element.id ? "Update" : "Create"
+
   	return (
-      <Modal show={this.props.showNewFolderModal} onHide={this.props.closeNewFolderModal} dialogClassName="new-question-modal">
+      <Modal show={this.props.showFolderModal} onHide={this.props.closeFolderModal} dialogClassName="new-question-modal">
         <Modal.Header closeButton>
           <Modal.Title>
-            New Folder
+            {modalTitle}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={this.createFolder}>
+          <form onSubmit={this.saveFolder}>
             <div className="form-group">
               <label htmlFor="input-folder-title">Folder Name</label>
-              <input type="text" ref="folder_name" required placeholder="Give your folder a name" className="form-control" id="input-folder-title" name="folder_name" />
+              <input type="text" ref="folder_name" required value={folderName} placeholder="Give your folder a name" className="form-control" id="input-folder-title" name="folder_name" />
             </div>
             {availableTasks}
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className="btn btn-default pull-left" onClick={this.props.closeNewFolderModal}>Cancel</button>
-          <button type="button" className="btn btn-primary" onClick={this.createFolder}>Create</button>
+          <button type="button" className="btn btn-default pull-left" onClick={this.props.closeFolderModal}>Cancel</button>
+          <button type="button" className="btn btn-primary" onClick={this.saveFolder}>{submitText}</button>
         </Modal.Footer>
       </Modal>
   	);
