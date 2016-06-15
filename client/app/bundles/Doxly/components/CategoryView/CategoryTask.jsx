@@ -78,9 +78,9 @@ export default class CategoryTask extends React.Component {
     var _this = this;
     var status = (this.props.element.status || "incomplete").toLowerCase();
     if (status == "complete") {
-      status = "incomplete";
+      status = "Incomplete";
     } else {
-      status = "complete";
+      status = "Complete";
     }
 
     // For quick response.
