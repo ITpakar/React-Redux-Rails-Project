@@ -15,7 +15,11 @@ class Document < ApplicationRecord
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
 
-  def to_hash
+  def box_client
+    self.creator.user.box_client
+  end
+
+  def to_hash(box_client = nil)
     data = {
       document_id:      self.id,
       title:            self.title,
@@ -27,13 +31,52 @@ class Document < ApplicationRecord
     }
 
     if self.creator
-      data[:creator] = self.creator.to_hash(false)
+      data[:creator] = self.creator.user.to_hash(false)
+    end
+
+    data[:deal_documents] = []
+    self.deal_documents.each do |deal_document|
+      data[:deal_documents] << deal_document.to_hash(box_client)
     end
 
     return data
   end
 
-  def upload_to_box(local_path, user)
+  def upload_to_box(file, user)
+    tmp = "#{Rails.root}/tmp/"
+    client = user.box_client
+    self.deal_documents.each do |deal_document|
+      folders = []
+      folders << deal_document.documentable.deal.organization.name
+      folders << deal_document.documentable.deal.title
+      folders << deal_document.documentable.section.name
+      folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
+      path = '/'
+      parent = client.folder_from_path(path)
+      folders.each do |folder|
+        box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
+        if box_folder.nil?
+          box_folder = client.create_folder(folder, parent)
+        end
+        parent = box_folder
+      end
+      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      File.open(local_path, "wb") { |f| f.write(file.read) }
+      file = client.upload_file(local_path, parent)
+      deal_document.update(box_file_id: file.id)
+    end
+  end
 
+  def add_new_version(file, name)
+    tmp = "#{Rails.root}/tmp/"
+    client = user.box_client
+    self.deal_documents.each do |deal_document|
+      next unless deal_document.box_file_id
+      box_file = client.file_from_id(deal_document.box_file_id)
+      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      File.open(local_path, "wb") { |f| f.write(file.read) }
+      box_file = client.upload_new_version_of_file(local_path, box_file)
+      deal_document.versions.create(name: name, box_version_id: box_file.id)
+    end
   end
 end

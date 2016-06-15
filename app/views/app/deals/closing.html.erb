@@ -1,0 +1,5 @@
+<div role="tabpanel" class="tab-pane active" id="tab-deal-closing">
+    <div class="container-fluid">
+      <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => @deal.closing_category.name, :id => @deal.closing_category.id}}) %>
+    </div>
+</div> <!-- tab panel Closing End -->

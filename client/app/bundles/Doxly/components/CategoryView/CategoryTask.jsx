@@ -32,7 +32,7 @@ export default class CategoryTask extends React.Component {
       bodyClassnames: ["deal-task-item__panel", "collapse"]
     };
 
-    _.bindAll(this, ['toggleContent', "selectTask", "openNewFolderModal", "openNewDocumentModal", "toggleStatus"]);
+    _.bindAll(this, ['toggleContent', "selectTask", "openFolderModal", "openDocumentModal", "toggleStatus"]);
   }
 
   toggleContent(event) {
@@ -58,29 +58,29 @@ export default class CategoryTask extends React.Component {
     this.props.selectElement(this.props.element);
   }
 
-  openNewFolderModal(event) {
+  openFolderModal(event) {
     if (event) {
       event.preventDefault();
     }
 
-    this.props.openNewFolderModal(this.props.element);
+    this.props.openFolderModal(this.props.element);
   }
 
-  openNewDocumentModal(event) {
+  openDocumentModal(event) {
     if (event) {
       event.preventDefault();
     }
 
-    this.props.openNewDocumentModal(this.props.element);
+    this.props.openDocumentModal(this.props.element);
   }
 
   toggleStatus() {
     var _this = this;
     var status = (this.props.element.status || "incomplete").toLowerCase();
     if (status == "complete") {
-      status = "incomplete";
+      status = "Incomplete";
     } else {
-      status = "complete";
+      status = "Complete";
     }
 
     // For quick response.
@@ -102,9 +102,9 @@ export default class CategoryTask extends React.Component {
                            selectElement={this.props.selectElement}
                            selectedElement={this.props.selectedElement}
                            updateTask={this.props.updateTask}
-                           openNewDocumentModal={this.props.openNewDocumentModal}
-                           openNewFolderModal={this.props.openNewFolderModal}
-                           openNewTaskModal={this.props.openNewTaskModal}
+                           openDocumentModal={this.props.openDocumentModal}
+                           openFolderModal={this.props.openFolderModal}
+                           openTaskModal={this.props.openTaskModal}
                            key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
@@ -113,10 +113,10 @@ export default class CategoryTask extends React.Component {
                         selectElement={this.props.selectElement}
                         selectedElement={this.props.selectedElement}
                         updateTask={this.props.updateTask}
-                        openNewDocumentModal={this.props.openNewDocumentModal}
-                        openNewFolderModal={this.props.openNewFolderModal}
-                        openNewTaskModal={this.props.openNewTaskModal}
-                        openNewDocumentModal={this.props.openNewDocumentModal}
+                        openDocumentModal={this.props.openDocumentModal}
+                        openFolderModal={this.props.openFolderModal}
+                        openTaskModal={this.props.openTaskModal}
+                        openDocumentModal={this.props.openDocumentModal}
                         key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
@@ -124,7 +124,7 @@ export default class CategoryTask extends React.Component {
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
                           selectedElement={this.props.selectedElement}
-                          openNewDocumentModal={this.props.openNewDocumentModal}
+                          openDocumentModal={this.props.openDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
@@ -163,7 +163,7 @@ export default class CategoryTask extends React.Component {
               <div className="deal-task-elements">
                   {displayedChildren}
                   <div className="deal-element-add-item">
-                      <span><i className="icon-icon-plus"></i> Add a <a href="#" onClick={this.openNewDocumentModal}>File</a> or <a href="#" onClick={this.openNewFolderModal}>Folder</a></span>
+                      <span><i className="icon-icon-plus"></i> Add a <a href="#" onClick={this.openDocumentModal}>File</a> or <a href="#" onClick={this.openFolderModal}>Folder</a></span>
                   </div>
               </div>
           </div>

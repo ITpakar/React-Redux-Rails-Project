@@ -1,262 +1,50 @@
-    <div id="wrapper">
-        <%= render "app/shared/left" %>
-        <div id="page-wrapper" class="navbar-double">
-            <% content_for :navbar_bottom do %>
-                <ul class="nav nav-tabs deal-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#tab-deal-overview" aria-controls="tab-deal-overview" role="tab" data-toggle="tab">Overview</a></li>
-                    <li role="presentation"><a href="#tab-deal-diligence" aria-controls="tab-deal-diligence" role="tab" data-toggle="tab">Diligence</a></li>
-                    <li role="presentation"><a href="#tab-deal-closing" aria-controls="tab-deal-closing" role="tab" data-toggle="tab">Closing</a></li>
-                    <li role="presentation"><a href="#tab-deal-closing-book" aria-controls="tab-deal-closing-book" role="tab" data-toggle="tab">Closing Book</a></li>
-                    <% if current_user.is_deal_admin? @deal %>
-                        <li class="deal-edit"><a href="#" data-toggle="modal" data-target="#modal-edit-deal"><i class="icon-icon-edit"></i> Edit Deal</a></li>
-                        <%= react_component "ArchiveDealButton", props: {url: api_deal_path(@deal), initiallyArchived: @deal.status == "Archived" } %>
-                    <% end %>
-                </ul>
-            <% end %>
-            <% content_for :navbar_brand do %>
-                <%= react_component 'DealStar',
-                    props: {initiallyStarred: @deal.starred_by?(current_user),
-                            user_id: current_user.id,
-                            url: api_deal_starred_deals_path(@deal),
-                            deal_id: @deal.id},
-                    html_options: {style: 'display: inline;'} %>
-            <% end %>
-            <%= render partial: "app/shared/top", locals: {title: "Deals / #{@deal.title}"} %>
-            <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div>
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="tab-deal-overview"> <!-- -->
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="deal-overview-statistic">
-                                            <div class="statistic-box__item item-small">
-                                                <i><%= @deal.documents.count %></i><span>DOCUMENTS</span>
-                                            </div>
-                                            <div class="statistic-box__item item-small">
-                                                <i><%= @deal.comments.count %></i><span>COMMENTS</span>
-                                            </div>
-                                            <div class="statistic-box__item item-big">
-                                                <i><%= @deal.projected_close_date.strftime("%m/%d/%y") %></i><span>PROJECTED CLOSE DATE</span>
-                                            </div>
-                                            <div class="statistic-box__item item-big">
-                                                <div class="statistic-box__mini-wrapper">
-                                                    <div class="statistic-box__mini-item">
-                                                        <div class="title">Diligence Tasks Completed <strong><%= @deal.tasks.diligence.complete.count %>/<%= @deal.tasks.diligence.count %></strong></div>
-                                                        <div class="progress">
-                                                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.diligence_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.diligence_completion_percent %>%;">
-                                                                <span class="sr-only"><%= @deal.diligence_completion_percent %>% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<div role="tabpanel" class="tab-pane active" id="tab-deal-overview"> <!-- -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="deal-overview-statistic">
+                <div class="statistic-box__item item-small">
+                    <i><%= @deal.documents.count %></i><span>DOCUMENTS</span>
+                </div>
+                <div class="statistic-box__item item-small">
+                    <i><%= @deal.comments.count %></i><span>COMMENTS</span>
+                </div>
+                <div class="statistic-box__item item-big">
+                    <i><%= @deal.projected_close_date.strftime("%m/%d/%y") %></i><span>PROJECTED CLOSE DATE</span>
+                </div>
+                <div class="statistic-box__item item-big">
+                    <div class="statistic-box__mini-wrapper">
+                        <div class="statistic-box__mini-item">
+                            <div class="title">Diligence Tasks Completed <strong><%= @deal.tasks.diligence.complete.count %>/<%= @deal.tasks.diligence.count %></strong></div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.diligence_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.diligence_completion_percent %>%;">
+                                    <span class="sr-only"><%= @deal.diligence_completion_percent %>% Complete</span>
+                                </div>
+                            </div>
+                        </div>
 
-                                                    <div class="statistic-box__mini-item">
-                                                        <div class="title">Closing Tasks Completed <strong><%= @deal.tasks.closing.complete.count %>/<%= @deal.tasks.closing.count %></strong></div>
-                                                        <div class="progress">
-                                                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.closing_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.closing_completion_percent %>%;">
-                                                                <span class="sr-only"><%= @deal.closing_completion_percent %>% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="content-left">
-                                            <% @deal.events.first(15).each do |event| %>
-                                                <%= render 'app/shared/event', event: event %>
-                                            <% end %>
-                                        </div>
-                                        <div class="content-right">
-                                            <%= render 'app/shared/panels/users', users: @deal.organization_users, title: 'COLLABORATORS' %>
-                                            <%= render 'app/shared/panels/files', files: @deal.recently_updated_files, title: 'RECENTLY UPDATED FILES' %>
-                                        </div>
-                                    </div>
+                        <div class="statistic-box__mini-item">
+                            <div class="title">Closing Tasks Completed <strong><%= @deal.tasks.closing.complete.count %>/<%= @deal.tasks.closing.count %></strong></div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="<%= @deal.closing_completion_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @deal.closing_completion_percent %>%;">
+                                    <span class="sr-only"><%= @deal.closing_completion_percent %>% Complete</span>
                                 </div>
-                            </div> <!-- tab panel Overview End -->
-                            <%
-                              diligence_category = @deal.diligence_category
-                              closing_category = @deal.closing_category
-                            %>
-                            <div role="tabpanel" class="tab-pane " id="tab-deal-diligence">
-                                <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => diligence_category.name, :id => diligence_category.id}}) %>
-                                </div>
-                            </div> <!-- tab panel Diligence End -->
-                            <div role="tabpanel" class="tab-pane" id="tab-deal-closing">
-                                <div class="container-fluid">
-                                  <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => closing_category.name, :id => closing_category.id}}) %>
-                                </div>
-                            </div> <!-- tab panel Closing End -->
-                            <div role="tabpanel" class="tab-pane" id="tab-deal-closing-book"> <!-- -->
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="deal-closing-book">
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-default">...</a>
-                                                <a href="#" class="btn btn-default">Download</a>
-                                            </div>
-                                            <div class="deal-closing-book__inner">
-                                                <div class="deal-closing-book__dummy-item">
-                                                    <div class="title">
-                                                        <h3>Cover Page Title</h3>
-                                                        <h4>Cover Page Subtitle</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- tab panel Close Book End -->
-                        </div> <!-- tab content End -->
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-                <div class="row">
-
-                </div>
-
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <%= react_component "EditDealModal", props: {deal: @deal, url: api_deal_path(@deal), transaction_types: Deal::TRANSACTION_TYPES} %>
-
-    <div class="modal fade" id="modal-new-section" tabindex="-1" role="dialog" aria-labelledby="modal-new-section-label">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-new-section-label">New Section</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="input-section-title">Section Title</label>
-                            <input type="text" name="deal_title" id="input-section-title" class="form-control" placeholder="Give your section a title" required="">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="modal-new-task" tabindex="-1" role="dialog" aria-labelledby="modal-new-task-label">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-new-task-label">New Task</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="input-task-title">Task Title</label>
-                            <input type="text" name="task_title" id="input-task-title" class="form-control" placeholder="Give your task a title" required="">
-                        </div>
-                        <div class="form-group optional">
-                            <label for="input-task-desc">Task Description</label>
-                            <textarea rows="5" name="task_desc" id="input-task-desc" class="form-control" placeholder="Explain this task" ></textarea>
-                        </div>
-
-                        <div class="form-group optional">
-                            <label for="input-task-section">Add to Section</label>
-                            <select name="task_section" id="input-task-section" class="selectpicker form-control show-tick">
-                                <option>Select a Section</option>
-                                <option>Section 1</option>
-                                <option>Section 2</option>
-                                <option>Section 3</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group optional">
-                            <label for="input-task-assignee">Add an Assignee</label>
-                            <select name="task_assignee" id="input-task-assignee" class="selectpicker form-control show-tick">
-                                <option>Select a Team Member</option>
-                                <option>Team Member 1</option>
-                                <option>Team Member 2</option>
-                                <option>Team Member 3</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create</button>
-                </div>
+        <div class="row">
+            <div class="content-left">
+                <% @deal.events.first(15).each do |event| %>
+                    <%= render 'app/shared/event', event: event %>
+                <% end %>
+            </div>
+            <div class="content-right">
+                <%= render 'app/shared/panels/users', users: @deal.organization_users, title: 'COLLABORATORS' %>
+                <%= render 'app/shared/panels/files', files: @deal.recently_updated_files, title: 'RECENTLY UPDATED FILES' %>
             </div>
         </div>
     </div>
-
-
-    <div class="modal fade" id="modal-new-file" tabindex="-1" role="dialog" aria-labelledby="modal-new-file-label">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-new-file-label">New Section</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="input-section-title">Upload</label>
-                            <input class="file-inputs" type="file" name="file_name" id="input-file-title" title="<i class='icon-icon-uploadcloud'></i> Choose a File" data-filename-placement="inside">
-                        </div>
-
-                        <div class="form-group optional">
-                            <label for="input-file-section">Add to Section</label>
-                            <select name="file_section" id="input-file-section" class="selectpicker form-control show-tick">
-                                <option>Select a Section</option>
-                                <option>Section 1</option>
-                                <option>Section 2</option>
-                                <option>Section 3</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="modal-new-folder" tabindex="-1" role="dialog" aria-labelledby="modal-new-folder-label">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-new-folder-label">New Folder</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="input-folder-title">Folder Name</label>
-                            <input type="text" name="folder_name" id="input-folder-title" class="form-control" placeholder="Give your folder a name" required="">
-                        </div>
-
-                        <div class="form-group optional">
-                            <label for="input-folder-section">Add to Section</label>
-                            <select name="folder_section" id="input-folder-section" class="selectpicker form-control show-tick">
-                                <option>Select a Section</option>
-                                <option>Section 1</option>
-                                <option>Section 2</option>
-                                <option>Section 3</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
+</div> <!-- tab panel Overview End -->

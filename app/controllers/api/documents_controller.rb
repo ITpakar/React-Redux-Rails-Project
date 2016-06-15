@@ -152,17 +152,17 @@ class Api::DocumentsController < ApplicationController
   def create
     file = params[:document][:file]
     name = file.original_filename
-    directory = "#{Rails.public_path.to_s}/upload"
-    Dir.mkdir(directory) unless File.exists?(directory)
-    path = File.join(directory, name)
-    File.open(path, "wb") { |f| f.write(file.read) }
+    # directory = "#{Rails.public_path.to_s}/upload"
+    # Dir.mkdir(directory) unless File.exists?(directory)
+    # path = File.join(directory, name)
+    # File.open(path, "wb") { |f| f.write(file.read) }
 
     # TODO: Save file to box.net
     # TODO: Check user permission with documentable first
     @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
-    @document.created_by = current_user.id
-    @document.upload_to_box(path, current_user)
+    @document.created_by = current_user.organization_user.id
     if @document.save
+      @document.upload_to_box(file, current_user)
       success_response(["Document created successfully."])
     else
       error_response(@document.errors)
@@ -170,7 +170,13 @@ class Api::DocumentsController < ApplicationController
   end
 
   def update
-    if @document.update(document_params)
+    file = params[:document][:file]
+    name = file.original_filename
+
+    # TODO: Save file to box.net
+    # TODO: Check user permission with documentable first
+    # TODO: For now update will add/duplicate documentable
+    if @document.update(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
       success_response(["Document updated successfully"])
     else
       error_response(@document.errors)
@@ -180,7 +186,7 @@ class Api::DocumentsController < ApplicationController
   def show
     success_response(
       {
-        document: @document.to_hash
+        document: @document.to_hash(@document.box_client)
       }
     )
   end

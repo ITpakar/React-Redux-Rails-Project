@@ -21,6 +21,12 @@ Rails.application.routes.draw do
       resources :deal_collaborators, only: [:create, :index, :destroy]
       resources :starred_deals, only: [:index, :create, :update, :destroy]
       resources :sections
+
+      member do
+        get 'diligence', to: "deals#diligence", as: :diligence
+        get 'closing', to: "deals#closing", as: :closing
+        get 'closing-book', to: "deals#closing_book", as: :closing_book
+      end
     end
 
     resources :team_members, only: [:index, :show, :update, :create, :destroy]

@@ -28,10 +28,12 @@ export default class CategoryFolder extends React.Component {
 
   render() {
     var element = this.props.element;
-    var isSelected = this.props.selectedElement &&
-                     this.props.selectedElement.id == this.props.element.id &&
-                     this.props.selectedElement.type == this.props.element.type;
-  	return (
+    var selectedElement = this.props.selectedElement;
+    var isSelected = selectedElement &&
+                     selectedElement.id == element.id &&
+                     selectedElement.type == element.type;
+
+    return (
       <div className={classnames({"deal-element-item deal-element-item__file": true, "deal-item-active": isSelected})}>
         <div className="item-header">
           <a className="item-header-item" href="#" onClick={this.selectFile}>{element.title}</a>

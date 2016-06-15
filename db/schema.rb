@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608170638) do
+ActiveRecord::Schema.define(version: 20160615172713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 20160608170638) do
     t.index ["organization_user_id"], name: "index_deal_collaborators_on_organization_user_id", using: :btree
   end
 
+  create_table "deal_document_versions", force: :cascade do |t|
+    t.integer  "deal_document_id"
+    t.string   "name"
+    t.string   "box_version_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["deal_document_id"], name: "index_deal_document_versions_on_deal_document_id", using: :btree
+  end
+
   create_table "deal_documents", force: :cascade do |t|
     t.integer  "document_id"
     t.integer  "documentable_id"
@@ -68,6 +77,7 @@ ActiveRecord::Schema.define(version: 20160608170638) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "deal_id"
+    t.string   "box_file_id"
     t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
     t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
@@ -134,6 +144,14 @@ ActiveRecord::Schema.define(version: 20160608170638) do
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
   end
 
+  create_table "kpis", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "key"
+    t.integer  "value"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.integer  "organization_user_id"
     t.text     "message"
@@ -150,6 +168,7 @@ ActiveRecord::Schema.define(version: 20160608170638) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "type"
+    t.string   "box_user_id"
     t.index ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
     t.index ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_organization_users_on_user_id", using: :btree
@@ -234,7 +253,6 @@ ActiveRecord::Schema.define(version: 20160608170638) do
     t.string   "role"
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
-    t.string   "box_user_id"
     t.index ["activated"], name: "index_users_on_activated", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

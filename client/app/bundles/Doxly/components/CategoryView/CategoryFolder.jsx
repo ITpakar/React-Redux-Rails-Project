@@ -20,7 +20,7 @@ export default class CategoryFolder extends React.Component {
       bodyClassnames: ["deal-element-folder-wrapper", "collapse"]
     }
 
-    _.bindAll(this, ['toggleContent', "selectFolder", "openNewDocumentModal"]);
+    _.bindAll(this, ['toggleContent', "selectFolder", "openDocumentModal"]);
   }
 
   toggleContent(event) {
@@ -46,12 +46,12 @@ export default class CategoryFolder extends React.Component {
     this.props.selectElement(this.props.element);
   }
 
-  openNewDocumentModal(event) {
+  openDocumentModal(event) {
     if (event) {
       event.preventDefault();
     }
 
-    this.props.openNewDocumentModal(this.props.element);
+    this.props.openDocumentModal(this.props.element);
   }
 
   render() {
@@ -69,9 +69,9 @@ export default class CategoryFolder extends React.Component {
           <CategorySection element={child}
                            selectElement={this.props.selectElement}
                            selectedElement={this.props.selectedElement}
-                           openNewDocumentModal={this.props.openNewDocumentModal}
-                           openNewFolderModal={this.props.openNewFolderModal}
-                           openNewTaskModal={this.props.openNewTaskModal}
+                           openDocumentModal={this.props.openDocumentModal}
+                           openFolderModal={this.props.openFolderModal}
+                           openTaskModal={this.props.openTaskModal}
                            key={"section_" + (i + 1)} />
         );
       } else if (child.type == "Task") {
@@ -79,9 +79,9 @@ export default class CategoryFolder extends React.Component {
           <CategoryTask element={child}
                         selectElement={this.props.selectElement}
                         selectedElement={this.props.selectedElement}
-                        openNewDocumentModal={this.props.openNewDocumentModal}
-                        openNewFolderModal={this.props.openNewFolderModal}
-                        openNewTaskModal={this.props.openNewTaskModal}
+                        openDocumentModal={this.props.openDocumentModal}
+                        openFolderModal={this.props.openFolderModal}
+                        openTaskModal={this.props.openTaskModal}
                         key={"task_" + (i + 1)} />
         );
       } else if (child.type == "Folder") {
@@ -89,7 +89,7 @@ export default class CategoryFolder extends React.Component {
           <CategoryFolder element={child}
                           selectElement={this.props.selectElement}
                           selectedElement={this.props.selectedElement}
-                          openNewDocumentModal={this.props.openNewDocumentModal}
+                          openDocumentModal={this.props.openDocumentModal}
                           key={"folder_" + (i + 1)} />
         );
       } else if (child.type == "Document") {
@@ -131,7 +131,7 @@ export default class CategoryFolder extends React.Component {
           <div className="deal-element-folder-elements">
             {displayedChildren}
             <div className="deal-element-add-item deal-item-add-document">
-              <a href="#" onClick={this.openNewDocumentModal}><i className="icon-icon-plus"></i> Add a File</a>
+              <a href="#" onClick={this.openDocumentModal}><i className="icon-icon-plus"></i> Add a File</a>
             </div>
           </div>
         </div>

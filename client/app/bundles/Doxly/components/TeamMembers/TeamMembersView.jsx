@@ -28,7 +28,7 @@ export default class TeamMembersView extends React.Component {
   }
 
   handleClick() {
-
+    $("#modal-edit-user").modal();
   }
 
   getVisibleUsers() {

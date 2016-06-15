@@ -9,7 +9,7 @@ module DealOwner
     active_deals = deals.where(status: Deal::ACTIVE_STATUSES)
     archived_deals = deals.where(status: Deal::ARCHIVED_STATUSES)
     team_members = deals.map(&:organization_users).flatten.uniq
-    outside_collaborators = team_members.select{|team_member| team_member.user.email.include? email_domain}
+    outside_collaborators = team_members.reject{|team_member| team_member.user.email.include? email_domain}
 
     return {
       active_deals: active_deals.count,
