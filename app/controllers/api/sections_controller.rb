@@ -120,8 +120,9 @@ class Api::SectionsController < ApplicationController
         task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
 
-        task.documents.order("title").each do |document|
+        task.documents.select("DISTINCT documents.*").order("title").each do |document|
           document_h = document.to_hash
+          document_h[:id] = document.id
           document_h[:type] = document.class.name
           task_elements << document_h
         end
@@ -136,8 +137,9 @@ class Api::SectionsController < ApplicationController
           folder_h[:comments_count] = folder.comments.count
           folder_h[:elements] = folder_elements
 
-          folder.documents.order("title").each do |document|
+          folder.documents.select("DISTINCT documents.*").order("title").each do |document|
             document_h = document.to_hash
+            document_h[:id] = document.id
             document_h[:type] = document.class.name
             folder_elements << document_h
           end

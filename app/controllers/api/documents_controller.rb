@@ -170,7 +170,13 @@ class Api::DocumentsController < ApplicationController
   end
 
   def update
-    if @document.update(document_params)
+    file = params[:document][:file]
+    name = file.original_filename
+
+    # TODO: Save file to box.net
+    # TODO: Check user permission with documentable first
+    # TODO: For now update will add/duplicate documentable
+    if @document.update(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
       success_response(["Document updated successfully"])
     else
       error_response(@document.errors)

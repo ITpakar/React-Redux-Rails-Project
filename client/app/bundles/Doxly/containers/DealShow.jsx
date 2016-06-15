@@ -61,7 +61,7 @@ class DealShow extends React.Component {
     var category = this.props.category;
 
     folderAttrs.deal_id = dealId;
-    doUpdateFolder(folderAttrs).then(function() {
+    doUpdateFolder(folderId, folderAttrs).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
       if (successCallback) {
@@ -167,7 +167,7 @@ class DealShow extends React.Component {
     var dealId = this.props.id;
     var category = this.props.category;
 
-    doUpdateFolder(folderId).then(function() {
+    doDeleteFolder(folderId).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
       if (successCallback) {
@@ -198,7 +198,7 @@ class DealShow extends React.Component {
     var dealId = this.props.id;
     var category = this.props.category;
 
-    doUpdateSection(dealId, sectionId).then(function() {
+    doDeleteSection(dealId, sectionId).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
       if (successCallback) {

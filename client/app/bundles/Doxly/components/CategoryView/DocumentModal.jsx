@@ -37,14 +37,22 @@ export default class DocumentModal extends React.Component {
     if (title && file && documentable_type && documentable_id) {
       var _this = this;
       var data = new FormData();
+      var element = this.props.element;
+
       data.append("document[file]", file);
       data.append("document[title]", title)
       data.append("document[deal_documents_attributes][0][documentable_type]", documentable_type);
       data.append("document[deal_documents_attributes][0][documentable_id]", documentable_id);
 
-      this.props.saveDocument(data, function() {
-        _this.props.closeDocumentModal();
-      });
+      if (element && element.id) {
+        this.props.updateDocument(element.id, data, function() {
+          _this.props.closeDocumentModal();
+        });
+      } else {
+        this.props.createDocument(data, function() {
+          _this.props.closeDocumentModal();
+        });
+      }
     }
   }
 
@@ -59,12 +67,12 @@ export default class DocumentModal extends React.Component {
       let parentId;
 
       if (element && element.id && element.deal_documents && element.deal_documents.length > 0) {
-        parentId = element.deal_documents[0].documentable_type + "" + element.deal_documents[0].documentable_id;
+        parentId = element.deal_documents[0].documentable_type + "-" + element.deal_documents[0].documentable_id;
       }
       availableTasksAndFolders = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task or Folder</label>
-          <select name="task" ref="parent_id" value={parentId} className="form-control show-tick">
+          <select name="task" ref="parent_id" defaultValue={parentId} className="form-control show-tick">
             <option>Select a Task or Folder</option>
             {this.props.parents.map(function(el, i) {
               return (
@@ -91,7 +99,7 @@ export default class DocumentModal extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label htmlFor="input-document-title">File Name</label>
-              <input type="text" ref="document_title" required value={documentTitle} placeholder="Give your document a title" className="form-control" id="input-file-title" name="document_title" />
+              <input type="text" ref="document_title" required defaultValue={documentTitle} placeholder="Give your document a title" className="form-control" id="input-file-title" name="document_title" />
             </div>
             {availableTasksAndFolders}
             <div className="form-group">

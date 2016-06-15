@@ -14,13 +14,21 @@ export default class FolderModal extends React.Component {
 
     var _this = this;
     var folderAttrs = {};
+    var element = this.props.element;
+
     folderAttrs.name = $.trim($(this.refs.folder_name).val());
     folderAttrs.task_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_id).val());
 
     if (folderAttrs.name && folderAttrs.task_id) {
-      this.props.saveFolder(folderAttrs, function() {
-        _this.props.closeFolderModal();
-      });
+      if (element && element.id) {
+        this.props.updateFolder(element.id, folderAttrs, function() {
+          _this.props.closeFolderModal();
+        });
+      } else {
+        this.props.createFolder(folderAttrs, function() {
+          _this.props.closeFolderModal();
+        });
+      }
     }
   }
 
@@ -33,7 +41,7 @@ export default class FolderModal extends React.Component {
       availableTasks = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task</label>
-          <select name="task" ref="task_id" value={taskId} className="form-control show-tick">
+          <select name="task" ref="task_id" defaultValue={taskId} className="form-control show-tick">
             <option>Select a Task</option>
             {this.props.tasks.map(function(task) {
               return (
@@ -45,7 +53,7 @@ export default class FolderModal extends React.Component {
       );
     }
 
-    var folderName = element && element.name;
+    var folderName = element && element.title;
     var modalTitle = element && element.id ? "Edit Folder" : "New Folder";
     var submitText = element && element.id ? "Update" : "Create"
 
@@ -60,7 +68,7 @@ export default class FolderModal extends React.Component {
           <form onSubmit={this.saveFolder}>
             <div className="form-group">
               <label htmlFor="input-folder-title">Folder Name</label>
-              <input type="text" ref="folder_name" required value={folderName} placeholder="Give your folder a name" className="form-control" id="input-folder-title" name="folder_name" />
+              <input type="text" ref="folder_name" required defaultValue={folderName} placeholder="Give your folder a name" className="form-control" id="input-folder-title" name="folder_name" />
             </div>
             {availableTasks}
           </form>

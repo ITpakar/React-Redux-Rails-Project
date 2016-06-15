@@ -115,6 +115,7 @@ export default class CategoryView extends React.Component {
   }
 
   closeFolderModal() {
+    console.log("Line 118 ");
     this.setState({showFolderModal: false, parentElement: undefined});
   }
 
@@ -156,7 +157,7 @@ export default class CategoryView extends React.Component {
     } else if (element.type == "Folder") {
       this.openFolderModal(undefined, element);
     } else if (element.type == "Document") {
-      this.openFolderModal(undefined, element);
+      this.openDocumentModal(undefined, element);
     }
   }
 

@@ -48,7 +48,7 @@ export function doCreateDocument(formData) {
 }
 
 export function doUpdateFolder(folderId, attrs) {
-  return submitRequest("/api/folders/" + folderId, "post", {folder: attrs});
+  return submitRequest("/api/folders/" + folderId, "put", {folder: attrs});
 }
 
 export function doUpdateTask(taskId, attrs) {
