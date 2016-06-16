@@ -34,8 +34,9 @@ class Document < ApplicationRecord
       file_type:        self.file_type,
       file_uploaded_at: self.file_uploaded_at,
       activated:        self.activated,
-      signed_count:      self.document_signers.where(signed: true).count,
-      signers_count:     self.document_signers.count
+      signed_count:     self.document_signers.where(signed: true).count,
+      signers_count:    self.document_signers.count,
+      signers:          self.document_signers.map(&:to_hash)
     }
 
     if self.creator
@@ -53,7 +54,7 @@ class Document < ApplicationRecord
     return data
   end
 
-  def create_signers signers
+  def create_signers! signers
     signers.each do |signer|
       self.document_signers.create(signer) unless signer["name"].blank? or signer["email"].blank?
     end

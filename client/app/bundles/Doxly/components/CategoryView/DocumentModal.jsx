@@ -13,6 +13,25 @@ export default class DocumentModal extends React.Component {
     _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog", 'handleCheck', 'addSigner', 'handleSignerInputChange']);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.element && nextProps.element.signers_count > 0) {
+      var state = {
+        signable: true,
+        signerCount: nextProps.element.signers_count,
+        signers: nextProps.element.signers
+      }
+    } else {
+      var state = {
+        signable: false,
+        signerCount: 1,
+        signers: []
+      }
+    }
+
+    this.setState(state);
+
+  }
+
   handleSubmit(event) {
     if (event) {
       event.preventDefault();
@@ -62,7 +81,6 @@ export default class DocumentModal extends React.Component {
   }
 
   saveDocument(title, file, documentable_type, documentable_id, signers) {
-    console.log('saveDocument');
     if (title && file && documentable_type && documentable_id) {
       var _this = this;
       var data = new FormData();
@@ -99,17 +117,24 @@ export default class DocumentModal extends React.Component {
     this.setState({signerCount: this.state.signerCount + 1});
   }
 
+  getSignerValue(i, key) {
+    if (this.state.signers && this.state.signers[i]) {
+      return this.state.signers[i][key];
+    }
+    return null;
+  }
+
   renderSignatoriesInput() {
     var signerInputs = [];
 
     for (var i = 0; i < this.state.signerCount; i++) {
-      signerInputs.push(<input type="text" key={`signer[${i}][name]`} onChange={this.handleSignerInputChange(i, 'name')} className="form-control" placeholder="Enter Name" />)
-      signerInputs.push(<input type="email" key={`signer[${i}][email]`} onChange={this.handleSignerInputChange(i, 'email')} className="form-control" placeholder="Enter Email" />)
+      signerInputs.push(<input type="text" value={this.getSignerValue(i, 'name')} key={`signer[${i}][name]`} onChange={this.handleSignerInputChange(i, 'name')} className="form-control" placeholder="Enter Name" />)
+      signerInputs.push(<input type="email" value={this.getSignerValue(i, 'email')} key={`signer[${i}][email]`} onChange={this.handleSignerInputChange(i, 'email')} className="form-control" placeholder="Enter Email" />)
     }
 
     if (this.state.signable) {
       return (
-        <div className="form-group">
+        <div className="form-group signer-inputs">
           <label>Add Signatories</label>
           {signerInputs}
           <button type="button" className="btn btn-default pull-left" onClick={this.addSigner}>Add another signer</button>
@@ -161,10 +186,10 @@ export default class DocumentModal extends React.Component {
             </div>
             {availableTasksAndFolders}
             <div className="form-group">
-              <input type="checkbox" id="signable" value="signable" checked={this.state.signable} onClick={this.handleCheck}/> <label>Signable</label>
+              <input type="checkbox" id="signable" value="signable" checked={this.state.signable} onClick={this.handleCheck} style={{margin: 0}}/> <label>Signable</label>
             </div>
             {this.renderSignatoriesInput()}
-            <div className="form-group">
+            <div className="form-group file-input-group">
               <label>Upload</label>
               <a className="file-input-wrapper btn btn-fileinput file-inputs" onClick={this.showDialog}>
                 <span><i className="icon-icon-uploadcloud"></i> Choose a File</span>

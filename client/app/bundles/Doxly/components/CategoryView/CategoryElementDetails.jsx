@@ -39,8 +39,6 @@ export default class CategoryElementDetails extends React.Component {
         <p>{element.description}</p>
       )
     } else if (element.type == "Document") {
-      console.log(element);
-
       description = (
         <div>
           <div className="ico-document">
