@@ -68,7 +68,7 @@ class Document < ApplicationRecord
     end
   end
 
-  def add_new_version(file, name)
+  def add_new_version(user, file, name)
     tmp = "#{Rails.root}/tmp/"
     client = user.box_client
     self.deal_documents.each do |deal_document|

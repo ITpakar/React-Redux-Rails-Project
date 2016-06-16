@@ -68,7 +68,7 @@ export function doUpdateDocument(documentId, formData) {
     dataType: 'json',
     processData: false, // Don't process the files
     contentType: false // Set content type to false as jQuery will tell the server its a query string request
-    });
+  });
 }
 
 export function doDeleteFolder(folderId) {
@@ -90,6 +90,18 @@ export function doDeleteDocument(documentId) {
 
 export function doLoadDocument(documentId) {
   return submitRequest("/api/documents/" + documentId, "get");
+}
+
+export function doCreateVersion(documentId, formData) {
+  return $.ajax({
+    url: '/api/documents/' + documentId + "/versions",
+    type: 'POST',
+    data: formData,
+    cache: false,
+    dataType: 'json',
+    processData: false,
+    contentType: false
+  });
 }
 
 export function doLoadDealCollaborators(dealId) {

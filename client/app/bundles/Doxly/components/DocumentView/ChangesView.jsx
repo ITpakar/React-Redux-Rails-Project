@@ -38,7 +38,7 @@ export default class ChangesView extends React.Component {
       }
     } else {
       displayedChanges.push(
-        (<div className="no-changes-found">No changes found</div>)
+        (<div className="no-changes-found" key="no_changes">No changes found</div>)
       );
     }
 

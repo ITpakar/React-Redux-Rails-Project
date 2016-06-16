@@ -28,7 +28,7 @@ export default class DocumentModal extends React.Component {
       documentable_id = tmp[1];
     }
 
-    if (title && file && documentable_type, documentable_id) {
+    if (title && file && documentable_type && documentable_id) {
       this.saveDocument(title, file, documentable_type, documentable_id);
     }
   }

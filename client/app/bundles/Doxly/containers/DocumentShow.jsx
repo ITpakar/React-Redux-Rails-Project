@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
 import DocumentHistoriesView from "../components/DocumentView/DocumentHistoriesView";
-import {loadDocument} from "../actions/doxlyActions";
+import {loadDocument, createVersion} from "../actions/doxlyActions";
 
 class DocumentShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, []);
+    _.bindAll(this, ["createVersion"]);
   }
 
   componentWillMount() {
@@ -14,19 +14,21 @@ class DocumentShow extends React.Component {
     this.props.loadDocument(documentId);
   }
 
+  createVersion(formData, successCallback) {
+    var _this = this;
+    var documentId = this.props.id;
+    this.props.createVersion(documentId, formData).then(function() {
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
   render() {
     if (!this.props.document) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      let dealDocument = this.props.document.deal_documents[0];
-
-      if (dealDocument) {
-        return (<DocumentHistoriesView document={dealDocument} />);
-      } else {
-        return (
-          <div>This document does not have any files</div>
-        );
-      }
+      return (<DocumentHistoriesView document={this.props.document} createVersion={this.createVersion} />);
     }
   }
 }
@@ -51,7 +53,8 @@ function stateToProps(state, ownProps) {
 }
 
 DocumentShow = connect(stateToProps, {
-  loadDocument
+  loadDocument,
+  createVersion
 })(DocumentShow);
 
 export default DocumentShow;

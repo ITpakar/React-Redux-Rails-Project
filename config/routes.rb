@@ -60,6 +60,10 @@ Rails.application.routes.draw do
     resources :notifications
     resources :comments
     resources :documents do
+      member do
+    	   post :versions, :to => "documents#create_version"
+      end
+      
       resources :document_signers
     end
     resources :folders

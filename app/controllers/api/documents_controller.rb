@@ -3,7 +3,7 @@ class Api::DocumentsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_document, only: [:show, :update, :destroy]
+  before_action :set_document, only: [:show, :update, :destroy, :create_version]
 
   swagger_controller :document, "Document"
 
@@ -199,6 +199,20 @@ class Api::DocumentsController < ApplicationController
     end
   end
 
+  def create_version
+    if version_params[:file].present? && version_params[:file].kind_of?(ActionDispatch::Http::UploadedFile)
+      file_name = version_params[:file].original_filename
+      name = version_params[:name] || File.basename(file_name)
+
+      @document.add_new_version(current_user, version_params[:file], version_params[:name])
+      success_response({
+        document: @document.to_hash
+      })
+    else
+      error_response(["Bad request"])
+    end
+  end
+
   private
   def set_document
     @document = Document.find_by_id(params[:id])
@@ -211,6 +225,10 @@ class Api::DocumentsController < ApplicationController
       :deal_id,
       :deal_documents_attributes => [:documentable_id, :documentable_type]
     )
+  end
+
+  def version_params
+    params.require(:version).permit(:name, :file)
   end
 
   protected

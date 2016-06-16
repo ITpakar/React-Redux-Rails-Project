@@ -1,5 +1,6 @@
 import actionTypes from '../constants';
-import {doLoadCategorySectionsTree, doLoadDealCollaborators, doLoadDocument} from "../utils/api";
+import {doLoadCategorySectionsTree, doLoadDealCollaborators} from "../utils/api";
+import {doLoadDocument, doCreateVersion} from "../utils/api";
 
 export function starDeal(id, title, url) {
 
@@ -94,6 +95,19 @@ export function loadDocument(documentId) {
   return function(dispatch) {
     dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
     return doLoadDocument(documentId).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function createVersion(documentId, formData) {
+  var requestType = actionTypes.REQUESTS.CREATE_VERSION;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doCreateVersion(documentId, formData).then(function(responseData, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
