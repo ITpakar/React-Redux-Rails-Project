@@ -4,9 +4,10 @@ class DealDocumentVersion < ApplicationRecord
 
   def to_hash
     data = {
-      id:      self.id,
-      name:    self.name,
-      url:     self.url,
+      id:               self.id,
+      name:             self.name,
+      url:              self.url,
+      download_url:     self.download_url,
       changes: []
     }
 

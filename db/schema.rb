@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615185358) do
+ActiveRecord::Schema.define(version: 20160616024237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160615185358) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "url"
+    t.string   "download_url"
     t.index ["deal_document_id"], name: "index_deal_document_versions_on_deal_document_id", using: :btree
   end
 
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 20160615185358) do
     t.integer  "deal_id"
     t.string   "box_file_id"
     t.string   "url"
+    t.string   "download_url"
     t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
     t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
@@ -247,6 +249,7 @@ ActiveRecord::Schema.define(version: 20160615185358) do
     t.string   "role"
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.string   "avatar"
     t.index ["activated"], name: "index_users_on_activated", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
