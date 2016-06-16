@@ -28,6 +28,7 @@ class DealDocument < ApplicationRecord
   # Note that this will always be executed asynchronously so it doesn't block
   def send_to_docusign
     # First we need to download the file from Box, we'll store it in /tmp
+    puts "Downloading file"
     url = self.download_url
     file_name = /([^\/]+?)$/.match(url).captures.try(:[], 0)
 
@@ -37,6 +38,7 @@ class DealDocument < ApplicationRecord
     end
 
     # Now we create an envelope and send it to Docusign, who deals with sending emails for us
+    puts "Sending request to DocuSign"
     signers = self.document_signers.map(&:to_hash)
 
     host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.root
@@ -47,7 +49,7 @@ class DealDocument < ApplicationRecord
     document_envelope_response = client.create_envelope_from_document(
       email: {
         subject: "You've been asked to sign #{self.document.title}",
-        body: "Please sign using the DocuSign link below"
+        body: "Please sign using the DocuSign link above"
       },
       signers: signers,
       files: [
@@ -68,6 +70,7 @@ class DealDocument < ApplicationRecord
     self.document_signers.update_all(envelope_id: envelope_id)
 
     # Lastly we delete the saved document
+    puts "Deleting file"
     File.delete(file_path) if File.exist?(file_path)
   end
 
@@ -84,8 +87,8 @@ class DealDocument < ApplicationRecord
       documentable_id:   self.documentable_id,
       documentable_type: self.documentable_type,
       url:               self.url,
-      download_url:      self.download_url
-      signed_count:      self.document_signers.where(signed: true).count
+      download_url:      self.download_url,
+      signed_count:      self.document_signers.where(signed: true).count,
       signers_count:     self.document_signers.count
     }
 
