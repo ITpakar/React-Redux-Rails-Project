@@ -18,6 +18,7 @@ class Document < ApplicationRecord
   def to_hash
     data = {
       document_id:      self.id,
+      deal_id:          self.deal_id,
       title:            self.title,
       file_name:        self.file_name,
       file_size:        self.file_size,

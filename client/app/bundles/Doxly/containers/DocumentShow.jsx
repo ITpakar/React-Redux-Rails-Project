@@ -28,13 +28,14 @@ class DocumentShow extends React.Component {
     if (!this.props.document) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<DocumentHistoriesView document={this.props.document} createVersion={this.createVersion} />);
+      return (<DocumentHistoriesView document={this.props.document} userId={this.props.userId} createVersion={this.createVersion} />);
     }
   }
 }
 
 DocumentShow.propTypes = {
   id: PropTypes.number.isRequired,
+  userid: PropTypes.number.isRequired,
   document: PropTypes.object,
   loadingDocumentStatus: PropTypes.string,
   loadDocument: PropTypes.func.isRequired

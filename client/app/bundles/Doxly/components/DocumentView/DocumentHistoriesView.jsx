@@ -112,22 +112,27 @@ export default class DocumentHistoriesView extends React.Component {
                   <a href="#" className="file-viewer__close"><i className="icon-icon-close"></i></a>
                   <div className="file-viewer__title">
                       <div className="title">
-                          {docVersion.name} <span className="badge-signed signed">FIXME: 3/3 signed</span>
+                          {docVersion.name} <span className="badge-signed signed">3/3 signed</span>
                       </div>
                       <div className="meta">
                           V{selectedIndex + 1} Uploaded {Util.formatDate(docVersion.created_at, "MM/DD/YYYY")} at {Util.formatDate(docVersion.created_at, "HH:MM A")} {uploadedBy}
                       </div>
                   </div>
-                  <div className="buttons">
+                  <div className="buttons toolbox-buttons">
                     <div className="dropdown btn btn-default">
                       <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a href="#" onClick={this.openUploadModal}>Upload New Version</a>
-                        </li>
-                      </ul>
                     </div>
                     <a href="#" className="btn btn-default" onClick={this.download}>Download</a>
+                  </div>
+              </div>
+              <div className="toolbox-right">
+                  <div className="chat-box" data-target="#chat-box-1">
+                      <div className="chat-box-toggle">
+                          <div className="btn-group">
+                              <a className="btn toggle-active" href="#deal-chat-1-internal">Internal Chat</a>
+                              <a className="btn" href="#deal-chat-1-external">External Chat</a>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
@@ -183,13 +188,7 @@ export default class DocumentHistoriesView extends React.Component {
                 <div className="content-file-viewer-right">
                     <div className="chat-box chat-box-small" id="chat-box-1">
                         <div className="chat-box-details">
-                            <div className="chat-box-details__instance internal toggle-active" id="deal-chat-internal">
-                              <CommentBox />
-                            </div>
-
-                            <div className="chat-box-details__instance external" id="deal-chat-external">
-                              <CommentBox />
-                            </div>
+                            <CommentBox element={this.props.document} user_id={this.props.userId} deal_id={this.props.document.deal_id} hideChatboxToggle={true} />
                         </div>
                     </div>
                 </div>
