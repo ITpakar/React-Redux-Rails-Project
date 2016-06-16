@@ -1,13 +1,3 @@
-require 'open-uri'
-
-# Without this, it sets the local path to local.path and
-# the multipart upload fails
-class Pathname
-  def path
-    self.to_s
-  end
-end
-
 class DealDocument < ApplicationRecord
   include Traversable
   belongs_to :document
@@ -16,7 +6,6 @@ class DealDocument < ApplicationRecord
 
   has_many :comments, as: :commentable
   has_many :versions, class_name: 'DealDocumentVersion'
-  has_many :document_signers
 
   before_validation :set_deal, on: :create
   after_create :set_deal
@@ -24,60 +13,6 @@ class DealDocument < ApplicationRecord
   def set_deal
     self.deal_id ||= self.traverse_up_to(Deal).try(:id)
   end
-
-  # Note that this will always be executed asynchronously so it doesn't block
-  def send_to_docusign
-    # First we need to download the file from Box, we'll store it in /tmp
-    puts "Downloading file"
-    url = self.download_url
-    file_name = /([^\/]+?)$/.match(url).captures.try(:[], 0)
-
-    file_path = Rails.root.join('tmp', "#{file_name}");
-    open(file_path, 'wb') do |file|
-      file << open(url).read
-    end
-
-    # Now we create an envelope and send it to Docusign, who deals with sending emails for us
-    puts "Sending request to DocuSign"
-    signers = self.document_signers.map(&:to_hash)
-
-    host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.root
-
-    callback_url = Rails.application.routes.url_helpers.app_docusign_webhook_url(host: host)
-
-    client = DocusignRest::Client.new
-    document_envelope_response = client.create_envelope_from_document(
-      email: {
-        subject: "You've been asked to sign #{self.document.title}",
-        body: "Please sign using the DocuSign link above"
-      },
-      signers: signers,
-      files: [
-        {
-          path: file_path,
-          name: self.document.title
-        }
-      ],
-      status: 'sent',
-      eventNotification: {
-        url: callback_url,
-        loggingEnabled: true,
-        recipientEvents: ['Completed', 'Declined', 'AuthenticationFailed', 'AutoResponded']
-      }
-    )
-
-    envelope_id = document_envelope_response["envelopeId"]
-    self.document_signers.update_all(envelope_id: envelope_id)
-
-    # Lastly we delete the saved document
-    puts "Deleting file"
-    File.delete(file_path) if File.exist?(file_path)
-  end
-
-  handle_asynchronously :send_to_docusign
-
-
-  # handle_asynchronously :send_to_docusign
 
   def to_hash
     data = {
@@ -87,9 +22,7 @@ class DealDocument < ApplicationRecord
       documentable_id:   self.documentable_id,
       documentable_type: self.documentable_type,
       url:               self.url,
-      download_url:      self.download_url,
-      signed_count:      self.document_signers.where(signed: true).count,
-      signers_count:     self.document_signers.count
+      download_url:      self.download_url
     }
 
     data[:versions] = []

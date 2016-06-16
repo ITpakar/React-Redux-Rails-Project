@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616191507) do
+ActiveRecord::Schema.define(version: 20160616202648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,10 +121,10 @@ ActiveRecord::Schema.define(version: 20160616191507) do
   create_table "document_signers", force: :cascade do |t|
     t.string   "email"
     t.string   "name"
-    t.integer  "deal_document_id"
-    t.boolean  "signed",           default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "document_id"
+    t.boolean  "signed",      default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "envelope_id"
   end
 

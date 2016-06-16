@@ -39,10 +39,14 @@ export default class CategoryElementDetails extends React.Component {
         <p>{element.description}</p>
       )
     } else if (element.type == "Document") {
+      console.log(element);
+
       description = (
         <div>
           <div className="ico-document">
-              {/* <div className="badge-signed signed">3/3 signed</div> */}
+              <div className={classnames({'badge-signed': true, "signed": element.signers_count == element.signed_count, "hidden": element.signers_count == 0})}>
+                {element.signed_count}/{element.signers_count} signed
+              </div>
           </div>
 
           <div className="buttons">
