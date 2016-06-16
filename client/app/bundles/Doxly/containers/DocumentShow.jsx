@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
 import DocumentHistoriesView from "../components/DocumentView/DocumentHistoriesView";
-import {loadDocument, createVersion} from "../actions/doxlyActions";
+import {loadDocument} from "../actions/doxlyActions";
 
 class DocumentShow extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createVersion"]);
   }
 
   componentWillMount() {
@@ -14,28 +13,18 @@ class DocumentShow extends React.Component {
     this.props.loadDocument(documentId);
   }
 
-  createVersion(formData, successCallback) {
-    var _this = this;
-    var documentId = this.props.id;
-    this.props.createVersion(documentId, formData).then(function() {
-      if (successCallback) {
-        successCallback();
-      }
-    });
-  }
-
   render() {
     if (!this.props.document) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<DocumentHistoriesView document={this.props.document} userId={this.props.userId} createVersion={this.createVersion} />);
+      return (<DocumentHistoriesView document={this.props.document} userId={this.props.userId} />);
     }
   }
 }
 
 DocumentShow.propTypes = {
   id: PropTypes.number.isRequired,
-  userid: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
   document: PropTypes.object,
   loadingDocumentStatus: PropTypes.string,
   loadDocument: PropTypes.func.isRequired
@@ -54,8 +43,7 @@ function stateToProps(state, ownProps) {
 }
 
 DocumentShow = connect(stateToProps, {
-  loadDocument,
-  createVersion
+  loadDocument
 })(DocumentShow);
 
 export default DocumentShow;

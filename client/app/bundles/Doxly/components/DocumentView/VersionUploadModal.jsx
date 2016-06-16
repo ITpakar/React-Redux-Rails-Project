@@ -30,7 +30,7 @@ export default class DocumentModal extends React.Component {
       data.append("version[file]", file);
 
       this.props.createVersion(data, function() {
-        _this.props.closeUploadModal();
+        _this.props.closeVersionModal();
       });
     }
   }
@@ -55,7 +55,7 @@ export default class DocumentModal extends React.Component {
     }
 
   	return (
-      <Modal show={this.props.showUploadModal} onHide={this.props.closeUploadModal} dialogClassName="new-question-modal">
+      <Modal show={this.props.showVersionModal} onHide={this.props.closeVersionModal} dialogClassName="new-question-modal">
         <Modal.Header closeButton>
           <Modal.Title>
             Upload New Version
@@ -72,7 +72,7 @@ export default class DocumentModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className="btn btn-default pull-left" onClick={this.props.closeUploadModal}>Cancel</button>
+          <button type="button" className="btn btn-default pull-left" onClick={this.props.closeVersionModal}>Cancel</button>
           <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Upload</button>
         </Modal.Footer>
       </Modal>

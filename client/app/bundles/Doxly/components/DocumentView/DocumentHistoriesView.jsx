@@ -3,17 +3,15 @@ import _ from "lodash";
 import FileViewer from "./FileViewer";
 import ChangesView from "./ChangesView";
 import CommentBox from "../CommentBox/CommentBox";
-import VersionUploadModal from "./VersionUploadModal";
 import Util from "../../utils/util";
 
 export default class DocumentHistoriesView extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      versionIndex: undefined,
-      showUploadModal: false
+      versionIndex: undefined
     };
-    _.bindAll(this, ["changeVersion", "getSelectedIndex", "download", "openUploadModal", "closeUploadModal"]);
+    _.bindAll(this, ["changeVersion", "getSelectedIndex", "download"]);
   }
 
   changeVersion() {
@@ -46,18 +44,6 @@ export default class DocumentHistoriesView extends React.Component {
     var docVersion = versions[selectedIndex];
 
     window.open(docVersion.download_url);
-  }
-
-  openUploadModal(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.setState({showUploadModal: true});
-  }
-
-  closeUploadModal() {
-    this.setState({showUploadModal: false});
   }
 
   render() {
@@ -193,9 +179,6 @@ export default class DocumentHistoriesView extends React.Component {
                     </div>
                 </div>
             </div>
-            <VersionUploadModal showUploadModal={this.state.showUploadModal}
-                                closeUploadModal={this.closeUploadModal}
-                                createVersion={this.props.createVersion} />
         </div>
       </div>
     );

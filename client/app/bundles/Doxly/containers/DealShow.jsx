@@ -7,6 +7,7 @@ import {loadCategorySectionsTree, loadDealCollaborators} from "../actions/doxlyA
 import {doCreateFolder, doCreateTask, doCreateSection, doCreateDocument} from "../utils/api";
 import {doUpdateFolder, doUpdateTask, doUpdateSection, doUpdateDocument} from "../utils/api";
 import {doDeleteFolder, doDeleteTask, doDeleteSection, doDeleteDocument} from "../utils/api";
+import {doCreateVersion} from "../utils/api";
 
 class DealShow extends React.Component {
   constructor(props, context) {
@@ -18,6 +19,7 @@ class DealShow extends React.Component {
                      "createTask",
                      "createSection",
                      "createDocument",
+                     "createVersion",
                      "updateFolder",
                      "updateTask",
                      "updateSection",
@@ -221,6 +223,20 @@ class DealShow extends React.Component {
     });
   }
 
+  createVersion(formData, successCallback) {
+    var _this = this;
+    var dealId = this.props.id;
+    var category = this.props.category;
+    var documentId = this.props.id;
+    doCreateVersion(documentId, formData).then(function() {
+      // To get latest download url
+      _this.props.loadCategorySectionsTree(dealId, category);
+      if (successCallback) {
+        successCallback();
+      }
+    });
+  }
+
   searchTree(value) {
     this.setState({searchTreeValue: value});
   }
@@ -346,6 +362,7 @@ class DealShow extends React.Component {
                             createTask={this.createTask}
                             createSection={this.createSection}
                             createDocument={this.createDocument}
+                            createVersion={this.createVersion}
                             updateFolder={this.updateFolder}
                             updateTask={this.updateTask}
                             updateSection={this.updateSection}

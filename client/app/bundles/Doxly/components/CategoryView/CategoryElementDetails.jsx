@@ -9,7 +9,7 @@ export default class CategoryElementDetails extends React.Component {
       showDescription: true
     };
 
-    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement"]);
+    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement", "createVersion"]);
   }
 
   toggleDescription(event) {
@@ -30,9 +30,18 @@ export default class CategoryElementDetails extends React.Component {
     this.props.deleteElement(this.props.element);
   }
 
+  createVersion(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.openVersionModal();
+  }
+
   render() {
     var element = this.props.element;
     var description;
+    var uploadNewVersion;
 
     if (element.description) {
       description = (
@@ -46,14 +55,17 @@ export default class CategoryElementDetails extends React.Component {
           </div>
 
           <div className="buttons">
-            <a href="#" className="btn btn-link">View</a>
+            <a href={"/app/documents/" + element.id} className="btn btn-link">View</a>
             <a href={element.url} className="btn btn-link">Download</a>
           </div>
         </div>
       )
+      uploadNewVersion = (
+        <li>
+          <a href="#" onClick={this.createVersion}>Upload New Version</a>
+        </li>
+      );
     }
-
-
 
   	return (
       <div className="deal-task-details">
@@ -62,6 +74,7 @@ export default class CategoryElementDetails extends React.Component {
             <div className="dropdown">
               <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
               <ul className="dropdown-menu">
+                {uploadNewVersion}
                 <li>
                   <a href="#" onClick={this.editElement}>Edit {element.type}</a>
                 </li>
