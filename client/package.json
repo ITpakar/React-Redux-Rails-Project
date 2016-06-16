@@ -36,7 +36,6 @@
     "lodash": "^4.7.0",
     "mirror-creator": "1.1.0",
     "moment": "^2.13.0",
-    "viewer": "^0.10.11",
     "react": "^0.14.8 || ^15.0.0",
     "react-bootstrap": "^0.29.4",
     "react-datepicker": "^0.27.0",

@@ -18,8 +18,15 @@ class DocumentShow extends React.Component {
     if (!this.props.document) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      console.log("Line 21 ", this.props.document);
-      return (<DocumentHistoriesView document={this.props.document} />);
+      let dealDocument = this.props.document.deal_documents[0];
+
+      if (dealDocument) {
+        return (<DocumentHistoriesView document={this.props.document} />);
+      } else {
+        return (
+          <div>This document does not have any files</div>
+        );
+      }
     }
   }
 }
