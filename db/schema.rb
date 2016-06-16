@@ -146,14 +146,6 @@ ActiveRecord::Schema.define(version: 20160615185358) do
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
   end
 
-  create_table "kpis", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.string   "key"
-    t.integer  "value"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.integer  "organization_user_id"
     t.text     "message"

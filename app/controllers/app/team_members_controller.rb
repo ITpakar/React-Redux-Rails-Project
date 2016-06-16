@@ -9,6 +9,8 @@ class App::TeamMembersController < App::ApplicationController
   end
 
   def update
+    @organization_user = current_organization.organization_users.find(params[:id])
+    redirect_to app_team_member_path(@organization_user)
   end
 
   def create

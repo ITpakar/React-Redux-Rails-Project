@@ -186,7 +186,7 @@ class Api::DocumentsController < ApplicationController
   def show
     success_response(
       {
-        document: @document.to_hash(@document.box_client)
+        document: @document.to_hash
       }
     )
   end
