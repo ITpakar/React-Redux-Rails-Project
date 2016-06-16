@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
     :confirmable
   )
 
+  mount_uploader :avatar, AvatarUploader
+
   # Validations
   validates(
     :email,
