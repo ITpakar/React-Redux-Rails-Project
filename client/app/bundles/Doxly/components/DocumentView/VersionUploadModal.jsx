@@ -4,7 +4,10 @@ import { Modal } from 'react-bootstrap';
 export default class DocumentModal extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["createVersion", "handleSubmit", "showDialog"]);
+    this.state = {
+      filename: undefined
+    }
+    _.bindAll(this, ["createVersion", "handleSubmit", "showDialog", "setFilename"]);
   }
 
   handleSubmit(event) {
@@ -36,7 +39,21 @@ export default class DocumentModal extends React.Component {
     $(this.refs.file).click();
   }
 
+  setFilename() {
+    var file = this.refs.file.files[0];
+    if (file) {
+      this.setState({filename: file.name});
+    }
+  }
+
   render() {
+    var placeholder;
+    if (this.state.filename) {
+      placeholder = (<span>{this.state.filename}</span>);
+    } else {
+      placeholder = (<span><i className="icon-icon-uploadcloud"></i> Choose a File</span>);
+    }
+
   	return (
       <Modal show={this.props.showUploadModal} onHide={this.props.closeUploadModal} dialogClassName="new-question-modal">
         <Modal.Header closeButton>
@@ -45,11 +62,11 @@ export default class DocumentModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={this.handleSubmit}>
+          <form className="upload-version-form" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <a className="file-input-wrapper btn btn-fileinput  file-inputs" onClick={this.showDialog}>
-                <span><i className="icon-icon-uploadcloud"></i> Choose a File</span>
-                <input style={{left: "-11008.5px", top: "18.4px"}} ref="file" className="file-inputs" name="file_name" title="<i class='icon-icon-uploadcloud'></i> Choose a File" type="file" />
+              <a className="file-input-wrapper btn btn-fileinput file-inputs" onClick={this.showDialog}>
+                {placeholder}
+                <input style={{left: "-11008.5px", top: "18.4px"}} ref="file" onChange={this.setFilename} className="file-inputs" name="file_name" title="<i class='icon-icon-uploadcloud'></i> Choose a File" type="file" />
               </a>
             </div>
           </form>

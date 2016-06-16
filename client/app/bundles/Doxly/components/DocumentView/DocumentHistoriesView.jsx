@@ -17,7 +17,7 @@ export default class DocumentHistoriesView extends React.Component {
   }
 
   changeVersion() {
-    var val = $(this.refs.versionIndex).val();
+    var val = 1*$(this.refs.versionIndex).val();
     this.setState({versionIndex: val});
   }
 
