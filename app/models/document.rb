@@ -15,11 +15,7 @@ class Document < ApplicationRecord
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
 
-  def box_client
-    self.creator.user.box_client
-  end
-
-  def to_hash(box_client = nil)
+  def to_hash
     data = {
       document_id:      self.id,
       title:            self.title,
@@ -36,7 +32,9 @@ class Document < ApplicationRecord
 
     data[:deal_documents] = []
     self.deal_documents.each do |deal_document|
-      data[:deal_documents] << deal_document.to_hash(box_client)
+      dd_data = deal_document.to_hash
+      data[:deal_documents] << dd_data
+      data[:url] = dd_data[:url]
     end
 
     return data
@@ -62,8 +60,8 @@ class Document < ApplicationRecord
       end
       local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
-      file = client.upload_file(local_path, parent)
-      deal_document.update(box_file_id: file.id)
+      box_file = client.upload_file(local_path, parent)
+      deal_document.update(box_file_id: box_file.id, url: client.download_url(box_file))
     end
   end
 
@@ -75,8 +73,8 @@ class Document < ApplicationRecord
       box_file = client.file_from_id(deal_document.box_file_id)
       local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
-      box_file = client.upload_new_version_of_file(local_path, box_file)
-      deal_document.versions.create(name: name, box_version_id: box_file.id)
+      box_version = client.upload_new_version_of_file(local_path, box_file)
+      deal_document.versions.create(name: name, box_version_id: box_version.id, url: client.download_url(box_file, box_version.id))
     end
   end
 end

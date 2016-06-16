@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614145132) do
+ActiveRecord::Schema.define(version: 20160615185358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160614145132) do
     t.string   "box_version_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "url"
     t.index ["deal_document_id"], name: "index_deal_document_versions_on_deal_document_id", using: :btree
   end
 
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160614145132) do
     t.datetime "updated_at",        null: false
     t.integer  "deal_id"
     t.string   "box_file_id"
+    t.string   "url"
     t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
     t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
@@ -142,6 +144,14 @@ ActiveRecord::Schema.define(version: 20160614145132) do
     t.integer  "task_id"
     t.integer  "visibility",             default: 0
     t.index ["created_by"], name: "index_folders_on_created_by", using: :btree
+  end
+
+  create_table "kpis", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "key"
+    t.integer  "value"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "notifications", force: :cascade do |t|
