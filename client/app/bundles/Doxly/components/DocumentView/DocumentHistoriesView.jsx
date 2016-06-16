@@ -81,7 +81,7 @@ export default class DocumentHistoriesView extends React.Component {
         var docVersion = versions[selectedIndex];
         var versionOptions = [];
 
-        for (let i = 0; i < versions.length; i++) {
+        for (let i = versions.length - 1; i >= 0; i--) {
           let v;
 
           if (i == selectedIndex) {
@@ -128,16 +128,6 @@ export default class DocumentHistoriesView extends React.Component {
                       </ul>
                     </div>
                     <a href="#" className="btn btn-default" onClick={this.download}>Download</a>
-                  </div>
-              </div>
-              <div className="toolbox-right">
-                  <div className="chat-box" data-target="#chat-box-1">
-                      <div className="chat-box-toggle">
-                          <div className="btn-group">
-                              <a className="btn toggle-active" href="#deal-chat-internal">Internal Chat</a>
-                              <a className="btn" href="#deal-chat-external">External Chat</a>
-                          </div>
-                      </div>
                   </div>
               </div>
           </div>
