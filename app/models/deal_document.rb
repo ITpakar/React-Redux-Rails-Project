@@ -21,12 +21,16 @@ class DealDocument < ApplicationRecord
       document_id:       self.document_id,
       documentable_id:   self.documentable_id,
       documentable_type: self.documentable_type,
-      url:               self.url
+      url:               self.url,
+      download_url:      self.download_url
     }
 
     data[:versions] = []
-    self.versions.each do |version|
-      data[:versions] << version.to_hash
+    self.versions.order('created_at ASC').each do |version|
+      v_data = version.to_hash
+      data[:versions] << v_data
+      data[:url] = v_data[:url]
+      data[:download_url] = v_data[:download_url]
     end
 
     return data
