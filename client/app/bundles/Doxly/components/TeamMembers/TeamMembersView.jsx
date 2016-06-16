@@ -15,11 +15,11 @@ export default class TeamMembersView extends React.Component {
     _.bindAll(this, ['handleSearchChange', 'handleFilterChange', 'handleClick']);
   }
 
-  handleSearchChange(e) {
-    if (_.isEmpty(e.target.value)) {
+  handleSearchChange(newValue) {
+    if (_.isEmpty(newValue)) {
       this.setState({searchTerm: null})
     } else {
-      this.setState({searchTerm: e.target.value})
+      this.setState({searchTerm: newValue})
     }
   }
 
