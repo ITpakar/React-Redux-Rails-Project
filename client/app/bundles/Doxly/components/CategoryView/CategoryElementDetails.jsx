@@ -47,7 +47,7 @@ export default class CategoryElementDetails extends React.Component {
 
           <div className="buttons">
             <a href="#" className="btn btn-link">View</a>
-            <a href={element.url} className="btn btn-link">Download</a>
+            <a href={element.download_url} className="btn btn-link">Download</a>
           </div>
         </div>
       )

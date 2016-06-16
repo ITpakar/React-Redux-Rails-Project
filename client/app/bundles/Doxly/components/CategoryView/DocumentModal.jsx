@@ -4,7 +4,11 @@ import { Modal } from 'react-bootstrap';
 export default class DocumentModal extends React.Component {
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog"]);
+
+    this.state = {
+      signable: false
+    }
+    _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog", 'handleCheck']);
   }
 
   handleSubmit(event) {
@@ -33,6 +37,10 @@ export default class DocumentModal extends React.Component {
     }
   }
 
+  handleCheck(e) {
+    this.setState({signable: !this.state.signable});
+  }
+
   saveDocument(title, file, documentable_type, documentable_id) {
     if (title && file && documentable_type && documentable_id) {
       var _this = this;
@@ -58,6 +66,19 @@ export default class DocumentModal extends React.Component {
 
   showDialog() {
     $(this.refs.file).click();
+  }
+
+  renderSignatoriesInput() {
+    if (this.state.signable) {
+      return (
+        <div className="form-group">
+          <label>Add Signatories</label>
+          <input type="text" className="form-control" placeholder="Enter Name" />
+          <input type="email" className="form-control" placeholder="Enter Email" />
+          <button type="button" className="btn btn-default pull-left">Add another signer</button>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -103,8 +124,12 @@ export default class DocumentModal extends React.Component {
             </div>
             {availableTasksAndFolders}
             <div className="form-group">
+              <input type="checkbox" id="signable" value="signable" checked={this.state.signable} onClick={this.handleCheck}/> <label>Signable</label>
+            </div>
+            {this.renderSignatoriesInput()}
+            <div className="form-group">
               <label>Upload</label>
-              <a className="file-input-wrapper btn btn-fileinput  file-inputs" onClick={this.showDialog}>
+              <a className="file-input-wrapper btn btn-fileinput file-inputs" onClick={this.showDialog}>
                 <span><i className="icon-icon-uploadcloud"></i> Choose a File</span>
                 <input style={{left: "-11008.5px", top: "18.4px"}} ref="file" className="file-inputs" name="file_name" title="<i class='icon-icon-uploadcloud'></i> Choose a File" data-filename-placement="inside" type="file" />
               </a>

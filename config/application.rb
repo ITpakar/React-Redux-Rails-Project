@@ -42,5 +42,8 @@ module DoxlyApp
     #     "application_#{type}.js",
     #     "application_#{type}.css"
     #   ]
+
+    config.active_job.queue_adapter = :delayed_job
+    
   end
 end

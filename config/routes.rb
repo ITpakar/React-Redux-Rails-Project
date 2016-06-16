@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get "/settings", to: "dashboard#settings"
     put "/settings", to: "dashboard#save_settings"
 
+    match "/docusign_hook/", to: "docusign_webhook#update", as: :docusign_webhook, via: [:get, :post]
+
     devise_for :users
 
     resources :deals do
