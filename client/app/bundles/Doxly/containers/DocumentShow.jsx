@@ -21,7 +21,7 @@ class DocumentShow extends React.Component {
       let dealDocument = this.props.document.deal_documents[0];
 
       if (dealDocument) {
-        return (<DocumentHistoriesView document={this.props.document} />);
+        return (<DocumentHistoriesView document={dealDocument} />);
       } else {
         return (
           <div>This document does not have any files</div>

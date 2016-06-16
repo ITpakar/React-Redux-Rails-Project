@@ -62,11 +62,11 @@ export default class DocumentHistoriesView extends React.Component {
 
       if (i == selectedIndex) {
         v = (
-          <option value={i} key={"option_" + (i + 1)}>{versions[i].title} (current)</option>
+          <option value={i} key={"option_" + (i + 1)}>{"V" + (i + 1)} (current)</option>
         );
       } else {
         v = (
-          <option value={i} key={"option_" + (i + 1)}>{versions[i].title}</option>
+          <option value={i} key={"option_" + (i + 1)}>{"V" + (i + 1)}</option>
         );
       }
 
