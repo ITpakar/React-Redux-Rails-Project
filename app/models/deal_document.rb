@@ -42,7 +42,6 @@ class DealDocument < ApplicationRecord
     host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.root
 
     callback_url = Rails.application.routes.url_helpers.app_docusign_webhook_url(host: host)
-    puts callback_url
 
     client = DocusignRest::Client.new
     document_envelope_response = client.create_envelope_from_document(
@@ -68,8 +67,12 @@ class DealDocument < ApplicationRecord
     envelope_id = document_envelope_response["envelopeId"]
     self.document_signers.update_all(envelope_id: envelope_id)
 
-
+    # Lastly we delete the saved document
+    File.delete(file_path) if File.exist?(file_path)
   end
+
+  handle_asynchronously :send_to_docusign
+
 
   # handle_asynchronously :send_to_docusign
 
@@ -82,6 +85,8 @@ class DealDocument < ApplicationRecord
       documentable_type: self.documentable_type,
       url:               self.url,
       download_url:      self.download_url
+      signed_count:      self.document_signers.where(signed: true).count
+      signers_count:     self.document_signers.count
     }
 
     data[:versions] = []
