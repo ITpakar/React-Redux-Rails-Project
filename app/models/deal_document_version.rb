@@ -8,6 +8,7 @@ class DealDocumentVersion < ApplicationRecord
       name:             self.name,
       url:              self.url,
       download_url:     self.download_url,
+      created_at:       self.created_at,
       changes: []
     }
 
