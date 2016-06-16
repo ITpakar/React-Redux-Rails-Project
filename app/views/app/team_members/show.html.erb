@@ -10,7 +10,7 @@
                       <div class="inner">
                           <div class="team-member-item">
                               <a href="#">
-                                  <div class="avatar"><%= image_tag @organization_user.user.avatar_name%></div>
+                                  <%= render 'app/shared/avatar', user: @organization_user.user %>
                                   <h4><%= @organization_user.user.name %></h4>
                                   <span><%= @organization_user.user.email %></span>
                               </a>

@@ -115,11 +115,14 @@ class Api::SectionsController < ApplicationController
         task_h[:title] = task.title
         task_h[:status] = task.status
         task_h[:description] = task.description
+        task_h[:section_id] = task.section_id
+        task_h[:assignee_id] = task.assignee_id
         task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
 
-        task.documents.order("title").each do |document|
-          document_h = document.as_json
+        task.documents.select("DISTINCT documents.*").order("title").each do |document|
+          document_h = document.to_hash
+          document_h[:id] = document.id
           document_h[:type] = document.class.name
           task_elements << document_h
         end
@@ -130,11 +133,13 @@ class Api::SectionsController < ApplicationController
           folder_h[:id] = folder.id
           folder_h[:type] = folder.class.name
           folder_h[:title] = folder.name
+          folder_h[:task_id] = folder.task_id;
           folder_h[:comments_count] = folder.comments.count
           folder_h[:elements] = folder_elements
 
-          folder.documents.order("title").each do |document|
-            document_h = document.as_json
+          folder.documents.select("DISTINCT documents.*").order("title").each do |document|
+            document_h = document.to_hash
+            document_h[:id] = document.id
             document_h[:type] = document.class.name
             folder_elements << document_h
           end

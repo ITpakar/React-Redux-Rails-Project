@@ -160,7 +160,7 @@ class Api::FoldersController < ApplicationController
   private
   def set_folder
     @folder = Folder.find_by_id(params[:id])
-    error_response(["Folder Not Found"]) if @deal.blank?
+    error_response(["Folder Not Found"]) if @folder.blank?
   end
 
   def folder_params
