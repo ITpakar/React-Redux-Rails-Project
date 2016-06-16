@@ -162,6 +162,7 @@ class Api::DocumentsController < ApplicationController
     @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
     @document.created_by = current_user.organization_user.id
     if @document.save
+      @document.create_signers(params["document"]["signers"].values) if params["document"]["signers"]
       @document.upload_to_box(file, current_user)
       success_response(["Document created successfully."])
     else

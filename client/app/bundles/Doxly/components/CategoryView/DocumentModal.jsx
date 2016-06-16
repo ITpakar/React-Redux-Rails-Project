@@ -6,9 +6,11 @@ export default class DocumentModal extends React.Component {
     super(props, context);
 
     this.state = {
-      signable: false
+      signable: false,
+      signerCount: 1,
+      signers: []
     }
-    _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog", 'handleCheck']);
+    _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog", 'handleCheck', 'addSigner', 'handleSignerInputChange']);
   }
 
   handleSubmit(event) {
@@ -32,8 +34,10 @@ export default class DocumentModal extends React.Component {
       documentable_id = tmp[1];
     }
 
-    if (title && file && documentable_type, documentable_id) {
-      this.saveDocument(title, file, documentable_type, documentable_id);
+    let signers = this.state.signable ? this.state.signers : []
+
+    if (title && file && documentable_type && documentable_id) {
+      this.saveDocument(title, file, documentable_type, documentable_id, signers);
     }
   }
 
@@ -41,7 +45,24 @@ export default class DocumentModal extends React.Component {
     this.setState({signable: !this.state.signable});
   }
 
-  saveDocument(title, file, documentable_type, documentable_id) {
+  handleSignerInputChange(index, key) {
+    var _this = this;
+
+    return function(e) {
+      let signers = _this.state.signers
+
+      if (signers[index] === undefined) {
+        signers[index] = {name:'', email: ''}
+      }
+
+      signers[index][key] = e.target.value
+
+      _this.setState({signers: signers})
+    }
+  }
+
+  saveDocument(title, file, documentable_type, documentable_id, signers) {
+    console.log('saveDocument');
     if (title && file && documentable_type && documentable_id) {
       var _this = this;
       var data = new FormData();
@@ -51,6 +72,12 @@ export default class DocumentModal extends React.Component {
       data.append("document[title]", title)
       data.append("document[deal_documents_attributes][0][documentable_type]", documentable_type);
       data.append("document[deal_documents_attributes][0][documentable_id]", documentable_id);
+
+      _.forEach(signers, function(val, i) {
+        data.append(`document[signers][${i}][name]`, val['name']);
+        data.append(`document[signers][${i}][email]`, val['email']);
+      });
+
 
       if (element && element.id) {
         this.props.updateDocument(element.id, data, function() {
@@ -68,14 +95,24 @@ export default class DocumentModal extends React.Component {
     $(this.refs.file).click();
   }
 
+  addSigner(e) {
+    this.setState({signerCount: this.state.signerCount + 1});
+  }
+
   renderSignatoriesInput() {
+    var signerInputs = [];
+
+    for (var i = 0; i < this.state.signerCount; i++) {
+      signerInputs.push(<input type="text" key={`signer[${i}][name]`} onChange={this.handleSignerInputChange(i, 'name')} className="form-control" placeholder="Enter Name" />)
+      signerInputs.push(<input type="email" key={`signer[${i}][email]`} onChange={this.handleSignerInputChange(i, 'email')} className="form-control" placeholder="Enter Email" />)
+    }
+
     if (this.state.signable) {
       return (
         <div className="form-group">
           <label>Add Signatories</label>
-          <input type="text" className="form-control" placeholder="Enter Name" />
-          <input type="email" className="form-control" placeholder="Enter Email" />
-          <button type="button" className="btn btn-default pull-left">Add another signer</button>
+          {signerInputs}
+          <button type="button" className="btn btn-default pull-left" onClick={this.addSigner}>Add another signer</button>
         </div>
       );
     }

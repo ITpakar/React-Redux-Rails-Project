@@ -128,7 +128,6 @@ export default class CategorySection extends React.Component {
     if (sectionBodyClassnames.indexOf("in") == -1) {
       toggleClassnames.push("collapsed");
     }
-      console.log(this.state.open);
 
 
     var isSelected = this.props.selectedElement &&

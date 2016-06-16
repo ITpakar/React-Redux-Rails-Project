@@ -53,6 +53,12 @@ class Document < ApplicationRecord
     return data
   end
 
+  def create_signers signers
+    signers.each do |signer|
+      self.document_signers.create(signer) unless signer["name"].blank? or signer["email"].blank?
+    end
+  end
+
   # Note that this will always be executed asynchronously so it doesn't block
   def send_to_docusign
     # First we need to download the file from Box, we'll store it in /tmp
