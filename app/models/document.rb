@@ -120,7 +120,7 @@ class Document < ApplicationRecord
       folders << deal_document.documentable.deal.title
       folders << deal_document.documentable.section.name
       folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
-      folders << 'Document ' + deal_document.id
+      folders << 'Document ' + deal_document.id.to_s
       path = '/'
       parent = client.folder_from_path(path)
       folders.each do |folder|
