@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
-import DealTypeGraph from "../components/ReportView/DealTypeGraph"
-import {loadDealsByType} from "../actions/doxlyActions";
+import DealMember from "../components/ReportView/DealMember"
+import {loadDealsByMember} from "../actions/doxlyActions";
 import Util from "../utils/app_util";
 
-class DealsByTypeReport extends React.Component {
+class DealsByMemberReport extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -25,49 +25,48 @@ class DealsByTypeReport extends React.Component {
 
   changePeriod(period) {
     this.setState({selectedPeriod: period});
-    this.props.loadDealsByType(period);
+    this.props.loadDealsByMember(period);
   }
 
   componentWillMount() {
     var selectedPeriod = this.getSelectedPeriod();
 
-    this.props.loadDealsByType(selectedPeriod);
+    this.props.loadDealsByMember(selectedPeriod);
   }
 
   render() {
     if (!this.props.data) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<DealTypeGraph data={this.props.data}
-                             periods={this.props.periods}
-                             changePeriod={this.changePeriod}
-                             selectedPeriod={this.state.selectedPeriod} />);
+      return (<DealMember data={this.props.data}
+                          periods={this.props.periods}
+                          changePeriod={this.changePeriod}
+                          selectedPeriod={this.state.selectedPeriod} />);
     }
   }
 }
 
-DealsByTypeReport.propTypes = {
+DealsByMemberReport.propTypes = {
   data: PropTypes.object,
   periods: PropTypes.arrayOf(PropTypes.object),
-  loadDealsByTypeStatus: PropTypes.string,
-  loadDealsByType: PropTypes.func.isRequired
+  loadDealsByMemberStatus: PropTypes.string,
+  loadDealsByMember: PropTypes.func.isRequired
 }
 
 function stateToProps(state, ownProps) {
   let reportStore = state.reportStore;
   let props = {};
 
-  if (reportStore && reportStore.dealsByType) {
-    let data = reportStore.dealsByType.data;
-    props.data = Util.getReportData("type", data);
-    props.loadDealsByTypeStatus = reportStore.status;
+  if (reportStore && reportStore.dealsByMember) {
+    props.data = reportStore.dealsByMember.data;
+    props.loadDealsByMemberStatus = reportStore.status;
   }
 
   return props;
 }
 
-DealsByTypeReport = connect(stateToProps, {
-  loadDealsByType
-})(DealsByTypeReport);
+DealsByMemberReport = connect(stateToProps, {
+  loadDealsByMember
+})(DealsByMemberReport);
 
-export default DealsByTypeReport;
+export default DealsByMemberReport;
