@@ -20,9 +20,7 @@ class DealDocument < ApplicationRecord
       deal_id:           self.deal_id,
       document_id:       self.document_id,
       documentable_id:   self.documentable_id,
-      documentable_type: self.documentable_type,
-      url:               self.url,
-      download_url:      self.download_url
+      documentable_type: self.documentable_type
     }
 
     data[:versions] = []
