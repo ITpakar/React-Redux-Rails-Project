@@ -19,9 +19,9 @@ export default class DealTypeGraph extends React.Component {
   render() {
     var value = this.props.selectedValue;
   	return (
-      <select ref="period" name="report_1_period" value={value} onChange={this.changePeriod} className="form-control show-tick">
+      <select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="form-control show-tick">
         <option value="6_months">Last 6 Months</option>
-        <option value="6_months">Last 3 Months</option>
+        <option value="3_months">Last 3 Months</option>
         <option value="1_month">Last Month</option>
       </select>
   	);

@@ -7,17 +7,16 @@ export default class DealTypeGraph extends React.Component {
     this.state = {
       period: undefined
     };
-    _.bindAll(this, []);
+    _.bindAll(this, ["initializeReport"]);
   }
 
-  componentDidMount() {
-    console.log("Line 13 ", this.props.data);
+  initializeReport() {
+    var _this = this;
     var reportData = this.props.data;
-    console.log("Line 16 ", reportData);
     if (reportData && reportData.data && reportData.data.length > 0) {
       var labels = reportData.labels;
       var ykeys = reportData.ykeys;
-      var report1 = Morris.Bar({
+      this.report1 = Morris.Bar({
           element: 'report_1',
           data: reportData.data,
           xkey: 'x',
@@ -26,12 +25,22 @@ export default class DealTypeGraph extends React.Component {
           stacked: true,
           hideHover: true
       });
-      
-      report1.options.labels.forEach(function(label, i){
-          var legendItem = $('<span></span>').css('background', report1.options.barColors[i]),
+
+      this.report1.options.labels.forEach(function(label, i){
+          var legendItem = $('<span></span>').css('background', _this.report1.options.barColors[i]),
                   legendText = $('<i></i>').text(label);
           $('#report_legend_1').append(legendItem).append(legendText);
       })
+    }
+  }
+
+  componentDidMount() {
+    this.initializeReport();
+  }
+
+  componentDidUpdate() {
+    if (this.report1) {
+      this.report1.setData(this.props.data.data);
     }
   }
 
@@ -42,7 +51,7 @@ export default class DealTypeGraph extends React.Component {
         <div className="title">
           <h4>Deals by Type</h4>
           <div className="period">
-            <ReportPeriods onChange={this.props.changePeriod} periods={this.props.periods} selectedValue={selectedValue} />
+            <ReportPeriods changePeriod={this.props.changePeriod} periods={this.props.periods} selectedValue={selectedValue} />
           </div>
         </div>
         <div className="report" id="report_1">

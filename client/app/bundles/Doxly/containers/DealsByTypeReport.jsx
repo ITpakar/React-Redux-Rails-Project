@@ -39,7 +39,10 @@ class DealsByTypeReport extends React.Component {
     if (!this.props.data) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {
-      return (<DealTypeGraph data={this.props.data} periods={this.props.periods} changePeriod={this.changePeriod} selectedPeriod={this.state.selectedPeriod} />);
+      return (<DealTypeGraph data={this.props.data}
+                             periods={this.props.periods}
+                             changePeriod={this.changePeriod}
+                             selectedPeriod={this.state.selectedPeriod} />);
     }
   }
 }
