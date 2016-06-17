@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import DealsByTypeReport from "../../containers/DealsByTypeReport";
+import DealsBySizeReport from "../../containers/DealsBySizeReport";
 
 export default class ReportView extends React.Component {
   constructor(props, context) {
@@ -7,21 +8,13 @@ export default class ReportView extends React.Component {
     this.state = {
       value: undefined
     };
-    _.bindAll(this, []);
-  }
-
-  changePeriod() {
-    var val = $(this.refs.period).val();
-
-    this.setState({value: val});
-    this.props.changePeriod(val);
   }
 
   render() {
     var periods = [
-      {"6_months": "6 Months"},
-      {"3_months": "3 Months"},
-      {"1_month": "Last Month"}
+      {value: "6_months", label: "6 Months"},
+      {value: "3_months", label: "3 Months"},
+      {value: "1_month", label: "Last Month"}
     ];
 
   	return (
@@ -33,21 +26,7 @@ export default class ReportView extends React.Component {
         </div>
         <div className="row">
           <div className="col-xs-12 col-md-6">
-            <div className="panel panel-report">
-              <div className="title">
-                <h4>Deals Size</h4>
-                <div className="period">
-                  <select name="report_2_period" className="selectpicker form-control show-tick">
-                    <option>Last 6 Months</option>
-                    <option>Last 3 Months</option>
-                    <option>Last Month</option>
-                  </select>
-                </div>
-              </div>
-              <div className="report" id="report_2">
-              </div>
-              <div className="report-legend" id="report_legend_2" />
-            </div>
+            <DealsBySizeReport periods={periods}/>
           </div>
           <div className="col-xs-12 col-md-6">
             <div className="panel panel-report">

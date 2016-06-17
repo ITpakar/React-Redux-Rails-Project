@@ -18,11 +18,20 @@ export default class DealTypeGraph extends React.Component {
 
   render() {
     var value = this.props.selectedValue;
+    var periods = this.props.periods;
+    var displayedPeriods = [];
+
+    for (let i = 0; i < periods.length; i++) {
+      let period = periods[i];
+      displayedPeriods.push(
+        (
+          <option value={period.value} key={"period_" + period.value}>{period.label}</option>
+        )
+      );
+    }
   	return (
       <select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="form-control show-tick">
-        <option value="6_months">Last 6 Months</option>
-        <option value="3_months">Last 3 Months</option>
-        <option value="1_month">Last Month</option>
+        {displayedPeriods}
       </select>
   	);
   }

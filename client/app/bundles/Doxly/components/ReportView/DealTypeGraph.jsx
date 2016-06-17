@@ -30,7 +30,7 @@ export default class DealTypeGraph extends React.Component {
           var legendItem = $('<span></span>').css('background', _this.report1.options.barColors[i]),
                   legendText = $('<i></i>').text(label);
           $('#report_legend_1').append(legendItem).append(legendText);
-      })
+      });
     }
   }
 
