@@ -126,9 +126,7 @@ class Document < ApplicationRecord
       folders.each do |folder|
         box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
         if box_folder.nil?
-          puts folder
           box_folder = client.create_folder(folder, parent)
-          puts folder
         end
         parent = box_folder
       end
@@ -137,8 +135,7 @@ class Document < ApplicationRecord
       local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
       box_file = client.upload_file(local_path, parent)
-      updated_file = client.create_shared_link_for_file(box_file, access: :open)
-      deal_document.versions.create(name: version, box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
+      deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
     end
   end
 end
