@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
       company: self.company,
       activated: self.activated,
       role: self.role,
-      avatar_name: self.avatar_name
+      avatar: self.avatar.url
     }
 
     if add_organization and self.organization

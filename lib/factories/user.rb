@@ -18,6 +18,7 @@ FactoryGirl.define do
     role            "Normal"
     activated       true
     avatar_name    { "/assets/img-avatar-#{[1, 2, 3, 4, 5, 6].sample}.png" }
+    avatar          { Rack::Test::UploadedFile.new(File.join(Rails.root, 'app', 'assets' ,'images' , "img-avatar-#{[1, 2, 3, 4, 5, 6].sample}.png")) }
 
     trait :with_organization_user do
       after(:create) do |instance, evaluator|

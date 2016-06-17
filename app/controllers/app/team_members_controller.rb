@@ -10,6 +10,7 @@ class App::TeamMembersController < App::ApplicationController
 
   def update
     @organization_user = current_organization.organization_users.find(params[:id])
+    @organization_user.user.update(user_params)
     redirect_to app_team_member_path(@organization_user)
   end
 
@@ -30,7 +31,7 @@ class App::TeamMembersController < App::ApplicationController
       	completed_deal_count: org_user.deals.complete.count,
         name: org_user.user.name,
         email: org_user.user.email,
-        avatar_name: org_user.user.avatar_name,
+        avatar: org_user.user.avatar.url,
         initials: org_user.user.initials,
         url: app_team_member_path(org_user)
       });
@@ -39,7 +40,7 @@ class App::TeamMembersController < App::ApplicationController
 
   def format_deals_for_display deals
     deals = deals.map {|deal| deal.attributes.merge({
-      collaborators: deal.organization_users.map{|org_user| org_user.attributes.merge({avatar_name: org_user.user.avatar_name})}, 
+      collaborators: deal.organization_users.map{|org_user| org_user.attributes.merge({avatar: org_user.user.avatar.url})}, 
       starred: deal.starred_deals.where(organization_user_id: current_user.organization_user.id).present? })}
     
     grouped = deals.group_by do |deal|
@@ -49,5 +50,15 @@ class App::TeamMembersController < App::ApplicationController
     end
 
     grouped.keys.map {|key| {heading: key, deals: grouped[key]}}
+  end
+
+  def user_params
+    params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :avatar,
+      :avatar_cache
+    )
   end
 end

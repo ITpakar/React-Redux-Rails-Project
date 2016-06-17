@@ -93,7 +93,7 @@ class CommentBox extends Component {
                     <div className="recipients-items">
                     {
                       collaborators.map((collaborator, index) => (
-                        <a href="#" className="avatar" key={index}><img src={collaborator.avatar_name}/></a>
+                        <a href="#" className="avatar" key={index}><img src={collaborator.avatar}/></a>
                       ))
                     }   
                     </div>
