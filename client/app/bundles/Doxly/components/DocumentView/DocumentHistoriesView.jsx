@@ -172,11 +172,7 @@ export default class DocumentHistoriesView extends React.Component {
             <div className="content-file-viewer-wrapper">
                 {mainContent}
                 <div className="content-file-viewer-right">
-                    <div className="chat-box chat-box-small" id="chat-box-1">
-                        <div className="chat-box-details">
-                            <CommentBox element={this.props.document} user_id={this.props.userId} deal_id={this.props.document.deal_id} hideChatboxToggle={true} />
-                        </div>
-                    </div>
+                  <CommentBox element={this.props.document} user_id={this.props.userId} deal_id={this.props.document.deal_id} hideChatboxToggle={true} />
                 </div>
             </div>
         </div>
