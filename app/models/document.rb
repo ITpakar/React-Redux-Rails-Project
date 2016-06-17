@@ -111,7 +111,7 @@ class Document < ApplicationRecord
 
   handle_asynchronously :send_to_docusign
 
-  def upload_to_box(file, user, version_name = '1.0')
+  def upload_to_box(file, user, version = '1.0')
     tmp = "#{Rails.root}/tmp/"
     client = user.box_client
     self.deal_documents.each do |deal_document|
@@ -120,35 +120,25 @@ class Document < ApplicationRecord
       folders << deal_document.documentable.deal.title
       folders << deal_document.documentable.section.name
       folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
+      folders << 'Document ' + deal_document.id
       path = '/'
       parent = client.folder_from_path(path)
       folders.each do |folder|
         box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
         if box_folder.nil?
+          puts folder
           box_folder = client.create_folder(folder, parent)
+          puts folder
         end
         parent = box_folder
       end
-      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      filename = file.original_filename
+      extname = File.extname(filename)
+      local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
       box_file = client.upload_file(local_path, parent)
       updated_file = client.create_shared_link_for_file(box_file, access: :open)
-      deal_document.update(box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
-      deal_document.versions.create(name: version_name, box_version_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
-    end
-  end
-
-  def add_new_version(file, name)
-    tmp = "#{Rails.root}/tmp/"
-    client = user.box_client
-    self.deal_documents.each do |deal_document|
-      next unless deal_document.box_file_id
-      box_file = client.file_from_id(deal_document.box_file_id)
-      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
-      File.open(local_path, "wb") { |f| f.write(file.read) }
-      box_version = client.upload_new_version_of_file(local_path, box_file)
-      updated_file = client.create_shared_link_for_file(box_version, access: :open)
-      deal_document.versions.create(name: name, box_version_id: box_version.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
+      deal_document.versions.create(name: version, box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616202648) do
+ActiveRecord::Schema.define(version: 20160617095308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160616202648) do
   create_table "deal_document_versions", force: :cascade do |t|
     t.integer  "deal_document_id"
     t.string   "name"
-    t.string   "box_version_id"
+    t.string   "box_file_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "url"
@@ -79,9 +79,6 @@ ActiveRecord::Schema.define(version: 20160616202648) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "deal_id"
-    t.string   "box_file_id"
-    t.string   "url"
-    t.string   "download_url"
     t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
     t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
