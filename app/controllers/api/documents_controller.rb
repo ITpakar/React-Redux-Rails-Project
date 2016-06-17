@@ -207,7 +207,7 @@ class Api::DocumentsController < ApplicationController
       file_name = version_params[:file].original_filename
       name = version_params[:name] || File.basename(file_name)
 
-      @document.add_new_version(current_user, version_params[:file], version_params[:name])
+      @document.upload_to_box(version_params[:file], current_user, version_params[:name])
       success_response({
         document: @document.to_hash
       })

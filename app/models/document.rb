@@ -136,22 +136,6 @@ class Document < ApplicationRecord
       local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
       box_file = client.upload_file(local_path, parent)
-      updated_file = client.create_shared_link_for_file(box_file, access: :open)
-      deal_document.update(box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
-      deal_document.versions.create(name: version_name, box_version_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
-    end
-  end
-
-  def add_new_version(user, file, name)
-    tmp = "#{Rails.root}/tmp/"
-    client = user.box_client
-    self.deal_documents.each do |deal_document|
-      next unless deal_document.box_file_id
-      box_file = client.file_from_id(deal_document.box_file_id)
-      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
-      File.open(local_path, "wb") { |f| f.write(file.read) }
-      box_version = client.upload_new_version_of_file(local_path, box_file)
-      updated_file = client.create_shared_link_for_file(box_version, access: :open)
       deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
     end
   end
