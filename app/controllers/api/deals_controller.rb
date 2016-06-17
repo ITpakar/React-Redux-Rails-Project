@@ -116,7 +116,7 @@ class Api::DealsController < ApplicationController
 
   def update
     if @deal.update(deal_params)
-      if params[:deal][:collaborators] 
+      if params[:deal][:collaborators]
         params[:deal][:collaborators].each do |i, collaborator|
           user = User.find_by_id(collaborator[:id]) || User.find_by_email(collaborator[:id])
           if user.present?
@@ -189,18 +189,18 @@ class Api::DealsController < ApplicationController
     if by == "size"
       if time == "1_month"
         scope = scope.group("1, 2")
-                     .select("deal_size, EXTRACT(DAY FROM deals.created_at) AS month, COUNT(*) AS count")
+                     .select("deal_size, TO_CHAR(deals.created_at, 'YYYY-MM-DD') AS date, COUNT(*) AS count")
       else
         scope = scope.group("1, 2")
-                     .select("deal_size, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) AS count")
+                     .select("deal_size, TO_CHAR(deals.created_at, 'YYYY-MM') AS date, COUNT(*) AS count")
       end
     elsif by == "type"
       if time == "1_month"
         scope = scope.group("1, 2")
-                     .select("transaction_type, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) as count")
+                     .select("transaction_type, TO_CHAR(deals.created_at, 'YYYY-MM-DD') AS date, COUNT(*) as count")
       else
         scope = scope.group("1, 2")
-                     .select("transaction_type, EXTRACT(MONTH FROM deals.created_at) AS date, COUNT(*) as count")
+                     .select("transaction_type, TO_CHAR(deals.created_at, 'YYYY-MM') AS date, COUNT(*) as count")
       end
     else
       scope = scope.joins(:organization_user)

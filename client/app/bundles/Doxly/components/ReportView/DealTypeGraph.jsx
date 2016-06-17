@@ -12,15 +12,27 @@ export default class DealTypeGraph extends React.Component {
 
   componentDidMount() {
     console.log("Line 13 ", this.props.data);
-    // var report1 = Morris.Bar({
-    //     element: 'report_1',
-    //     data: this.props.data,
-    //     xkey: 'x',
-    //     ykeys: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
-    //     labels: ['M&A', 'Venture Capital', 'Commercial Lending', 'Etc', 'Other Type', 'TBD', 'Flexible Category Type'],
-    //     stacked: true,
-    //     hideHover: true
-    // })
+    var reportData = this.props.data;
+    console.log("Line 16 ", reportData);
+    if (reportData && reportData.data && reportData.data.length > 0) {
+      var labels = reportData.labels;
+      var ykeys = reportData.ykeys;
+      var report1 = Morris.Bar({
+          element: 'report_1',
+          data: reportData.data,
+          xkey: 'x',
+          ykeys: ykeys,
+          labels: labels,
+          stacked: true,
+          hideHover: true
+      });
+      
+      report1.options.labels.forEach(function(label, i){
+          var legendItem = $('<span></span>').css('background', report1.options.barColors[i]),
+                  legendText = $('<i></i>').text(label);
+          $('#report_legend_1').append(legendItem).append(legendText);
+      })
+    }
   }
 
   render() {

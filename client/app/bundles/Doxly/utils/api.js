@@ -55,7 +55,6 @@ export function doUpdateTask(taskId, attrs) {
   return submitRequest("/api/tasks/" + taskId, "put", {task: attrs});
 }
 
-<<<<<<< HEAD
 export function doLoadDealsByType(period) {
   return submitRequest("/api/deals/summary", "get", {time: period, by: "type"});
 }
