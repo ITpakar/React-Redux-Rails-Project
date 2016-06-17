@@ -40,7 +40,6 @@ class CommentBox extends Component {
   }
 
   _fetchComments = (element) => {
-    console.log(element);
     request
       .get('/api/comments?commentable_id=' + element.id + '&commentable_type=' + element.type)
       .then((res) => {

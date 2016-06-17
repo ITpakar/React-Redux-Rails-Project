@@ -3,7 +3,7 @@ class Api::DocumentsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_document, only: [:show, :update, :destroy, :create_version]
+  before_action :set_document, only: [:show, :update, :destroy, :send_to_docusign, :create_version]
 
   swagger_controller :document, "Document"
 
@@ -162,6 +162,7 @@ class Api::DocumentsController < ApplicationController
     @document = Document.new(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
     @document.created_by = current_user.organization_user.id
     if @document.save
+      @document.create_signers!(params["document"]["signers"].values) if params["document"]["signers"]
       @document.upload_to_box(file, current_user)
       success_response(["Document created successfully."])
     else
@@ -177,6 +178,8 @@ class Api::DocumentsController < ApplicationController
     # TODO: Check user permission with documentable first
     # TODO: For now update will add/duplicate documentable
     if @document.update(document_params.merge(:file_name => name, :file_size => file.size, :file_type => File.extname(name).try(:gsub, /^\./, "")))
+      @document.document_signers.destroy_all
+      @document.create_signers!(params["document"]["signers"].values) if params["document"]["signers"]
       success_response(["Document updated successfully"])
     else
       error_response(@document.errors)
@@ -211,6 +214,12 @@ class Api::DocumentsController < ApplicationController
     else
       error_response(["Bad request"])
     end
+  end
+
+  def send_to_docusign
+    @document.send_to_docusign
+
+    render json: {}, status: :ok
   end
 
   private

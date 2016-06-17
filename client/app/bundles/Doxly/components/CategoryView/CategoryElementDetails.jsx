@@ -9,7 +9,7 @@ export default class CategoryElementDetails extends React.Component {
       showDescription: true
     };
 
-    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement", "createVersion"]);
+    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement", "createVersion", 'sendToDocusign']);
   }
 
   toggleDescription(event) {
@@ -38,6 +38,14 @@ export default class CategoryElementDetails extends React.Component {
     this.props.openVersionModal();
   }
 
+  sendToDocusign(event) {
+    event.preventDefault();
+    console.log('yo');
+    $.post(`/api/documents/${this.props.element.id}/send_to_docusign`, function(resp) {
+      console.log(resp);
+    })
+  }
+
   render() {
     var element = this.props.element;
     var description;
@@ -51,12 +59,14 @@ export default class CategoryElementDetails extends React.Component {
       description = (
         <div>
           <div className="ico-document">
-              {/* <div className="badge-signed signed">3/3 signed</div> */}
+              <div className={classnames({'badge-signed': true, "signed": element.signers_count == element.signed_count, "hidden": element.signers_count == 0})}>
+                {element.signed_count}/{element.signers_count} signed
+              </div>
           </div>
 
           <div className="buttons">
             <a href={"/app/documents/" + element.id} className="btn btn-link">View</a>
-            <a href={element.url} className="btn btn-link">Download</a>
+            <a href={element.download_url} className="btn btn-link">Download</a>
           </div>
         </div>
       )
@@ -80,6 +90,9 @@ export default class CategoryElementDetails extends React.Component {
                 </li>
                 <li>
                   <a href="#" onClick={this.deleteElement}>Delete {element.type}</a>
+                </li>
+                <li>
+                  <a href="#" className={classnames({'hidden': element.type != "Document" || element.signers_count == 0})} onClick={this.sendToDocusign}>Send To Docusign</a>
                 </li>
               </ul>
           </div>

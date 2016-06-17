@@ -1,9 +1,10 @@
-class DocumentSigner < ActiveRecord::Base
-  # Associations
-  belongs_to :document
-  belongs_to :organization_user
+class DocumentSigner < ApplicationRecord
+  belongs_to :deal_document
 
   def to_hash
-    return self.document.to_hash
+    return {
+      name: self.name, 
+      email: self.email,
+    }
   end
 end

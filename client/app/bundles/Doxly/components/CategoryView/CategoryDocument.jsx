@@ -37,6 +37,9 @@ export default class CategoryFolder extends React.Component {
       <div className={classnames({"deal-element-item deal-element-item__file": true, "deal-item-active": isSelected})}>
         <div className="item-header">
           <a className="item-header-item" href="#" onClick={this.selectFile}>{element.title}</a>
+          <div className={classnames({'badge-signed': true, "signed": element.signers_count == element.signed_count, "hidden": element.signers_count == 0})}>
+              {element.signed_count}/{element.signers_count} signed
+            </div>
         </div>
       </div>
   	);
