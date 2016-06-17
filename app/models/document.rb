@@ -116,6 +116,7 @@ class Document < ApplicationRecord
     tmp = "#{Rails.root}/tmp/"
     client = user.box_client
     self.deal_documents.each do |deal_document|
+      version = deal_document.upcoming_version
       folders = []
       folders << deal_document.documentable.deal.organization.name
       folders << deal_document.documentable.deal.title
