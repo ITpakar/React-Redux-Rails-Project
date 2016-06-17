@@ -9,7 +9,7 @@ export default class CategoryElementDetails extends React.Component {
       showDescription: true
     };
 
-    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement"]);
+    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement", 'sendToDocusign']);
   }
 
   toggleDescription(event) {
@@ -28,6 +28,14 @@ export default class CategoryElementDetails extends React.Component {
   deleteElement(event) {
     event.preventDefault();
     this.props.deleteElement(this.props.element);
+  }
+
+  sendToDocusign(event) {
+    event.preventDefault();
+    console.log('yo');
+    $.post(`/api/documents/${this.props.element.id}/send_to_docusign`, function(resp) {
+      console.log(resp);
+    })
   }
 
   render() {
@@ -55,7 +63,7 @@ export default class CategoryElementDetails extends React.Component {
       )
     }
 
-
+    console.log(element);
 
   	return (
       <div className="deal-task-details">
@@ -69,6 +77,9 @@ export default class CategoryElementDetails extends React.Component {
                 </li>
                 <li>
                   <a href="#" onClick={this.deleteElement}>Delete {element.type}</a>
+                </li>
+                <li>
+                  <a href="#" className={classnames({'hidden': element.type != "Document" || element.signers_count == 0})} onClick={this.sendToDocusign}>Send To Docusign</a>
                 </li>
               </ul>
           </div>

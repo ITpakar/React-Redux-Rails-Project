@@ -10,7 +10,7 @@ class Api::DealsController < ApplicationController
   end
   
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_deal, only: [:update, :destroy, :show, :collaborators, :send_to_docusign]
+  before_action :set_deal, only: [:update, :destroy, :show, :collaborators]
 
   swagger_controller :deal, "deal"
 

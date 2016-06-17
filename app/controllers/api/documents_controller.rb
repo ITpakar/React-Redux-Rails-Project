@@ -3,7 +3,7 @@ class Api::DocumentsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :ensure_params_exist, only: [:create, :update]
-  before_action :set_document, only: [:show, :update, :destroy]
+  before_action :set_document, only: [:show, :update, :destroy, :send_to_docusign]
 
   swagger_controller :document, "Document"
 
@@ -200,6 +200,12 @@ class Api::DocumentsController < ApplicationController
     else
       error_response(@document.errors)
     end
+  end
+
+  def send_to_docusign
+    @document.send_to_docusign
+
+    render json: {}, status: :ok
   end
 
   private

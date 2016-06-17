@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     resources :documents do
       resources :document_signers
     end
+    post 'documents/:id/send_to_docusign', to: 'documents#send_to_docusign'
     resources :folders
     resources :tasks
     resources :categories
