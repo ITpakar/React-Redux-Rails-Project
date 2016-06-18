@@ -137,7 +137,9 @@ class Document < ApplicationRecord
       local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
       box_file = client.upload_file(local_path, parent)
-      deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
+      updated_file = client.create_shared_link_for_file(box_file, access: :open, can_download: true, can_preview: true)
+      # deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
+      deal_document.versions.create(name: version, box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
     end
   end
 end
