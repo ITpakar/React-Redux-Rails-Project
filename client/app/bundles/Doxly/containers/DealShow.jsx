@@ -223,18 +223,18 @@ class DealShow extends React.Component {
     });
   }
 
-  createVersion(formData, successCallback) {
+  createVersion(documentId, formData, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
-    var documentId = this.props.id;
+
     doCreateVersion(documentId, formData).then(function() {
       // To get latest download url
       _this.props.loadCategorySectionsTree(dealId, category);
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
   searchTree(value) {
