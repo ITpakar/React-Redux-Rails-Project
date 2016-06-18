@@ -130,7 +130,7 @@ export default class DocumentHistoriesView extends React.Component {
                   <div className="version-select">
                       <form>
                           <div className="form-group optional">
-                              <select name="file_vestion" ref="versionIndex" value={selectedIndex} className="form-control show-tick" onChange={this.changeVersion}>
+                              <select name="file_vestion" ref="versionIndex" value={selectedIndex} className="form-control custom-select" onChange={this.changeVersion}>
                                   {versionOptions}
                               </select>
                           </div>
