@@ -206,7 +206,7 @@ class User < ActiveRecord::Base
       user = client.create_user(self.email, is_platform_access_only: true)
       self.organization_user.update(box_user_id: user[:id])
     end
-    token = Boxr::get_user_token(self.organization_user.box_user_id.to_s, private_key: ENV['JWT_PRIVATE_KEY'], private_key_password: ENV['JWT_PRIVATE_KEY_PASSWORD'])
+    token = Boxr::get_user_token(self.organization_user.box_user_id.to_s, private_key: YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n)), private_key_password: ENV['JWT_PRIVATE_KEY_PASSWORD'])
     access_token = token.access_token
     Boxr::Client.new(access_token)
   end
