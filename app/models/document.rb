@@ -10,6 +10,7 @@ end
 
 class Document < ApplicationRecord
   include HasVisibility
+  include Boxedable
 
   #Associations
   has_many :document_signers
@@ -112,9 +113,9 @@ class Document < ApplicationRecord
 
   handle_asynchronously :send_to_docusign
 
-  def upload_to_box(file, user, version = '1.0')
+  def upload_file(file, organization_user)
     tmp = "#{Rails.root}/tmp/"
-    client = user.box_client
+    
     self.deal_documents.each do |deal_document|
       version = deal_document.upcoming_version
       folders = []
@@ -123,23 +124,13 @@ class Document < ApplicationRecord
       folders << deal_document.documentable.section.name
       folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
       folders << 'Document ' + deal_document.id.to_s
-      path = '/'
-      parent = client.folder_from_path(path)
-      folders.each do |folder|
-        box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
-        if box_folder.nil?
-          box_folder = client.create_folder(folder, parent)
-        end
-        parent = box_folder
-      end
+
       filename = file.original_filename
       extname = File.extname(filename)
       local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
-      box_file = client.upload_file(local_path, parent)
-      updated_file = client.create_shared_link_for_file(box_file, access: :open, can_download: true, can_preview: true)
-      # deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
-      deal_document.versions.create(name: version, box_file_id: box_file.id, url: updated_file.shared_link.url, download_url: updated_file.shared_link.download_url)
+      box_file = upload_to_box(local_path, folders, organization_user)
+      deal_document.versions.create(name: version, box_file_id: box_file[:id], url: box_file[:url], download_url: box_file[:download_url])
     end
   end
 end
