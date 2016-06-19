@@ -189,7 +189,7 @@ class User < ActiveRecord::Base
 
   # Get Enterprise Box Client
   def self.enterprise_box_client
-    private_key = OpenSSL::PKey::RSA.new(unescape(ENV['JWT_PRIVATE_KEY']), ENV['JWT_PRIVATE_KEY_PASSWORD'])
+    private_key = OpenSSL::PKey::RSA.new(YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n)), ENV['JWT_PRIVATE_KEY_PASSWORD'])
     # Get Box enterprise token
     token = Boxr::get_enterprise_token(private_key: private_key)
     access_token = token.access_token
