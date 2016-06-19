@@ -1,3 +1,5 @@
+require 'yaml'
+
 class User < ActiveRecord::Base
 
   ROLES = ["Normal", "Super"]
@@ -187,8 +189,9 @@ class User < ActiveRecord::Base
 
   # Get Enterprise Box Client
   def self.enterprise_box_client
+    private_key = OpenSSL::PKey::RSA.new(unescape(ENV['JWT_PRIVATE_KEY']), ENV['JWT_PRIVATE_KEY_PASSWORD'])
     # Get Box enterprise token
-    token = Boxr::get_enterprise_token
+    token = Boxr::get_enterprise_token(private_key: private_key)
     access_token = token.access_token
 
     # Get Box enterprise client
@@ -206,5 +209,10 @@ class User < ActiveRecord::Base
     token = Boxr::get_user_token(self.organization_user.box_user_id.to_s)
     access_token = token.access_token
     Boxr::Client.new(access_token)
+  end
+
+  private
+  def unescape(s)
+    YAML.load(%Q(---\n"#{s}"\n))
   end
 end
