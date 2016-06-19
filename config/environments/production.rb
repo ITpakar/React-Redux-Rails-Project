@@ -101,6 +101,6 @@ Rails.application.configure do
     :authentication  => :plain
   }
 
-  config.default_url_options[:host] = 'http://72.14.176.22:3000/'
+  Rails.application.routes.default_url_options[:host] = 'http://72.14.176.22:3000/'
 
 end
