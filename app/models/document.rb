@@ -10,7 +10,7 @@ end
 
 class Document < ApplicationRecord
   include HasVisibility
-  include Boxedable
+  include BoxFileStoragable
 
   #Associations
   has_many :document_signers

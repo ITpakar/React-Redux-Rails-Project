@@ -1,6 +1,6 @@
 class OrganizationUser < ActiveRecord::Base
   include DealOwner
-  include Boxable
+  include BoxStorable
 
   TYPES = ["Internal", "External"]
 
