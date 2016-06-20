@@ -2,10 +2,16 @@ import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import ReactDOM from "react-dom";
 import Select from 'react-bootstrap-select';
+import Util from "../../utils/util";
 
 export default class TaskModal extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      clientErrors: undefined,
+      serverErrors: undefined,
+      isSaving: false
+    };
     _.bindAll(this, ["saveTask"]);
   }
 
@@ -14,36 +20,70 @@ export default class TaskModal extends React.Component {
       event.preventDefault();
     }
 
+    if (this.state.isSaving) {
+      return;
+    }
+
     var _this = this;
     var taskAttrs = {};
     var element = this.props.element;
 
     taskAttrs.title = $.trim($(this.refs.task_title).val());
     taskAttrs.description = $.trim($(this.refs.task_description).val());
-    taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || $.trim($(ReactDOM.findDOMNode(this.refs.task_section)).find("select").val());
-    taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || $.trim($(ReactDOM.findDOMNode(this.refs.task_assignee)).find("select").val());
+    taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || parseInt($.trim($(ReactDOM.findDOMNode(this.refs.task_section)).find("select").val())) || null;
+    taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || parseInt($.trim($(ReactDOM.findDOMNode(this.refs.task_assignee)).find("select").val())) || null;
 
     if (taskAttrs.title && taskAttrs.section_id) {
+      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true});
       if (element && element.id) {
         this.props.updateTask(element.id, taskAttrs, function() {
           _this.props.closeTaskModal();
+        }, function(xhr) {
+          var serverErrors = Util.getErrors(xhr);
+          var state = {isSaving: false};
+
+          Util.addErrorStates(state, serverErrors);
+          _this.setState(state);
         });
       } else {
         this.props.createTask(taskAttrs, function() {
           _this.props.closeTaskModal();
+        }, function(xhr) {
+          var serverErrors = Util.getErrors(xhr);
+          var state = {isSaving: false};
+
+          Util.addErrorStates(state, serverErrors);
+          _this.setState(state);
         });
       }
+    } else {
+      var errors = {};
+      if (!taskAttrs.title) {
+        errors.title = "can't be blank";
+      }
+console.log("Line 64 ", taskAttrs.section_id);
+      if (!taskAttrs.section_id) {
+        errors.section_id = "can't be blank";
+      }
+
+      this.setState({clientErrors: errors});
     }
   }
 
   render() {
     var availableSections;
     var element = this.props.element;
+    var clientErrors = this.state.clientErrors;
+    var serverErrors = this.state.serverErrors;
+
     if (!this.props.parentElement && this.props.sections) {
       let selected = element && element.section_id;
+      let displayedSectionErrors = Util.getDisplayedErrorMessage("section_id", this.state.clientErrors, this.state.serverErrors);
+
       availableSections = (
-        <div className="form-group optional">
+        <div className="form-group">
           <label htmlFor="input-task-section">Add to Section</label>
+          {displayedSectionErrors}
           <Select name="task_section" ref="task_section" defaultValue={selected} className="show-tick">
             <option>Select a Section</option>
             {this.props.sections.map(function(section) {
@@ -59,9 +99,12 @@ export default class TaskModal extends React.Component {
     var assignees;
     if (!this.props.assignee && this.props.assignees) {
       let selected = element && element.assignee_id;
+      let displayedAssigneeErrors = Util.getDisplayedErrorMessage("assignee_id", this.state.clientErrors, this.state.serverErrors);
+
       assignees = (
         <div className="form-group optional">
           <label htmlFor="input-task-assignee">Add an Assignee</label>
+          {displayedAssigneeErrors}
           <Select name="task_assignee" ref="task_assignee" defaultValue={selected} className="show-tick">
             <option>Select a Team Member</option>
             {this.props.assignees.map(function(assignee) {
@@ -78,6 +121,8 @@ export default class TaskModal extends React.Component {
     var taskDescription = element && element.description;
     var modalTitle = element && element.id ? "Update Task" : "New Task"
     var submitText = element && element.id ? "Update" : "Create";
+    var displayedTitleErrors = Util.getDisplayedErrorMessage("title", this.state.clientErrors, this.state.serverErrors);
+    var displayedDescriptionErrors = Util.getDisplayedErrorMessage("description", this.state.clientErrors, this.state.serverErrors);
 
   	return (
       <Modal show={this.props.showTaskModal} onHide={this.props.closeTaskModal} dialogClassName="new-question-modal">
@@ -90,10 +135,12 @@ export default class TaskModal extends React.Component {
           <form onSubmit={this.saveTask}>
             <div className="form-group">
               <label htmlFor="input-task-title">Task Title</label>
+              {displayedTitleErrors}
               <input type="text" ref="task_title" required defaultValue={taskTitle} placeholder="Give your task a title" className="form-control" id="input-task-title" name="task_title" />
             </div>
             <div className="form-group">
               <label htmlFor="input-task-description">Task Description</label>
+              {displayedDescriptionErrors}
               <textarea ref="task_description" defaultValue={taskDescription} placeholder="Explain this task" className="form-control" id="input-task-description" name="task_description" />
             </div>
             {availableSections}
@@ -102,7 +149,7 @@ export default class TaskModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <button type="button" className="btn btn-default pull-left" onClick={this.props.closeTaskModal}>Cancel</button>
-          <button type="button" className="btn btn-primary" onClick={this.saveTask}>{submitText}</button>
+          <button type="button" disabled={this.state.isSaving} className="btn btn-primary" onClick={this.saveTask}>{submitText}</button>
         </Modal.Footer>
       </Modal>
   	);

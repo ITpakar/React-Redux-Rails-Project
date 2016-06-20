@@ -42,7 +42,7 @@ class DealShow extends React.Component {
     this.props.loadDealCollaborators(dealId);
   }
 
-  createFolder(folderAttrs, callback) {
+  createFolder(folderAttrs, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -51,13 +51,13 @@ class DealShow extends React.Component {
     doCreateFolder(folderAttrs).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
-      if (callback) {
-        callback();
+      if (successCallback) {
+        successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  updateFolder(folderId, folderAttrs, successCallback) {
+  updateFolder(folderId, folderAttrs, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -69,10 +69,10 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  createTask(taskAttrs, callback) {
+  createTask(taskAttrs, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -81,10 +81,10 @@ class DealShow extends React.Component {
     doCreateTask(taskAttrs).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
-      if (callback) {
-        callback();
+      if (successCallback) {
+        successCallback();
       }
-    });
+    }, errorCallback);
   }
 
   updateTask(taskId, attrs, successCallback, errorCallback) {
@@ -97,11 +97,7 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    }, function() {
-      if (errorCallback) {
-        errorCallback();
-      }
-    });
+    }, errorCallback);
   }
 
   createSection(sectionAttrs, successCallback, errorCallback) {
@@ -116,11 +112,7 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    }, function(xhr) {
-      if (errorCallback) {
-        errorCallback(xhr);
-      }
-    });
+    }, errorCallback);
   }
 
   updateSection(sectionId, sectionAttrs, successCallback, errorCallback) {
@@ -135,10 +127,10 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  createDocument(formData, callback) {
+  createDocument(formData, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -147,13 +139,13 @@ class DealShow extends React.Component {
     doCreateDocument(formData).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
-      if (callback) {
-        callback();
+      if (successCallback) {
+        successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  updateDocument(documentId, formData, successCallback) {
+  updateDocument(documentId, formData, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -165,10 +157,10 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  deleteFolder(folderId, successCallback) {
+  deleteFolder(folderId, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -179,7 +171,7 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
   deleteTask(taskId, successCallback, errorCallback) {
@@ -192,14 +184,10 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    }, function() {
-      if (errorCallback) {
-        errorCallback();
-      }
-    });
+    }, errorCallback);
   }
 
-  deleteSection(sectionId, successCallback) {
+  deleteSection(sectionId, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -208,12 +196,12 @@ class DealShow extends React.Component {
       _this.props.loadCategorySectionsTree(dealId, category);
 
       if (successCallback) {
-        callback();
+        successCallback();
       }
-    });
+    }, errorCallback);
   }
 
-  deleteDocument(documentId, successCallback) {
+  deleteDocument(documentId, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -224,7 +212,7 @@ class DealShow extends React.Component {
       if (successCallback) {
         successCallback();
       }
-    });
+    }, errorCallback);
   }
 
   createVersion(documentId, formData, successCallback, errorCallback) {
