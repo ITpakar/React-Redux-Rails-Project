@@ -73,7 +73,7 @@ var Util = {
     if (serverErrors.errors) {
       state.serverErrors = serverErrors.errors;
     } else if (serverErrors.message){
-      state.errorMessage = serverErrors.message;
+      state.serverMessage = serverErrors.message;
     }
   },
 

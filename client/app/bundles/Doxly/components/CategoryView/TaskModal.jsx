@@ -34,9 +34,10 @@ export default class TaskModal extends React.Component {
     taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || parseInt($.trim($(ReactDOM.findDOMNode(this.refs.task_assignee)).find("select").val())) || null;
 
     if (taskAttrs.title && taskAttrs.section_id) {
-      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true});
+      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true, serverMessage: undefined});
       if (element && element.id) {
         this.props.updateTask(element.id, taskAttrs, function() {
+          _this.setState({isSaving: false});
           _this.props.closeTaskModal();
         }, function(xhr) {
           var serverErrors = Util.getErrors(xhr);
@@ -47,6 +48,7 @@ export default class TaskModal extends React.Component {
         });
       } else {
         this.props.createTask(taskAttrs, function() {
+          _this.setState({isSaving: false});
           _this.props.closeTaskModal();
         }, function(xhr) {
           var serverErrors = Util.getErrors(xhr);
@@ -61,7 +63,7 @@ export default class TaskModal extends React.Component {
       if (!taskAttrs.title) {
         errors.title = "can't be blank";
       }
-console.log("Line 64 ", taskAttrs.section_id);
+
       if (!taskAttrs.section_id) {
         errors.section_id = "can't be blank";
       }
@@ -78,7 +80,7 @@ console.log("Line 64 ", taskAttrs.section_id);
 
     if (!this.props.parentElement && this.props.sections) {
       let selected = element && element.section_id;
-      let displayedSectionErrors = Util.getDisplayedErrorMessage("section_id", this.state.clientErrors, this.state.serverErrors);
+      let displayedSectionErrors = Util.getDisplayedErrorMessage("section_id", clientErrors, serverErrors);
 
       availableSections = (
         <div className="form-group">
@@ -99,7 +101,7 @@ console.log("Line 64 ", taskAttrs.section_id);
     var assignees;
     if (!this.props.assignee && this.props.assignees) {
       let selected = element && element.assignee_id;
-      let displayedAssigneeErrors = Util.getDisplayedErrorMessage("assignee_id", this.state.clientErrors, this.state.serverErrors);
+      let displayedAssigneeErrors = Util.getDisplayedErrorMessage("assignee_id", clientErrors, serverErrors);
 
       assignees = (
         <div className="form-group optional">
@@ -121,8 +123,15 @@ console.log("Line 64 ", taskAttrs.section_id);
     var taskDescription = element && element.description;
     var modalTitle = element && element.id ? "Update Task" : "New Task"
     var submitText = element && element.id ? "Update" : "Create";
-    var displayedTitleErrors = Util.getDisplayedErrorMessage("title", this.state.clientErrors, this.state.serverErrors);
-    var displayedDescriptionErrors = Util.getDisplayedErrorMessage("description", this.state.clientErrors, this.state.serverErrors);
+    var displayedTitleErrors = Util.getDisplayedErrorMessage("title", clientErrors, serverErrors);
+    var displayedDescriptionErrors = Util.getDisplayedErrorMessage("description", clientErrors, serverErrors);
+    var serverMessage;
+
+    if (this.state.serverMessage) {
+      serverMessage = (
+        <div className="alert alert-danger">{this.state.serverMessage}</div>
+      );
+    }
 
   	return (
       <Modal show={this.props.showTaskModal} onHide={this.props.closeTaskModal} dialogClassName="new-question-modal">
@@ -133,6 +142,7 @@ console.log("Line 64 ", taskAttrs.section_id);
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={this.saveTask}>
+            {serverMessage}
             <div className="form-group">
               <label htmlFor="input-task-title">Task Title</label>
               {displayedTitleErrors}
