@@ -35,7 +35,6 @@ class DealsBySizeReport extends React.Component {
   }
 
   render() {
-    console.log("Line 38 ", this.props.data);
     if (!this.props.data) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {

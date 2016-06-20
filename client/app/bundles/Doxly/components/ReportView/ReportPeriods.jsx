@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from "react-dom";
+import Select from 'react-bootstrap-select';
 
 export default class DealTypeGraph extends React.Component {
   constructor(props, context) {
@@ -10,7 +12,7 @@ export default class DealTypeGraph extends React.Component {
   }
 
   changePeriod() {
-    var val = $(this.refs.period).val();
+    var val = $(ReactDOM.findDOMNode(this.refs.period)).find("select").val();
 
     this.setState({value: val});
     this.props.changePeriod(val);
@@ -30,9 +32,9 @@ export default class DealTypeGraph extends React.Component {
       );
     }
   	return (
-      <select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="form-control custom-select">
+      <Select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="show-tick">
         {displayedPeriods}
-      </select>
+      </Select>
   	);
   }
 }
