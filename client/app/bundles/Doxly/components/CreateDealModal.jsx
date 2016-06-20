@@ -98,18 +98,18 @@ export default class CreateDealModal extends React.Component {
             </div>
             <div className="modal-body">
               <form>
-                <TextFieldWithValidation name="deal_title" 
-                                         label="Deal Title" 
+                <TextFieldWithValidation name="deal_title"
+                                         label="Deal Title"
                                          value={this.state.title}
-                                         placeholder="Give your task a title" 
-                                         required={true} 
+                                         placeholder="Give your task a title"
+                                         required={true}
                                          errors={this.state.errors['title']}
                                          onChange={this.handleChange('title')} />
-                <TextFieldWithValidation name="deal_client" 
-                                         label="Client Name" 
+                <TextFieldWithValidation name="deal_client"
+                                         label="Client Name"
                                          value={this.state.dealClient}
-                                         placeholder="Add your client's name or other identifier" 
-                                         required={true} 
+                                         placeholder="Add your client's name or other identifier"
+                                         required={true}
                                          errors={this.state.errors['client_name']}
                                          onChange={this.handleChange('clientName')} />
                 <div className="form-group">
@@ -118,16 +118,16 @@ export default class CreateDealModal extends React.Component {
                   <DatePicker
                     selected={moment(this.state.projectedCloseDate)}
                     onChange={this.handleChange('projectedCloseDate')}
-                    name="deal_date" 
-                    id="input-deal-date" 
-                    className="form-control" 
-                    placeholderText="MM/DD/YYYY" 
+                    name="deal_date"
+                    id="input-deal-date"
+                    className="form-control"
+                    placeholderText="MM/DD/YYYY"
                     required={true} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="input-deal-transaction">Transaction Type</label>
                   {this.renderErrors('transaction_type', 'Transaction Type')}
-                  <select id="input-deal-transaction" onChange={this.handleChange('transactionType')} className="selectpicker form-control show-tick">
+                  <select id="input-deal-transaction" onChange={this.handleChange('transactionType')} className="selectpicker form-control custom-select">
                     <option>Select a Transaction Type</option>
                     {
                       _.map(this.props.transaction_types, function(type, index) {

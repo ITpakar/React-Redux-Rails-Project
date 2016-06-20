@@ -30,7 +30,7 @@ export default class DealTypeGraph extends React.Component {
       );
     }
   	return (
-      <select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="form-control show-tick">
+      <select ref="period" name="report_1_period" defaultValue={value} onChange={this.changePeriod} className="form-control custom-select">
         {displayedPeriods}
       </select>
   	);

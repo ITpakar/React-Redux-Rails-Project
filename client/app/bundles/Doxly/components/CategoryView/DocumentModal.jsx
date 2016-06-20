@@ -155,7 +155,7 @@ export default class DocumentModal extends React.Component {
       availableTasksAndFolders = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task or Folder</label>
-          <select name="task" ref="parent_id" defaultValue={parentId} className="form-control show-tick">
+          <select name="task" ref="parent_id" defaultValue={parentId} className="form-control custom-select">
             <option>Select a Task or Folder</option>
             {this.props.parents.map(function(el, i) {
               return (
