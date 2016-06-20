@@ -20,6 +20,9 @@ gem 'puma'
 gem 'factory_girl_rails'
 gem 'ffaker'
 gem 'boxr'
+gem 'carrierwave'
+gem 'delayed_job_active_record'
+gem 'docusign_rest'
 
 gem 'cancancan', '~> 1.10'
 

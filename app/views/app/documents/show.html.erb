@@ -1,0 +1,3 @@
+<div id="wrapper" class="file-viewer">
+  <%= react_component 'DocumentShowApp', props: {id: params[:id].to_i, userId: current_user.try(:id) } %>
+</div>

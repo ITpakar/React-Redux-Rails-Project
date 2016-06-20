@@ -79,11 +79,11 @@ export default class DealView extends React.Component {
     return dealGroups;
   }
 
-  handleSearchChange(e) {
-    if (_.isEmpty(e.target.value)) {
+  handleSearchChange(newValue) {
+    if (_.isEmpty(newValue)) {
       this.setState({search_term: null})
     } else {
-      this.setState({search_term: e.target.value})
+      this.setState({search_term: newValue})
     }
   }
 

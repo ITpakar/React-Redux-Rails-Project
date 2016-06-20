@@ -13,7 +13,6 @@ const StarredDealList = ({deals}) => (
 );
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     deals: state.dealsStore.starred
   }

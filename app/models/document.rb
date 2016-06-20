@@ -1,3 +1,13 @@
+require 'open-uri'
+
+# Without this, it sets the local path to local.path and
+# the multipart upload fails
+class Pathname
+  def path
+    self.to_s
+  end
+end
+
 class Document < ApplicationRecord
   include HasVisibility
 
@@ -15,19 +25,19 @@ class Document < ApplicationRecord
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
 
-  def box_client
-    self.creator.user.box_client
-  end
-
-  def to_hash(box_client = nil)
+  def to_hash
     data = {
       document_id:      self.id,
+      deal_id:          self.deal_id,
       title:            self.title,
       file_name:        self.file_name,
       file_size:        self.file_size,
       file_type:        self.file_type,
       file_uploaded_at: self.file_uploaded_at,
-      activated:        self.activated
+      activated:        self.activated,
+      signed_count:     self.document_signers.where(signed: true).count,
+      signers_count:    self.document_signers.count,
+      signers:          self.document_signers.map(&:to_hash)
     }
 
     if self.creator
@@ -36,13 +46,73 @@ class Document < ApplicationRecord
 
     data[:deal_documents] = []
     self.deal_documents.each do |deal_document|
-      data[:deal_documents] << deal_document.to_hash(box_client)
+      dd_data = deal_document.to_hash
+      data[:deal_documents] << dd_data
+      data[:url] = dd_data[:url]
+      data[:download_url] = dd_data[:download_url]
     end
 
     return data
   end
 
-  def upload_to_box(file, user)
+  def create_signers! signers
+    signers.each do |signer|
+      self.document_signers.create(signer) unless signer["name"].blank? or signer["email"].blank?
+    end
+  end
+
+  # Note that this will always be executed asynchronously so it doesn't block
+  def send_to_docusign
+    # First we need to download the file from Box, we'll store it in /tmp
+    puts "Downloading file"
+    url = self.deal_documents.first.versions.last.download_url
+    file_name = /([^\/]+?)$/.match(url).captures.try(:[], 0)
+
+    file_path = Rails.root.join('tmp', "#{file_name}");
+    open(file_path, 'wb') do |file|
+      file << open(url).read
+    end
+
+    # Now we create an envelope and send it to Docusign, who deals with sending emails for us
+    puts "Sending request to DocuSign"
+    signers = self.document_signers.map(&:to_hash)
+
+    host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.root
+
+    callback_url = Rails.application.routes.url_helpers.app_docusign_webhook_url(host: host)
+
+    client = DocusignRest::Client.new
+    document_envelope_response = client.create_envelope_from_document(
+      email: {
+        subject: "You've been asked to sign #{self.title}",
+        body: "Please sign using the DocuSign link above"
+      },
+      signers: signers,
+      files: [
+        {
+          path: file_path,
+          name: self.title
+        }
+      ],
+      status: 'sent',
+      eventNotification: {
+        url: callback_url,
+        loggingEnabled: true,
+        recipientEvents: ['Completed', 'Declined', 'AuthenticationFailed', 'AutoResponded']
+      }
+    )
+
+    envelope_id = document_envelope_response["envelopeId"]
+    self.document_signers.update_all(envelope_id: envelope_id)
+
+    # Lastly we delete the saved document
+    puts "Deleting file"
+    File.delete(file_path) if File.exist?(file_path)
+  end
+
+  handle_asynchronously :send_to_docusign
+
+  def upload_to_box(file, user, version = '1.0')
     tmp = "#{Rails.root}/tmp/"
     client = user.box_client
     self.deal_documents.each do |deal_document|
@@ -51,6 +121,7 @@ class Document < ApplicationRecord
       folders << deal_document.documentable.deal.title
       folders << deal_document.documentable.section.name
       folders << deal_document.documentable.title if deal_document.documentable_type == 'Task'
+      folders << 'Document ' + deal_document.id.to_s
       path = '/'
       parent = client.folder_from_path(path)
       folders.each do |folder|
@@ -60,23 +131,12 @@ class Document < ApplicationRecord
         end
         parent = box_folder
       end
-      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
+      filename = file.original_filename
+      extname = File.extname(filename)
+      local_path = "#{tmp}#{File.basename(filename, extname)} - #{version}#{extname}"
       File.open(local_path, "wb") { |f| f.write(file.read) }
-      file = client.upload_file(local_path, parent)
-      deal_document.update(box_file_id: file.id)
-    end
-  end
-
-  def add_new_version(file, name)
-    tmp = "#{Rails.root}/tmp/"
-    client = user.box_client
-    self.deal_documents.each do |deal_document|
-      next unless deal_document.box_file_id
-      box_file = client.file_from_id(deal_document.box_file_id)
-      local_path = "#{tmp}#{deal_document.id}#{File.extname(file.original_filename)}"
-      File.open(local_path, "wb") { |f| f.write(file.read) }
-      box_file = client.upload_new_version_of_file(local_path, box_file)
-      deal_document.versions.create(name: name, box_version_id: box_file.id)
+      box_file = client.upload_file(local_path, parent)
+      deal_document.versions.create(name: version, box_file_id: box_file.id, url: client.preview_url(box_file), download_url: client.download_url(box_file))
     end
   end
 end

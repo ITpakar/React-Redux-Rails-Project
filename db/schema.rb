@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160615172713) do
+=======
+ActiveRecord::Schema.define(version: 20160617131517) do
+>>>>>>> e762bd50dffdff075cec70a731ab19e9048edf07
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,9 +68,11 @@ ActiveRecord::Schema.define(version: 20160615172713) do
   create_table "deal_document_versions", force: :cascade do |t|
     t.integer  "deal_document_id"
     t.string   "name"
-    t.string   "box_version_id"
+    t.string   "box_file_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "url"
+    t.string   "download_url"
     t.index ["deal_document_id"], name: "index_deal_document_versions_on_deal_document_id", using: :btree
   end
 
@@ -77,7 +83,6 @@ ActiveRecord::Schema.define(version: 20160615172713) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "deal_id"
-    t.string   "box_file_id"
     t.index ["document_id"], name: "index_deal_documents_on_document_id", using: :btree
     t.index ["documentable_id"], name: "index_deal_documents_on_documentable_id", using: :btree
   end
@@ -99,13 +104,29 @@ ActiveRecord::Schema.define(version: 20160615172713) do
     t.index ["title"], name: "index_deals_on_title", using: :btree
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
+
   create_table "document_signers", force: :cascade do |t|
+    t.string   "email"
+    t.string   "name"
     t.integer  "document_id"
-    t.integer  "organization_user_id"
-    t.boolean  "signed",               default: false
-    t.datetime "signed_at"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.boolean  "signed",      default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "envelope_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -231,9 +252,6 @@ ActiveRecord::Schema.define(version: 20160615172713) do
     t.string   "phone",                  limit: 15
     t.string   "address"
     t.string   "company",                limit: 100
-    t.string   "avatar_name"
-    t.integer  "avatar_size"
-    t.string   "avatar_type"
     t.datetime "avatar_uploaded_at"
     t.string   "email",                              default: "", null: false
     t.string   "encrypted_password",                 default: "", null: false
@@ -253,6 +271,7 @@ ActiveRecord::Schema.define(version: 20160615172713) do
     t.string   "role"
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.string   "avatar"
     t.index ["activated"], name: "index_users_on_activated", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

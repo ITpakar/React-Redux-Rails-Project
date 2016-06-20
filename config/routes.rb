@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     put "/settings", to: "dashboard#save_settings"
     get "/report", to: "dashboard#report"
 
+    match "/docusign_hook/", to: "docusign_webhook#update", as: :docusign_webhook, via: [:get, :post]
+
     devise_for :users
 
     resources :deals do
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
     end
 
     resources :team_members, only: [:index, :show, :update, :create, :destroy]
+    resources :documents, :only => [:show]
   end
 
   scope '/api', module: 'api', as: 'api' do
@@ -64,8 +67,13 @@ Rails.application.routes.draw do
     resources :notifications
     resources :comments
     resources :documents do
+      member do
+    	   post :versions, :to => "documents#create_version"
+      end
+      
       resources :document_signers
     end
+    post 'documents/:id/send_to_docusign', to: 'documents#send_to_docusign'
     resources :folders
     resources :tasks
     resources :categories
