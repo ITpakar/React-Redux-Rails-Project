@@ -351,9 +351,10 @@ export default class CategoryView extends React.Component {
                         updateTask={this.props.updateTask}
                         closeTaskModal={this.closeTaskModal}
                         showTaskModal={this.state.showTaskModal} />
-                      <SectionModal saveSection={this.props.saveSection}
-                           closeSectionModal={this.closeSectionModal}
-                           showSectionModal={this.state.showSectionModal} />
+          <SectionModal createSection={this.props.createSection}
+                        updateSection={this.props.updateSection}
+                        closeSectionModal={this.closeSectionModal}
+                        showSectionModal={this.state.showSectionModal} />
           <DocumentModal parentElement={this.state.parentElement}
                          element={this.state.element}
                             parents={availableTasksAndFolders}

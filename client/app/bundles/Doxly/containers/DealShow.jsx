@@ -104,7 +104,7 @@ class DealShow extends React.Component {
     });
   }
 
-  createSection(sectionAttrs, callback) {
+  createSection(sectionAttrs, successCallback, errorCallback) {
     var _this = this;
     var dealId = this.props.id;
     var category = this.props.category;
@@ -113,8 +113,12 @@ class DealShow extends React.Component {
     doCreateSection(dealId, sectionAttrs).then(function() {
       _this.props.loadCategorySectionsTree(dealId, category);
 
-      if (callback) {
-        callback();
+      if (successCallback) {
+        successCallback();
+      }
+    }, function(xhr) {
+      if (errorCallback) {
+        errorCallback(xhr);
       }
     });
   }

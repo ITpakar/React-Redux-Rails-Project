@@ -32,7 +32,7 @@ export function doCreateTask(attrs) {
 }
 
 export function doCreateSection(dealId, attrs) {
-  return submitRequest("/api/deals/" + dealId + "/sections", "put", {section: attrs});
+  return submitRequest("/api/deals/" + dealId + "/sections", "post", {section: attrs});
 }
 
 export function doCreateDocument(formData) {
