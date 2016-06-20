@@ -29,7 +29,7 @@ export default class SectionModal extends React.Component {
     sectionAttrs.name = $.trim($(this.refs.section_name).val());
 
     if (sectionAttrs.name) {
-      this.setState({clientErrors: {}, isSaving: true});
+      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true});
       if (element && element.id) {
         this.props.updateSection(element.id, sectionAttrs, function() {
           _this.props.closeSectionModal();
@@ -67,22 +67,32 @@ export default class SectionModal extends React.Component {
     var submitText = element && element.id ? "Update" : "Create";
     var clientErrors = this.state.clientErrors;
     var serverErrors = this.state.serverErrors;
-    var nameGroupClassnames = ["form-group"];
-    var nameErrorText;
+    var displayedNameErrors;
+    var nameErrors = [];
 
     if (clientErrors && clientErrors.name) {
-      nameGroupClassnames.push("has-error");
-      nameGroupClassnames.push("client-error");
-      nameErrorText = (
-        <div className="help-block">{clientErrors.name}</div>
+      let nameErrorText = (
+        <span className="error-message" key={"client_error"}>{clientErrors.name}</span>
       );
+
+      nameErrors.push(nameErrorText);
     }
 
     if (serverErrors && serverErrors.name) {
-      nameGroupClassnames.push("has-error");
-      nameGroupClassnames.push("server-error");
-      nameErrorText = (
-        <div className="help-block">{serverErrors.name}</div>
+      for (let i = 0; i < serverErrors.name.length; i++) {
+        let nameErrorText = (
+          <span className="error-message" key={"server_error_" + (i + 1)}>{serverErrors.name[i]}</span>
+        );
+
+        nameErrors.push(nameErrorText);
+      }
+    }
+
+    if (nameErrors.length > 0) {
+      displayedNameErrors = (
+        <span className="errors has-error">
+          {nameErrors}
+        </span>
       );
     }
 
@@ -95,10 +105,10 @@ export default class SectionModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={this.saveSection}>
-            <div className={nameGroupClassnames.join(" ")}>
+            <div className="form-group">
               <label htmlFor="input-section-title">Section Title</label>
+              {displayedNameErrors}
               <input type="text" ref="section_name" required defaultValue={sectionTitlte} placeholder="Give your section a title" className="form-control" id="input-section-title" name="section_title" />
-              {nameErrorText}
             </div>
           </form>
         </Modal.Body>
