@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Util = {
   formatDate: function(date, format) {
     if (!date) {
@@ -29,6 +31,50 @@ var Util = {
     }
 
     return {message: message, errors: errors};
+  },
+
+  getDisplayedErrorMessage: function(field, clientErrors, serverErrors) {
+    clientErrors = clientErrors || {};
+    serverErrors = serverErrors || {};
+
+    var errors = [];
+    var displayedErrors = [];
+
+    if (clientErrors[field]) {
+      errors.push(
+        (<span className="error-message" key="client_error">{clientErrors[field]}</span>)
+      );
+    }
+
+    if (serverErrors[field]) {
+      for (let i = 0; i < serverErrors[field].length; i++) {
+        let message = (
+          <span className="error-message" key={"server_error_" + (i + 1)}>{serverErrors[field][i]}</span>
+        );
+        errors.push(message);
+      }
+    }
+
+    if (errors.length > 0) {
+      displayedErrors = (
+        <span className="errors has-error">
+          {errors}
+        </span>
+      );
+    }
+
+    return displayedErrors;
+  },
+
+  addErrorStates: function(state, serverErrors) {
+    state = state || {};
+    serverErrors = serverErrors || {};
+
+    if (serverErrors.errors) {
+      state.serverErrors = serverErrors.errors;
+    } else if (serverErrors.message){
+      state.serverMessage = serverErrors.message;
+    }
   },
 
   formatNumber: function(number, n, s, c, x) {

@@ -29,14 +29,17 @@ export default class SectionModal extends React.Component {
     sectionAttrs.name = $.trim($(this.refs.section_name).val());
 
     if (sectionAttrs.name) {
-      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true});
+      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true, serverMessage: undefined});
       if (element && element.id) {
         this.props.updateSection(element.id, sectionAttrs, function() {
+          _this.setState({isSaving: false});
           _this.props.closeSectionModal();
-          _this.setState({isSaving: false});
         }, function(xhr) {
-          _this.setState({serverErrors: xhr.responseJSON.errors});
-          _this.setState({isSaving: false});
+          var state = {isSaving: false};
+          var serverErrors = Util.getErrors(xhr);
+
+          Util.addErrorStates(state, serverErrors);
+          _this.setState(state);
         });
       } else {
         this.props.createSection(sectionAttrs, function() {
@@ -46,17 +49,12 @@ export default class SectionModal extends React.Component {
           var serverErrors = Util.getErrors(xhr);
           var state = {isSaving: false};
 
-          if (serverErrors.errors) {
-            state.serverErrors = serverErrors.errors;
-          } else if (serverErrors.message){
-            state.errorMessage = serverErrors.message;
-          }
-
+          Util.addErrorStates(state, serverErrors);
           _this.setState(state);
         });
       }
     } else {
-      this.setState({clientErrors: {name: "Name can't be blank"}});
+      this.setState({clientErrors: {name: "can't be blank"}});
     }
   }
 
@@ -67,32 +65,12 @@ export default class SectionModal extends React.Component {
     var submitText = element && element.id ? "Update" : "Create";
     var clientErrors = this.state.clientErrors;
     var serverErrors = this.state.serverErrors;
-    var displayedNameErrors;
-    var nameErrors = [];
+    var displayedNameErrors = Util.getDisplayedErrorMessage("name", clientErrors, serverErrors);
+    var serverMessage;
 
-    if (clientErrors && clientErrors.name) {
-      let nameErrorText = (
-        <span className="error-message" key={"client_error"}>{clientErrors.name}</span>
-      );
-
-      nameErrors.push(nameErrorText);
-    }
-
-    if (serverErrors && serverErrors.name) {
-      for (let i = 0; i < serverErrors.name.length; i++) {
-        let nameErrorText = (
-          <span className="error-message" key={"server_error_" + (i + 1)}>{serverErrors.name[i]}</span>
-        );
-
-        nameErrors.push(nameErrorText);
-      }
-    }
-
-    if (nameErrors.length > 0) {
-      displayedNameErrors = (
-        <span className="errors has-error">
-          {nameErrors}
-        </span>
+    if (this.state.serverMessage) {
+      serverMessage = (
+        <div className="alert alert-danger">{this.state.serverMessage}</div>
       );
     }
 
@@ -105,6 +83,7 @@ export default class SectionModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={this.saveSection}>
+            {serverMessage}
             <div className="form-group">
               <label htmlFor="input-section-title">Section Title</label>
               {displayedNameErrors}

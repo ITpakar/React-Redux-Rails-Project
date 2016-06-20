@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import ReactDOM from "react-dom";
 import Select from 'react-bootstrap-select';
+import Util from "../../utils/util";
 
 export default class DocumentModal extends React.Component {
   constructor(props, context) {
@@ -10,8 +11,11 @@ export default class DocumentModal extends React.Component {
     this.state = {
       signable: false,
       signerCount: 1,
-      signers: []
-    }
+      signers: [],
+      clientErrors: undefined,
+      serverErrors: undefined,
+      isSaving: false
+    };
     _.bindAll(this, ["saveDocument", "handleSubmit", "showDialog", 'handleCheck', 'addSigner', 'handleSignerInputChange']);
   }
 
@@ -31,7 +35,6 @@ export default class DocumentModal extends React.Component {
     }
 
     this.setState(state);
-
   }
 
   handleSubmit(event) {
@@ -57,9 +60,7 @@ export default class DocumentModal extends React.Component {
 
     let signers = this.state.signable ? this.state.signers : []
 
-    if (title && file && documentable_type && documentable_id) {
-      this.saveDocument(title, file, documentable_type, documentable_id, signers);
-    }
+    this.saveDocument(title, file, documentable_type, documentable_id, signers);
   }
 
   handleCheck(e) {
@@ -83,6 +84,10 @@ export default class DocumentModal extends React.Component {
   }
 
   saveDocument(title, file, documentable_type, documentable_id, signers) {
+    if (this.state.isSaving) {
+      return;
+    }
+
     if (title && file && documentable_type && documentable_id) {
       var _this = this;
       var data = new FormData();
@@ -98,16 +103,47 @@ export default class DocumentModal extends React.Component {
         data.append(`document[signers][${i}][email]`, val['email']);
       });
 
-
+      this.setState({clientErrors: {}, serverErrors: {}, isSaving: true, serverMessage: undefined});
       if (element && element.id) {
         this.props.updateDocument(element.id, data, function() {
+          _this.setState({isSaving: false});
           _this.props.closeDocumentModal();
+          _this.refs.document_form.reset();
+        }, function(xhr) {
+          var state = {isSaving: false};
+          var serverErrors = Util.getErrors(xhr);
+
+          Util.addErrorStates(state, serverErrors);
+          _this.setState(state);
         });
       } else {
         this.props.createDocument(data, function() {
+          _this.setState({isSaving: false});
           _this.props.closeDocumentModal();
+          _this.refs.document_form.reset();
+        }, function(xhr) {
+          var state = {isSaving: false};
+          var serverErrors = Util.getErrors(xhr);
+
+          Util.addErrorStates(state, serverErrors);
+          _this.setState(state);
         });
       }
+    } else {
+      var errors = {};
+      if (!title) {
+        errors.title = "can't be blank";
+      }
+
+      if (!file) {
+        errors.file = "can't be blank";
+      }
+
+      if (!documentable_type || !documentable_id) {
+        errors.documentable = "can't be blank";
+      }
+
+      this.setState({clientErrors: errors});
     }
   }
 
@@ -150,18 +186,20 @@ export default class DocumentModal extends React.Component {
     var availableTasksAndFolders = [];
     if (!this.props.parentElement && this.props.parents) {
       let parentId;
+      let displayedParentIdErrors = Util.getDisplayedErrorMessage("documentable", this.state.clientErrors, this.state.serverErrors);
 
       if (element && element.id && element.deal_documents && element.deal_documents.length > 0) {
         parentId = element.deal_documents[0].documentable_type + "-" + element.deal_documents[0].documentable_id;
       }
       availableTasksAndFolders = (
-        <div className="form-group optional">
+        <div className="form-group">
           <label htmlFor="input-task-section">Add to Task or Folder</label>
+          {displayedParentIdErrors}
           <Select name="task" ref="parent_id" defaultValue={parentId} className="show-tick">
             <option>Select a Task or Folder</option>
             {this.props.parents.map(function(el, i) {
               return (
-                <option value={el.type + "-" + el.id} key={"task_or_folder_" + (i + 1)}>{el.type}: - {el.title}</option>
+                <option value={el.type + "-" + el.id} key={"task_or_folder_" + (i + 1)}>{el.type}: {el.title}</option>
               )
             })}
           </Select>
@@ -172,6 +210,15 @@ export default class DocumentModal extends React.Component {
     var modalTitle = element && element.id ? "Update Document" : "New Document";
     var documentTitle = element && element.id && element.title;
     var submitText = element && element.id ? "Update" : "Create"
+    var displayedTitleErrors = Util.getDisplayedErrorMessage("title", this.state.clientErrors, this.state.serverErrors);
+    var displayedFileErrors = Util.getDisplayedErrorMessage("file", this.state.clientErrors, this.state.serverErrors);
+    var serverMessage;
+
+    if (this.state.serverMessage) {
+      serverMessage = (
+        <div className="alert alert-danger">{this.state.serverMessage}</div>
+      );
+    }
 
   	return (
       <Modal show={this.props.showDocumentModal} onHide={this.props.closeDocumentModal} dialogClassName="new-question-modal">
@@ -181,9 +228,11 @@ export default class DocumentModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} ref="document_form">
+            {serverMessage}
             <div className="form-group">
               <label htmlFor="input-document-title">File Name</label>
+              {displayedTitleErrors}
               <input type="text" ref="document_title" required defaultValue={documentTitle} placeholder="Give your document a title" className="form-control" id="input-file-title" name="document_title" />
             </div>
             {availableTasksAndFolders}
@@ -193,6 +242,7 @@ export default class DocumentModal extends React.Component {
             {this.renderSignatoriesInput()}
             <div className="form-group file-input-group">
               <label>Upload</label>
+              {displayedFileErrors}
               <a className="file-input-wrapper btn btn-fileinput file-inputs" onClick={this.showDialog}>
                 <span><i className="icon-icon-uploadcloud"></i> Choose a File</span>
                 <input style={{left: "-11008.5px", top: "18.4px"}} ref="file" className="file-inputs" name="file_name" title="<i class='icon-icon-uploadcloud'></i> Choose a File" data-filename-placement="inside" type="file" />
@@ -202,7 +252,7 @@ export default class DocumentModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <button type="button" className="btn btn-default pull-left" onClick={this.props.closeDocumentModal}>Cancel</button>
-          <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>{submitText}</button>
+          <button type="button" disabled={this.state.isSaving} className="btn btn-primary" onClick={this.handleSubmit}>{submitText}</button>
         </Modal.Footer>
       </Modal>
   	);
