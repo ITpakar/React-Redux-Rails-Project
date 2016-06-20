@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
 import DealSizeGraph from "../components/ReportView/DealSizeGraph"
 import {loadDealsBySize} from "../actions/doxlyActions";
-import Util from "../utils/app_util";
+import Util from "../utils/util";
 
 class DealsBySizeReport extends React.Component {
   constructor(props, context) {
@@ -35,7 +35,6 @@ class DealsBySizeReport extends React.Component {
   }
 
   render() {
-    console.log("Line 38 ", this.props.data);
     if (!this.props.data) {
       return (<div className="is-loading">Loading, please wait...</div>);
     } else {

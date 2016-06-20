@@ -120,7 +120,6 @@ export default class CategoryView extends React.Component {
   }
 
   closeFolderModal() {
-    console.log("Line 118 ");
     this.setState({showFolderModal: false, parentElement: undefined});
   }
 

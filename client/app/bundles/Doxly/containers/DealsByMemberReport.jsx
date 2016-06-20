@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
 import DealMember from "../components/ReportView/DealMember"
 import {loadDealsByMember} from "../actions/doxlyActions";
-import Util from "../utils/app_util";
 
 class DealsByMemberReport extends React.Component {
   constructor(props, context) {
