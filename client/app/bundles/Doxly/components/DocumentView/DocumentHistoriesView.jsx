@@ -18,7 +18,7 @@ export default class DocumentHistoriesView extends React.Component {
 
   changeVersion() {
     var val = 1*$(ReactDOM.findDOMNode(this.refs.versionIndex)).find("select").val();
-console.log("Line 21 ", val, this.val);
+
     // FIXME: onChange of Select is executed twice, probably because of react-bootstrap-select.
     if (val !== this.val) {
       this.val = val;
@@ -99,13 +99,20 @@ console.log("Line 21 ", val, this.val);
           );
         }
 
+        var signedCount;
+        if (doc.signers_count) {
+          signedCount = (
+            <span className="badge-signed signed">{doc.signed_count}/{doc.signers_count} signed</span>
+          );
+        }
+
         toolbox = (
           <div className="file-viewer__toolbox">
               <div className="toolbox-left">
                   <a href="#" className="file-viewer__close"><i className="icon-icon-close"></i></a>
                   <div className="file-viewer__title">
                       <div className="title">
-                          {docVersion.name} <span className="badge-signed signed">3/3 signed</span>
+                          {doc.title} {signedCount}
                       </div>
                       <div className="meta">
                           V{selectedIndex + 1} Uploaded {Util.formatDate(docVersion.created_at, "MM/DD/YYYY")} at {Util.formatDate(docVersion.created_at, "HH:MM A")} {uploadedBy}
