@@ -9,7 +9,7 @@ export default class CategoryElementDetails extends React.Component {
       showDescription: true
     };
 
-    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement"]);
+    _.bindAll(this, ["toggleDescription", "editElement", "deleteElement", "createVersion", 'sendToDocusign']);
   }
 
   toggleDescription(event) {
@@ -30,9 +30,26 @@ export default class CategoryElementDetails extends React.Component {
     this.props.deleteElement(this.props.element);
   }
 
+  createVersion(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.props.openVersionModal();
+  }
+
+  sendToDocusign(event) {
+    event.preventDefault();
+    console.log('yo');
+    $.post(`/api/documents/${this.props.element.id}/send_to_docusign`, function(resp) {
+      console.log(resp);
+    })
+  }
+
   render() {
     var element = this.props.element;
     var description;
+    var uploadNewVersion;
 
     if (element.description) {
       description = (
@@ -40,18 +57,25 @@ export default class CategoryElementDetails extends React.Component {
       )
     } else if (element.type == "Document") {
       description = (
-        <dl className="dl-horizontal">
-          <dt>File name</dt>
-          <dd>{element.file_name}</dd>
-          <dt>File size</dt>
-          <dd>{element.file_size}</dd>
-          <dt>File type</dt>
-          <dd>{element.file_type}</dd>
-        </dl>
+        <div>
+          <div className="ico-document">
+              <div className={classnames({'badge-signed': true, "signed": element.signers_count == element.signed_count, "hidden": element.signers_count == 0})}>
+                {element.signed_count}/{element.signers_count} signed
+              </div>
+          </div>
+
+          <div className="buttons">
+            <a href={"/app/documents/" + element.id} className="btn btn-link">View</a>
+            <a href={element.download_url} className="btn btn-link">Download</a>
+          </div>
+        </div>
       )
+      uploadNewVersion = (
+        <li>
+          <a href="#" onClick={this.createVersion}>Upload New Version</a>
+        </li>
+      );
     }
-
-
 
   	return (
       <div className="deal-task-details">
@@ -60,11 +84,15 @@ export default class CategoryElementDetails extends React.Component {
             <div className="dropdown">
               <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
               <ul className="dropdown-menu">
+                {uploadNewVersion}
                 <li>
                   <a href="#" onClick={this.editElement}>Edit {element.type}</a>
                 </li>
                 <li>
                   <a href="#" onClick={this.deleteElement}>Delete {element.type}</a>
+                </li>
+                <li>
+                  <a href="#" className={classnames({'hidden': element.type != "Document" || element.signers_count == 0})} onClick={this.sendToDocusign}>Send To Docusign</a>
                 </li>
               </ul>
           </div>

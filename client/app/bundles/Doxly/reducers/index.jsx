@@ -8,6 +8,7 @@ import dealsReducer from './dealsReducer';
 import sectionsReducer from "./sectionsReducer";
 import dealCollaboratorsReducer from "./dealCollaboratorsReducer";
 import reportReducer from "./reportReducer";
+import documentReducer from "./documentReducer";
 import { initialState as userState } from './userReducer';
 
 export default {
@@ -17,7 +18,8 @@ export default {
   dealsStore: dealsReducer,
   sectionsStore: sectionsReducer,
   dealCollaboratorsStore: dealCollaboratorsReducer,
-  reportStore: reportReducer
+  reportStore: reportReducer,
+  documentStore: documentReducer
 };
 
 export const initialStates = {

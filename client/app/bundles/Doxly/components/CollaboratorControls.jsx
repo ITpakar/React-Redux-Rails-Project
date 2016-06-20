@@ -32,7 +32,6 @@ class CollaboratorControls extends React.Component {
     request
       .get(url)
       .then((res) => {
-        console.log(res.data.data.collaborators);
         this.props.setCollaborators(res.data.data.collaborators);
         this.forceUpdate();
       });

@@ -21,7 +21,7 @@ export default class Deal extends React.Component {
             console.log(collaborator);
             return (
               <a href="#" className="avatar" key={i}>
-                <img src={collaborator.avatar_name} />
+                <img src={collaborator.avatar} />
               </a>
             );
           })}

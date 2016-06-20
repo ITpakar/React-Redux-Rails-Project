@@ -14,7 +14,7 @@ class DealDocument < ApplicationRecord
     self.deal_id ||= self.traverse_up_to(Deal).try(:id)
   end
 
-  def to_hash(box_client = nil)
+  def to_hash
     data = {
       id:                self.id,
       deal_id:           self.deal_id,
@@ -23,14 +23,12 @@ class DealDocument < ApplicationRecord
       documentable_type: self.documentable_type
     }
 
-    if box_client.present? && self.box_file_id.present?
-      box_file = box_client.file_from_id(self.box_file_id)
-      data[:url] = box_client.download_url(box_file)
-    end
-
     data[:versions] = []
-    self.versions.each do |version|
-      data[:versions] << version.to_hash(box_client)
+    self.versions.order('created_at ASC').each do |version|
+      v_data = version.to_hash
+      data[:versions] << v_data
+      data[:url] = v_data[:url]
+      data[:download_url] = v_data[:download_url]
     end
 
     return data

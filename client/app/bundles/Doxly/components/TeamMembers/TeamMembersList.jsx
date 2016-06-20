@@ -8,7 +8,7 @@ export default class TeamMembersList extends React.Component {
   	      <div className="team">
   	          <div className="team-member-item">
   	              <a href={teamMember['url']}>
-                      <Avatar url={teamMember['avatar_name']} initials={teamMember['initials']} />
+                      <Avatar url={teamMember['avatar']} initials={teamMember['initials']} />
   	                  <h4>{teamMember['name']}</h4>
   	                  <span>{teamMember['email']}</span>
   	              </a>

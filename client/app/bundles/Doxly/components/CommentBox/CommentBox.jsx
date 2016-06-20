@@ -17,7 +17,7 @@ class CommentBox extends Component {
   }
 
   componentDidMount() {
-    
+
     // Fetch all comments from the backend
     this._fetchComments(this.props.element);
     this._fetchCollaborators();
@@ -36,11 +36,10 @@ class CommentBox extends Component {
 
   _receivedMessage = (data) => {
     this.props.addComment(data);
-    this.forceUpdate(); 
+    this.forceUpdate();
   }
 
   _fetchComments = (element) => {
-    console.log(element);
     request
       .get('/api/comments?commentable_id=' + element.id + '&commentable_type=' + element.type)
       .then((res) => {
@@ -60,7 +59,7 @@ class CommentBox extends Component {
 
   _subscribeToChannel() {
     App.room = App.cable.subscriptions.create("RoomChannel", {
-      connected: () => {},  
+      connected: () => {},
       disconnected: () => {},
       received: (data) => {
         this._receivedMessage(data);
@@ -79,14 +78,23 @@ class CommentBox extends Component {
   }
   render() {
     const {comments, collaborators} = this.props;
-    return (
-      <div className="chat-box chat-box-small">
+    var hideChatboxToggle = this.props.hideChatboxToggle;
+    var chatboxToggle;
+
+    if (!hideChatboxToggle) {
+      chatboxToggle = (
         <div className="chat-box-toggle">
             <div className="btn-group">
                 <a className="btn toggle-active" href="#deal-chat-1-internal">Internal Chat</a>
                 <a className="btn" href="#deal-chat-1-external">External Chat</a>
             </div>
         </div>
+      );
+    }
+    
+    return (
+      <div className="chat-box chat-box-small">
+        {chatboxToggle}
         <div className="chat-box-details">
           <div className="chat-box-details__instance internal toggle-active" id="deal-chat-1-internal">
             <div className="chat-box__recipients">
@@ -94,21 +102,21 @@ class CommentBox extends Component {
                     <div className="recipients-items">
                     {
                       collaborators.map((collaborator, index) => (
-                        <a href="#" className="avatar" key={index}><img src={collaborator.avatar_name}/></a>
+                        <a href="#" className="avatar" key={index}><img src={collaborator.avatar}/></a>
                       ))
-                    }   
+                    }
                     </div>
-                    <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
+                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
             <CommentList
               comments={comments.filter(this._internalTypeCommentsFilter)} user_id={this.props.user_id}
             />
-            <CommentForm 
+            <CommentForm
               commentType="Internal" element={this.props.element} user_id={this.props.user_id}
             />
           </div>
-          
+
           <div className="chat-box-details__instance external" id="deal-chat-1-external">
             <div className="chat-box__recipients">
                 <div className="chat-box__recipients-wrapper">
@@ -116,14 +124,14 @@ class CommentBox extends Component {
                         <a href="#" className="avatar"><img src="/assets/img-avatar-2.png"/></a>
                         <a href="#" className="avatar"><img src="/assets/img-avatar-3.png"/></a>
                     </div>
-                    <a href="#" className="recipient-add"><i className="icon-icon-plus-circle"></i></a>
+                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
                 </div>
             </div>
             <CommentList
               comments={comments.filter(this._externalTypeCommentsFilter)} user_id={this.props.user_id}
             />
-            
-            <CommentForm 
+
+            <CommentForm
               commentType="External" element={this.props.element} user_id={this.props.user_id}
             />
           </div>

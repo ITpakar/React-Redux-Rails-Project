@@ -69,5 +69,5 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
 
   # Allow request origin for localhost on dev
-  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:5000']
+  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:5000', "http://lvh.me:5000", "http://lvh.me:3000"]
 end

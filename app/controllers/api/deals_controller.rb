@@ -170,18 +170,18 @@ class Api::DealsController < ApplicationController
     by = params[:by].try(:downcase)
     by = "size" unless ["member", "size", "type"].include?(by)
 
-
-    start_of_month = Time.now.beginning_of_month
+    now = Time.now
+    start_of_month = now.beginning_of_month
     scope = Deal.where(:activated => true)
 
     if time == "1_month"
       start_time = start_of_month - 1.month
-      end_time = start_time.end_of_month
+      end_time = (start_time + 1.month).end_of_month
     elsif time == "3_months"
-      start_time = start_of_month - 3.months
+      start_time = start_of_month - 2.months
       end_time = (start_time + 2.months).end_of_month
     else
-      start_time = start_of_month - 6.months
+      start_time = start_of_month - 5.months
       end_time = (start_time + 5.months).end_of_month
     end
 

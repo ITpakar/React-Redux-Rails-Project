@@ -11,6 +11,7 @@ import SectionModal from "./SectionModal";
 import DocumentModal from "./DocumentModal";
 import CommentBox from "../CommentBox/CommentBox";
 import ConfirmModal from "../ConfirmModal";
+import VersionUploadModal from "../DocumentView/VersionUploadModal";
 import _ from "lodash";
 
 // Props
@@ -37,6 +38,7 @@ export default class CategoryView extends React.Component {
       showTaskModal: false,
       showSectionModal: false,
       showConfirmModal: false,
+      showVersionModal: false,
       parentElement: undefined,
       element: undefined
     }
@@ -48,11 +50,13 @@ export default class CategoryView extends React.Component {
                      "openSectionModal",
                      "openDocumentModal",
                      "openConfirmModal",
+                     "openVersionModal",
                      "closeFolderModal",
                      "closeTaskModal",
                      "closeSectionModal",
                      "closeDocumentModal",
                      "closeConfirmModal",
+                     "closeVersionModal",
                      "editElement",
                      "getChildElementsOf",
                      "doConfirm",
@@ -151,6 +155,14 @@ export default class CategoryView extends React.Component {
     this.setState({showConfirmModal: false, confirmElement: undefined});
   }
 
+  openVersionModal() {
+    this.setState({showVersionModal: true});
+  }
+
+  closeVersionModal() {
+    this.setState({showVersionModal: false});
+  }
+
   editElement(element) {
     if (element.type == "Task") {
       this.openTaskModal(undefined, element);
@@ -222,7 +234,10 @@ export default class CategoryView extends React.Component {
     var selectedElementComments;
     if (this.state.selectedElement) {
       selectedElementDetails = (
-        <CategoryElementDetails element={this.state.selectedElement} editElement={this.editElement} deleteElement={this.openConfirmModal} />
+        <CategoryElementDetails element={this.state.selectedElement}
+                                editElement={this.editElement}
+                                deleteElement={this.openConfirmModal}
+                                openVersionModal={this.openVersionModal} />
       );
       selectedElementComments = (
         <CommentBox user_id={this.props.user_id} element={this.state.selectedElement} deal_id={this.props.deal_id} />
@@ -346,10 +361,13 @@ export default class CategoryView extends React.Component {
                             updateDocument={this.props.updateDocument}
                             closeDocumentModal={this.closeDocumentModal}
                             showDocumentModal={this.state.showDocumentModal} />
-                          <ConfirmModal showConfirmModal={this.state.showConfirmModal}
-                                        closeConfirmModal={this.closeConfirmModal}
-                                        doConfirm={this.doConfirm}
-                                        dontConfirm={this.dontConfirm} />
+          <ConfirmModal showConfirmModal={this.state.showConfirmModal}
+                        closeConfirmModal={this.closeConfirmModal}
+                        doConfirm={this.doConfirm}
+                        dontConfirm={this.dontConfirm} />
+          <VersionUploadModal showVersionModal={this.state.showVersionModal}
+                              closeVersionModal={this.closeVersionModal}
+                              createVersion={this.props.createVersion} />
         </div>
     )
   }
