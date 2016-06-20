@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: 'dashboard#index'
     get "/settings", to: "dashboard#settings"
     put "/settings", to: "dashboard#save_settings"
-    get "/report", to: "dashboard#report"
+    get "/report", to: "reports#show"
 
     match "/docusign_hook/", to: "docusign_webhook#update", as: :docusign_webhook, via: [:get, :post]
 

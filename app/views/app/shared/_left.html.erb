@@ -17,8 +17,10 @@
          <%= link_to app_deals_path do %>
             <i class="icon-icon-document"></i> Deals
           <% end %>
-      <li>
-        <a href="/app/report"><i class="icon-icon-barchart"></i> Report</a>
+      <li class="<%= 'active' if controller_name == 'reports' %>">
+        <%= link_to app_report_path do %>
+          <i class="icon-icon-barchart"></i> Report
+        <% end %>
       </li>
       <li class="<%= 'active' if controller_name == 'team_members' %>">
         <%= link_to app_team_members_path do %>
