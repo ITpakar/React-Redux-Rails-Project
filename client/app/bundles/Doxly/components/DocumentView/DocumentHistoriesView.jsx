@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from "react-dom";
+import Select from 'react-bootstrap-select';
 import _ from "lodash";
 import FileViewer from "./FileViewer";
 import ChangesView from "./ChangesView";
@@ -15,8 +17,13 @@ export default class DocumentHistoriesView extends React.Component {
   }
 
   changeVersion() {
-    var val = 1*$(this.refs.versionIndex).val();
-    this.setState({versionIndex: val});
+    var val = 1*$(ReactDOM.findDOMNode(this.refs.versionIndex)).find("select").val();
+console.log("Line 21 ", val, this.val);
+    // FIXME: onChange of Select is executed twice, probably because of react-bootstrap-select.
+    if (val !== this.val) {
+      this.val = val;
+      this.setState({versionIndex: val});
+    }
   }
 
   getSelectedIndex() {
@@ -130,9 +137,9 @@ export default class DocumentHistoriesView extends React.Component {
                   <div className="version-select">
                       <form>
                           <div className="form-group optional">
-                              <select name="file_vestion" ref="versionIndex" value={selectedIndex} className="form-control custom-select" onChange={this.changeVersion}>
+                              <Select name="file_vestion" ref="versionIndex" value={selectedIndex} className="show-tick" onChange={this.changeVersion}>
                                   {versionOptions}
-                              </select>
+                              </Select>
                           </div>
                       </form>
                   </div>

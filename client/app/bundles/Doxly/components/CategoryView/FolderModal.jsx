@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
+import ReactDOM from "react-dom";
+import Select from 'react-bootstrap-select';
 
 export default class FolderModal extends React.Component {
   constructor(props, context) {
@@ -17,7 +19,7 @@ export default class FolderModal extends React.Component {
     var element = this.props.element;
 
     folderAttrs.name = $.trim($(this.refs.folder_name).val());
-    folderAttrs.task_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_id).val());
+    folderAttrs.task_id = this.props.parentElement && this.props.parentElement.id || $.trim($(ReactDOM.findDOMNode(this.refs.task_id)).find("select").val());
 
     if (folderAttrs.name && folderAttrs.task_id) {
       if (element && element.id) {
@@ -41,14 +43,14 @@ export default class FolderModal extends React.Component {
       availableTasks = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task</label>
-          <select name="task" ref="task_id" defaultValue={taskId} className="form-control custom-select">
+          <Select name="task" ref="task_id" defaultValue={taskId} className="show-tick">
             <option>Select a Task</option>
             {this.props.tasks.map(function(task) {
               return (
                 <option value={task.id} key={"task_" + task.id}>{task.title}</option>
               )
             })}
-          </select>
+          </Select>
         </div>
       );
     }

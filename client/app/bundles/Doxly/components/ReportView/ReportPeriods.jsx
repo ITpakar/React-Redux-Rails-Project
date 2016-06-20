@@ -14,8 +14,12 @@ export default class DealTypeGraph extends React.Component {
   changePeriod() {
     var val = $(ReactDOM.findDOMNode(this.refs.period)).find("select").val();
 
-    this.setState({value: val});
-    this.props.changePeriod(val);
+    // FIXME: Not sure why the changePeriod is executed twice, probably because of react-bootstrap-select.
+    if (val != this.oldVal) {
+      this.oldVal = val;
+      this.setState({value: val});
+      this.props.changePeriod(val);
+    }
   }
 
   render() {
