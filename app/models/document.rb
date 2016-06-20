@@ -66,7 +66,7 @@ class Document < ApplicationRecord
   def send_to_docusign
     # First we need to download the file from Box, we'll store it in /tmp
     puts "Downloading file"
-    url = self.deal_documents.first.download_url
+    url = self.deal_documents.first.versions.last.download_url
     file_name = /([^\/]+?)$/.match(url).captures.try(:[], 0)
 
     file_path = Rails.root.join('tmp', "#{file_name}");
