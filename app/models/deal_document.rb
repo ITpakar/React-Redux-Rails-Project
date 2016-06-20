@@ -33,4 +33,11 @@ class DealDocument < ApplicationRecord
 
     return data
   end
+
+  def upcoming_version
+    self.versions.order('created_at DESC').each do |version|
+      return (version.name.to_f + 1).to_s
+    end
+    '1.0'
+  end
 end

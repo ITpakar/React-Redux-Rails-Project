@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: 'dashboard#index'
     get "/settings", to: "dashboard#settings"
     put "/settings", to: "dashboard#save_settings"
+    get "/report", to: "reports#show"
 
     match "/docusign_hook/", to: "docusign_webhook#update", as: :docusign_webhook, via: [:get, :post]
 
@@ -45,6 +46,10 @@ Rails.application.routes.draw do
     end
     get    '/deals/starred_deals', to: 'starred_deals#starred_deals'
     resources :deals do
+      collection do
+        get :summary
+      end
+
       resources :deal_collaborators, only: [:create, :index, :destroy] do
         collection do
           get 'find', to: 'deal_collaborators#find'

@@ -14,6 +14,7 @@ import DealStar from './DealStar';
 import StarredDealList from './StarredDealList';
 import ArchiveDealButton from '../components/ArchiveDealButton';
 import DealApp from './DealApp';
+import ReportApp from './ReportApp';
 import DocumentShowApp from './DocumentShowApp';
 import TeamMembersView from '../components/TeamMembers/TeamMembersView';
 
@@ -27,6 +28,7 @@ ReactOnRails.register({DealView,
                        StarredDealList,
                        ArchiveDealButton,
                        DealApp,
+                       ReportApp,
                        DocumentShowApp,
                    	   TeamMembersView});
 
