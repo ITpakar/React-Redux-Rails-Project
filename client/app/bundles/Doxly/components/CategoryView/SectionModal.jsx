@@ -54,7 +54,7 @@ export default class SectionModal extends React.Component {
         });
       }
     } else {
-      this.setState({clientErrors: {name: "Name can't be blank"}});
+      this.setState({clientErrors: {name: "can't be blank"}});
     }
   }
 
