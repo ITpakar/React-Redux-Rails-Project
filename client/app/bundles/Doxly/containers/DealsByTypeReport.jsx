@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import {connect} from "react-redux";
 import DealTypeGraph from "../components/ReportView/DealTypeGraph"
 import {loadDealsByType} from "../actions/doxlyActions";
-import Util from "../utils/app_util";
+import Util from "../utils/util";
 
 class DealsByTypeReport extends React.Component {
   constructor(props, context) {
