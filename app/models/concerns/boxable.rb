@@ -3,8 +3,13 @@ module Boxable
   
   # Get Enterprise Box Client
   def box_enterprise_client
+    if Rails.env.development?
+      private_key = ENV['JWT_PRIVATE_KEY']
+    else
+      private_key = OpenSSL::PKey::RSA.new(YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n)), ENV['JWT_PRIVATE_KEY_PASSWORD'])
+    end
     # Get Box enterprise token
-    token = Boxr::get_enterprise_token
+    token = Boxr::get_enterprise_token(private_key: private_key)
 
     # Get Box enterprise client
     Boxr::Client.new(token.access_token)
@@ -12,7 +17,12 @@ module Boxable
 
   # Get Box Client
   def box_user_client(box_user_id)
-    token = Boxr::get_user_token(box_user_id.to_s)
+    if Rails.env.development?
+      private_key = ENV['JWT_PRIVATE_KEY']
+    else
+      private_key = YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n))
+    end
+    token = Boxr::get_user_token(box_user_id.to_s, private_key: private_key, private_key_password: ENV['JWT_PRIVATE_KEY_PASSWORD'])
     Boxr::Client.new(token.access_token)
   end
 
