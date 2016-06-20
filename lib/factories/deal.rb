@@ -25,5 +25,11 @@ FactoryGirl.define do
 
       end
     end
+
+    trait :from_the_past do
+      after(:create) do |instance, evaluator|
+        instance.update_attributes(created_at: [1, 2, 3, 4, 5, 6].sample.month.ago)
+      end
+    end
   end
 end

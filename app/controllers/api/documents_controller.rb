@@ -163,7 +163,7 @@ class Api::DocumentsController < ApplicationController
     @document.created_by = current_user.organization_user.id
     if @document.save
       @document.create_signers!(params["document"]["signers"].values) if params["document"]["signers"]
-      @document.upload_to_box(file, current_user)
+      @document.upload_file(file, current_user.organization_user)
       success_response(["Document created successfully."])
     else
       error_response(@document.errors)
@@ -207,7 +207,7 @@ class Api::DocumentsController < ApplicationController
       file_name = version_params[:file].original_filename
       name = version_params[:name] || File.basename(file_name)
 
-      @document.upload_to_box(version_params[:file], current_user, version_params[:name])
+      @document.upload_file(version_params[:file], current_user.organization_user)
       success_response({
         document: @document.to_hash
       })

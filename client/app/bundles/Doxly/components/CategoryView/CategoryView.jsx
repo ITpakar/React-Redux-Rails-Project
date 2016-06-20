@@ -57,6 +57,7 @@ export default class CategoryView extends React.Component {
                      "closeDocumentModal",
                      "closeConfirmModal",
                      "closeVersionModal",
+                     "createVersion",
                      "editElement",
                      "getChildElementsOf",
                      "doConfirm",
@@ -119,7 +120,6 @@ export default class CategoryView extends React.Component {
   }
 
   closeFolderModal() {
-    console.log("Line 118 ");
     this.setState({showFolderModal: false, parentElement: undefined});
   }
 
@@ -191,6 +191,10 @@ export default class CategoryView extends React.Component {
 
   dontConfirm() {
     this.closeConfirmModal();
+  }
+
+  createVersion(formData, successCallback, errorCallback) {
+    this.props.createVersion(this.state.selectedElement.id, formData, successCallback, errorCallback)
   }
 
   renderPopover() {
@@ -367,7 +371,7 @@ export default class CategoryView extends React.Component {
                         dontConfirm={this.dontConfirm} />
           <VersionUploadModal showVersionModal={this.state.showVersionModal}
                               closeVersionModal={this.closeVersionModal}
-                              createVersion={this.props.createVersion} />
+                              createVersion={this.createVersion} />
         </div>
     )
   }

@@ -1,5 +1,6 @@
 import actionTypes from '../constants';
 import {doLoadCategorySectionsTree, doLoadDealCollaborators} from "../utils/api";
+import {doLoadDealsByType, doLoadDealsByMember, doLoadDealsBySize} from "../utils/api";
 import {doLoadDocument, doCreateVersion} from "../utils/api";
 
 export function starDeal(id, title, url) {
@@ -89,12 +90,51 @@ export function updateTask(taskId, attrs) {
   }
 }
 
+export function loadDealsByType(period) {
+  var requestType = actionTypes.REQUESTS.LOAD_DEALS_BY_TYPE;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadDealsByType(period).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
 export function loadDocument(documentId) {
   var requestType = actionTypes.REQUESTS.LOAD_DOCUMENT;
 
   return function(dispatch) {
     dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
     return doLoadDocument(documentId).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function loadDealsByMember(period) {
+  var requestType = actionTypes.REQUESTS.LOAD_DEALS_BY_MEMBER;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadDealsByMember(period).then(function(responseData, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
+    }, function(xhr, responseStatus) {
+      dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));
+    })
+  }
+}
+
+export function loadDealsBySize(period) {
+  var requestType = actionTypes.REQUESTS.LOAD_DEALS_BY_SIZE;
+
+  return function(dispatch) {
+    dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.LOADING));
+    return doLoadDealsBySize(period).then(function(responseData, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, responseData, responseStatus));
     }, function(xhr, responseStatus) {
       dispatch(setRequestStatus(requestType, actionTypes.REQUESTS.FINISH_LOADING, xhr.responseJSON, responseStatus));

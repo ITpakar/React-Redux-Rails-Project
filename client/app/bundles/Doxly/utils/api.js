@@ -55,6 +55,18 @@ export function doUpdateTask(taskId, attrs) {
   return submitRequest("/api/tasks/" + taskId, "put", {task: attrs});
 }
 
+export function doLoadDealsByType(period) {
+  return submitRequest("/api/deals/summary", "get", {time: period, by: "type"});
+}
+
+export function doLoadDealsByMember(period) {
+  return submitRequest("/api/deals/summary", "get", {time: period, by: "member"});
+}
+
+export function doLoadDealsBySize(period) {
+  return submitRequest("/api/deals/summary", "get", {time: period, by: "size"});
+}
+
 export function doUpdateSection(dealId, sectionId, attrs) {
   return submitRequest("/api/deals/" + dealId + "/sections/" + sectionId, "put", {section: attrs});
 }

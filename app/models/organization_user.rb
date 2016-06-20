@@ -1,5 +1,6 @@
 class OrganizationUser < ActiveRecord::Base
   include DealOwner
+  include Boxable
 
   TYPES = ["Internal", "External"]
 
@@ -46,6 +47,10 @@ class OrganizationUser < ActiveRecord::Base
     ).first
 
     return !deal_collaborator.blank?
+  end
+
+  def to_s
+    self.user.email
   end
 
   # Metaprogramming for the to find the correct STI classes

@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
+import ReactDOM from "react-dom";
+import Select from 'react-bootstrap-select';
 
 export default class TaskModal extends React.Component {
   constructor(props, context) {
@@ -18,8 +20,8 @@ export default class TaskModal extends React.Component {
 
     taskAttrs.title = $.trim($(this.refs.task_title).val());
     taskAttrs.description = $.trim($(this.refs.task_description).val());
-    taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || $.trim($(this.refs.task_section).val());
-    taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || $.trim($(this.refs.task_assignee).val());
+    taskAttrs.section_id = this.props.parentElement && this.props.parentElement.id || $.trim($(ReactDOM.findDOMNode(this.refs.task_section)).find("select").val());
+    taskAttrs.assignee_id = this.props.assignee && this.props.assignee.organization_user_id || $.trim($(ReactDOM.findDOMNode(this.refs.task_assignee)).find("select").val());
 
     if (taskAttrs.title && taskAttrs.section_id) {
       if (element && element.id) {
@@ -42,14 +44,14 @@ export default class TaskModal extends React.Component {
       availableSections = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Section</label>
-          <select name="task_section" ref="task_section" defaultValue={selected} className="form-control show-tick">
+          <Select name="task_section" ref="task_section" defaultValue={selected} className="show-tick">
             <option>Select a Section</option>
             {this.props.sections.map(function(section) {
               return (
                 <option value={section.id} key={"section_" + section.id}>{section.title}</option>
               )
             })}
-          </select>
+          </Select>
         </div>
       );
     }
@@ -60,14 +62,14 @@ export default class TaskModal extends React.Component {
       assignees = (
         <div className="form-group optional">
           <label htmlFor="input-task-assignee">Add an Assignee</label>
-          <select name="task_assignee" ref="task_assignee" defaultValue={selected} className="form-control show-tick">
+          <Select name="task_assignee" ref="task_assignee" defaultValue={selected} className="show-tick">
             <option>Select a Team Member</option>
             {this.props.assignees.map(function(assignee) {
               return (
                 <option value={assignee.organization_user_id} key={"assignee_" + assignee.id}>{assignee.first_name} {assignee.last_name}</option>
               );
             })}
-          </select>
+          </Select>
         </div>
       );
     }

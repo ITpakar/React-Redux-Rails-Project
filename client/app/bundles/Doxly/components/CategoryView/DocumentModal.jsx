@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
+import ReactDOM from "react-dom";
+import Select from 'react-bootstrap-select';
 
 export default class DocumentModal extends React.Component {
   constructor(props, context) {
@@ -46,7 +48,7 @@ export default class DocumentModal extends React.Component {
       documentable_type = this.props.parentElement.type;
       documentable_id = this.props.parentElement.id;
     } else {
-      let documentable = $.trim($(this.refs.parent_id).val());
+      let documentable = $.trim($(ReactDOM.findDOMNode(this.refs.parent_id)).find("select").val());
       let tmp = documentable.split("-");
 
       documentable_type = tmp[0];
@@ -155,14 +157,14 @@ export default class DocumentModal extends React.Component {
       availableTasksAndFolders = (
         <div className="form-group optional">
           <label htmlFor="input-task-section">Add to Task or Folder</label>
-          <select name="task" ref="parent_id" defaultValue={parentId} className="form-control show-tick">
+          <Select name="task" ref="parent_id" defaultValue={parentId} className="show-tick">
             <option>Select a Task or Folder</option>
             {this.props.parents.map(function(el, i) {
               return (
                 <option value={el.type + "-" + el.id} key={"task_or_folder_" + (i + 1)}>{el.type}: - {el.title}</option>
               )
             })}
-          </select>
+          </Select>
         </div>
       );
     }

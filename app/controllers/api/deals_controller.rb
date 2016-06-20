@@ -4,11 +4,11 @@ class Api::DealsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_organization_member!, only: [:create]
   before_action :authenticate_org_deal_admin!, only: [:update, :destroy]
-  
+
   before_action only: [:show] do
     authorize! :update, @deal
   end
-  
+
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_deal, only: [:update, :destroy, :show, :collaborators]
 
@@ -116,7 +116,7 @@ class Api::DealsController < ApplicationController
 
   def update
     if @deal.update(deal_params)
-      if params[:deal][:collaborators] 
+      if params[:deal][:collaborators]
         params[:deal][:collaborators].each do |i, collaborator|
           user = User.find_by_id(collaborator[:id]) || User.find_by_email(collaborator[:id])
           if user.present?
@@ -128,7 +128,6 @@ class Api::DealsController < ApplicationController
         end
         @deal.clear_collaborators(params[:deal][:collaborators].map { |key, value| value[:id] })
       end
-      
       success_response(
       {
         deal: @deal.to_hash,
@@ -163,6 +162,83 @@ class Api::DealsController < ApplicationController
         deals: @collaborators.map(&:to_hash)
       }
     )
+  end
+
+  def summary
+    time = params[:time].try(:downcase)
+    time = "6_months" unless ["6_months", "3_months", "1_month"].include?(time)
+    by = params[:by].try(:downcase)
+    by = "size" unless ["member", "size", "type"].include?(by)
+
+    now = Time.now
+    start_of_month = now.beginning_of_month
+    scope = Deal.where(:activated => true)
+
+    if time == "1_month"
+      start_time = start_of_month - 1.month
+      end_time = (start_time + 1.month).end_of_month
+    elsif time == "3_months"
+      start_time = start_of_month - 2.months
+      end_time = (start_time + 2.months).end_of_month
+    else
+      start_time = start_of_month - 5.months
+      end_time = (start_time + 5.months).end_of_month
+    end
+
+    scope = scope.where("deals.created_at BETWEEN ? AND ?", start_time, end_time)
+    if by == "size"
+      if time == "1_month"
+        scope = scope.group("1, 2")
+                     .select("deal_size, TO_CHAR(deals.created_at, 'YYYY-MM-DD') AS date, COUNT(*) AS count")
+      else
+        scope = scope.group("1, 2")
+                     .select("deal_size, TO_CHAR(deals.created_at, 'YYYY-MM') AS date, COUNT(*) AS count")
+      end
+    elsif by == "type"
+      if time == "1_month"
+        scope = scope.group("1, 2")
+                     .select("transaction_type, TO_CHAR(deals.created_at, 'YYYY-MM-DD') AS date, COUNT(*) as count")
+      else
+        scope = scope.group("1, 2")
+                     .select("transaction_type, TO_CHAR(deals.created_at, 'YYYY-MM') AS date, COUNT(*) as count")
+      end
+    else
+      scope = scope.joins(:organization_user)
+                   .group(:user_id)
+                   .select("user_id, COUNT(*) as count")
+    end
+
+    json = {}
+    json[:results] = scope.as_json(:except => [:id])
+
+    if by == "size"
+      json[:sizes] = json[:results].collect{|h| h["deal_size"]}
+    elsif by == "type"
+      json[:types] = Deal::TRANSACTION_TYPES
+    else
+      json[:members] = []
+      json[:results].collect{|h|
+        user = User.find(h["user_id"])
+        json[:members].push(user.to_hash)
+      }
+    end
+
+    unless by == "member"
+      group_values = []
+      if time == "1_month"
+        group_values = (start_time.to_date..end_time.to_date).to_a.collect{|d| d.strftime("%Y-%m-%d")}
+      else
+        i = 0
+        begin
+          d = start_time + i.month
+          group_values.push(d.strftime("%Y-%m"))
+          i += 1
+        end while d < (end_time - 1.month)
+      end
+
+      json[:group_values] = group_values
+    end
+    success_response(json)
   end
 
   private
