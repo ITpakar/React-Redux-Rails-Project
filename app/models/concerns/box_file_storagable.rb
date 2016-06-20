@@ -1,4 +1,4 @@
-module Boxedable
+module BoxFileStoragable
   extend ActiveSupport::Concern
 
   def upload_to_box(local_path, folders, boxable)

@@ -1,4 +1,4 @@
-module Boxable
+module BoxStorable
   extend ActiveSupport::Concern
   
   # Get Enterprise Box Client
