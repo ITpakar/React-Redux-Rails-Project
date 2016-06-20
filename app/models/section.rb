@@ -22,7 +22,8 @@ class Section < ApplicationRecord
       section_id:  self.id,
       name:        self.name,
       category_id: self.category_id,
-      activated:   self.activated
+      activated:   self.activated,
+      tasks:       self.tasks.map(&:to_hash)
     }
 
     if self.deal_id

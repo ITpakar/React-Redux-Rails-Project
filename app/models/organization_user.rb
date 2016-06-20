@@ -53,6 +53,10 @@ class OrganizationUser < ActiveRecord::Base
     self.user.email
   end
 
+  def to_hash
+    return self.attributes
+  end
+
   # Metaprogramming for the to find the correct STI classes
   class << self
     def find_sti_class(type_name)

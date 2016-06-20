@@ -78,7 +78,9 @@ class Task < ApplicationRecord
       description:  self.description,
       status:       self.status,
       section_id:   self.section_id,
-      due_date:     self.due_date
+      due_date:     self.due_date,
+      folders:      self.folders.map(&:to_hash),
+      documents:    self.documents.distinct.map(&:to_hash)
     }
 
     if self.organization_user

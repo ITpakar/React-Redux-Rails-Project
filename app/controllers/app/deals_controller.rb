@@ -18,6 +18,7 @@ class App::DealsController < App::ApplicationController
   end
 
   def closing_book
+    @category = @deal.closing_category
   end
 
   private

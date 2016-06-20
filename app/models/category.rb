@@ -13,4 +13,10 @@ class Category < ActiveRecord::Base
   belongs_to :deal
   has_many   :comments, :as => :commentable
   has_many   :sections
+
+  def to_hash
+    return self.attributes.merge({
+      sections: self.sections.map(&:to_hash)
+    })
+  end
 end
