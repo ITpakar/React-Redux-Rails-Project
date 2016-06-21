@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   def current_organization
     current_user.try(:organization)
   end
+  helper_method :current_organization
 
   def authenticate_super_admin!
     if current_user.blank?
