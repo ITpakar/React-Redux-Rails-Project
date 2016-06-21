@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
     return true if self.is_super?
     document = Document.find_by_id(document_id)
 
-    return (document and document.created_by == self.id)
+    return (document and document.created_by == self.organization_user.id)
   end
 
   def is_comment_owner?(comment_id)
