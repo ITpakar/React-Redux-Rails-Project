@@ -5,6 +5,10 @@ class Api::CommentsController < ApplicationController
   before_action :ensure_params_exist, only: [:create, :update]
   before_action :set_comment, only: [:show, :update, :destroy]
 
+  before_action only: [:update, :destroy, :show, :create] do
+    authorize! :read, @deal
+  end
+
   swagger_controller :comment, "Comment"
 
   def self.add_comment_params(comment)
