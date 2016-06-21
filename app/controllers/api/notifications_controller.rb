@@ -121,7 +121,7 @@ class Api::NotificationsController < ApplicationController
   end
 
    def authenticate_notification_reciever!
-    if current_user.blank? or !current_user.is_notification_reciever?(params[:id])
+    if current_user.blank? or !current_user.is_notification_receiver?(params[:id])
       unauthorized_response
     end
   end

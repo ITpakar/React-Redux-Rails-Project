@@ -176,4 +176,60 @@ describe User do
       expect(deal_admin.is_document_owner?(document.id)).to be_falsy
     end
   end
+
+  describe "#is_comment_owner?" do
+    let(:document_creator) {
+          FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
+                                    :organization_id => organization.id)
+    }
+    let(:deal_admin) {FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
+                                :organization_id => organization.id)}
+    let(:deal) {
+      FactoryGirl.create(:deal, :from_the_past, organization_user: deal_admin.organization_user)
+    }
+    let(:section) {
+      FactoryGirl.create(:section, category_id: deal.categories.first.id,
+                            created_by: document_creator.id, deal_id: deal.id)
+
+    }
+    let(:task) {
+      FactoryGirl.create(:task, section_id: section.id,
+                                organization_user_id: document_creator.organization_user.id)
+    }
+    let(:document) {
+          FactoryGirl.create(:document, :with_deal_document,
+                                documentables: [task],
+                                organization_user: deal_admin.organization_user,
+                                creator: document_creator.organization_user)
+    }
+    let (:task_comment) {
+      FactoryGirl.create(:comment, organization_user_id: document_creator.organization_user.id, commentable: task)
+    }
+    let(:document_comment) {
+      FactoryGirl.create(:comment, organization_user_id: document_creator.organization_user.id,
+                                   commentable: document.deal_documents.where(documentable: task).first)
+    }
+
+    it "returns true if user is owner" do
+      expect(owner.is_comment_owner?(task_comment.id)).to be_truthy
+      expect(owner.is_comment_owner?(document_comment.id)).to be_truthy
+    end
+
+    it "returns true if user is the creator" do
+      expect(document_creator.is_comment_owner?(task_comment.id)).to be_truthy
+      expect(document_creator.is_comment_owner?(document_comment.id)).to be_truthy
+    end
+
+    it "returns false if user is the admin of the organization" do
+      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
+                                  :organization_id => organization.id)
+      expect(user.is_comment_owner?(task_comment.id)).to be_falsy
+      expect(user.is_comment_owner?(document_comment.id)).to be_falsy
+    end
+
+    it "returns false if user is deal admin" do
+      expect(deal_admin.is_comment_owner?(task_comment.id)).to be_falsy
+      expect(deal_admin.is_comment_owner?(document_comment.id)).to be_falsy
+    end
+  end
 end

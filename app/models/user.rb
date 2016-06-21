@@ -122,10 +122,10 @@ class User < ActiveRecord::Base
     return true if self.is_super?
     comment = Comment.find_by_id(comment_id)
 
-    return (comment and comment.user_id == self.id)
+    return (comment and comment.organization_user_id == self.organization_user.id)
   end
 
-  def is_notification_reciever?(notification_id)
+  def is_notification_receiver?(notification_id)
     return true if self.is_super?
     notification = Notification.find_by_id(notification_id)
 
