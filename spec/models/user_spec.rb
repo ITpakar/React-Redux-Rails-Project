@@ -3,6 +3,15 @@ require 'rails_helper'
 describe User do
   let(:owner) {FactoryGirl.create(:owner, :with_confirmed_email)}
   let(:organization) { FactoryGirl.create(:organization, :created_by => owner.id)}
+  let(:admin) {
+    FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
+                              :organization_id => organization.id)
+  }
+  let(:user) {
+    FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
+                              :organization_id => organization.id)
+  }
+
   context "validations" do
     it "should allow to create user with valid attributes" do
       user = User.create(FactoryGirl.attributes_for(:user))
@@ -23,14 +32,10 @@ describe User do
     end
 
     it "returns true if user is organization admin" do
-      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(user.is_organization_admin?(organization.id)).to be_truthy
+      expect(admin.is_organization_admin?(organization.id)).to be_truthy
     end
 
     it "returns false if user is just normal organization user" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(user.is_organization_admin?(organization.id)).to be_falsy
     end
   end
@@ -41,14 +46,10 @@ describe User do
     end
 
     it "returns true if user is organization admin" do
-      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(user.is_organization_member?(organization.id)).to be_truthy
+      expect(admin.is_organization_member?(organization.id)).to be_truthy
     end
 
     it "returns false if user is just normal organization user" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(user.is_organization_member?(organization.id)).to be_truthy
     end
   end
@@ -67,8 +68,6 @@ describe User do
     end
 
     it "returns false if user is not owner and user did not create deal" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(user.is_org_deal_admin?(deal.id)).to be_falsy
     end
   end
@@ -87,14 +86,10 @@ describe User do
     end
 
     it "returns true if user is admin of the organization that creates deal" do
-      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(user.is_deal_admin?(deal)).to be_truthy
+      expect(admin.is_deal_admin?(deal)).to be_truthy
     end
 
     it "returns false if user is a normal member of the organization that creates deal" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(user.is_deal_admin?(deal)).to be_falsy
     end
   end
@@ -113,21 +108,15 @@ describe User do
     end
 
     it "returns true if user is deal collaborator" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       DealCollaborator.create!(:deal_id => deal.id, :organization_user_id => user.organization_user.id)
       expect(user.is_deal_collaborator?(deal)).to be_truthy
     end
 
     it "returns false if user is admin of the organization that creates deal" do
-      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(user.is_deal_collaborator?(deal)).to be_falsy
+      expect(admin.is_deal_collaborator?(deal)).to be_falsy
     end
 
     it "returns false if user is a normal member of the organization that creates deal" do
-      user = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(user.is_deal_collaborator?(deal)).to be_falsy
     end
   end
@@ -221,10 +210,8 @@ describe User do
     end
 
     it "returns false if user is the admin of the organization" do
-      user = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(user.is_comment_owner?(task_comment.id)).to be_falsy
-      expect(user.is_comment_owner?(document_comment.id)).to be_falsy
+      expect(admin.is_comment_owner?(task_comment.id)).to be_falsy
+      expect(admin.is_comment_owner?(document_comment.id)).to be_falsy
     end
 
     it "returns false if user is deal admin" do
@@ -234,11 +221,11 @@ describe User do
   end
 
   describe "#is_notification_receiver?" do
-    let(:user) {
+    let(:creator) {
           FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
                                     :organization_id => organization.id)
     }
-    let(:notification) {Notification.create!(:organization_user => user.organization_user,
+    let(:notification) {Notification.create!(:organization_user => creator.organization_user,
                                               :message => FFaker::Lorem.sentences.join(". "))}
 
     it "returns true if user is owner" do
@@ -246,19 +233,37 @@ describe User do
     end
 
     it "returns true if user is the creator" do
-      expect(user.is_notification_receiver?(notification.id)).to be_truthy
+      expect(creator.is_notification_receiver?(notification.id)).to be_truthy
     end
 
     it "returns false if user is the admin of the organization" do
-      admin = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
       expect(admin.is_notification_receiver?(notification.id)).to be_falsy
     end
 
     it "returns false if user is normal member" do
-      member = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
-                                  :organization_id => organization.id)
-      expect(member.is_notification_receiver?(notification.id)).to be_falsy
+      expect(user.is_notification_receiver?(notification.id)).to be_falsy
+    end
+  end
+
+  describe "#to_hash" do
+    it "returns a hash" do
+      h = user.to_hash
+      expect(h).to be_kind_of(Hash)
+      expect(h[:first_name]).to be_present
+      expect(h[:last_name]).to be_present
+      expect(h[:email]).to be_present
+      expect(h[:id]).to eql(user.id)
+    end
+
+    it "allow to add organization to the returned hash" do
+      h = user.to_hash(true)
+      expect(h[:organization]).to be_present
+    end
+  end
+
+  describe "#email_domain" do
+    it "returns domain of user's email" do
+      expect(user.email_domain).to eql(user.email.split("@").last)
     end
   end
 end
