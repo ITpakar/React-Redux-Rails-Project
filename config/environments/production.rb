@@ -91,16 +91,18 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => 'doxly.heroku.com' }
+  config.action_mailer.default_url_options = { :host => 'doxly.approvemyviews.com:3000' }
+
   ActionMailer::Base.smtp_settings = {
     :address    => "smtp.sendgrid.net",
-    :port       => 25,
+    :port       => 587,
     :user_name  => ENV['SENDGRID_USERNAME'],
     :password   => ENV['SENDGRID_PASSWORD'],
-    :domain     => "herokuapp.com",
-    :authentication  => :plain
+    :domain     => "doxly.approvemyviews.com",
+    :authentication  => :plain,
+    :enable_starttls_auto => true
   }
 
-  Rails.application.routes.default_url_options[:host] = 'http://72.14.176.22:3000/'
+  Rails.application.routes.default_url_options[:host] = 'http://doxly.approvemyviews.com:3000/'
 
 end
