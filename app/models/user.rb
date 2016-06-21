@@ -59,10 +59,9 @@ class User < ActiveRecord::Base
   def is_organization_admin?(organization_id)
     return true if self.is_super?
 
-    organization_user = OrganizationUser.where(
+    organization_user = OrganizationAdminUser.where(
       user_id: self.id,
-      organization_id: organization_id,
-      type: ORG_USER_TYPE_ADMIN
+      organization_id: organization_id
     ).first
     return !organization_user.blank?
   end
@@ -80,7 +79,7 @@ class User < ActiveRecord::Base
   def context
     if self.is_organization_admin? self.organization
       return self.organization
-    end 
+    end
 
     return self.organization_user
   end

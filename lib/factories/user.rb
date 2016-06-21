@@ -1,9 +1,9 @@
 require 'factory_girl_rails'
 require 'ffaker'
 
-FactoryGirl.define do 
+FactoryGirl.define do
   factory :user do
-    transient do 
+    transient do
       email_domain { FFaker::Internet.domain_name }
       organization_id nil
     end
@@ -22,15 +22,28 @@ FactoryGirl.define do
     trait :with_organization_user do
       after(:create) do |instance, evaluator|
         OrganizationUser.create(
-          user_id: instance.id, 
+          user_id: instance.id,
           organization_id: evaluator.organization_id)
+      end
+    end
+
+    trait :with_organization_admin_user do
+      after(:create) do |instance, evaluator|
+        org = OrganizationAdminUser.create(
+          user_id: instance.id,
+          organization_id: evaluator.organization_id
+        )
       end
     end
 
     trait :with_confirmed_email do
       after(:create) do |instance, evaluator|
-        instance.confirm!
+        instance.confirm
       end
     end
+  end
+
+  factory :owner, :parent => :user do
+    role {USER_SUPER}
   end
 end

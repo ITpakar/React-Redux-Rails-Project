@@ -1,4 +1,5 @@
 class OrganizationUser < ActiveRecord::Base
+  self.inheritance_column = "record_type"
   include DealOwner
   include BoxStorable
 
