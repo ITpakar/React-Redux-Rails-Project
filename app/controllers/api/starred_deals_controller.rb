@@ -6,7 +6,7 @@ class Api::StarredDealsController < ApplicationController
   before_action :set_starred_deal, only: [:destroy]
 
   before_action only: [:index, :create, :destroy] do
-    authorize! :update, @deal
+    authorize! :read, @deal
   end
   before_action :authenticate_organization_member!, only: [:starred_deals]
 

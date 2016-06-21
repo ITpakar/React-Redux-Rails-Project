@@ -362,7 +362,9 @@ class DealShow extends React.Component {
                             deleteFolder={this.deleteFolder}
                             deleteTask={this.deleteTask}
                             deleteSection={this.deleteSection}
-                            deleteDocument={this.deleteDocument} />);
+                            deleteDocument={this.deleteDocument} 
+                            can_create={this.props.can_create}
+                            can_update={this.props.can_update} />);
     }
   }
 }

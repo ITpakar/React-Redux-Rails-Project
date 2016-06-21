@@ -151,6 +151,15 @@ export default class CategoryTask extends React.Component {
                      this.props.selectedElement.id == this.props.element.id &&
                      this.props.selectedElement.type == this.props.element.type;
 
+    var addButton;
+    if (element.can_update) {
+      addButton = (
+        <div className="deal-element-add-item">
+            <span><i className="icon-icon-plus"></i> Add a <a href="#" onClick={this.openDocumentModal}>File</a> or <a href="#" onClick={this.openFolderModal}>Folder</a></span>
+        </div>
+      );
+    }
+
   	return (
       <div className={classnames({"deal-task-item": true, "complete": isChecked, "deal-item-active" : isSelected})}>
           <div className="deal-task-item__header">
@@ -162,9 +171,7 @@ export default class CategoryTask extends React.Component {
           <div className={bodyClassnames.join(" ")}>
               <div className="deal-task-elements">
                   {displayedChildren}
-                  <div className="deal-element-add-item">
-                      <span><i className="icon-icon-plus"></i> Add a <a href="#" onClick={this.openDocumentModal}>File</a> or <a href="#" onClick={this.openFolderModal}>Folder</a></span>
-                  </div>
+                  {addButton}
               </div>
           </div>
       </div>

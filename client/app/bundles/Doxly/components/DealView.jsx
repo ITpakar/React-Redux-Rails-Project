@@ -18,6 +18,7 @@ export default class DealView extends React.Component {
     this.state = {
       deals: this.props.initialDeals,
       visibleDeals: this.props.initialDeals,
+      can_create: this.props.can_create,
       search_term: null,
       filter: 'ALL_DEALS',
       sort: 'CLOSE_DATE' 
@@ -115,6 +116,12 @@ export default class DealView extends React.Component {
   }
 
   render() {
+    var createDealButton;
+    if (this.state.can_create) {
+      createDealButton = (
+        <a href="#" onClick={this.handleClick} className="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
+      );
+    }
     return (
       <div className="container-fluid">
         <div className="row">
@@ -136,7 +143,8 @@ export default class DealView extends React.Component {
                   onChange: this.handleSortChange
                 }
               ]} />
-              <a href="#" onClick={this.handleClick} className="btn-add-circle btn-add-deal" data-toggle="modal" data-target="#modal-new-deal"></a>
+
+              {createDealButton}
           </div>
         </div>
 

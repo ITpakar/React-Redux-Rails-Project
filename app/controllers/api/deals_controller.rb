@@ -6,7 +6,7 @@ class Api::DealsController < ApplicationController
   before_action :authenticate_org_deal_admin!, only: [:update, :destroy]
 
   before_action only: [:show] do
-    authorize! :update, @deal
+    authorize! :read, @deal
   end
 
   before_action :ensure_params_exist, only: [:create, :update]

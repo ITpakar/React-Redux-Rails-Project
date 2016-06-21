@@ -51,7 +51,7 @@
           <a href="/app/settings">Settings</a>
         </li>
         <li>
-          <a href="/signin">Sign Out</a>
+          <%= link_to "Sign Out", destroy_app_user_session_path, method: :delete %>
         </li>
       </ul>
     </li>

@@ -2,6 +2,10 @@ class App::DealsController < App::ApplicationController
   before_filter :authenticate_user!
   before_action :set_deal, only: [:show, :diligence, :closing, :closing_book]
 
+  before_action only: [:show, :diligence, :closing, :closing_book] do
+    authorize! :read, @deal
+  end
+
   layout 'deals', only: [:show, :diligence, :closing, :closing_book]
 
   def index

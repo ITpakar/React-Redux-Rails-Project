@@ -4,7 +4,7 @@ class Api::DealCollaboratorsController < ApplicationController
   before_action :set_deal
 
   before_action only: [:index] do
-    authorize! :update, @deal
+    authorize! :read, @deal
   end
 
   # before_action :authenticate_deal_collaborator!, only: [:index]

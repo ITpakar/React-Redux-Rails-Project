@@ -98,12 +98,19 @@ export default class CategoryFileViewer extends React.Component {
       }
     }
 
-  	return (
-      <div className="deal-section" id="deal-sections">
-        {displayedElements}
+    var createSectionButton;
+    if (this.props.can_update) {
+      createSectionButton = (
         <div className="deal-element-add-item deal-element-add-new-section">
           <a href="#" onClick={this.openSectionModal}><i className="icon-icon-plus"></i> Add a Section</a>
         </div>
+      );
+    }
+
+  	return (
+      <div className="deal-section" id="deal-sections">
+        {displayedElements}
+        {createSectionButton}
       </div>
   	);
   }

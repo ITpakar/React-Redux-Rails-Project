@@ -1,5 +1,5 @@
 <div role="tabpanel" class="tab-pane active" id="tab-deal-diligence">
     <div class="container-fluid">
-      <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => @deal.diligence_category.name, :id => @deal.diligence_category.id}}) %>
+      <%= react_component("DealApp", :props => {user_id: current_user.id, :id => params[:id].to_i, :category => {:name => @deal.diligence_category.name, :id => @deal.diligence_category.id}, can_create: can?(:create, Deal), can_update: can?(:update, @deal)}) %>
     </div>
 </div> <!-- tab panel Diligence End -->
