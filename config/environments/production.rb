@@ -40,8 +40,8 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Action Cable endpoint configuration
-  config.web_socket_server_url = "wss://doxly.herokuapp.com/cable" 
-  config.action_cable.allowed_request_origins = [ 'http://doxly.herokuapp.com' ]
+  config.web_socket_server_url = "wss://doxly.approvemyviews.com:3000/cable" 
+  config.action_cable.allowed_request_origins = [ 'http://doxly.approvemyviews.com:3000' ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
