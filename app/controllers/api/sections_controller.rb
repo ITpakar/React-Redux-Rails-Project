@@ -9,7 +9,7 @@ class Api::SectionsController < ApplicationController
     authorize! :read, @deal
   end
 
-  before_action only: [:update, :destroy] do
+  before_action only: [:create, :update, :destroy] do
     authorize! :update, @deal
   end
 

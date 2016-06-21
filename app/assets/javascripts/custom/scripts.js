@@ -167,8 +167,6 @@ jQuery(document).ready(function($) {
         radioClass: 'iradio_circle',
     });
     
-    $('.selectpicker').selectpicker();
-
     $('[data-toggle="popover"]').popover({
         html: 'true',
         placement: 'bottom',
