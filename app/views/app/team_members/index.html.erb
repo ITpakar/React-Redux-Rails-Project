@@ -4,7 +4,7 @@
       <%= render partial: "app/shared/top", locals: {title: 'Team'} %>
         <div class="content">
             <%= render 'app/shared/flash_messages' %>
-            <%= react_component "TeamMembersView", props: {teamMembers: @team} %>
+            <%= react_component "TeamMembersView", props: {teamMembers: @team, organization: current_user.organization.try(:attributes).try(:slice, "id", "name", "email_domain")} %>
         </div>
     </div>
 </div>

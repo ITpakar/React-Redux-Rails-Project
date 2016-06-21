@@ -2,17 +2,19 @@ import React, { PropTypes } from 'react';
 import TeamMembersList from './TeamMembersList';
 import SearchInput from '../SearchInput';
 import GroupedSelectInput from '../GroupedSelectInput';
+import InviteMember from "../../containers/InviteMember";
 
 export default class TeamMembersView extends React.Component {
-  
+
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      searchTerm: null
+      searchTerm: null,
+      showInviteModal: false
     }
 
-    _.bindAll(this, ['handleSearchChange', 'handleFilterChange', 'handleClick']);
+    _.bindAll(this, ['handleSearchChange', 'handleFilterChange', 'handleClick', "closeInviteModal"]);
   }
 
   handleSearchChange(newValue) {
@@ -28,7 +30,16 @@ export default class TeamMembersView extends React.Component {
   }
 
   handleClick() {
-    $("#modal-edit-user").modal();
+    // $("#modal-edit-user").modal();
+    this.setState({showInviteModal: true});
+  }
+
+  closeInviteModal(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.setState({showInviteModal: false});
   }
 
   getVisibleUsers() {
@@ -53,7 +64,7 @@ export default class TeamMembersView extends React.Component {
   	        <SearchInput handleChange={this.handleSearchChange} placeholder="Search Users"/>
   	        <GroupedSelectInput options={[
   	            {
-  	              heading: "Sort", 
+  	              heading: "Sort",
   	              options: ['Manual Sort'],
   	              optionsForHeading: ['Manual Sort'],
   	              initialSelected: 0,
@@ -69,6 +80,10 @@ export default class TeamMembersView extends React.Component {
   	        <TeamMembersList teamMembers={this.getVisibleUsers()} />
   	      </div>
   	    </div>
+
+        <InviteMember emailDomain={this.props.organization.email_domain}
+                      showInviteModal={this.state.showInviteModal}
+                      closeInviteModal={this.closeInviteModal} />
   	  </div>
   	);
   }

@@ -119,3 +119,7 @@ export function doCreateVersion(documentId, formData) {
 export function doLoadDealCollaborators(dealId) {
   return submitRequest("/api/deals/" + dealId + "/deal_collaborators", "get");
 }
+
+export function doInviteMember(attrs) {
+  return submitRequest("/api/team_members", "post", {team_member: attrs});
+}
