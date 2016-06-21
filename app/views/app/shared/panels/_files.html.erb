@@ -11,7 +11,7 @@
             <% end %>
             <% files.each do |file| %>
               <div class="item item-<%= file.class == Document ? 'file' : 'folder'%>">
-                <a href="#" class="details">
+                <a href="<%= app_deal_path(file.deal_id) %>" class="details">
                   <i><%= file.try(:file_name) || file.try(:name) %></i>
                   <span>Added by <%= file.creator.user.first_name %> <%= file.creator.user.last_name %></span>
                 </a>
