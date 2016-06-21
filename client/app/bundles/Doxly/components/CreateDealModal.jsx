@@ -102,7 +102,7 @@ export default class CreateDealModal extends React.Component {
                 <TextFieldWithValidation name="deal_title"
                                          label="Deal Title"
                                          value={this.state.title}
-                                         placeholder="Give your task a title"
+                                         placeholder="Give your deal a title"
                                          required={true}
                                          errors={this.state.errors['title']}
                                          onChange={this.handleChange('title')} />
