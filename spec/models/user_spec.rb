@@ -266,4 +266,40 @@ describe User do
       expect(user.email_domain).to eql(user.email.split("@").last)
     end
   end
+
+  describe ".enterprise_box_client" do
+    it "returns Boxr::Client" do
+      expect(User.enterprise_box_client).to be_kind_of(Boxr::Client)
+    end
+
+    it "uses Boxr's enterprise token" do
+      token = double(:token)
+      access_token = ("a".."z").to_a.sample(10).join
+      allow(token).to receive(:access_token).and_return access_token
+      expect(Boxr).to receive(:get_enterprise_token).and_return(token)
+      expect(Boxr::Client).to receive(:new).with(access_token)
+
+      User.enterprise_box_client
+    end
+  end
+
+  describe "#box_client" do
+    it "returns Boxr::Client" do
+      expect(user.box_client).to be_kind_of(Boxr::Client)
+    end
+
+    it "uses Boxr's get user token" do
+      client = double(:client)
+      expect(User).to receive(:enterprise_box_client).and_return(client)
+      allow(client).to receive(:create_user).and_return(user)
+
+      token = double(:token)
+      access_token = ("a".."z").to_a.sample(10).join
+      allow(token).to receive(:access_token).and_return access_token
+      expect(Boxr).to receive(:get_user_token).and_return(token)
+      expect(Boxr::Client).to receive(:new).with(access_token)
+
+      user.box_client
+    end
+  end
 end

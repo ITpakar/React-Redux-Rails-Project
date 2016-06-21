@@ -188,11 +188,12 @@ class User < ActiveRecord::Base
 
   # Get Enterprise Box Client
   def self.enterprise_box_client
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       private_key = ENV['JWT_PRIVATE_KEY']
     else
       private_key = OpenSSL::PKey::RSA.new(YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n)), ENV['JWT_PRIVATE_KEY_PASSWORD'])
     end
+
     # Get Box enterprise token
     token = Boxr::get_enterprise_token(private_key: private_key)
     access_token = token.access_token
@@ -210,11 +211,12 @@ class User < ActiveRecord::Base
       self.organization_user.update(box_user_id: user[:id])
     end
 
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       private_key = ENV['JWT_PRIVATE_KEY']
     else
       private_key = YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n))
     end
+    
     token = Boxr::get_user_token(self.organization_user.box_user_id.to_s, private_key: private_key, private_key_password: ENV['JWT_PRIVATE_KEY_PASSWORD'])
     access_token = token.access_token
     Boxr::Client.new(access_token)
