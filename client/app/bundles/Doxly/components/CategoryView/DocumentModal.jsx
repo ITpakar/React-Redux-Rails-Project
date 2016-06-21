@@ -88,12 +88,15 @@ export default class DocumentModal extends React.Component {
       return;
     }
 
-    if (title && file && documentable_type && documentable_id) {
+    var element = this.props.element;
+    if (title && documentable_type && documentable_id && (file || element && element.id)) {
       var _this = this;
       var data = new FormData();
-      var element = this.props.element;
 
-      data.append("document[file]", file);
+      if (file) {
+        data.append("document[file]", file);
+      }
+
       data.append("document[title]", title)
       data.append("document[deal_documents_attributes][0][documentable_type]", documentable_type);
       data.append("document[deal_documents_attributes][0][documentable_id]", documentable_id);
@@ -135,7 +138,7 @@ export default class DocumentModal extends React.Component {
         errors.title = "can't be blank";
       }
 
-      if (!file) {
+      if (!file && (!element || !element.id)) {
         errors.file = "can't be blank";
       }
 
