@@ -63,6 +63,8 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
+    combine_pdf (0.2.21)
+      ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
     debug_inspector (0.0.2)
@@ -199,7 +201,9 @@ GEM
     ref (2.0.0)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
+    ruby-rc4 (0.1.5)
     ruby_dep (1.3.1)
+    rubyzip (1.2.0)
     sass (3.4.22)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -243,6 +247,10 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    wicked_pdf (1.0.6)
+    wkhtmltopdf-binary (0.9.9.3)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -253,6 +261,7 @@ DEPENDENCIES
   byebug
   cancancan (~> 1.10)
   carrierwave
+  combine_pdf
   delayed_job_active_record
   devise
   docusign_rest
@@ -272,6 +281,7 @@ DEPENDENCIES
   rails_12factor
   react_on_rails (~> 5)
   redis (~> 3.0)
+  rubyzip (>= 1.0.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sprockets-redirect
@@ -279,6 +289,9 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 2.7.2)
   web-console (~> 2.0)
+  wicked_pdf
+  wkhtmltopdf-binary
+  zip-zip
 
 RUBY VERSION
    ruby 2.3.1p112

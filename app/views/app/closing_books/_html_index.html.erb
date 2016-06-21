@@ -1,0 +1,23 @@
+<ul class="closing-book-index">
+<% category.sections.each do |section| %>
+  <li class="section level-1"><%= section.name %></li>
+  <% section.tasks.each do |task| %>
+    <li class="task level-2"><%= task.title %></li>
+    <% task.documents.each do |document| %>
+      <% if document_ids.include? document.id %>
+        <li class="document level-3">
+          <%= link_to document.title, sanitize_filename("#{document.id}_#{document.title}.#{document.file_type}") %>  
+        </li>
+      <% end %>
+
+    <% end %>
+    <% task.folders.each do |folder| %>
+      <li class="folder level-3"><%= folder.name %></li>
+      <% folder.documents.each do |document| %>
+        <% if document_ids.include? document.id %>
+          <li class="document level-4"><%= link_to document.title, sanitize_filename("#{document.id}_#{document.title}.#{document.file_type}") %></li>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -15,8 +15,10 @@ class Category < ActiveRecord::Base
   has_many   :sections
 
   def to_hash
+    sections = self.sections.map{|section| section.to_hash}
+
     return self.attributes.merge({
-      sections: self.sections.map(&:to_hash)
+      sections: sections
     })
   end
 end

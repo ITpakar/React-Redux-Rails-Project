@@ -17,7 +17,9 @@ class Section < ApplicationRecord
     self.deal_id = self.category.deal_id unless self.deal_id
   end
 
-  def to_hash
+  def to_hash 
+    tasks = self.tasks.map{|task| task.to_hash}
+
     data = {
       section_id:  self.id,
       name:        self.name,

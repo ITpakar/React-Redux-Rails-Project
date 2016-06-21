@@ -18,7 +18,7 @@ class App::DealsController < App::ApplicationController
   end
 
   def closing_book
-    @category = @deal.closing_category
+    @category = @deal.closing_category.to_hash
   end
 
   private

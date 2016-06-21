@@ -1,20 +1,5 @@
 <div role="tabpanel" class="tab-pane active" id="tab-deal-closing-book"> <!-- -->
     <div class="container-fluid">
-        <div class="row">
-            <div class="deal-closing-book">
-                <div class="buttons">
-                    <a href="#" class="btn btn-default">...</a>
-                    <a href="#" class="btn btn-default">Download</a>
-                </div>
-                <div class="deal-closing-book__inner">
-                    <div class="deal-closing-book__dummy-item">
-                        <div class="title">
-                            <h3>Cover Page Title</h3>
-                            <h4>Cover Page Subtitle</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <%= react_component "ClosingBookView", props: {category: @category} %>
     </div>
 </div> <!-- tab panel Close Book End -->

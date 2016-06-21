@@ -34,7 +34,9 @@ gem 'uglifier', '>= 2.7.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-
+gem 'rubyzip', '>= 1.0.0' # will load new rubyzip version
+gem 'zip-zip' # will load compatibility for old rubyzip API.
+gem 'combine_pdf'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # if ENV["DISABLE_TURBOLINKS"].nil? || ENV["DISABLE_TURBOLINKS"].strip.empty?
@@ -58,3 +60,5 @@ end
 
 gem 'rails_12factor', group: :production
 gem 'sprockets-redirect', group: :production
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

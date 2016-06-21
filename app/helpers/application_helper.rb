@@ -38,4 +38,8 @@ module ApplicationHelper
     end
     url
   end
+
+  def sanitize_filename(filename)
+    return filename.gsub(/[^\w\.]/, '_')
+  end
 end

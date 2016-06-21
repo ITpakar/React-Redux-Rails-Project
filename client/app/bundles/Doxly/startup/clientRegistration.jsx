@@ -17,6 +17,7 @@ import DealApp from './DealApp';
 import ReportApp from './ReportApp';
 import DocumentShowApp from './DocumentShowApp';
 import TeamMembersView from '../components/TeamMembers/TeamMembersView';
+import ClosingBookView from '../components/ClosingBook/ClosingBookView';
 
 ReactOnRails.register({DealView,
 					   DealList,
@@ -30,6 +31,7 @@ ReactOnRails.register({DealView,
                        DealApp,
                        ReportApp,
                        DocumentShowApp,
-                   	   TeamMembersView});
+                   	   TeamMembersView,
+                       ClosingBookView});
 
 ReactOnRails.registerStore({doxlyStore});

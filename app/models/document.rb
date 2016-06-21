@@ -19,6 +19,7 @@ class Document < ApplicationRecord
   has_many :tasks,    through: :deal_documents, source: :documentable, source_type: 'Task'
   has_many :folders,  through: :deal_documents, source: :documentable, source_type: 'Folder'
   has_many :sections, through: :deal_documents, source: :documentable, source_type: 'Section'
+  has_many :closing_book_documents
 
   accepts_nested_attributes_for :deal_documents
 

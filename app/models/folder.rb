@@ -24,7 +24,8 @@ class Folder < ApplicationRecord
   def to_hash
     data = {
       name:        self.name,
-      activated:   self.activated
+      activated:   self.activated,
+      documents:   self.documents.map(&:to_hash)
     }
 
     if self.organization_user

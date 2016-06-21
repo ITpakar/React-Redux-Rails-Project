@@ -26,6 +26,7 @@ class Deal < ActiveRecord::Base
   has_many   :events
   has_many   :starred_by, through: :starred_deals, source: :user
   has_many   :deal_collaborator_invites, dependent: :delete_all
+  has_one    :closing_book
 
   # Validations
   validates :title, :client_name, :deal_size, :status, :projected_close_date, :activated, presence: true
