@@ -248,15 +248,6 @@ export default class CategoryView extends React.Component {
       );
     }
 
-    var createDealButton;
-    if (this.props.can_create) {
-      createDealButton = (
-        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
-          <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
-        </OverlayTrigger>
-      );
-    }
-
     var toolbarBoxOverlayActions = (
       <Popover id="create-new-element">
         <div className='popover-menu-deal'>
@@ -267,6 +258,15 @@ export default class CategoryView extends React.Component {
         </div>
       </Popover>
     );
+
+    var createDealButton;
+    if (this.props.can_create) {
+      createDealButton = (
+        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
+          <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
+        </OverlayTrigger>
+      );
+    }
 
     var availableSections = [];
     var availableTasks = [];

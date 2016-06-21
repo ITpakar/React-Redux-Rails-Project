@@ -22,7 +22,7 @@ class App::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    sign_out(current_user)
+    super
   end
 
   protected
