@@ -232,4 +232,33 @@ describe User do
       expect(deal_admin.is_comment_owner?(document_comment.id)).to be_falsy
     end
   end
+
+  describe "#is_notification_receiver?" do
+    let(:user) {
+          FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
+                                    :organization_id => organization.id)
+    }
+    let(:notification) {Notification.create!(:organization_user => user.organization_user,
+                                              :message => FFaker::Lorem.sentences.join(". "))}
+
+    it "returns true if user is owner" do
+      expect(owner.is_notification_receiver?(notification.id)).to be_truthy
+    end
+
+    it "returns true if user is the creator" do
+      expect(user.is_notification_receiver?(notification.id)).to be_truthy
+    end
+
+    it "returns false if user is the admin of the organization" do
+      admin = FactoryGirl.create(:user, :with_organization_admin_user, :with_confirmed_email,
+                                  :organization_id => organization.id)
+      expect(admin.is_notification_receiver?(notification.id)).to be_falsy
+    end
+
+    it "returns false if user is normal member" do
+      member = FactoryGirl.create(:user, :with_organization_user, :with_confirmed_email,
+                                  :organization_id => organization.id)
+      expect(member.is_notification_receiver?(notification.id)).to be_falsy
+    end
+  end
 end

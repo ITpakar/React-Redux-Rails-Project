@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
     return true if self.is_super?
     notification = Notification.find_by_id(notification_id)
 
-    return (notification and notification.user_id == self.id)
+    return (notification and notification.organization_user_id == self.organization_user.id)
   end
 
   def is_super?
