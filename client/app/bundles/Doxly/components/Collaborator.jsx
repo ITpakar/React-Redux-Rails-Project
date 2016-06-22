@@ -13,10 +13,16 @@ export default class Collaborator extends Component {
 
   render() {
     const { collaborator } = this.props;
+    var avatar;
+    if (collaborator.avatar) {
+      avatar = (
+        <img className="avatar" src={collaborator.avatar} alt="Img avatar 2" />
+      );
+    }
     return (
       <li key={collaborator.id} data-collaborator-id={collaborator.id}>
-        <a onClick={this._removeCollaborator}>
-          <img className="avatar" src="/assets/img-avatar-2-1807bb0ba1c49d49177f3785907d72377097c4adb75ea9cade83041fad86c28c.png" alt="Img avatar 2" /> {collaborator.name}
+        <a onClick={this._removeCollaborator} className={collaborator.role ? "" : "invited"}>
+          {avatar} {collaborator.name}
         </a>
       </li>
     );
