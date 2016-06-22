@@ -22,12 +22,14 @@ class App::DealsController < App::ApplicationController
   end
 
   def create_closing_book
-    @closing_book = ClosingBook.create(deal_id: @deal.id, status: 'Processing')
+    @closing_book = ClosingBook.create(deal_id: @deal.id, status: 'Processing', index_type: params[:format])
     params['selectedDocuments'].each do |document_id|
       ClosingBookDocument.create(document_id: document_id, closing_book_id: @closing_book.id)
     end
 
     if @closing_book.persisted?
+      # This will be handled asynchronously
+      @closing_book.generate!
       render json: {closing_book: @closing_book}, status: :ok
     else
       render json: {errors: @closing_book.errors}, status: :unprocessable_entity

@@ -17,7 +17,7 @@ export default class CategorySection extends React.Component {
       open: false
     };
 
-    _.bindAll(this, ['toggleContent', "openTaskModal"]);
+    _.bindAll(this, ['toggleContent']);
   }
 
   toggleContent(event) {
@@ -33,15 +33,6 @@ export default class CategorySection extends React.Component {
     }
 
     this.setState({sectionBodyClassnames: sectionBodyClassnames, open: !this.state.open});
-    this.props.selectElement(undefined);
-  }
-
-  openTaskModal(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.openTaskModal(this.props.element);
   }
 
   render() {

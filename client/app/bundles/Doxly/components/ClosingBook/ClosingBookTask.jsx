@@ -12,7 +12,7 @@ export default class CategoryTask extends React.Component {
       bodyClassnames: ["deal-task-item__panel", "collapse"]
     };
 
-    _.bindAll(this, ['toggleContent', "selectTask", "openFolderModal", "openDocumentModal", "toggleStatus"]);
+    _.bindAll(this, ['toggleContent']);
   }
 
   toggleContent(event) {
@@ -28,43 +28,6 @@ export default class CategoryTask extends React.Component {
     }
 
     this.setState({bodyClassnames: bodyClassnames});
-  }
-
-  selectTask(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.selectElement(this.props.element);
-  }
-
-  openFolderModal(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.openFolderModal(this.props.element);
-  }
-
-  openDocumentModal(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.openDocumentModal(this.props.element);
-  }
-
-  toggleStatus() {
-    var _this = this;
-    var status = (this.props.element.status || "incomplete").toLowerCase();
-    if (status == "complete") {
-      status = "Incomplete";
-    } else {
-      status = "Complete";
-    }
-
-    // For quick response.
-    this.props.updateTask(this.props.element.id, {status: status});
   }
 
   render() {

@@ -13,6 +13,7 @@ export default class ClosingBookDisplay extends React.Component {
   }
 
   renderInner() {
+    console.log(this.props.closingBook);
     if (this.props.closingBook) {
       if (this.props.closingBook.status == "Processing") {
         return (

@@ -13,7 +13,7 @@ export default class ClosingBookView extends React.Component {
       closingBook: this.props.closingBook
     }
 
-    _.bindAll(this, ['handleCreateClick', 'handleDownloadClick', 'generateClosingBook']);
+    _.bindAll(this, ['handleCreateClick', 'generateClosingBook']);
   }
 
   handleCreateClick() {
@@ -25,7 +25,8 @@ export default class ClosingBookView extends React.Component {
     // Make AJAX request to create the Closing Book
     $.post(this.props.url, state)
      .done(function(resp) {
-        _this.setState({closingBook: resp.closing_book});
+        console.log(resp);
+        _this.setState({closingBook: resp.closing_book, page: 'display'});
      });
   }
 

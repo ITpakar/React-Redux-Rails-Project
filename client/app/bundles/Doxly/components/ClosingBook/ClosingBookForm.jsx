@@ -98,6 +98,8 @@ export default class ClosingBookForm extends React.Component {
 
     return (
       <div className="deal-closing-book__inner">
+        {this.renderPage()}
+        {this.renderButton()}
       </div>
     );
   }

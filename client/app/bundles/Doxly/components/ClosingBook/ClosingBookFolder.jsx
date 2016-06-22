@@ -18,7 +18,7 @@ export default class ClosingBookFolder extends React.Component {
       bodyClassnames: ["deal-element-folder-wrapper", "collapse"]
     }
 
-    _.bindAll(this, ['toggleContent', "selectFolder", "openDocumentModal"]);
+    _.bindAll(this, ['toggleContent']);
   }
 
   toggleContent(event) {
@@ -34,22 +34,6 @@ export default class ClosingBookFolder extends React.Component {
     }
 
     this.setState({bodyClassnames: bodyClassnames});
-  }
-
-  selectFolder(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.selectElement(this.props.element);
-  }
-
-  openDocumentModal(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.openDocumentModal(this.props.element);
   }
 
   render() {

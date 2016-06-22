@@ -16,17 +16,8 @@ export default class ClosingBookDocument extends React.Component {
       bodyClassnames: ["deal-element-folder-wrapper", "collapse"]
     }
 
-    _.bindAll(this, ["selectFile"]);
   }
-
-  selectFile(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    this.props.selectElement(this.props.element);
-  }
-
+  
   render() {
     var element = this.props.element;
     var latestVersion;
