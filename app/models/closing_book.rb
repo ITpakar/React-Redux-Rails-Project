@@ -12,6 +12,7 @@ class ClosingBook < ApplicationRecord
   has_many :documents, through: :closing_book_documents
 
   before_create :delete_old_closing_book
+  after_create :generate!
 
   def delete_old_closing_book
     ClosingBook.where(deal_id: self.deal_id).destroy_all
@@ -40,8 +41,8 @@ class ClosingBook < ApplicationRecord
     url = self.generate_closing_book! files_base, closing_book_base
     self.update_attributes(url: url, status: "Complete")
     FileUtils.rm_rf(files_base)
-
   end
+  handle_asynchronously :generate!
 
   def generate_index! file_base
     category = self.deal.closing_category.to_hash

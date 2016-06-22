@@ -198,7 +198,6 @@ export default class CategoryView extends React.Component {
   }
 
   renderPopover() {
-    console.log(this.state);
     if (this.state.popoverVisible) {
       return (
         <div ref="popover" className="popover fade bottom in" style={{display: 'block', position: 'absolute', top: this.state.position.top, left: this.state.position.left}}>

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         get 'diligence', to: "deals#diligence", as: :diligence
         get 'closing', to: "deals#closing", as: :closing
         get 'closing-book', to: "deals#closing_book", as: :closing_book
+        post 'closing-book', to: "deals#create_closing_book"
       end
     end
 
