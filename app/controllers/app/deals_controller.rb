@@ -104,7 +104,7 @@ class App::DealsController < App::ApplicationController
   # and will group the deals together
   def format_deals_for_display deals
     deals = deals.map {|deal| deal.attributes.merge({
-      collaborators: deal.organization_users.map{|org_user| org_user.attributes.merge({avatar: org_user.user.avatar.url})}, 
+      collaborators: deal.organization_users.map{|org_user| org_user.attributes.merge({avatar: org_user.user.avatar.url, initials: org_user.user.initials})}, 
       starred: deal.starred_deals.where(organization_user_id: current_user.organization_user.id).present? })}
     
     grouped = deals.group_by {|deal| DateTime.parse(deal["projected_close_date"].to_s).strftime("%B %Y")}

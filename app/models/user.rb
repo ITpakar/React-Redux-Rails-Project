@@ -154,6 +154,7 @@ class User < ActiveRecord::Base
       name: self.name,
       first_name: self.first_name,
       last_name: self.last_name,
+      initials: self.initials,
       phone: self.phone,
       address: self.address,
       company: self.company,
