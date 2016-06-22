@@ -81,23 +81,7 @@ Rails.application.routes.draw do
     resources :team_members, :only => [:create]
   end
 
-  # Temporary routes
-
   root to: "app/dashboard#index"
-
-  get 'signin',      to: 'app/home#signin'
-  get 'signup',      to: 'app/home#signup'
-  get 'deals',       to: 'app/home#deals'
-  get 'deals/:id',   to: 'app/home#deal'
-  get 'team',        to: 'app/home#team'
-  get 'team-item',   to: 'app/home#team_item'
-  get 'deal-client', to: "app/home#deal_client"
-  get 'deal-file',   to: "app/home#deal_file"
-  get 'report',      to: "app/home#report"
-  get 'setting',     to: "app/home#setting"
-
-  get '/docs' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
-
 
   # Serve websocket cable requests in-process
   mount ActionCable.server => '/cable'
