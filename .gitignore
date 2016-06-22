@@ -46,6 +46,7 @@
 node_modules
 npm-debug.log*
 /public/uploads/*
+/public/closing_books/*
 
 # Generated js bundles
 /app/assets/webpack/*
