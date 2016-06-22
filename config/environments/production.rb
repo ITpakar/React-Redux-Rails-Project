@@ -40,8 +40,8 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Action Cable endpoint configuration
-  config.web_socket_server_url = "wss://doxly.herokuapp.com/cable" 
-  config.action_cable.allowed_request_origins = [ 'http://doxly.herokuapp.com' ]
+  config.web_socket_server_url = "wss://doxly.approvemyviews.com:3000/cable" 
+  config.action_cable.allowed_request_origins = [ 'http://doxly.approvemyviews.com:3000' ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -91,16 +91,18 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => 'doxly.heroku.com' }
+  config.action_mailer.default_url_options = { :host => 'doxly.approvemyviews.com:3000' }
+
   ActionMailer::Base.smtp_settings = {
     :address    => "smtp.sendgrid.net",
-    :port       => 25,
+    :port       => 587,
     :user_name  => ENV['SENDGRID_USERNAME'],
     :password   => ENV['SENDGRID_PASSWORD'],
-    :domain     => "herokuapp.com",
-    :authentication  => :plain
+    :domain     => "doxly.approvemyviews.com",
+    :authentication  => :plain,
+    :enable_starttls_auto => true
   }
 
-  Rails.application.routes.default_url_options[:host] = 'http://72.14.176.22:3000/'
+  Rails.application.routes.default_url_options[:host] = 'http://doxly.approvemyviews.com:3000/'
 
 end

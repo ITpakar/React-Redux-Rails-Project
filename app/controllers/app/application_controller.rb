@@ -1,7 +1,7 @@
 class App::ApplicationController < ApplicationController
   include ReactOnRails::Controller
 
-  before_filter :get_starred_deals, if: "current_user"
+  before_action :get_starred_deals, if: "current_user"
 
   def get_starred_deals
     @starred_deals = StarredDeal.includes(:deal)

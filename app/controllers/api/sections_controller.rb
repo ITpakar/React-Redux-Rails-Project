@@ -5,7 +5,11 @@ class Api::SectionsController < ApplicationController
   before_action :set_deal
   before_action :set_section, only: [:show, :update, :destroy]
 
-  before_action do
+  before_action only: [:show, :tree] do
+    authorize! :read, @deal
+  end
+
+  before_action only: [:create, :update, :destroy] do
     authorize! :update, @deal
   end
 
@@ -97,6 +101,8 @@ class Api::SectionsController < ApplicationController
       scope = scope.where(:category_id => category_id)
     end
 
+    can_update = can?(:update, @deal)
+
     results = []
     scope.each do |section|
       tasks = []
@@ -106,6 +112,7 @@ class Api::SectionsController < ApplicationController
       section_h[:title] = section.name
       section_h[:comments_count] = section.comments.count
       section_h[:elements] = tasks
+      section_h[:can_update] = can_update
 
       section.tasks.order("title").each do |task|
         task_elements = []
@@ -119,11 +126,13 @@ class Api::SectionsController < ApplicationController
         task_h[:assignee_id] = task.assignee_id
         task_h[:comments_count] = task.comments.count
         task_h[:elements] = task_elements
+        task_h[:can_update] = can_update
 
         task.documents.select("DISTINCT documents.*").order("title").each do |document|
           document_h = document.to_hash
           document_h[:id] = document.id
           document_h[:type] = document.class.name
+          document_h[:can_update] = can_update
           task_elements << document_h
         end
 
@@ -136,11 +145,13 @@ class Api::SectionsController < ApplicationController
           folder_h[:task_id] = folder.task_id;
           folder_h[:comments_count] = folder.comments.count
           folder_h[:elements] = folder_elements
+          folder_h[:can_update] = can_update
 
           folder.documents.select("DISTINCT documents.*").order("title").each do |document|
             document_h = document.to_hash
             document_h[:id] = document.id
             document_h[:type] = document.class.name
+            document_h[:can_update] = can_update
             folder_elements << document_h
           end
 

@@ -30,6 +30,14 @@ class OrganizationUser < ActiveRecord::Base
     end
   end
 
+  def is_internal?
+    self.type == "Internal"
+  end
+
+  def is_external?
+    self.type == "External"
+  end
+
   # We implement this because it's required by DealOwner
   def email_domain
     self.organization.email_domain

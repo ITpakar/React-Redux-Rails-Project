@@ -70,13 +70,14 @@ Rails.application.routes.draw do
       member do
     	   post :versions, :to => "documents#create_version"
       end
-      
+
       resources :document_signers
     end
     post 'documents/:id/send_to_docusign', to: 'documents#send_to_docusign'
     resources :folders
     resources :tasks
     resources :categories
+    resources :team_members, :only => [:create]
   end
 
   # Temporary routes

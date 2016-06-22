@@ -3,7 +3,7 @@
   <div id="page-wrapper">
     <%= render partial: "app/shared/top", locals: {title: 'Deals'} %>
     <div class="content">
-        <%= react_component "DealView", props: {initialDeals: @deals} %>
+        <%= react_component "DealView", props: {initialDeals: @deals, can_create: can?(:create, Deal)} %>
     </div>
   </div>
 </div>

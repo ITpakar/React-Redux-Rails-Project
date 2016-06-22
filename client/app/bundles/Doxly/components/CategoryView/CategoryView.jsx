@@ -259,6 +259,15 @@ export default class CategoryView extends React.Component {
       </Popover>
     );
 
+    var createDealButton;
+    if (this.props.can_create) {
+      createDealButton = (
+        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
+          <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
+        </OverlayTrigger>
+      );
+    }
+
     var availableSections = [];
     var availableTasks = [];
     var availableFolders = [];
@@ -312,9 +321,7 @@ export default class CategoryView extends React.Component {
                       onChange: this.handleSortChange
                     }
                   ]} />
-                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={toolbarBoxOverlayActions}>
-                    <a href="#" ref="button" className="btn-add-circle btn-add-deal"></a>
-                  </OverlayTrigger>
+                  {createDealButton}
               </form>
             </div>
           </div>
@@ -330,7 +337,9 @@ export default class CategoryView extends React.Component {
                                       openDocumentModal={this.openDocumentModal}
                                       openFolderModal={this.openFolderModal}
                                       openTaskModal={this.openTaskModal}
-                                      openSectionModal={this.openSectionModal} />
+                                      openSectionModal={this.openSectionModal}
+                                      can_create={this.props.can_create}
+                                      can_update={this.props.can_update} />
                 </div>
                 <div className="content-deal-right">
                   {selectedElementDetails}

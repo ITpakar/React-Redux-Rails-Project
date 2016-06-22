@@ -134,6 +134,15 @@ export default class CategorySection extends React.Component {
                      this.props.selectedElement.id == this.props.element.id &&
                      this.props.selectedElement.type == this.props.element.type;
 
+    var addButton;
+    if (element.can_update) {
+      addButton = (
+        <div className="deal-task-add-item deal-element-add-new-task">
+          <a href="#" onClick={this.openTaskModal}><i className="icon-icon-plus"></i> Add a Task</a>
+        </div>
+      );
+    }
+
   	return (
 			<div className={classnames({"deal-section-item": true, "deal-item-active": isSelected})}>
 				<div className="deal-section__header">
@@ -145,9 +154,7 @@ export default class CategorySection extends React.Component {
         <div className={sectionBodyClassnames.join(" ")}>
           <div className="deal-tasks">
             {displayedChildren}
-            <div className="deal-task-add-item deal-element-add-new-task">
-              <a href="#" onClick={this.openTaskModal}><i className="icon-icon-plus"></i> Add a Task</a>
-            </div>
+            {addButton}
           </div>
         </div>
 			</div>

@@ -50,6 +50,7 @@ export default class CategoryElementDetails extends React.Component {
     var element = this.props.element;
     var description;
     var uploadNewVersion;
+    var latestVersion;
 
     if (element.description) {
       description = (
@@ -75,12 +76,44 @@ export default class CategoryElementDetails extends React.Component {
           <a href="#" onClick={this.createVersion}>Upload New Version</a>
         </li>
       );
+
+      let dealDocument = element.deal_documents[0];
+      if (dealDocument && dealDocument.versions && dealDocument.versions.length > 0) {
+        let versionNumber = _.max(_.map(dealDocument.versions, function(version) { return parseInt(version.name);}));
+        if (versionNumber > 1) {
+          latestVersion = (
+            <span className="badge">V{versionNumber}</span>
+          );
+        }
+      }
+    }
+
+    var menuItems;
+    if (element.can_update) {
+      menuItems = (
+        <div className="dropdown">
+          <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+          <ul className="dropdown-menu">
+            {uploadNewVersion}
+            <li>
+              <a href="#" onClick={this.editElement}>Edit {element.type}</a>
+            </li>
+            <li>
+              <a href="#" onClick={this.deleteElement}>Delete {element.type}</a>
+            </li>
+            <li>
+              <a href="#" className={classnames({'hidden': element.type != "Document" || element.signers_count == 0})} onClick={this.sendToDocusign}>Send To Docusign</a>
+            </li>
+          </ul>
+        </div>
+      );
     }
 
   	return (
       <div className="deal-task-details">
         <div className="deal-task-details__header">
-          <h4>{element.title}</h4>
+          <h4>{element.title} {latestVersion}</h4>
+          {menuItems}
             <div className="dropdown">
               <a aria-expanded="false" className="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
               <ul className="dropdown-menu">

@@ -3,7 +3,11 @@ class Api::DealCollaboratorsController < ApplicationController
 
   before_action :set_deal
 
-  before_action only: [:index] do
+  before_action only: [:index, :find] do
+    authorize! :read, @deal
+  end
+
+  before_action only: [:create, :destroy] do
     authorize! :update, @deal
   end
 

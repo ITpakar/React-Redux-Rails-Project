@@ -5,11 +5,19 @@ class Ability
     user ||= User.new
 
     if user.is_super?
-      can :manage, :all?
-    end
+        can :manage, :all?
+    else
+        if user.organization_user.is_internal?
+            can :create, Deal
 
-    can :update, Deal do |deal|
-      deal.organization_users.include?(user.organization_user)
+            can [:read, :update], Deal do |deal|
+              deal.organization_users.include?(user.organization_user)
+            end
+        else
+            can :read, Deal do |deal|
+              deal.organization_users.include?(user.organization_user)
+            end
+        end
     end
     # Define abilities for the passed in user here. For example:
     #

@@ -166,6 +166,22 @@ var Util = {
     reportData.data = data;
 
     return reportData;
+  },
+
+  isEmailValid: function(email) {
+    if (!email) {
+      return email;
+    }
+
+    var $emailInput = $("#test_email_input");
+    if ($emailInput.length == 0) {
+      $("body").append("<div class='hidden' style='display: none !important;'><input type='email' id='test_email_input' /></div>");
+    }
+
+    $emailInput = $("#test_email_input");
+    $emailInput.val(email);
+
+    return $emailInput[0].checkValidity()
   }
 };
 

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
+import Select from 'react-bootstrap-select';
 import moment from 'moment'
 
 import TextFieldWithValidation from './TextFieldWithValidation';
@@ -101,7 +102,7 @@ export default class CreateDealModal extends React.Component {
                 <TextFieldWithValidation name="deal_title"
                                          label="Deal Title"
                                          value={this.state.title}
-                                         placeholder="Give your task a title"
+                                         placeholder="Give your deal a title"
                                          required={true}
                                          errors={this.state.errors['title']}
                                          onChange={this.handleChange('title')} />
@@ -127,7 +128,7 @@ export default class CreateDealModal extends React.Component {
                 <div className="form-group">
                   <label htmlFor="input-deal-transaction">Transaction Type</label>
                   {this.renderErrors('transaction_type', 'Transaction Type')}
-                  <select id="input-deal-transaction" onChange={this.handleChange('transactionType')} className="selectpicker form-control custom-select">
+                  <Select id="input-deal-transaction" onChange={this.handleChange('transactionType')}>
                     <option>Select a Transaction Type</option>
                     {
                       _.map(this.props.transaction_types, function(type, index) {
@@ -136,7 +137,7 @@ export default class CreateDealModal extends React.Component {
                         )
                       })
                     }
-                  </select>
+                  </Select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="input-deal-size">Deal Size</label>

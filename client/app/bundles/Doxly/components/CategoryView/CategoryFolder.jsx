@@ -116,6 +116,15 @@ export default class CategoryFolder extends React.Component {
                      this.props.selectedElement.id == this.props.element.id &&
                      this.props.selectedElement.type == this.props.element.type;
 
+    var addButton;
+    if (element.can_update) {
+      addButton = (
+        <div className="deal-element-add-item deal-item-add-document">
+          <a href="#" onClick={this.openDocumentModal}><i className="icon-icon-plus"></i> Add a File</a>
+        </div>
+      );
+    }
+
   	return (
       <div className={classnames({"deal-element-item": true, "deal-element-item__folder": true, "deal-item-active": isSelected})}>
         <div className="item-header">
@@ -130,9 +139,7 @@ export default class CategoryFolder extends React.Component {
         <div className={bodyClassnames.join(" ")}>
           <div className="deal-element-folder-elements">
             {displayedChildren}
-            <div className="deal-element-add-item deal-item-add-document">
-              <a href="#" onClick={this.openDocumentModal}><i className="icon-icon-plus"></i> Add a File</a>
-            </div>
+            {addButton}
           </div>
         </div>
       </div>
