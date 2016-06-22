@@ -17,7 +17,7 @@ class Comment < ApplicationRecord
   has_many   :events, as: :eventable
 
   before_validation :set_deal, on: :create
-  after_save :create_event
+  after_create :create_event
 
   def create_event
     Event.create(deal_id: self.deal_id, action: "COMMENT_ADDED", eventable: self)
