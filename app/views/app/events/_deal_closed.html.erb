@@ -1,3 +1,13 @@
 <div class="section-info">
   <b><%= event.eventable.title.upcase %></b>
 </div>
+<div class="section-details">
+<% event.eventable.collaborators.each do |collaborator| %>
+  <% unless collaborator.avatar.file.nil? %>
+    <%= image_tag collaborator.avatar.url, class: 'img-circle navbar-avatar' %>
+  <% else %>
+    <span class="img-circle navbar-avatar initials"><%= "#{collaborator.initials}"%></span>
+  <% end %>
+<% end %>
+
+</div>

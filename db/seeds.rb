@@ -26,7 +26,7 @@ users = internal_users + external_users
 # Creating a deal also creates two default categories -
 # DiligenceCategory and ClosingCategory
 puts "Creating some deals"
-deals = FactoryGirl.create_list(:deal, 50, :from_the_past, organization_user: user.organization_user)
+deals = FactoryGirl.create_list(:deal, 5, :from_the_past, organization_user: user.organization_user)
 
 deals.each do |deal|
 

@@ -213,6 +213,7 @@ class Api::DocumentsController < ApplicationController
       name = version_params[:name] || File.basename(file_name)
 
       @document.upload_file(version_params[:file], current_user.organization_user)
+
       success_response({
         document: @document.to_hash
       })

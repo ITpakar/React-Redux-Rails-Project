@@ -26,6 +26,7 @@ class Document < ApplicationRecord
   FILE_TYPES = ["Doc", "Pdf", "Txt"]
 
   belongs_to :creator, foreign_key: :created_by, class_name: 'OrganizationUser'
+  belongs_to :deal
 
   def to_hash
     data = {
