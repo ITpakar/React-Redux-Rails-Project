@@ -108,6 +108,12 @@ export default class DocumentModal extends React.Component {
 
       this.setState({clientErrors: {}, serverErrors: {}, isSaving: true, serverMessage: undefined});
       if (element && element.id) {
+        let dealDocument = element.deal_documents[element.deal_documents.length - 1];
+        if (dealDocument && dealDocument.documentable_id == documentable_id &&
+                           dealDocument.documentable_type == documentable_type) {
+          data.append("document[deal_documents_attributes][0][id]", dealDocument.id);
+        }
+        
         this.props.updateDocument(element.id, data, function() {
           _this.setState({isSaving: false});
           _this.props.closeDocumentModal();
