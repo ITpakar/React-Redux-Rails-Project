@@ -111,6 +111,13 @@
     }
     .item-body__collaborators{
         .avatar{
+            &.initials {
+                font-size: 13px;
+                background: #555555;
+                color: white;
+                text-align: center;
+            }
+
             display: inline-block;
             border-radius: 999px;
             width: 20px;

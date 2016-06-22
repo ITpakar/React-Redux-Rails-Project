@@ -80,15 +80,45 @@ class CommentBox extends Component {
     const {comments, collaborators} = this.props;
     var hideChatboxToggle = this.props.hideChatboxToggle;
     var chatboxToggle;
+    var internalComments;
+    var addRecipientButton;
 
-    if (!hideChatboxToggle) {
-      chatboxToggle = (
-        <div className="chat-box-toggle">
-            <div className="btn-group">
-                <a className="btn toggle-active" href="#deal-chat-1-internal">Internal Chat</a>
-                <a className="btn" href="#deal-chat-1-external">External Chat</a>
-            </div>
+    if (this.props.element.can_update) {
+      if (!hideChatboxToggle) {
+        chatboxToggle = (
+          <div className="chat-box-toggle">
+              <div className="btn-group">
+                  <a className="btn toggle-active" href="#deal-chat-1-internal">Internal Chat</a>
+                  <a className="btn" href="#deal-chat-1-external">External Chat</a>
+              </div>
+          </div>
+        );
+      }
+
+      internalComments = (
+        <div className="chat-box-details__instance internal toggle-active" id="deal-chat-1-internal">
+          <div className="chat-box__recipients">
+              <div className="chat-box__recipients-wrapper">
+                  <div className="recipients-items">
+                  {
+                    collaborators.map((collaborator, index) => (
+                      <a href="#" className="avatar" key={index}><img src={collaborator.avatar}/></a>
+                    ))
+                  }
+                  </div>
+                  <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
+              </div>
+          </div>
+          <CommentList
+            comments={comments.filter(this._internalTypeCommentsFilter)} user_id={this.props.user_id}
+          />
+          <CommentForm
+            commentType="Internal" element={this.props.element} user_id={this.props.user_id}
+          />
         </div>
+      );
+      addRecipientButton = (
+        <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
       );
     }
     
@@ -96,7 +126,9 @@ class CommentBox extends Component {
       <div className="chat-box chat-box-small">
         {chatboxToggle}
         <div className="chat-box-details">
-          <div className="chat-box-details__instance internal toggle-active" id="deal-chat-1-internal">
+          {internalComments}
+
+          <div className={ "chat-box-details__instance external" + (internalComments ? "" : " toggle-active" ) }  id="deal-chat-1-external">
             <div className="chat-box__recipients">
                 <div className="chat-box__recipients-wrapper">
                     <div className="recipients-items">
@@ -106,25 +138,7 @@ class CommentBox extends Component {
                       ))
                     }
                     </div>
-                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
-                </div>
-            </div>
-            <CommentList
-              comments={comments.filter(this._internalTypeCommentsFilter)} user_id={this.props.user_id}
-            />
-            <CommentForm
-              commentType="Internal" element={this.props.element} user_id={this.props.user_id}
-            />
-          </div>
-
-          <div className="chat-box-details__instance external" id="deal-chat-1-external">
-            <div className="chat-box__recipients">
-                <div className="chat-box__recipients-wrapper">
-                    <div className="recipients-items">
-                        <a href="#" className="avatar"><img src="/assets/img-avatar-2.png"/></a>
-                        <a href="#" className="avatar"><img src="/assets/img-avatar-3.png"/></a>
-                    </div>
-                    <a href="#" className="recipient-add" data-toggle="modal" data-target="#modal-edit-deal"><i className="icon-icon-plus-circle"></i></a>
+                    {addRecipientButton}
                 </div>
             </div>
             <CommentList

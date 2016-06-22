@@ -23,6 +23,7 @@ gem 'boxr'
 gem 'carrierwave'
 gem 'delayed_job_active_record'
 gem 'docusign_rest'
+gem 'daemons'
 
 gem 'cancancan', '~> 1.10'
 

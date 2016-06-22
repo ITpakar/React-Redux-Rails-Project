@@ -9,6 +9,7 @@ export default class Deal extends React.Component {
     client_name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     collaborators: PropTypes.arrayOf(PropTypes.shape({
+      initials: PropTypes.string,
       avatar: PropTypes.string
     })),
     projected_close_date: PropTypes.string.isRequired
@@ -19,11 +20,15 @@ export default class Deal extends React.Component {
       <div className="item-collaborators-wraper">
           {_.map(collaborators, function(collaborator, i) {
             console.log(collaborator);
-            return (
+            return collaborator.avatar ? (
               <a href="#" className="avatar" key={i}>
                 <img src={collaborator.avatar} />
               </a>
-            );
+            ) : (
+              <a href="#" className="avatar initials" key={i}>
+                {collaborator.initials}
+              </a>
+            ) ;
           })}
       </div>
     )

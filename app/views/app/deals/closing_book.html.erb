@@ -1,5 +1,5 @@
 <div role="tabpanel" class="tab-pane active" id="tab-deal-closing-book"> <!-- -->
     <div class="container-fluid">
-        <%= react_component "ClosingBookView", props: {category: @category} %>
+        <%= react_component "ClosingBookView", props: {elements: @category, closingBook: @closing_book, url: closing_book_app_deal_path(@deal)} %>
     </div>
 </div> <!-- tab panel Close Book End -->
