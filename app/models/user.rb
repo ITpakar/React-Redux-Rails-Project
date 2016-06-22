@@ -181,7 +181,7 @@ class User < ActiveRecord::Base
   end
 
   def initials
-    first_name[0] + last_name[0]
+    first_name[0] + last_name[0] if first_name.present? && last_name.present?
   end
 
   def name
