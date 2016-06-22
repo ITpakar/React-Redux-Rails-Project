@@ -59,7 +59,7 @@ class Document < ApplicationRecord
 
   def create_signers! signers
     signers.each do |signer|
-      self.document_signers.create(signer) unless signer["name"].blank? or signer["email"].blank?
+      self.document_signers.create!(signer) unless signer["name"].blank? or signer["email"].blank?
     end
   end
 
@@ -79,7 +79,7 @@ class Document < ApplicationRecord
     puts "Sending request to DocuSign"
     signers = self.document_signers.map(&:to_hash)
 
-    host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.root
+    host = Rails.env.development? ? ENV['NGROK_URL'] : Rails.application.routes.default_url_options[:host] || ActionMailer::Base.default_url_options[:host]
 
     callback_url = Rails.application.routes.url_helpers.app_docusign_webhook_url(host: host)
 
@@ -112,11 +112,11 @@ class Document < ApplicationRecord
     File.delete(file_path) if File.exist?(file_path)
   end
 
-  handle_asynchronously :send_to_docusign
+  handle_asynchronously(:send_to_docusign) unless Rails.env.test?
 
   def upload_file(file, organization_user)
     tmp = "#{Rails.root}/tmp/"
-    
+
     self.deal_documents.each do |deal_document|
       version = deal_document.upcoming_version
       folders = []
