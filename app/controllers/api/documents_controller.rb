@@ -185,6 +185,7 @@ class Api::DocumentsController < ApplicationController
     if @document.update(attrs)
       @document.document_signers.destroy_all
       @document.create_signers!(params["document"]["signers"].values) if params["document"]["signers"]
+      @document.upload_file(file, @document.creator)
       success_response(["Document updated successfully"])
     else
       error_response(@document.errors)
