@@ -237,7 +237,7 @@ class Api::DocumentsController < ApplicationController
     params.require(:document).permit(
       :title,
       :deal_id,
-      :deal_documents_attributes => [:documentable_id, :documentable_type]
+      :deal_documents_attributes => [:id, :documentable_id, :documentable_type]
     )
   end
 

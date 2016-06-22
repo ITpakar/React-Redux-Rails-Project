@@ -17,11 +17,11 @@ export default class ClosingBookDocument extends React.Component {
     }
 
   }
-  
+
   render() {
     var element = this.props.element;
     var latestVersion;
-    var dealDocument = element.deal_documents[0];
+    var dealDocument = element.deal_documents[element.deal_documents.length - 1];
 
     if (dealDocument && dealDocument.versions && dealDocument.versions.length > 0) {
       let versionNumber = _.max(_.map(dealDocument.versions, function(version) { return parseInt(version.name);}));
@@ -34,7 +34,7 @@ export default class ClosingBookDocument extends React.Component {
 
     return (
       <div className={classnames({"deal-element-item deal-element-item__file": true,'complete': this.props.selected[this.props.element.type + '_' + this.props.element.id]})}>
-          <div className="item-header">          
+          <div className="item-header">
             <a className="item-header-item" href="#" onClick={this.props.selectItem(this.props.element.type, this.props.element.id)}>{element.title} {latestVersion}</a>
             <div className={classnames({'badge-signed': true, "signed": element.signers_count == element.signed_count, "hidden": element.signers_count == 0})}>
               {element.signed_count}/{element.signers_count} signed

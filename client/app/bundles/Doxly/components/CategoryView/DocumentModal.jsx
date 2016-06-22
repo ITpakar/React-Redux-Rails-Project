@@ -108,6 +108,12 @@ export default class DocumentModal extends React.Component {
 
       this.setState({clientErrors: {}, serverErrors: {}, isSaving: true, serverMessage: undefined});
       if (element && element.id) {
+        let dealDocument = element.deal_documents[element.deal_documents.length - 1];
+        if (dealDocument && dealDocument.documentable_id == documentable_id &&
+                           dealDocument.documentable_type == documentable_type) {
+          data.append("document[deal_documents_attributes][0][id]", dealDocument.id);
+        }
+        
         this.props.updateDocument(element.id, data, function() {
           _this.setState({isSaving: false});
           _this.props.closeDocumentModal();
@@ -192,7 +198,7 @@ export default class DocumentModal extends React.Component {
       let displayedParentIdErrors = Util.getDisplayedErrorMessage("documentable", this.state.clientErrors, this.state.serverErrors);
 
       if (element && element.id && element.deal_documents && element.deal_documents.length > 0) {
-        parentId = element.deal_documents[0].documentable_type + "-" + element.deal_documents[0].documentable_id;
+        parentId = element.deal_documents[element.deal_documents.length - 1].documentable_type + "-" + element.deal_documents[element.deal_documents.length - 1].documentable_id;
       }
       availableTasksAndFolders = (
         <div className="form-group">
