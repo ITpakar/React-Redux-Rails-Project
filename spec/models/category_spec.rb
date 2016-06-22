@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe User do
+describe Category do
   let(:owner) {FactoryGirl.create(:owner, :with_confirmed_email)}
   let(:organization) { FactoryGirl.create(:organization, :created_by => owner.id)}
   let(:admin) {
