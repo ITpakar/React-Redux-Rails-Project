@@ -77,7 +77,7 @@ export default class CategoryElementDetails extends React.Component {
         </li>
       );
 
-      let dealDocument = element.deal_documents[0];
+      let dealDocument = element.deal_documents[element.deal_documents.length - 1];
       if (dealDocument && dealDocument.versions && dealDocument.versions.length > 0) {
         let versionNumber = _.max(_.map(dealDocument.versions, function(version) { return parseInt(version.name);}));
         if (versionNumber > 1) {

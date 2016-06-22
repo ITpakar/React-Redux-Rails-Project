@@ -192,7 +192,7 @@ export default class DocumentModal extends React.Component {
       let displayedParentIdErrors = Util.getDisplayedErrorMessage("documentable", this.state.clientErrors, this.state.serverErrors);
 
       if (element && element.id && element.deal_documents && element.deal_documents.length > 0) {
-        parentId = element.deal_documents[0].documentable_type + "-" + element.deal_documents[0].documentable_id;
+        parentId = element.deal_documents[element.deal_documents.length - 1].documentable_type + "-" + element.deal_documents[element.deal_documents.length - 1].documentable_id;
       }
       availableTasksAndFolders = (
         <div className="form-group">
