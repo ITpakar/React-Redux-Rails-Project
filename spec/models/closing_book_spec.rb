@@ -147,6 +147,7 @@ describe ClosingBook do
     }
 
     it "generate closing book" do
+      allow(closing_book).to receive(:generate_closing_book!).and_return("#{Rails.public_path}/closing_books/whaever")
       expect(closing_book).to receive(:generate_closing_book!)
       documents
       closing_book.generate!
