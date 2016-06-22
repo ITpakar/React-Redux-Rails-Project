@@ -37,6 +37,9 @@
                     z-index: 1;
                 }
 
+                &.invited {
+                    background: red;
+                }
 
                 &:hover{
                     background: $col-dark-blue;

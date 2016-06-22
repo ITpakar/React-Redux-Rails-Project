@@ -34,7 +34,7 @@ export default class CategoryFolder extends React.Component {
                      selectedElement.id == element.id &&
                      selectedElement.type == element.type;
     var latestVersion;
-    var dealDocument = element.deal_documents[0];
+    var dealDocument = element.deal_documents[element.deal_documents.length - 1];
 
     if (dealDocument && dealDocument.versions && dealDocument.versions.length > 0) {
       let versionNumber = _.max(_.map(dealDocument.versions, function(version) { return parseInt(version.name);}));

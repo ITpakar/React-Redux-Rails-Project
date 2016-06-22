@@ -6,6 +6,7 @@ module BoxFileStoragable
     path = '/'
     parent = client.folder_from_path(path)
     folders.each do |folder|
+      folder = folder.gsub(/[\/\, ]/, '')
       box_folder = client.folder_items(parent).folders.select{|i| i.name == folder}.first
       if box_folder.nil?
         box_folder = client.create_folder(folder, parent)

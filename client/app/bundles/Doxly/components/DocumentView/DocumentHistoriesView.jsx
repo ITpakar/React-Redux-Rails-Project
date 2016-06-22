@@ -27,7 +27,7 @@ export default class DocumentHistoriesView extends React.Component {
   }
 
   getSelectedIndex() {
-    var versions = this.props.document.deal_documents[0].versions;
+    var versions = this.props.document.deal_documents[this.props.document.deal_documents.length - 1].versions;
     var selectedIndex;
 
     if (this.state.versionIndex !== undefined && this.state.versionIndex !== null) {
@@ -46,7 +46,7 @@ export default class DocumentHistoriesView extends React.Component {
       event.preventDefault();
     }
 
-    var versions = this.props.document.deal_documents[0].versions;
+    var versions = this.props.document.deal_documents[this.props.document.deal_documents.length - 1].versions;
     var selectedIndex = this.getSelectedIndex();
     var docVersion = versions[selectedIndex];
 
@@ -55,7 +55,7 @@ export default class DocumentHistoriesView extends React.Component {
 
   render() {
     var doc = this.props.document;
-    var dealDocument = doc.deal_documents[0];
+    var dealDocument = doc.deal_documents[doc.deal_documents.length - 1];
     var mainContent;
     var toolbox;
 
