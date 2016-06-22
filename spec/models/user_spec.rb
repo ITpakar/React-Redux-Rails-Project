@@ -134,7 +134,6 @@ describe User do
     let(:section) {
       FactoryGirl.create(:section, category_id: deal.categories.first.id,
                             created_by: document_creator.id, deal_id: deal.id)
-
     }
     let(:task) {
       FactoryGirl.create(:task, section_id: section.id,
