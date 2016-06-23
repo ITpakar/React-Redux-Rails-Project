@@ -1,7 +1,9 @@
 <div class="section-info">
     <b>
       <%= event.eventable.deal.title %> 
+      <% if event.eventable.traverse_up_to(Category) %>
       : <%= event.eventable.traverse_up_to(Category).try(:name).gsub("Category", '').try(:upcase) %> : <%= event.eventable.traverse_up_to(Section).try(:name).try(:upcase) %>
+      <% end %>
     </b>
 
     <% if event.eventable.traverse_up_to(Task) %>
