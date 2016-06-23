@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
+import Select from 'react-bootstrap-select';
 
 export default class SelectFieldWithValidation extends React.Component {
 
@@ -25,7 +26,7 @@ export default class SelectFieldWithValidation extends React.Component {
       <div className="form-group">
         <label htmlFor={this.props.id}>{this.props.label}</label>
         {this.renderErrors()}
-        <select id={this.props.id} onChange={this.props.onChange} className="selectpicker form-control show-tick">
+        <Select id={this.props.id} onChange={this.props.onChange}  className="show-tick">
           <option>{this.props.placeholder}</option>
           {
             _.map(this.props.options, function(type, index) {
@@ -34,7 +35,7 @@ export default class SelectFieldWithValidation extends React.Component {
               )
             })
           }
-        </select>
+        </Select>
       </div>
     );
   }

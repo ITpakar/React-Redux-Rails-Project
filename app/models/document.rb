@@ -13,6 +13,7 @@ class Document < ApplicationRecord
   include BoxFileStoragable
 
   #Associations
+  belongs_to :deal
   has_many :document_signers
   has_many :organization_users, through: :document_signers
   has_many :deal_documents

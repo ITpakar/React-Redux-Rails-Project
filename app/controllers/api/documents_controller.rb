@@ -195,7 +195,7 @@ class Api::DocumentsController < ApplicationController
   def show
     success_response(
       {
-        document: @document.to_hash.merge(:type => @document.class.name, :id => @document.id)
+        document: @document.to_hash.merge(:type => @document.class.name, :id => @document.id, :can_update => can?(:update, @document.deal))
       }
     )
   end

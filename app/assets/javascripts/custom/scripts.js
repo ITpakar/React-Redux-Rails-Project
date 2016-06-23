@@ -114,7 +114,7 @@ jQuery(document).ready(function($) {
     $('body').on('click', '.chat-box .chat-box-toggle .btn', function (e) {
         e.preventDefault();
         var $this = $(this),
-            parent = $this.closest('.chat-box'),
+            parent = $this.closest('#wrapper'),
             dataTarget = parent.data('target');
         if(!$this.hasClass('toggle-active')){
             var target = $this.attr('href');

@@ -49,14 +49,22 @@ class Api::DealCollaboratorsController < ApplicationController
   end
 
   def index
+    json = []
+
     sortby  = params[:sortby] || ''
     sortdir = params[:sortdir] || ''
 
     collaborators = @deal.collaborators.order("#{sortby} #{sortdir}").page(@page).per(@per_page) rescue []
-    json = []
     collaborators.each do |user|
       user_h = user.to_hash
       user_h[:organization_user_id] = user.organization_user.id
+
+      json << user_h
+    end
+
+    collaborators = @deal.deal_collaborator_invites rescue []
+    collaborators.each do |user|
+      user_h = user.to_hash
 
       json << user_h
     end

@@ -130,6 +130,7 @@ class Api::DealsController < ApplicationController
             InvitationMailer.collaborator_invitation_email(deal_collaborator_invite).deliver_later if deal_collaborator_invite.present?
           end
         end
+        puts params[:deal][:collaborators]
         @deal.clear_collaborators(params[:deal][:collaborators].map { |key, value| value[:id] })
       end
       success_response(
