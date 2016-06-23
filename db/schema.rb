@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620232650) do
+ActiveRecord::Schema.define(version: 20160621000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,10 +198,11 @@ ActiveRecord::Schema.define(version: 20160620232650) do
     t.integer  "user_id"
     t.boolean  "invitation_accepted"
     t.string   "invitation_token"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "type"
     t.string   "box_user_id"
+    t.string   "record_type",         limit: 255
     t.index ["invitation_accepted"], name: "index_organization_users_on_invitation_accepted", using: :btree
     t.index ["organization_id"], name: "index_organization_users_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_organization_users_on_user_id", using: :btree

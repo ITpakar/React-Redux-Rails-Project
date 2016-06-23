@@ -7,7 +7,7 @@ class App::DashboardController < App::ApplicationController
     @deals_behind_schedule = current_user.context.deals.behind_schedule
     @deals_nearing_completion = current_user.context.deals.nearing_completion
 
-    @events = current_user.context.events.first(15)
+    @events = current_user.context.events.last(15).reverse
   end
 
   def settings

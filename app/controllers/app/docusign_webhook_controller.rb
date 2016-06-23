@@ -9,7 +9,12 @@ class App::DocusignWebhookController < App::ApplicationController
     signers.each do |signer|
       email = signer['Email']
       document_signer = DocumentSigner.where(email: email, envelope_id: envelope_id).first
-      document_signer.update_attributes(signed: true) if signer["Signed"]
+      if signer["Signed"]
+        unless document_signer.signed
+          document_signer.update_attributes(signed: true) 
+          Event.create(deal_id: self.document.deal_id, action: "DOCUMENT_SIGNED", eventable: document_signer)
+        end
+      end
     end
 
     render json: {}, status: :ok

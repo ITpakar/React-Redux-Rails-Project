@@ -1,7 +1,7 @@
 class Task < ApplicationRecord
-  
+
   include HasVisibility
-  
+
   STATUSES = ["Complete", "Incomplete"]
 
   # Validations
@@ -54,7 +54,7 @@ class Task < ApplicationRecord
 
 
   before_validation :set_deal
-  after_save :create_event_if_complete 
+  after_save :create_event_if_complete
 
   def set_deal
     self.deal_id ||= self.section.deal_id
@@ -68,7 +68,7 @@ class Task < ApplicationRecord
 
   def complete!
     self.status = "Complete"
-    save
+    save!
   end
 
   def to_hash

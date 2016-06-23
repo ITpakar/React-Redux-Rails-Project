@@ -19,13 +19,6 @@ class Event < ApplicationRecord
     'DEAL_CLOSED' => "Deal Closed"
   }
 
-  # Still need to implement
-  # DOCUMENT_SIGNED
-  # DOCUMENT_CREATED
-  # DOCUMENT_UPDATED
-  # COLLABORATOR_INVITED
-  # COLLABORATOR_ACCEPTED
-
   belongs_to :deal
   belongs_to :eventable, polymorphic: true
 

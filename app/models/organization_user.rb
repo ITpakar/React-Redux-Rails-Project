@@ -1,4 +1,5 @@
 class OrganizationUser < ActiveRecord::Base
+  self.inheritance_column = "record_type"
   include DealOwner
   include BoxStorable
 
@@ -51,7 +52,7 @@ class OrganizationUser < ActiveRecord::Base
 
     deal_collaborator = DealCollaborator.where(
       organization_user_id: id,
-      deal_id: deal.deal_id
+      deal_id: deal.id
     ).first
 
     return !deal_collaborator.blank?

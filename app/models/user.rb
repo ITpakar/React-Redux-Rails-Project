@@ -59,10 +59,9 @@ class User < ActiveRecord::Base
   def is_organization_admin?(organization_id)
     return true if self.is_super?
 
-    organization_user = OrganizationUser.where(
+    organization_user = OrganizationAdminUser.where(
       user_id: self.id,
-      organization_id: organization_id,
-      type: ORG_USER_TYPE_ADMIN
+      organization_id: organization_id
     ).first
     return !organization_user.blank?
   end
@@ -80,7 +79,7 @@ class User < ActiveRecord::Base
   def context
     if self.is_organization_admin? self.organization
       return self.organization
-    end 
+    end
 
     return self.organization_user
   end
@@ -116,21 +115,21 @@ class User < ActiveRecord::Base
     return true if self.is_super?
     document = Document.find_by_id(document_id)
 
-    return (document and document.created_by == self.id)
+    return (document and document.created_by == self.organization_user.id)
   end
 
   def is_comment_owner?(comment_id)
     return true if self.is_super?
     comment = Comment.find_by_id(comment_id)
 
-    return (comment and comment.user_id == self.id)
+    return (comment and comment.organization_user_id == self.organization_user.id)
   end
 
-  def is_notification_reciever?(notification_id)
+  def is_notification_receiver?(notification_id)
     return true if self.is_super?
     notification = Notification.find_by_id(notification_id)
 
-    return (notification and notification.user_id == self.id)
+    return (notification and notification.organization_user_id == self.organization_user.id)
   end
 
   def is_super?
@@ -190,11 +189,12 @@ class User < ActiveRecord::Base
 
   # Get Enterprise Box Client
   def self.enterprise_box_client
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       private_key = ENV['JWT_PRIVATE_KEY']
     else
       private_key = OpenSSL::PKey::RSA.new(YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n)), ENV['JWT_PRIVATE_KEY_PASSWORD'])
     end
+
     # Get Box enterprise token
     token = Boxr::get_enterprise_token(private_key: private_key)
     access_token = token.access_token
@@ -212,11 +212,12 @@ class User < ActiveRecord::Base
       self.organization_user.update(box_user_id: user[:id])
     end
 
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       private_key = ENV['JWT_PRIVATE_KEY']
     else
       private_key = YAML.load(%Q(---\n"#{ENV['JWT_PRIVATE_KEY']}"\n))
     end
+    
     token = Boxr::get_user_token(self.organization_user.box_user_id.to_s, private_key: private_key, private_key_password: ENV['JWT_PRIVATE_KEY_PASSWORD'])
     access_token = token.access_token
     Boxr::Client.new(access_token)

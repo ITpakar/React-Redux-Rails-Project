@@ -1,0 +1,17 @@
+<div class="section-info">
+    <b><%= event.eventable.deal.title %></b>
+</div>
+<div class="section-details">
+    <div class="section-details__collaborator">
+        <a href="#">
+            <% unless event.eventable.organization_user.user.avatar.file.nil? %>
+              <%= image_tag event.eventable.organization_user.user.avatar.url, class: 'img-circle avatar' %>
+            <% else %>
+              <span class="img-circle navbar-avatar initials"><%= "#{collaborator.initials}"%></span>
+            <% end %>
+
+            <h4><%= event.eventable.organization_user.user.name %></h4>
+            <span><%= event.eventable.organization_user.organization.name %></span>
+        </a>
+    </div>
+</div>

@@ -29,7 +29,7 @@ class Folder < ApplicationRecord
     }
 
     if self.organization_user
-      data[:creator] = self.organization_user.to_hash
+      data[:creator] = self.organization_user.user.to_hash
     end
 
     return data

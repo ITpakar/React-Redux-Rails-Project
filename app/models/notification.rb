@@ -8,8 +8,8 @@ class Notification < ActiveRecord::Base
       message:         self.message,
       status:          self.status
     }
-    if self.user
-      data[:user] = self.user.to_hash(false)
+    if self.organization_user && self.organization_user.user
+      data[:user] = self.organization_user.user.to_hash(false)
     end
 
     return data

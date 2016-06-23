@@ -37,7 +37,7 @@
 
         <div class="row">
             <div class="content-left">
-                <% @deal.events.first(15).each do |event| %>
+                <% @deal.events.last(15).reverse.each do |event| %>
                     <%= render 'app/shared/event', event: event %>
                 <% end %>
             </div>

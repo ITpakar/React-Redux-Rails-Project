@@ -20,7 +20,7 @@ class ClosingBook < ApplicationRecord
   def generate!
     base = Rails.root
     closing_book_base = Rails.public_path.to_s + '/closing_books'
-    
+
     # Ensure the directory exists
     Dir.mkdir(closing_book_base) unless File.directory?(closing_book_base)
 
@@ -43,7 +43,7 @@ class ClosingBook < ApplicationRecord
     FileUtils.rm_rf(files_base)
   end
 
-  handle_asynchronously :generate! 
+  handle_asynchronously :generate! unless Rails.env.test?
 
   def generate_index! file_base
     category = self.deal.closing_category.to_hash
@@ -59,7 +59,7 @@ class ClosingBook < ApplicationRecord
       when 'PDF INDEX', 'SINGLE PDF'
         pdf = WickedPdf.new.pdf_from_string(ApplicationController.new.render_to_string(partial: 'app/closing_books/html_index', locals: {category: self.deal.closing_category, document_ids: document_ids}, layout: false), {disable_internal_links: false, disable_external_links: false})
         file_path = file_base + "/index.pdf"
-        
+
         open(file_path, 'wb') do |file|
           file << pdf
         end
@@ -142,5 +142,3 @@ class ZipFileGenerator
     end
   end
 end
-
-

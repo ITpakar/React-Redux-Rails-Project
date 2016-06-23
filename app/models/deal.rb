@@ -76,13 +76,13 @@ class Deal < ActiveRecord::Base
   end
 
   def add_collaborator! organization_user, added_by
-    if (self.deal_collaborators.where(organization_user_id: organization_user.id).empty?) 
+    if (self.deal_collaborators.where(organization_user_id: organization_user.id).empty?)
       DealCollaborator.create(deal_id: self.id, organization_user: organization_user, added_by: added_by.id)
     end
   end
 
   def invite_collaborator collaborator_email, added_by
-    if (self.collaborators.where(email: collaborator_email).empty? && self.deal_collaborator_invites.where(email: collaborator_email).empty?) 
+    if (self.collaborators.where(email: collaborator_email).empty? && self.deal_collaborator_invites.where(email: collaborator_email).empty?)
       DealCollaboratorInvite.create(deal_id: self.id, email: collaborator_email, added_by: added_by.id)
     end
   end
@@ -106,21 +106,21 @@ class Deal < ActiveRecord::Base
     return 0 unless all_tasks.present?
     completed_tasks = all_tasks.complete
 
-    100 * (completed_tasks.count.to_f/all_tasks.count.to_f)
+    (100 * (completed_tasks.count.to_f/all_tasks.count.to_f)).round(2)
   end
 
   def diligence_completion_percent
     diligence_tasks = self.tasks.diligence
     return 0 unless diligence_tasks.present?
 
-    (diligence_tasks.complete.count * 100) / diligence_tasks.count
+    ((diligence_tasks.complete.count.to_f * 100) / diligence_tasks.count).round(2)
   end
 
  def closing_completion_percent
     closing_tasks = self.tasks.closing
     return 0 unless closing_tasks.present?
 
-    (closing_tasks.complete.count * 100) / closing_tasks.count
+    ((closing_tasks.complete.count.to_f * 100) / closing_tasks.count).round(2)
   end
 
   def recently_updated_files

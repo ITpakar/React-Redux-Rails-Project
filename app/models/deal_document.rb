@@ -8,8 +8,13 @@ class DealDocument < ApplicationRecord
   has_many :versions, class_name: 'DealDocumentVersion'
 
   before_validation :set_deal, on: :create
-  after_create :set_deal
 
+  after_create :create_event
+
+  def create_event
+    Event.create(deal_id: self.deal_id, action: "DOCUMENT_CREATED", eventable: self)    
+  end
+  
   def set_deal
     self.deal_id ||= self.traverse_up_to(Deal).try(:id)
   end
@@ -35,9 +40,6 @@ class DealDocument < ApplicationRecord
   end
 
   def upcoming_version
-    self.versions.order('created_at DESC').each do |version|
-      return (version.name.to_f + 1).to_s
-    end
-    '1.0'
+    (self.versions.order('created_at DESC').first.try(:name).to_f + 1).to_s
   end
 end
